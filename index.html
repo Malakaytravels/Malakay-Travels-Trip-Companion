@@ -843,7 +843,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v60 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v61 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1882,48 +1882,85 @@ let daysPos = {};        // which pass each list was showing, so re-renders keep
    and hero-coron.jpg a lagoon. A day can name its own with "photo" in the
    trip file, which always wins. */
 const PHOTO_RULES = [
-  {img:"img/hero-thresher.jpg",   water:true,  rx:/thresher|kosogon|monad|kimud/i},
-  /* Malapascua is thresher country, but only when the day is about it —
-     "back to Malapascua" at the end of a Kalanggaman day is not. */
-  {img:"img/hero-thresher.jpg",   water:true,  head:true, rx:/malapascua/i},
-  {img:"img/hero-elnido.jpg",     water:true,  rx:/wrecks?\b|wrak|\bmaru\b|akitsushima/i},
-  {img:"img/hero-jacks.jpg",      water:true,  rx:/sardine|sardyn|moalboal|panagsama|jacks|ławic|\bschool/i},
-  {img:"img/hero-coron.jpg",      water:false, rx:/lagoons?|lagun|kayangan|island hopping/i},
-  {img:"img/hero-bangkas.jpg",    water:false, rx:/\bboat|bangka|łodzi|łódź|island\b|wysp|kalanggaman|sandbar|beach|plaż/i},
-  {img:"img/hero-valley.jpg",     water:false, rx:/falls|waterfall|wodospad|hills|valencia|valley|trek|springs|źródł/i},
-  {img:"img/hero-fuji.jpg",       water:false, rx:/fuji|hakone|lake ashi|jezior\w* ashi|ōwakudani|owakudani/i},
-  {img:"img/hero-torii-path.jpg", water:false, rx:/bamboo|bambus|arashiyama|gion|pontoch/i},
-  {img:"img/hero-torii-gate.jpg", water:false, rx:/kyoto|kioto|torii|inari|shrine|chram|świątyn|temple/i}
+  /* ---- dive days: underwater (and the Kalanggaman snorkel shot) ---- */
+  {water:true,  rx:/thresher|kosogon|monad|kimud/i,                 img:["img/hero-thresher.jpg"]},
+  {water:true,  rx:/malapascua/i, head:true,                        img:["img/hero-thresher.jpg"]},
+  {water:true,  rx:/sardine|sardyn|panagsama|moalboal/i,            img:["img/day-moalboal-sardines.jpg","img/day-moalboal-turtle.jpg"]},
+  {water:true,  rx:/turtle|żółw/i,                                  img:["img/day-moalboal-turtle.jpg"]},
+  {water:true,  rx:/wrecks?\b|wrak|\bmaru\b|akitsushima/i,          img:["img/hero-elnido.jpg"]},
+  {water:true,  rx:/kalanggaman|sandbar|snorkel/i,                  img:["img/day-kalanggaman-snorkel.jpg"]},
+  {water:true,  rx:/reefs?\b|rafa|rafy|coral|koral|miniloc|el nido|walls?\b|ścian/i, img:["img/day-elnido-reef.jpg"]},
+
+  /* ---- land days: specific places first, then activities ---- */
+  {water:false, rx:/flying|departure|wylot|landing in warsaw|lądowanie w warszawie|journey home|powrót|heading home|leaving japan|end of the expedition|koniec wyprawy|podróż do domu/i, head:true, img:["img/day-flight.jpg"]},
+  {water:false, rx:/ferry|\bprom\b|promem/i,                        img:["img/day-ferry.jpg"]},
+  {water:false, rx:/kalanggaman|sandbar/i,                          img:["img/day-kalanggaman-sandbar.jpg"]},
+  {water:false, rx:/malapascua/i, head:true,                        img:["img/day-malapascua-beach.jpg","img/day-malapascua-sunset.jpg"]},
+  {water:false, rx:/moalboal/i, head:true,                          img:["img/day-moalboal-coast.jpg"]},
+  {water:false, rx:/kawasan/i,                                      img:["img/day-cebu-kawasan.jpg"]},
+  {water:false, rx:/southern cebu|across cebu|north across cebu|przez cebu|południ\w* cebu|osmeña/i, img:["img/day-cebu-hills.jpg","img/day-cebu-coast.jpg"]},
+  {water:false, rx:/coffee plantation|plantacj|break for coffee|przerwa na kawę/i, img:["img/day-negros-coffee.jpg"]},
+  {water:false, rx:/dauin|negros/i, head:true,                      img:["img/day-dauin-beach.jpg","img/day-dauin-coast.jpg"]},
+  {water:false, rx:/tapyas/i,                                       img:["img/day-coron-tapyas.jpg"]},
+  {water:false, rx:/lagoons?|lagun|kayangan|island hopping/i, where:/el nido/i, img:["img/day-elnido-lagoon.jpg","img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/lagoons?|lagun|kayangan|island hopping|twin lagoon/i, where:/coron/i, img:["img/day-coron-twinlagoon.jpg","img/day-coron-lagoons.jpg","img/hero-coron.jpg"]},
+  {water:false, rx:/nacpan|beach|plaż/i, where:/el nido/i,          img:["img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/falls|waterfall|wodospad|pulangbato|valencia|nagkalit/i, img:["img/day-negros-falls.jpg","img/hero-valley.jpg"]},
+  {water:false, rx:/el nido/i, head:true,                           img:["img/day-elnido-lagoon.jpg","img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/coron/i, head:true,                             img:["img/day-coron-lagoons.jpg","img/day-coron-twinlagoon.jpg","img/day-coron-tapyas.jpg"]},
+  {water:false, rx:/intramuros|jeepney|colonial|kolonial|old manila/i, img:["img/day-manila-intramuros.jpg"]},
+  {water:false, rx:/bonifacio|\bbgc\b|never sleeps|nigdy nie śpi/i, img:["img/day-manila-bgc.jpg"]},
+  {water:false, rx:/manila|makati/i, head:true,                     img:["img/day-manila-city.jpg","img/day-manila-bgc.jpg","img/day-manila-intramuros.jpg"]},
+  {water:false, rx:/shibuya/i,                                      img:["img/day-tokyo-shibuya.jpg"]},
+  {water:false, rx:/tsukiji|sushi|food tour/i,                      img:["img/day-tokyo-food.jpg"]},
+  {water:false, rx:/odaiba|tokyo bay|rainbow bridge/i,              img:["img/day-tokyo-bay.jpg"]},
+  {water:false, rx:/tokyo|tokio/i, head:true,                       img:["img/day-tokyo-bay.jpg","img/day-tokyo-shibuya.jpg","img/day-tokyo-food.jpg"]},
+  {water:false, rx:/lake ashi|jezior\w* ashi|fuji/i,                img:["img/day-hakone-lakeashi.jpg","img/hero-fuji.jpg"]},
+  {water:false, rx:/onsen/i,                                        img:["img/day-hakone-onsen.jpg"]},
+  {water:false, rx:/hakone|gōra|gora/i, head:true,                  img:["img/day-hakone-lakeashi.jpg","img/day-hakone-onsen.jpg","img/hero-fuji.jpg"]},
+  {water:false, rx:/kinkaku|golden pavilion|złoty pawilon/i,        img:["img/day-kyoto-kinkakuji.jpg"]},
+  {water:false, rx:/gion|hanamikoji|higashiyama|pontoch/i,          img:["img/day-kyoto-gion.jpg"]},
+  {water:false, rx:/kyoto|kioto/i, head:true,                       img:["img/hero-torii-gate.jpg","img/day-kyoto-gion.jpg","img/day-kyoto-kinkakuji.jpg","img/hero-torii-path.jpg"]},
+  {water:false, rx:/d[oō]tonbori|shinsekai|kuromon|namba/i,   img:["img/day-osaka-dotonbori.jpg"]},
+  {water:false, rx:/osaka/i, head:true,                             img:["img/day-osaka-castle.jpg","img/day-osaka-dotonbori.jpg"]},
+  {water:false, rx:/\bboats?\b|bangka|łodzi|łódź|island\b|wysp/i,   img:["img/hero-bangkas.jpg"]},
+  {water:false, rx:/hills|valley|trek|springs|źródł/i,              img:["img/hero-valley.jpg"]}
 ];
-const UNDERWATER_DEFAULT = "img/hero-jacks.jpg";
+const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg"];
 function dayPhoto(d, prev){
   if(d.photo) return d.photo;
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
   const body = (d.items || []).map(([, x]) => both(x)).concat((d.dives || []).map(v => both(v.site))).join(" ");
   const dive = isDiveDay(d);
-  const pool = PHOTO_RULES.filter(r => r.water === dive);
-  /* 1. What the title and base are about wins outright — the thresher day
-        shows the thresher even if yesterday did too.
-     2. Otherwise the plan, then that night's hotel; among these, avoid
-        repeating yesterday's photo when another true one exists.
-     3. Only when nothing about the day matches (a departure, say): the
-        trip's own photos. Never underwater on a land day, or the reverse. */
-  const headHit = pool.find(r => r.rx.test(head));
-  if(headHit) return headHit.img;
-  /* Where you sleep that night; on a leaving day, where you woke up. */
+  const all = head + " " + body;
+  const pool = PHOTO_RULES.filter(r => r.water === dive && (!r.where || r.where.test(all)));
+  const pick = list => list.find(x => x !== prev) || list[0];
+  /* Rules marked head are general place photos ("Coron", "Tokyo"); the rest
+     name something specific (a wreck, Nacpan Beach, an onsen).
+     1. Something specific in the title wins outright, even if yesterday
+        showed the same — the thresher day shows the thresher.
+     2. Otherwise something specific in the plan, then the place in the
+        title, then where you sleep that night (or woke up) — avoiding
+        yesterday's photo when another true one exists.
+     3. Only when nothing about the day matches: the trip's general photos.
+     Dive days only ever get underwater shots; land days never do. */
+  const specific = pool.filter(r => !r.head);
+  const t1 = specific.filter(r => r.rx.test(head)).flatMap(r => r.img);
+  if(t1.length) return pick(t1);
   const stays = trip.hotels.filter(h => !h.optional && h.photo);
   const hotel = stays.find(h => daysBetween(h.checkIn, d.date) >= 0 && daysBetween(d.date, h.checkOut) > 0)
              || stays.find(h => h.checkOut === d.date);
   const relevant = [
-    ...pool.filter(r => !r.head && r.rx.test(body)).map(r => r.img),
+    ...specific.filter(r => r.rx.test(body)).flatMap(r => r.img),
+    ...pool.filter(r => r.head && r.rx.test(head)).flatMap(r => r.img),
     ...(dive ? [] : [hotel && hotel.photo])
   ].filter(Boolean);
-  if(relevant.length) return relevant.find(x => x !== prev) || relevant[0];
-  if(dive) return UNDERWATER_DEFAULT;
-  const wet = new Set(PHOTO_RULES.filter(r => r.water).map(r => r.img));
-  const general = [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...trip.hotels.filter(h => h.photo).map(h => h.photo)];
-  return general.find(x => x !== prev) || general[0] || UNDERWATER_DEFAULT;
+  if(relevant.length) return pick(relevant);
+  if(dive) return pick(UNDERWATER_DEFAULT);
+  const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
+  const general = [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays.map(h => h.photo)];
+  return pick(general.length ? general : UNDERWATER_DEFAULT);
 }
 
 function viewDays(){

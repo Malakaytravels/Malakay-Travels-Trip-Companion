@@ -708,7 +708,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v57 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v58 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2646,12 +2646,31 @@ function tripTiles(){
   if(hc.length){
     let n = Math.max(...hc.map(c => c[0])), s = Math.min(...hc.map(c => c[0]));
     let e = Math.max(...hc.map(c => c[1])), w = Math.min(...hc.map(c => c[1]));
-    const pl = (n - s) * .15 + .3, pg = (e - w) * .15 + .3;
-    n += pl; s -= pl; e += pg; w -= pg;
+    /* Squared first: a tall phone map fitted to a north–south trip like
+       Palawan shows far more east–west than the hotels span. */
+    const side = Math.max(n - s, e - w), cy0 = (n + s) / 2, cx0 = (e + w) / 2;
+    n = cy0 + side / 2; s = cy0 - side / 2; e = cx0 + side / 2; w = cx0 - side / 2;
+    const pad = side * .25 + .5;
+    n += pad; s -= pad; e += pad; w -= pad;
     for(let z = 4; z <= 10; z++){
       const x0 = lon2tile(w, z), x1 = lon2tile(e, z), y0 = lat2tile(n, z), y1 = lat2tile(s, z);
       if((x1 - x0 + 1) * (y1 - y0 + 1) > 400) continue;
       for(let x = x0; x <= x1; x++) for(let y = y0; y <= y1; y++) add(z, x, y);
+    }
+  }
+  /* The fly-in: it opens over Warsaw at z5, passes through z4–6 on the way
+     and descends into the region. Without this band the first seconds of
+     the intro were dark offline, with the saved map appearing only once the
+     plane reached the trip. Five tiles wide covers a phone-sized map. */
+  if(hc.length){
+    const end = [(Math.max(...hc.map(c => c[0])) + Math.min(...hc.map(c => c[0]))) / 2,
+                 (Math.max(...hc.map(c => c[1])) + Math.min(...hc.map(c => c[1]))) / 2];
+    for(let i = 0; i <= 64; i++){
+      const [lat, lng] = greatCircle(WAW, end, i / 64);
+      for(let z = 4; z <= 6; z++){
+        const cx = lon2tile(lng, z), cy = lat2tile(lat, z);
+        for(let dx = -2; dx <= 2; dx++) for(let dy = -2; dy <= 2; dy++) add(z, cx + dx, cy + dy);
+      }
     }
   }
   const stops = trip.hotels.map(h => ({c: h.coords, type: "hotel"}))

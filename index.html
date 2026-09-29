@@ -152,6 +152,23 @@ section{padding-top:6px}
 .sched{display:grid;grid-template-columns:56px 1fr;gap:4px 12px;margin:4px 0 0}
 .sched .t{font-family:'IBM Plex Mono';font-size:12px;color:var(--ochre);font-weight:600;padding-top:2px}
 .sched .x{font-size:14px;padding-bottom:6px}
+/* Diving / non-diving switch at the top of DAYS. Two equal halves,
+   48px tall for wet hands, teal marks the active one. */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--slate-2);border-radius:12px;padding:4px;margin:14px 0 6px}
+.seg button{
+  min-height:48px;border:none;border-radius:9px;background:transparent;color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:7px 8px;text-align:center;line-height:1.15;-webkit-tap-highlight-color:transparent;
+  font-family:'Archivo';font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+  transition:background .18s ease-out,color .18s ease-out;
+}
+.seg button .c{font-family:'IBM Plex Mono';font-size:10.5px;font-weight:500;letter-spacing:.08em;color:var(--muted);transition:color .18s ease-out}
+.seg button[aria-selected="true"]{background:var(--reef-dim);color:#fff}
+.seg button[aria-selected="true"] .c{color:#D4F1EE}
+.seg button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.seg .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--reef);margin-left:6px;vertical-align:middle}
+.seglead{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+@media (prefers-reduced-motion:reduce){.seg button,.seg button .c{transition:none}}
 .dive{background:#EAF4F3;border:1px solid #CBE3E1;border-radius:10px;padding:10px 12px;margin-top:8px}
 .dive .n{font-family:'Archivo';font-weight:700;font-size:14px}
 .dive .m{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);letter-spacing:.05em;text-transform:uppercase}
@@ -763,7 +780,9 @@ const UI = {
     docsAdd:"Dodaj je przed wylotem — działają bez zasięgu.", add:"Dodaj",
     installTitle:"Dodaj do ekranu głównego", installBody:"żeby otwierało się jak aplikacja i działało bez zasięgu.",
     installIos:'Dotknij Udostępnij, potem „Do ekranu początkowego” — wtedy zadziała bez zasięgu.',
-    dayByDay:"Plan dzień po dzień", maxDepth:"Maks.", showOnMap:"Pokaż na mapie",
+    dayByDay:"Plan dzień po dzień", divingItinerary:"Plan nurkowań", nonDiving:"Poza nurkowaniem",
+    divingLead:"Dni nurkowe — nurkowiska, głębokości i to, na co polujemy pod wodą.",
+    nonDivingLead:"Podróże, odpoczynek i wycieczki lądowe — dla osób nienurkujących i na dni między nurkowaniami.", maxDepth:"Maks.", showOnMap:"Pokaż na mapie",
     flights:"Loty", flightNote:"Przycisk otwiera zewnętrzny tracker lotu. Zawsze ufaj aplikacji linii i tablicy na lotnisku bardziej niż temu ekranowi.",
     checkStatus:"Śledź lot", numberPending:"Numer rejsu podamy przed wylotem", trackNote:"Strona pokazuje historię tego rejsu — sprawdź datę swojego lotu na liście.",
     bookingRef:"Rezerwacja", room:"Pokój", phone:"Telefon", address:"Adres",
@@ -875,7 +894,9 @@ const UI = {
     docsAdd:"Add them before you fly — they work offline.", add:"Add",
     installTitle:"Add this to your home screen", installBody:"so it opens like an app and works without signal.",
     installIos:'Tap Share, then "Add to Home Screen" — it will then work without signal.',
-    dayByDay:"Day by day", maxDepth:"Max", showOnMap:"Show on map",
+    dayByDay:"Day by day", divingItinerary:"Diving itinerary", nonDiving:"Non-diving activities",
+    divingLead:"Dive days — the sites, the depths and what we are looking for underwater.",
+    nonDivingLead:"Travel, rest and land excursions — for non-divers, and for the days between dives.", maxDepth:"Max", showOnMap:"Show on map",
     flights:"Flights", flightNote:"The button opens an external flight tracker. Always trust the airline app and the airport board over this screen.",
     checkStatus:"Track flight", numberPending:"Flight number confirmed before departure", trackNote:"The tracker lists this flight's recent history — check the date of your own flight in the list.",
     bookingRef:"Booking", room:"Room", phone:"Phone", address:"Address",
@@ -961,6 +982,7 @@ let trip = null;
 let tab = "now";
 let wx = null, marine = null, wxKey = null;
 let openFactGroup = 0;   // which fact section is open
+let daysMode = null;     // DAYS tab: "dive" or "land"; null until first shown
 let gearTicked = {};     // gear item id -> true, saved on this device
 let openGearGroup = 0;
 let diveLog = [];        // {id, date, site, depth, time, buddy, saw, notes}
@@ -1591,13 +1613,42 @@ function viewNow(){
   return head + nextBlock + installBlock + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
 }
 
+/* A dive day either lists its dives, or is flagged diveDay in the trip
+   file when the sites are written into the schedule instead. */
+const isDiveDay = d => (d.dives || []).length > 0 || d.diveDay === true;
+
+function dayCount(n){
+  if(n === 1) return lang === "pl" ? "1 dzień" : "1 day";
+  return `${n} ${U().days_}`;
+}
+
 function viewDays(){
   const t = todayISO();
+  const diveDays = trip.days.filter(isDiveDay);
+  const landDays = trip.days.filter(d => !isDiveDay(d));
+  /* A trip with no diving has nothing to switch between — show every day. */
+  const split = diveDays.length > 0 && landDays.length > 0;
+  if(split && !daysMode){
+    const today = trip.days.find(d => d.date === t);
+    daysMode = today && !isDiveDay(today) ? "land" : "dive";
+  }
+  const list = !split ? trip.days : daysMode === "land" ? landDays : diveDays;
+  const hasToday = ds => ds.some(d => d.date === t);
+  const segBtn = (mode, label, ds) =>
+    `<button role="tab" id="seg-${mode}" aria-controls="daylist" aria-selected="${daysMode===mode}" data-dmode="${mode}">
+      <span>${label}${hasToday(ds) && daysMode!==mode ? `<span class="dot" aria-label="${U().today}"></span>` : ""}</span>
+      <span class="c">${dayCount(ds.length)}</span></button>`;
+
   return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
-    <span class="pill">${trip.days.length} ${U().days_}</span></div>` +
-  trip.days.map(d=>{
+    <span class="pill">${dayCount(trip.days.length)}</span></div>` +
+  (split ? `<div class="seg" role="tablist" aria-label="${U().dayByDay}">
+      ${segBtn("dive", U().divingItinerary, diveDays)}
+      ${segBtn("land", U().nonDiving, landDays)}</div>
+    <p class="seglead">${daysMode==="land" ? U().nonDivingLead : U().divingLead}</p>` : "") +
+  `<div id="daylist" ${split ? `role="tabpanel" aria-labelledby="seg-${daysMode}"` : ""}>` +
+  list.map((d, i)=>{
     const isToday = d.date === t, past = daysBetween(d.date,t) > 0;
-    const open = isToday || (tripPhase().phase==="before" && d.n===1);
+    const open = isToday || (tripPhase().phase==="before" && i===0);
     return `<div class="day ${isToday?"today":""} ${past?"past":""}">
       <button class="daybtn" data-day="${d.n}" aria-expanded="${open}">
         <span class="dnum">D${String(d.n).padStart(2,"0")}<br>${fmtDate(d.date).split(",")[0]}</span>
@@ -1612,7 +1663,7 @@ function viewDays(){
         ${d.note?`<p class="note" style="margin-top:10px">${esc(tr(d.note))}</p>`:""}
         ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${U().showOnMap} · ${esc(tr(d.base))}</button></div>`:""}
       </div></div>`;
-  }).join("");
+  }).join("") + `</div>`;
 }
 
 function viewFlights(){
@@ -2628,7 +2679,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-day],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-day],[data-dmode],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.rename){ openGate(); return; }
@@ -2655,6 +2706,10 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
+  if(t.dataset.dmode){
+    if(daysMode !== t.dataset.dmode){ daysMode = t.dataset.dmode; render(); }
+    return;
+  }
   if(t.dataset.day){
     const b = document.getElementById("dbody-"+t.dataset.day);
     const open = b.classList.toggle("hidden");

@@ -162,79 +162,110 @@ section{padding-top:6px}
    Photo above, information below. A photo band appears on the day you
    arrive somewhere new — the hotel you sleep in that night — so the list
    has a rhythm of places instead of fourteen identical boxes. */
-/* ---------- days: full-photo day cards ----------
-   One card per day, in trip order, side by side. Every swipe lands on
-   exactly one card (scroll-snap, snap-stop always) and the next card peeks
-   in from the right. The day's photograph fills the whole card; its story
-   sits over the photo. Legibility over any photo comes from a dark gradient
-   rising from the bottom and, for the plan itself, a frosted-glass panel —
-   times and places must stay readable on a boat deck in full sun. */
+/* ---------- full-screen card decks: DAYS, FLIGHTS, STAY ----------
+   One card fills the screen under the tabs. The gap between cards is wider
+   than the track's side margin, so the next card never peeks in: you see
+   it only when you swipe. Every card has the same height (--deckH, set
+   from the screen), and the page itself does not scroll on these tabs. */
+body.deckmode .instrument{display:none}
+body.deckmode{padding-bottom:0}
+.deck{max-width:520px;margin:0 auto}
 .passtrack{
   position:relative;   /* the cards measure their offsets from the track */
-  display:flex;gap:14px;align-items:flex-start;
+  display:flex;gap:28px;align-items:flex-start;
   overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
-  scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);
+  scroll-snap-type:x mandatory;scroll-padding-inline:12px;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
-  margin:4px calc(-1 * var(--pad)) 0;padding:10px var(--pad) 28px;
+  margin:0 calc(-1 * var(--pad));padding:8px 12px 14px;
 }
+@media (min-width:560px){.passtrack{margin:0}}
 .passtrack::-webkit-scrollbar{display:none}
 .passtrack:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-2px;border-radius:var(--r)}
-.passwrap{flex:0 0 min(88%,400px);scroll-snap-align:start;scroll-snap-stop:always;display:flex;container-type:inline-size}
-/* The photo is shown at its own shape (2:3), sharp, across the full width,
-   so it is never zoomed in to fill a tall card. Below it the card carries
-   on in a blurred, darkened copy of the same photo, so however long the
-   day's plan is, the whole card is photograph. */
+.passwrap{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex}
 .pass{
   position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;color:#fff;isolation:isolate;
-  min-height:150cqw;border-radius:28px;background:var(--abyss);
+  height:var(--deckH,640px);border-radius:28px;background:var(--abyss);
   box-shadow:0 2px 4px rgba(4,32,43,.12),0 22px 44px -18px rgba(4,32,43,.55);
 }
-.pass::before{content:"";position:absolute;inset:-40px;z-index:-2;
-  background:var(--img) center/cover no-repeat;filter:blur(26px) saturate(125%) brightness(.5)}
-.pass::after{content:"";position:absolute;left:0;right:0;top:0;aspect-ratio:2/3;z-index:-1;
-  background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 16%,rgba(4,32,43,0) 40%,rgba(4,32,43,.5) 66%,rgba(4,32,43,.8) 100%),var(--img);
-  background-size:cover;background-position:center;background-repeat:no-repeat;
-  -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 82%,transparent 100%)}
 .pass.today{box-shadow:0 0 0 3px rgba(56,195,192,.75),0 22px 44px -18px rgba(4,32,43,.55)}
+/* Day cards: the photo covers the whole card, darkening from the title down. */
+.pass.k-day::after{content:"";position:absolute;inset:0;z-index:-1;
+  background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 15%,rgba(4,32,43,0) 36%,rgba(4,32,43,.55) 56%,rgba(4,32,43,.9) 78%,rgba(4,32,43,.96) 100%),var(--img);
+  background-size:cover;background-position:center;background-repeat:no-repeat}
+/* Hotel photos are wide and small: shown sharp at their own shape along the
+   top, the card continuing in a blurred copy so it is photograph throughout. */
+.pass.k-stay::before{content:"";position:absolute;inset:-40px;z-index:-2;
+  background:var(--img,none) center/cover no-repeat;filter:blur(26px) saturate(125%) brightness(.5)}
+.pass.k-stay::after{content:"";position:absolute;left:0;right:0;top:0;height:62%;z-index:-1;
+  background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 22%,rgba(4,32,43,0) 55%,rgba(4,32,43,.6) 100%),var(--img,none);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent 100%);mask-image:linear-gradient(180deg,#000 75%,transparent 100%)}
 
 /* Chips at the top, over the sky. */
 .prow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 16px 0}
 .pday,.pkind{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .pday{font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  background:rgba(4,32,43,.5);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:6px 12px}
+  background:rgba(4,32,43,.5);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:6px 12px;color:#fff}
 .pday b{font-weight:700;color:#fff}
 .pkind{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono';font-size:10px;font-weight:600;
   letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:6px 11px 6px 9px;
   background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff}
 .pkind svg{width:14px;height:14px}
+.pkind.opt{background:rgba(184,144,28,.85);border-color:rgba(201,162,39,.9)}
 .pass.k-dive .pkind{background:rgba(14,124,134,.8);border-color:rgba(56,195,192,.65)}
-.pass.today .pkind .live{margin:0 0 0 2px;background:var(--reef)}
+.pkind .live{margin:0 0 0 2px;background:var(--reef)}
 
-/* The photo breathes in the middle; the story starts lower down. */
-.pspace{flex:0 0 auto;height:78cqw;min-height:150px}
-.pmain{padding:0 20px 14px}
+/* Photo in the middle, the story low down. */
+.pspace{flex:1 1 60px;min-height:40px}
+.pmain{padding:0 20px 12px;flex:none}
 .pdate{font-family:'JetBrains Mono';font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
   color:#A6EFEB;text-shadow:0 1px 3px rgba(4,32,43,.9),0 1px 14px rgba(4,32,43,.8)}
-.pttl{font-family:'Outfit';font-weight:700;font-size:clamp(28px,8vw,34px);line-height:1.04;letter-spacing:-.03em;color:#fff;
-  margin:8px 0 8px;text-shadow:0 2px 18px rgba(4,32,43,.7)}
+.pttl{font-family:'Outfit';font-weight:700;font-size:clamp(27px,7.6vw,34px);line-height:1.04;letter-spacing:-.03em;color:#fff;
+  margin:8px 0 8px;text-shadow:0 2px 18px rgba(4,32,43,.7);
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
 .pmeta{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.88);
   text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 10px;text-shadow:0 1px 6px rgba(4,32,43,.9)}
 .pmeta .co{text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.72)}
 
-/* The plan: frosted glass over the lower part of the photo. */
-.pglass{margin:0 10px 10px;padding:4px 14px 16px;border-radius:20px;
-  background:rgba(4,32,43,.52);border:1px solid rgba(255,255,255,.14);
-  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%)}
+/* A preview of the plan on frosted glass — as much as fits, fading out —
+   and the More info button that opens everything. */
+.ppeek{flex:0 1 auto;min-height:0;overflow:hidden;margin:0 10px;padding:2px 14px 6px;border-radius:20px 20px 0 0;
+  background:rgba(4,32,43,.5);border:1px solid rgba(255,255,255,.14);border-bottom:0;
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent);mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent)}
+.pmore{flex:none;display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;
+  margin:0 10px 10px;border:1px solid rgba(255,255,255,.14);border-top:0;border-radius:0 0 20px 20px;
+  background:rgba(4,32,43,.62);color:#fff;
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  font-family:'Outfit';font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.pmore svg{width:16px;height:16px}
+.pmore:focus-visible,.pclose:focus-visible{outline:2px solid #A6EFEB;outline-offset:-3px}
 @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
-  .pglass{background:rgba(4,32,43,.82)}
+  .ppeek,.pmore,.psheet{background:rgba(4,32,43,.85)}
 }
+
+/* The sheet: slides up over the card and scrolls inside it. */
+.psheet{position:absolute;left:8px;right:8px;bottom:8px;top:64px;z-index:5;display:flex;flex-direction:column;
+  border-radius:22px;background:rgba(4,32,43,.84);border:1px solid rgba(255,255,255,.16);
+  -webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);
+  transform:translateY(calc(100% + 16px));visibility:hidden;transition:transform .38s var(--ease),visibility 0s linear .38s}
+.pass.open .psheet{transform:none;visibility:visible;transition:transform .38s var(--ease)}
+.pass.open .pmore{visibility:hidden}
+.psh-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 16px 10px;
+  border-bottom:1px solid rgba(255,255,255,.1)}
+.psh-ttl{font-family:'Outfit';font-weight:700;font-size:20px;line-height:1.15;letter-spacing:-.02em;margin-top:5px;color:#fff}
+.pclose{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center}
+.pclose svg{width:18px;height:18px}
+.psh-body{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px 18px}
+
+/* Plan lines, dive sites and notes — white on glass. */
 .ptonight{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:14px;
   background:rgba(255,255,255,.1);font-size:13.5px;line-height:1.35;color:#fff}
 .ptonight svg{width:18px;height:18px;flex:none;color:#A6EFEB}
 .ptonight .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;
   text-transform:uppercase;color:#A6EFEB}
 .ptonight b{font-weight:600}
-
 .sched{list-style:none;margin:10px 0 0;padding:0;position:relative}
 .sched::before{content:"";position:absolute;left:16px;top:14px;bottom:14px;width:2px;background:rgba(255,255,255,.16)}
 .sched li{position:relative;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:5px 0}
@@ -242,15 +273,12 @@ section{padding-top:6px}
   position:relative;z-index:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);color:#fff}
 .ico svg{width:17px;height:17px}
 .ico.water{background:rgba(56,195,192,.3);border-color:rgba(56,195,192,.6);color:#D8FBF9}
-.ico.travel{background:rgba(255,255,255,.14)}
 .ico.land{background:rgba(236,220,186,.22);border-color:rgba(236,220,186,.45);color:#FBF1DC}
 .sched .x{font-size:15px;line-height:1.42;padding-top:6px;color:rgba(255,255,255,.96)}
 .sched .t{display:block;font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.06em;color:#A6EFEB;margin-bottom:1px}
-
 .dive{position:relative;display:grid;grid-template-columns:38px 1fr;gap:12px;
   background:rgba(56,195,192,.16);border:1px solid rgba(56,195,192,.4);border-radius:14px;padding:12px 14px;margin-top:12px}
-.dive .dico{width:38px;height:38px;border-radius:11px;background:var(--reef-dim);color:#fff;
-  display:flex;align-items:center;justify-content:center}
+.dive .dico{width:38px;height:38px;border-radius:11px;background:var(--reef-dim);color:#fff;display:flex;align-items:center;justify-content:center}
 .dive .dico svg{width:21px;height:21px}
 .dive .n{font-family:'Outfit';font-weight:700;font-size:16.5px;letter-spacing:-.015em;line-height:1.2;color:#fff}
 .dive .m{display:inline-block;margin-top:5px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;
@@ -262,9 +290,68 @@ section{padding-top:6px}
 .pass .row{margin-top:14px}
 .pass .btn.ghost{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.06)}
 .pass .btn.ghost:hover{background:rgba(255,255,255,.14);border-color:#fff}
+.pass a:not(.btn){color:#A6EFEB}
+.pass a.btn:not(.ghost){color:#fff}
+
+/* Stay: dates and facts on the glass. */
+.sdates{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;
+  border-radius:14px;background:rgba(255,255,255,.1)}
+.sdates b{display:block;font-family:'JetBrains Mono';font-size:14px;font-weight:600;color:#fff;margin-top:3px}
+.sdates .r{text-align:right}
+.sarr{color:#A6EFEB}.sarr svg{width:18px;height:18px}
+.bpk{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A6EFEB}
+.sfacts{margin:10px 0 0;display:grid;gap:9px}
+.sfacts dt{font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A6EFEB}
+.sfacts dd{margin:2px 0 0;font-size:14.5px;line-height:1.4;color:#fff}
+
+/* Flights: a boarding pass. Dark ticket top, perforation, paper stub. */
+.pass.k-flight{color:var(--ink);background:var(--card)}
+.bptop{position:relative;flex:none;padding:16px 20px 18px;color:#fff;
+  background:radial-gradient(120% 90% at 100% 0%,rgba(56,195,192,.28),transparent 55%),linear-gradient(160deg,var(--deep),var(--abyss))}
+.bpair{font-family:'Outfit';font-weight:700;font-size:23px;letter-spacing:-.02em;margin-top:14px;line-height:1.1}
+.bpair .mono{font-weight:600;color:#A6EFEB;font-size:20px}
+.bplabel{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
+.bproute{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-top:16px}
+.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(40px,min(14vw,7.2svh),60px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute .city{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.3}
+.bproute .r{text-align:right}
+.bpmid{display:flex;align-items:center;gap:6px;color:#A6EFEB;padding-bottom:26px}
+.bpmid svg{width:22px;height:22px;transform:rotate(45deg)}
+.bpline{width:18px;border-top:2px dotted rgba(166,239,235,.6)}
+.bptimes{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)}
+.bptimes b{display:block;font-size:24px;font-weight:600;margin-top:3px;color:#fff}
+.bptimes span.mono{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
+.bptimes .r{text-align:right}
+.bpperf{position:relative;height:0;border-top:2px dashed rgba(4,32,43,.18);margin:0 18px}
+.bpperf::before,.bpperf::after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--slate)}
+.bpperf::before{left:-30px}.bpperf::after{right:-30px}
+.bpbody{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 20px 0}
+.bppeek{flex:1 1 auto;min-height:0;overflow:hidden}
+.bpfade{height:0;position:relative}
+.bpfade::before{content:"";position:absolute;left:0;right:0;bottom:0;height:28px;background:linear-gradient(transparent,var(--card));pointer-events:none}
+.bppeek .bpgrid .wide dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bppeek .bpnote{margin-top:12px}
+.bpgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:0}
+.bpgrid .wide{grid-column:1/-1}
+.bpgrid dt,.bpnote .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.bpgrid dd{margin:3px 0 0;font-size:15px;font-weight:500;color:var(--ink);line-height:1.35}
+.bpgrid dd.mono{font-size:17px;font-weight:600;letter-spacing:.04em}
+.bpnote{font-size:14.5px;line-height:1.5;color:#2E424A}
+.psheet .bpnote{margin-top:12px}
+.bpnote .k{margin-bottom:3px}
+.bpact{margin:8px 0 0;flex:none}
+.pass.k-flight .bpact .btn.ghost{color:var(--reef-dim);border-color:rgba(14,124,134,.32);background:transparent}
+.pass.k-flight .pmore{position:static;margin:12px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;
+  background:none;backdrop-filter:none;-webkit-backdrop-filter:none;color:var(--reef-dim)}
+.pass.k-flight .psheet{top:12px}
+.pass.k-flight .psheet .bpgrid dd,.pass.k-flight .psheet .bpnote{color:#fff}
+.pass.k-flight .psheet .bpgrid dt,.pass.k-flight .psheet .bpnote .k{color:#A6EFEB}
+.bpdisc{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.72);margin:14px 0 0}
+.pass.k-flight .pill{background:rgba(4,32,43,.06);color:#3D4F57}
 
 /* Pager: where you are in the trip, plus arrows for anyone not swiping. */
-.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 0}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 2px 0}
+.pmid{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0}
 .pager .pos{font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 .pager .pos b{color:var(--ink);font-weight:700}
 .dots{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;flex:1}
@@ -820,7 +907,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v62 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v63 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1846,7 +1933,7 @@ function fmtCoord(c){
   const [la, lo] = c;
   return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
 }
-let daysPos = null;      // which day card is showing, so re-renders keep your place
+let deckPos = {};        // which card each deck (days, flights, stay) is showing
 
 /* ---- Day photos -------------------------------------------------------------
    Our own photographs, matched to the day by keywords in its title, base and
@@ -1938,20 +2025,57 @@ function dayPhoto(d, prev){
   return pick(general.length ? general : UNDERWATER_DEFAULT);
 }
 
+/* ---- Full-screen card decks ---------------------------------------------
+   DAYS, FLIGHTS and STAY are decks: one card fills the screen under the tabs,
+   one swipe moves exactly one card (scroll-snap, snap-stop always) and the
+   next card never shows until you swipe. Every card is the same height;
+   whatever does not fit opens in a "More info" sheet inside the card, so
+   the page itself never scrolls on these tabs. */
+const DECK_TABS = ["days","flights","stay"];
+function deckWords(){
+  return lang === "pl"
+    ? {of:"z", prev:"Poprzednia karta", next:"Następna karta", swipe:"Przesuń w bok", more:"Więcej", less:"Zamknij"}
+    : {of:"of", prev:"Previous card", next:"Next card", swipe:"Swipe sideways", more:"More info", less:"Close"};
+}
+/* cards: [{html, label, dot}] — label names the card in the pager ("Day 3"). */
+function deckHTML(key, cards, start, ariaLabel){
+  const W = deckWords();
+  if(deckPos[key] == null) deckPos[key] = Math.max(0, start);
+  deckPos[key] = Math.min(deckPos[key], Math.max(0, cards.length - 1));
+  const cur = deckPos[key];
+  const arrow = (dir, lbl, off) => `<button class="parrow" data-pstep="${dir}" aria-label="${lbl}" ${off ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", `<svg style="transform:rotate(${dir < 0 ? 90 : -90}deg)"`)}</button>`;
+  return `<div class="deck" data-deck="${key}">
+    <div class="pager">
+      ${arrow(-1, W.prev, cur === 0)}
+      <div class="pmid">
+        <span class="pos" data-ppos>${cards[cur] ? cards[cur].label : ""} · ${cur + 1} ${W.of} ${cards.length}</span>
+        <div class="dots">${cards.map((c, i) => `<button data-pgo="${i}" class="${c.dot || ""}" aria-label="${esc(c.label)}" aria-current="${i === cur}"></button>`).join("")}</div>
+      </div>
+      ${arrow(1, W.next, cur === cards.length - 1)}
+    </div>
+    <div class="passtrack" tabindex="0" aria-label="${esc(ariaLabel)} — ${W.swipe}">${
+      cards.map((c, i) => `<div class="passwrap" data-label="${esc(c.label)}">${c.html}</div>`).join("")}</div>
+  </div>`;
+}
+/* The "More info" sheet shared by every card. */
+function moreSheet(kicker, title, body){
+  const W = deckWords();
+  return `<div class="psheet" aria-hidden="true" inert>
+      <div class="psh-head"><div><div class="pdate">${kicker}</div><div class="psh-ttl">${title}</div></div>
+        <button class="pclose" data-more aria-label="${W.less}">${svg("chev", 2.2)}</button></div>
+      <div class="psh-body">${body}</div>
+    </div>
+    <button class="pmore" data-more aria-expanded="false">${W.more}${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(180deg)"')}</button>`;
+}
+
 function viewDays(){
   const t = todayISO();
   const L = lang === "pl" ? "pl-PL" : "en-GB";
   const KD = lang === "pl"
-    ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", of:"z", prev:"Poprzedni dzień", next:"Następny dzień", passes:"Dni wyprawy — przesuń w bok"}
-    : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", of:"of", prev:"Previous day", next:"Next day", passes:"Trip days — swipe sideways"};
-  /* Every day in trip order: the trip reads as one story, day by day. */
-  const list = trip.days;
-  const todayIdx = list.findIndex(d => d.date === t);
-  if(daysPos == null) daysPos = todayIdx >= 0 ? todayIdx : 0;
-  daysPos = Math.min(daysPos, list.length - 1);
-
+    ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", deck:"Dni wyprawy"}
+    : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", deck:"Trip days"};
   let prevImg = "";
-  const cards = list.map((d, i) => {
+  const cards = trip.days.map((d, i) => {
     const isToday = d.date === t;
     const kinds = (d.items || []).map(([, x]) => lineKind(x));
     const dive = isDiveDay(d);
@@ -1962,187 +2086,205 @@ function viewDays(){
     const img = dayPhoto(d, prevImg); prevImg = img;
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
-    /* The photo is painted by the card's ::before (blurred) and ::after
-       (sharp, with the dark gradient for the text) from this variable. */
-    const bg = `--img:url('${esc(img)}')`;
-    return `<div class="passwrap">
-    <article class="pass ${dive ? "k-dive" : "k-land"} ${isToday ? "today" : ""}" data-idx="${i}" style="${bg}"
-      role="group" aria-roledescription="slide" aria-label="${KD.day} ${d.n} — ${esc(tr(d.title))}">
-      <div class="prow">
-        <span class="pday">${KD.day} <b>${String(d.n).padStart(2,"0")}</b></span>
-        <span class="pkind">${svg(dive ? "mask" : kind)}${dive ? KD.dive + (nDives ? " · " + KD.dives(nDives) : "") : KD[kind]}${isToday ? ` · ${U().today}<span class="live"></span>` : ""}</span>
-      </div>
-      <div class="pspace"></div>
-      <div class="pmain">
-        <div class="pdate">${esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}))}</div>
-        <h3 class="pttl">${esc(tr(d.title))}</h3>
-        <div class="pmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</div>
-      </div>
-      <div class="pglass">
-        ${h ? `<div class="ptonight">${svg("bed")}<span><span class="k">${U().tonight} · ${nights} ${nights===1?U().night:U().nights}</span><b>${esc(h.name)}</b></span></div>` : ""}
-        <ol class="sched">${(d.items||[]).map(([tm,x], k)=>`<li>
+    const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));
+    const tonight = h ? `<div class="ptonight">${svg("bed")}<span><span class="k">${U().tonight} · ${nights} ${nights===1?U().night:U().nights}</span><b>${esc(h.name)}</b></span></div>` : "";
+    const sched = `<ol class="sched">${(d.items||[]).map(([tm,x], k)=>`<li>
           <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
-          <div class="x">${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}${esc(tr(x))}</div></li>`).join("")}</ol>
-        ${(d.dives||[]).map(dv=>`<div class="dive"><span class="dico">${svg("mask")}</span><div>
+          <div class="x">${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}${esc(tr(x))}</div></li>`).join("")}</ol>`;
+    const full = tonight + sched
+      + (d.dives||[]).map(dv=>`<div class="dive"><span class="dico">${svg("mask")}</span><div>
           <div class="n">${esc(tr(dv.site))}</div>
           <span class="m">${U().maxDepth} ${esc(tr(dv.depth))}</span>
-          <div class="dn">${esc(tr(dv.note))}</div></div></div>`).join("")}
-        ${d.note?`<div class="dnote">${svg("info")}<span>${esc(tr(d.note))}</span></div>`:""}
-        ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${svg("pin")}${U().showOnMap}</button></div>`:""}
-      </div>
-    </article></div>`;
-  }).join("");
-
-  const cur = daysPos;
-  const pager = `<div class="pager">
-      <button class="parrow" data-pstep="-1" aria-label="${KD.prev}" ${cur === 0 ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(90deg)"')}</button>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;min-width:0">
-        <span class="pos" id="ppos">${KD.day} <b>${list[cur] ? list[cur].n : ""}</b> · ${cur + 1} ${KD.of} ${list.length}</span>
-        <div class="dots">${list.map((d, i) => `<button data-pgo="${i}" class="${d.date === t ? "today" : ""} ${isDiveDay(d) ? "k-dive" : ""}" aria-label="${KD.day} ${d.n}" aria-current="${i === cur}"></button>`).join("")}</div>
-      </div>
-      <button class="parrow" data-pstep="1" aria-label="${KD.next}" ${cur === list.length - 1 ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</button>
-    </div>`;
-
-  return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
-    <span class="pill">${dayCount(trip.days.length)}</span></div>
-  <div id="dswap">
-    ${pager}
-    <div class="passtrack" id="passtrack" tabindex="0" aria-label="${KD.passes}">${cards}</div>
-  </div>`;
+          <div class="dn">${esc(tr(dv.note))}</div></div></div>`).join("")
+      + (d.note ? `<div class="dnote">${svg("info")}<span>${esc(tr(d.note))}</span></div>` : "")
+      + (d.coords ? `<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${svg("pin")}${U().showOnMap}</button></div>` : "");
+    return {label: `${KD.day} ${d.n}`, dot: `${isToday ? "today" : ""} ${dive ? "k-dive" : ""}`,
+      html: `<article class="pass k-day ${dive ? "k-dive" : "k-land"} ${isToday ? "today" : ""}" style="--img:url('${esc(img)}')"
+        role="group" aria-roledescription="slide" aria-label="${KD.day} ${d.n} — ${esc(tr(d.title))}">
+        <div class="prow">
+          <span class="pday">${KD.day} <b>${String(d.n).padStart(2,"0")}</b></span>
+          <span class="pkind">${svg(dive ? "mask" : kind)}${dive ? KD.dive + (nDives ? " · " + KD.dives(nDives) : "") : KD[kind]}${isToday ? ` · ${U().today}<span class="live"></span>` : ""}</span>
+        </div>
+        <div class="pspace"></div>
+        <div class="pmain">
+          <div class="pdate">${date}</div>
+          <h3 class="pttl">${esc(tr(d.title))}</h3>
+          <div class="pmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</div>
+        </div>
+        <div class="ppeek">${tonight}${sched}</div>
+        ${moreSheet(date, esc(tr(d.title)), full)}
+      </article>`};
+  });
+  const todayIdx = trip.days.findIndex(d => d.date === t);
+  return deckHTML("days", cards, todayIdx, KD.deck);
 }
 
-/* After DAYS is drawn: put the track on the remembered pass without an
-   animation, then follow the swipe to keep the pager in step. */
-function initPassTrack(){
-  const track = document.getElementById("passtrack"), swap = document.getElementById("dswap");
-  if(!track || !swap) return;
-  const cards = [...track.querySelectorAll(".passwrap")];
-  const goTo = (i, smooth) => {
-    const c = cards[Math.max(0, Math.min(cards.length - 1, i))];
-    if(!c) return;
-    const still = !smooth || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-    track.scrollTo({left: c.offsetLeft - parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0), behavior: still ? "auto" : "smooth"});
-  };
-  track._goTo = goTo;
-  goTo(daysPos || 0, false);
-  let raf = 0;
-  const sync = () => {
-    raf = 0;
-    const pad = parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0);
-    let best = 0, bestD = Infinity;
-    cards.forEach((c, i) => { const dd = Math.abs(c.offsetLeft - pad - track.scrollLeft); if(dd < bestD){ bestD = dd; best = i; } });
-    if(best === daysPos && track._synced) return;
-    track._synced = true;
-    daysPos = best;
-    const dots = swap.querySelectorAll("[data-pgo]");
-    dots.forEach((b, i) => b.setAttribute("aria-current", String(i === best)));
-    const pos = document.getElementById("ppos");
-    const n = cards[best].querySelector(".pass").getAttribute("aria-label").match(/\d+/);
-    if(pos && n) pos.querySelector("b").textContent = n[0], pos.lastChild.textContent = ` · ${best + 1} ${lang==="pl"?"z":"of"} ${cards.length}`;
-    swap.querySelector('[data-pstep="-1"]').disabled = best === 0;
-    swap.querySelector('[data-pstep="1"]').disabled = best === cards.length - 1;
-  };
-  track.addEventListener("scroll", () => { if(!raf) raf = requestAnimationFrame(sync); }, {passive: true});
-  track.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight"){ e.preventDefault(); goTo(daysPos + 1, true); }
-    if(e.key === "ArrowLeft"){ e.preventDefault(); goTo(daysPos - 1, true); }
+/* After a deck tab is drawn: size the cards to the screen, put the track on
+   the remembered card without animation, then follow swipes. */
+function sizeDecks(){
+  const track = document.querySelector(".deck .passtrack");
+  if(!track) return;
+  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
+  document.documentElement.style.setProperty("--deckH", Math.max(440, Math.floor(vh - top - 14)) + "px");
+}
+function initDecks(){
+  sizeDecks();
+  document.querySelectorAll(".deck").forEach(deck => {
+    const key = deck.dataset.deck;
+    const track = deck.querySelector(".passtrack");
+    const cards = [...track.querySelectorAll(".passwrap")];
+    if(!cards.length) return;
+    const W = deckWords();
+    const goTo = (i, smooth) => {
+      const c = cards[Math.max(0, Math.min(cards.length - 1, i))];
+      const still = !smooth || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+      track.scrollTo({left: c.offsetLeft - parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0), behavior: still ? "auto" : "smooth"});
+    };
+    track._goTo = goTo;
+    goTo(deckPos[key] || 0, false);
+    let raf = 0, synced = false;
+    const sync = () => {
+      raf = 0;
+      const pad = parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0);
+      let best = 0, bestD = Infinity;
+      cards.forEach((c, i) => { const dd = Math.abs(c.offsetLeft - pad - track.scrollLeft); if(dd < bestD){ bestD = dd; best = i; } });
+      if(best === deckPos[key] && synced) return;
+      synced = true;
+      /* Leaving a card closes its sheet, so the next visit starts clean. */
+      if(best !== deckPos[key]) cards.forEach((c, i) => { if(i !== best) closeSheet(c.querySelector(".pass")); });
+      deckPos[key] = best;
+      deck.querySelectorAll("[data-pgo]").forEach((b, i) => b.setAttribute("aria-current", String(i === best)));
+      const pos = deck.querySelector("[data-ppos]");
+      if(pos) pos.textContent = `${cards[best].dataset.label} · ${best + 1} ${W.of} ${cards.length}`;
+      deck.querySelector('[data-pstep="-1"]').disabled = best === 0;
+      deck.querySelector('[data-pstep="1"]').disabled = best === cards.length - 1;
+    };
+    track.addEventListener("scroll", () => { if(!raf) raf = requestAnimationFrame(sync); }, {passive: true});
+    track.addEventListener("keydown", e => {
+      if(e.key === "ArrowRight"){ e.preventDefault(); goTo(deckPos[key] + 1, true); }
+      if(e.key === "ArrowLeft"){ e.preventDefault(); goTo(deckPos[key] - 1, true); }
+    });
   });
 }
+function closeSheet(card){
+  if(!card || !card.classList.contains("open")) return;
+  card.classList.remove("open");
+  const sh = card.querySelector(".psheet");
+  if(sh){ sh.setAttribute("aria-hidden", "true"); sh.setAttribute("inert", ""); }
+  card.querySelectorAll(".pmore").forEach(b => b.setAttribute("aria-expanded", "false"));
+}
+let deckResize = 0;
+window.addEventListener("resize", () => {
+  if(!DECK_TABS.includes(tab)) return;
+  clearTimeout(deckResize);
+  deckResize = setTimeout(() => {
+    sizeDecks();
+    document.querySelectorAll(".deck").forEach(d => { const t = d.querySelector(".passtrack"); if(t && t._goTo) t._goTo(deckPos[d.dataset.deck] || 0, false); });
+  }, 120);
+});
 
 function viewFlights(){
-  return `<div class="sectitle"><h2>${U().flights}</h2><div class="rule"></div></div>
-  <p class="note" style="margin:8px 0 0">${U().flightNote}</p>` +
-  trip.flights.map(f=>{
+  const KF = lang === "pl"
+    ? {flight:"Lot", deck:"Loty", pass:"Karta pokładowa", from:"Wylot", to:"Przylot", ref:"Rezerwacja", bag:"Bagaż", note:"Uwagi", date:"Data", num:"Lot"}
+    : {flight:"Flight", deck:"Flights", pass:"Boarding pass", from:"Departs", to:"Arrives", ref:"Booking", bag:"Baggage", note:"Note", date:"Date", num:"Flight"};
+  const now = Date.now();
+  const cards = trip.flights.map((f, i) => {
     const hasNumber = f.number && f.number !== "—";
     const q = hasNumber ? f.number.replace(/\s/g,"") : "";
-    const statusRow = hasNumber
+    const d0 = (f.dep.time || "").slice(0,10);
+    const actions = hasNumber
       ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
-            href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${
-              (f.dep.time||"").slice(0,10) ? "#" + (f.dep.time||"").slice(0,10) : ""}">${U().checkStatus}</a>
+            href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${d0 ? "#" + d0 : ""}">${U().checkStatus}</a>
          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
       : `<span class="pill">${U().numberPending}</span>`;
-
-    return `<div class="card">
-      <div class="hd"><div><div class="eyebrow">${esc(tr(f.label))}</div>
-        <h3 style="margin-top:4px">${esc(tr(f.airline))} ${esc(f.number)}</h3></div>
-        <span class="pill">${fmtDate(f.dep.time.split(" ")[0])}</span></div>
-      <div class="leg">
-        <div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div><div class="time">${fmtTime(f.dep.time)}</div></div>
-        <div class="mid"><div class="dashed"></div><div style="font-size:11px;color:var(--muted);margin-top:4px">✈</div></div>
-        <div class="r"><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div><div class="time">${fmtTime(f.arr.time)}</div></div>
-      </div>
-      <dl class="kv">
-        <dt>${U().bookingRef}</dt><dd class="mono">${esc(f.pnr)}</dd>
-        <dt>${lang==="pl"?"Bagaż":"Baggage"}</dt><dd>${esc(tr(f.baggage))}</dd>
-        ${f.seatNote?`<dt>${lang==="pl"?"Uwagi":"Note"}</dt><dd>${esc(tr(f.seatNote))}</dd>`:""}
-      </dl>
-      <div class="row">${statusRow}</div>
-    </div>`;
-  }).join("");
+    const details = `<dl class="bpgrid">
+        <div><dt>${KF.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${KF.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
+        <div class="wide"><dt>${KF.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
+      </dl>`;
+    const note = f.seatNote ? `<div class="bpnote"><span class="k">${KF.note}</span>${esc(tr(f.seatNote))}</div>` : "";
+    return {label: `${KF.flight} ${i + 1}`, dot: "",
+      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${KF.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
+        <div class="bptop">
+          <div class="prow" style="padding:0">
+            <span class="pday">${KF.pass}</span>
+            <span class="pkind">${svg("travel")}${fmtDate(d0)}</span>
+          </div>
+          <div class="bpair">${esc(tr(f.airline))}<span class="mono"> ${esc(f.number)}</span></div>
+          <div class="bplabel">${esc(tr(f.label))}</div>
+          <div class="bproute">
+            <div><div class="bpk">${KF.from}</div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
+            <div class="bpmid"><span class="bpline"></span>${svg("travel", 1.6)}<span class="bpline"></span></div>
+            <div class="r"><div class="bpk">${KF.to}</div><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
+          </div>
+          <div class="bptimes">
+            <div><span class="bpk">${KF.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
+            <div class="r"><span class="bpk">${KF.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
+          </div>
+        </div>
+        <div class="bpperf" aria-hidden="true"></div>
+        <div class="bpbody">
+          <div class="bppeek">${details}${note}</div>
+          <div class="bpfade"></div>
+          <div class="row bpact">${actions}</div>
+        </div>
+        ${moreSheet(`${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(d0)}`, `${esc(tr(f.airline))} ${esc(f.number)}`,
+          details + note + `<p class="bpdisc">${U().flightNote}</p><div class="row">${actions}</div>`)}
+      </article>`};
+  });
+  /* Open on the next flight that has not left yet. */
+  const next = trip.flights.findIndex(f => new Date((f.dep.time || "").replace(" ", "T")).getTime() > now);
+  return deckHTML("flights", cards, next >= 0 ? next : 0, KF.deck);
 }
 
 function viewStay(){
   const t = todayISO();
-  const core = trip.hotels.filter(h=>!h.optional);
-  const nightsTotal = core.reduce((n,h)=>n+daysBetween(h.checkIn,h.checkOut),0);
-
-  const summary = `<div class="staysum">
-    <div><span class="k">${U().bases}</span><span class="v">${core.length}</span></div>
-    <div><span class="k">${U().nights}</span><span class="v">${nightsTotal}</span></div>
-  </div>`;
-
-  const cards = trip.hotels.map(h=>{
+  const KS = lang === "pl"
+    ? {stay:"Nocleg", deck:"Noclegi", in:"Zameldowanie", out:"Wymeldowanie"}
+    : {stay:"Stay", deck:"Where you sleep", in:"Check-in", out:"Check-out"};
+  const cards = trip.hotels.map((h, i) => {
     const now = daysBetween(h.checkIn,t)>=0 && daysBetween(t,h.checkOut)>0;
     const nights = daysBetween(h.checkIn,h.checkOut);
-    const pill = h.optional ? `<span class="pill ochre">${U().optional}</span>`
-               : now ? `<span class="pill live">${U().today}</span>`
-               : `<span class="pill">${nights} ${nights===1?U().night:U().nights}</span>`;
-    const coords = `${h.coords[0].toFixed(4)}° N · ${h.coords[1].toFixed(4)}° E`;
-
-    // Photo band on top; every practical detail stays below it on the light card.
-    const band = h.photo ? `<div class="pband">
-        <img src="${esc(h.photo)}" alt="${esc(h.name)}" loading="lazy">
-        ${pill}
-        <div class="pt">
-          <div class="pk">${esc(tr(h.place))}</div>
-          <h3>${esc(h.name)}</h3>
-          <div class="pc">${coords}</div>
+    const pill = h.optional ? `<span class="pkind opt">${U().optional}</span>`
+               : now ? `<span class="pkind">${svg("bed")}${U().today}<span class="live"></span></span>`
+               : `<span class="pkind">${svg("bed")}${nights} ${nights===1?U().night:U().nights}</span>`;
+    const dates = `<div class="sdates">
+        <div><span class="bpk">${KS.in}</span><b>${fmtDate(h.checkIn)}</b></div>
+        <span class="sarr">${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</span>
+        <div class="r"><span class="bpk">${KS.out}</span><b>${fmtDate(h.checkOut)}</b></div>
+      </div>`;
+    const facts = `<dl class="sfacts">
+        ${h.room?`<div><dt>${U().room}</dt><dd>${esc(tr(h.room))}</dd></div>`:""}
+        ${h.phone?`<div><dt>${U().phone}</dt><dd><a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a></dd></div>`:""}
+        ${h.address?`<div><dt>${U().address}</dt><dd>${esc(h.address)}</dd></div>`:""}
+      </dl>`;
+    const actions = `<div class="row">
+        <a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
+           href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${svg("pin")}${U().directions}</a>
+        <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
+      </div>`;
+    const notes = h.notes ? `<div class="dnote">${svg("info")}<span>${esc(tr(h.notes))}</span></div>` : "";
+    return {label: `${KS.stay} ${i + 1}`, dot: now ? "today" : "",
+      html: `<article class="pass k-stay ${now ? "today" : ""}" ${h.photo ? `style="--img:url('${esc(h.photo)}')"` : ""}
+        role="group" aria-roledescription="slide" aria-label="${esc(h.name)}">
+        <div class="prow">
+          <span class="pday">${KS.stay} <b>${String(i + 1).padStart(2,"0")}</b></span>
+          ${pill}
         </div>
-      </div>` : "";
-
-    const plainHead = h.photo ? "" : `<div class="hd"><div>
-        <div class="eyebrow">${esc(tr(h.place))}</div>
-        <h3 style="margin-top:4px">${esc(h.name)}</h3>
-        <div class="mono" style="font-size:11px;color:var(--reef-dim);margin-top:5px">${coords}</div>
-      </div>${pill}</div>`;
-
-    return `<div class="card${h.photo?" photo":""}">
-      ${band}
-      <div class="${h.photo?"pbody":""}">
-        ${plainHead}
-        <div class="daterow">
-          <span class="dt">${fmtDate(h.checkIn)}</span><span class="ar">&rarr;</span>
-          <span class="dt">${fmtDate(h.checkOut)}</span>
-          <span class="nn">${nights} ${nights===1?U().night:U().nights}</span>
+        <div class="pspace"></div>
+        <div class="pmain">
+          <div class="pdate">${esc(tr(h.place))}</div>
+          <h3 class="pttl">${esc(h.name)}</h3>
+          <div class="pmeta"><span class="co">${fmtCoord(h.coords)}</span></div>
         </div>
-        <dl class="kv">
-          ${h.room?`<dt>${U().room}</dt><dd>${esc(tr(h.room))}</dd>`:""}
-          <dt>${U().phone}</dt><dd><a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a></dd>
-          <dt>${U().address}</dt><dd>${esc(h.address)}</dd>
-        </dl>
-        ${h.notes?`<p class="sub" style="margin-top:10px">${esc(tr(h.notes))}</p>`:""}
-        <div class="row">
-          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
-             href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${U().directions}</a>
-          <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-
-  return `<div class="sectitle"><h2>${U().whereYouSleep}</h2><div class="rule"></div></div>`
-       + summary + cards;
+        <div class="ppeek">${dates}${facts}</div>
+        ${moreSheet(esc(tr(h.place)), esc(h.name), dates + facts + notes + actions)}
+      </article>`};
+  });
+  const cur = trip.hotels.findIndex(h => daysBetween(h.checkIn,t)>=0 && daysBetween(t,h.checkOut)>0);
+  return deckHTML("stay", cards, cur, KS.deck);
 }
 
 function viewDocs(){
@@ -2761,10 +2903,12 @@ function render(){
   if(!trip) return;
   renderTabs();
   if(tab === "setup" && !setupUnlocked) tab = "now";
+  /* Card tabs get the whole screen under the tabs: the status band steps aside. */
+  document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);
-  if(tab === "days") initPassTrack();
+  if(DECK_TABS.includes(tab)) initDecks();
   if(tab === "now" || tab === "days"){
     const w = weatherPlace();
     if(w?.coords) getWeather(w.coords[0], w.coords[1]);
@@ -3349,7 +3493,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.rename){ openGate(); return; }
@@ -3383,9 +3527,19 @@ document.addEventListener("click", async (e) => {
     render(); return;
   }
   if(t.dataset.pstep || t.dataset.pgo){
-    const track = document.getElementById("passtrack");
+    const deck = t.closest(".deck"), track = deck && deck.querySelector(".passtrack");
     if(!track || !track._goTo) return;
-    track._goTo(t.dataset.pgo != null ? Number(t.dataset.pgo) : (daysPos || 0) + Number(t.dataset.pstep), true);
+    track._goTo(t.dataset.pgo != null ? Number(t.dataset.pgo) : (deckPos[deck.dataset.deck] || 0) + Number(t.dataset.pstep), true);
+    return;
+  }
+  if(t.hasAttribute("data-more")){
+    const card = t.closest(".pass");
+    if(!card) return;
+    if(card.classList.contains("open")){ closeSheet(card); return; }
+    card.classList.add("open");
+    const sh = card.querySelector(".psheet");
+    if(sh){ sh.removeAttribute("inert"); sh.setAttribute("aria-hidden", "false"); sh.querySelector(".psh-body").scrollTop = 0; }
+    card.querySelectorAll(".pmore").forEach(b => b.setAttribute("aria-expanded", "true"));
     return;
   }
   if(t.id === "dv-new"){ newDive(); return; }

@@ -371,6 +371,35 @@ body.deckmode{padding-bottom:0}
   .dots button,.parrow{transition:none}
   .passtrack{scroll-behavior:auto}
 }
+/* NOW: one At-a-glance list instead of a stack of cards. */
+.glance{margin:18px 0 14px}
+.glance ul{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow-1);overflow:hidden}
+.glance li + li{border-top:1px solid var(--line)}
+.grow{width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:68px;text-align:left;
+  background:none;border:0;color:var(--ink);transition:background .15s var(--ease)}
+.grow:hover{background:rgba(4,32,43,.025)}
+.grow:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-3px}
+.gico{flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:var(--tint);color:var(--reef-dim)}
+.gico svg{width:20px;height:20px}
+.gico.ok{background:var(--reef-dim);color:#fff}
+.gtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.gk{font-family:'JetBrains Mono';font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gv{font-family:'Outfit';font-weight:600;font-size:16.5px;letter-spacing:-.01em;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gs{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);letter-spacing:.02em}
+.gchip{flex:none;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:99px;background:rgba(4,32,43,.06);color:#3D4F57}
+.gchip.ok{background:rgba(14,124,134,.12);color:var(--reef-dim)}
+.gchip.tight{background:rgba(184,144,28,.14);color:#8A6A12}
+.gchip.warn{background:rgba(196,85,58,.12);color:#A6402A}
+.gchev{flex:none;color:var(--muted);display:flex}
+.gchev svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.glance li.open .gchev.tog svg{transform:rotate(180deg)}
+.gmore{padding:0 16px 16px}
+.gmore .nofly{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.gmore .offlist li:first-child{border-top:0}
 /* Ready for no signal — checklist on NOW */
 .offlist{list-style:none;margin:14px 0 0;padding:0}
 .offlist li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--slate-2)}
@@ -907,7 +936,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v64 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v65 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1783,7 +1812,7 @@ function viewNow(){
       <div class="hfact"><span class="fk">${U().bases}</span><span class="fv">${bases}</span></div>
       <div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>
     </div>
-  </div>` + noFlyCard() + dayCard;
+  </div>` + dayCard;
 
   const wp = weatherPlace();
   const wxBlock = wx ? (() => {
@@ -1811,56 +1840,47 @@ function viewNow(){
           ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
           : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
     </div>`;
-  })() : (navigator.onLine && !wxFailAt
-    ? `<div class="card"><span class="spin"></span>${U().loadingCond}</div>`
-    : `<div class="card">
-        <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
-          <h3 style="margin-top:4px">${U().condNotSaved}</h3>
-          <p class="sub">${U().condHint}</p></div>
-          <span class="pill warn">Offline</span></div>
-      </div>`);
+  })() : "";
 
-  const flightBlock = f ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().nextFlight}</div>
-      <h3 style="margin-top:4px">${esc(tr(f.label))}</h3>
-      <p class="sub">${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(f.dep.time.split(" ")[0])}</p></div>
-      <button class="btn ghost" data-goto="flights">${U().open}</button></div></div>` : "";
-
-  const hotelBlock = h ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${p.phase==="during"?U().tonight:U().firstBase}</div>
-      <h3 style="margin-top:4px">${esc(h.name)}</h3>
-      <p class="sub">${esc(tr(h.place))}</p></div>
-      <button class="btn ghost" data-goto="stay">${U().open}</button></div></div>` : "";
-
+  /* ---- At a glance: one list instead of a stack of cards ----
+     Each row is one thing to know, with its state at the right. Rows that
+     belong to another tab open it; the two longer ones open in place. */
+  const G = lang === "pl"
+    ? {title:"W skrócie", nofly:"Nurkowanie → lot", clear:"z zapasem", tight:"na styk", under:"za krótko"}
+    : {title:"At a glance", nofly:"Last dive → flight", clear:"clear", tight:"tight", under:"too short"};
+  const chev = svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"');
+  const row = (o) => {
+    const inner = `<span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
+      <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
+      ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
+      <span class="gchev ${o.open != null ? "tog" : ""}">${o.open != null ? svg("chev", 2.2) : chev}</span>`;
+    if(o.open != null) return `<li class="${o.open ? "open" : ""}"><button class="grow" data-nowopen="${o.id}" aria-expanded="${o.open}">${inner}</button>
+      ${o.open ? `<div class="gmore">${o.more}</div>` : ""}</li>`;
+    return `<li><button class="grow" data-goto="${o.goto}">${inner}</button></li>`;
+  };
+  const rows = [];
+  if(f) rows.push({icon:"travel", k:U().nextFlight, v:`${esc(f.number)} · ${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
+    sub:`${fmtDate(f.dep.time.split(" ")[0])} · ${fmtTime(f.dep.time)}`, goto:"flights"});
+  if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
-  const docsBlock = req.length ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().yourDocs}</div>
-      <h3 style="margin-top:4px">${ready} / ${req.length} ${U().ready}</h3>
-      <p class="sub">${ready===req.length ? U().docsAllSaved : U().docsAdd}</p></div>
-      <button class="btn ${ready===req.length?"ghost":""}" data-goto="docs">${ready===req.length?U().open:U().add}</button></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(ready/req.length*100)}%"></i></div>
-  </div>` : "";
-
-  const iosLike = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-  let installBlock = "";
-  if(!standalone && installEvent){
-    installBlock = `<div class="installbar">
-      <p><b>${U().installTitle}</b> — ${U().installBody}</p>
-      <button id="installbtn">${U().add}</button></div>`;
-  } else if(!standalone && iosLike){
-    installBlock = `<div class="installbar">
-      <p><b>${U().installTitle}.</b> ${U().installIos}</p></div>`;
-  }
-
+  if(req.length) rows.push({icon:"doc", k:U().yourDocs, v:`${ready} / ${req.length} ${U().ready}`, goto:"docs",
+    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : ""});
   const gc = gearCount();
-  const gearBlock = (p.phase === "before" && gc.total) ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().packList}</div>
-      <h3 style="margin-top:4px">${gc.done} / ${gc.total} ${U().packReady}</h3></div>
-      <button class="btn ${gc.done===gc.total?"ghost":""}" data-goto="gear">${U().open}</button></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${gc.total?Math.round(gc.done/gc.total*100):0}%"></i></div>
-  </div>` : "";
+  if(p.phase === "before" && gc.total) rows.push({icon:"bag", k:U().packList, v:`${gc.done} / ${gc.total} ${U().packReady}`, goto:"gear",
+    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : ""});
+  if(p.phase !== "after"){
+    const oc = offlineChecklist();
+    rows.push({id:"offline", icon:"save", k:U().off.eyebrow, v:`${oc.n} / ${oc.total} ${U().ready}`, open: nowOpen === "offline", more: oc.html,
+      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : ""});
+  }
+  const nf = noFlyState();
+  if(nf) rows.push({id:"nofly", icon:"mask", k:G.nofly, v: nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`,
+    chip: nf.level === "under" ? G.under : nf.level === "tight" ? G.tight : G.clear, chipTone: nf.level === "under" ? "warn" : nf.level === "tight" ? "tight" : "ok",
+    open: nowOpen === "nofly", more: noFlyCard()});
+  const glance = rows.length ? `<div class="glance">
+    <div class="eyebrow" style="padding:0 4px 8px">${G.title}</div>
+    <ul>${rows.map(row).join("")}</ul></div>` : "";
 
   // Near the end of the trip and afterwards, show what is coming next.
   const nearEnd = p.phase === "after" ||
@@ -1882,7 +1902,7 @@ function viewNow(){
     </div>
   </div>` : "";
 
-  return head + nextBlock + installBlock + offlineBlock() + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
+  return head + nextBlock + glance + wxBlock;
 }
 
 /* A dive day either lists its dives, or is flagged diveDay in the trip
@@ -1905,7 +1925,10 @@ const ICON = {
   bed:    '<path d="M2.5 5v15"/><path d="M2.5 9h16a3 3 0 0 1 3 3v8"/><path d="M2.5 16.5h19"/><path d="M6.5 9v7.5"/>',
   pin:    '<path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
   info:   '<circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5"/><path d="M12 8h.01"/>',
-  chev:   '<path d="m6 9 6 6 6-6"/>'
+  chev:   '<path d="m6 9 6 6 6-6"/>',
+  doc:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
+  bag:    '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  save:   '<path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M4.4 15.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.4 8.3"/>'
 };
 const svg = (k, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
 
@@ -1934,6 +1957,7 @@ function fmtCoord(c){
   return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
 }
 let deckPos = {};        // which card each deck (days, flights, stay) is showing
+let nowOpen = null;      // NOW: which At-a-glance row is open (offline, nofly)
 
 /* ---- Day photos -------------------------------------------------------------
    Our own photographs, matched to the day by keywords in its title, base and
@@ -1988,7 +2012,8 @@ const PHOTO_RULES = [
   {water:false, rx:/\bboats?\b|bangka|łodzi|łódź|island\b|wysp/i,   img:["img/hero-bangkas.jpg"]},
   {water:false, rx:/hills|valley|trek|springs|źródł/i,              img:["img/hero-valley.jpg"]}
 ];
-const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg"];
+/* Underwater shots that are true anywhere these trips dive. */
+const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg","img/day-moalboal-turtle.jpg"];
 /* Every photo that truly fits a day, best first, with how strongly the
    best one belongs to it: 3 = the title names it (the thresher day),
    2 = the plan or the place names it, 1 = the hotel or a general photo.
@@ -2016,18 +2041,35 @@ function dayPhotoCands(d){
   const list = [...new Set([...t1, ...t2, ...t3].filter(Boolean))];
   return {list: list.length ? list : UNDERWATER_DEFAULT, strength: t1.length ? 3 : t2.length ? 2 : 1};
 }
-/* Photos for the whole trip at once, so no two days in a row share one.
-   When neighbours want the same photo, the day it belongs to more strongly
-   keeps it (the thresher day keeps the thresher) and the other takes its
-   next true option. */
+/* Photos for the whole trip at once: every day gets its own photo, none
+   repeats. Days that a photo belongs to most strongly choose first (the
+   thresher day takes the thresher), then days with the fewest options.
+   A day whose own options are all taken borrows an unused photo from this
+   trip's own destinations — preferring one that matches the day — never
+   one from somewhere the trip does not go. */
 function dayPhotos(days){
+  const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
+  const text = d => [both(d.title), both(d.base), ...(d.items || []).map(([, x]) => both(x)), ...(d.dives || []).map(v => both(v.site))].join(" ");
+  const tripText = days.map(text).join(" ");
   const cands = days.map(dayPhotoCands);
-  const img = cands.map(c => c.list[0]);
-  for(let i = 1; i < days.length; i++){
-    if(img[i] !== img[i - 1]) continue;
-    const j = cands[i].strength > cands[i - 1].strength ? i - 1 : i;
-    const alt = cands[j].list.find(x => x !== img[j - 1] && x !== img[j + 1]);
-    if(alt) img[j] = alt;
+  const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
+  const stays = trip.hotels.filter(h => h.photo).map(h => h.photo);
+  const poolFor = dive => [...new Set([
+    ...PHOTO_RULES.filter(r => r.water === dive && r.rx.test(tripText) && (!r.where || r.where.test(tripText))).flatMap(r => r.img),
+    ...(dive ? UNDERWATER_DEFAULT : [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays])
+  ])];
+  const pools = {true: poolFor(true), false: poolFor(false)};
+  const fits = (x, i) => PHOTO_RULES.some(r => r.img.includes(x) && r.rx.test(text(days[i])) && (!r.where || r.where.test(text(days[i]))));
+  const order = days.map((d, i) => i).sort((a, b) =>
+    (cands[b].strength - cands[a].strength) || (cands[a].list.length - cands[b].list.length) || (a - b));
+  const used = new Set(), img = [];
+  for(const i of order){
+    const pool = pools[isDiveDay(days[i])];
+    const pick = cands[i].list.find(x => !used.has(x))
+              || pool.find(x => !used.has(x) && fits(x, i))
+              || pool.find(x => !used.has(x))
+              || cands[i].list[0];
+    used.add(pick); img[i] = pick;
   }
   return img;
 }
@@ -3271,9 +3313,9 @@ async function checkOffline(){
   if(changed && tab === "now") render();
 }
 
-function offlineBlock(){
-  const p = tripPhase();
-  if(p.phase === "after") return "";
+/* The four steps, checked for real where the app can check them. Also
+   offers the install button where the browser allows one. */
+function offlineChecklist(){
   const O = U().off;
   const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
   const m = mapSaveRow();
@@ -3283,7 +3325,8 @@ function offlineBlock(){
     : null;
   const rows = [
     { done: !!standalone, title: O.homeTitle,
-      sub: standalone ? O.homeDone : (/iPad|iPhone|iPod/.test(navigator.userAgent) ? O.homeIos : O.homeOther) },
+      sub: standalone ? O.homeDone : (/iPad|iPhone|iPod/.test(navigator.userAgent) ? O.homeIos : O.homeOther),
+      action: !standalone && installEvent ? `<button class="btn" id="installbtn">${U().add}</button>` : "" },
     { done: offlineStatus.trip, title: O.tripTitle,
       sub: offlineStatus.trip
         ? (offlineStatus.at ? `${O.tripUpdated} ${new Date(offlineStatus.at).toLocaleString(lang==="pl"?"pl-PL":"en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}` : O.tripSaved)
@@ -3294,19 +3337,12 @@ function offlineBlock(){
         <button class="btn ${gmapsDone?"ghost":""}" data-gmaps="1" aria-pressed="${gmapsDone}">${gmapsDone ? O.undo : O.markDone}</button>` }
   ];
   const n = rows.filter(r => r.done).length;
-  const all = n === rows.length;
-  return `<div class="card offcard">
-    <div class="hd"><div><div class="eyebrow">${O.eyebrow}</div>
-      <h3 style="margin-top:4px">${all ? O.allReady : `${n} / ${rows.length} ${U().ready}`}</h3>
-      <p class="sub">${all ? O.allReadySub : O.intro}</p></div>
-      <span class="pill ${all?"ok":""}">${all ? "✓ Offline" : "Offline"}</span></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(n/rows.length*100)}%"></i></div>
+  return { n, total: rows.length, html: `<p class="sub" style="margin:0 0 4px">${n === rows.length ? O.allReadySub : O.intro}</p>
     <ol class="offlist">${rows.map(r => `<li class="${r.done?"done":""}">
       <span class="tick" aria-hidden="true">${r.done ? "✓" : ""}</span>
       <div class="ob"><div class="ot">${r.title}<span class="sr">${r.done ? " — " + O.doneWord : ""}</span></div>
         <div class="os">${r.sub}</div>${r.extra || ""}
-        ${r.action ? `<div class="row">${r.action}</div>` : ""}</div></li>`).join("")}</ol>
-  </div>`;
+        ${r.action ? `<div class="row">${r.action}</div>` : ""}</div></li>`).join("")}</ol>` };
 }
 
 /* Pin names for the offline map. Without tiles there are no place names at
@@ -3500,7 +3536,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.rename){ openGate(); return; }
@@ -3538,6 +3574,10 @@ document.addEventListener("click", async (e) => {
     if(!track || !track._goTo) return;
     track._goTo(t.dataset.pgo != null ? Number(t.dataset.pgo) : (deckPos[deck.dataset.deck] || 0) + Number(t.dataset.pstep), true);
     return;
+  }
+  if(t.dataset.nowopen){
+    nowOpen = nowOpen === t.dataset.nowopen ? null : t.dataset.nowopen;
+    render(); return;
   }
   if(t.hasAttribute("data-more")){
     const card = t.closest(".pass");

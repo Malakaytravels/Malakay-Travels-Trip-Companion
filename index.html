@@ -181,13 +181,16 @@ body.deckmode{padding-bottom:0}
 @media (min-width:560px){.passtrack{margin:0}}
 .passtrack::-webkit-scrollbar{display:none}
 .passtrack:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-2px;border-radius:var(--r)}
-.passwrap{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex}
+.passwrap{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;border-radius:28px;
+  box-shadow:0 2px 4px rgba(4,32,43,.12),0 22px 44px -18px rgba(4,32,43,.55)}
+.passwrap.today{box-shadow:0 0 0 3px rgba(56,195,192,.75),0 22px 44px -18px rgba(4,32,43,.55)}
 .pass{
   position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;color:#fff;isolation:isolate;
   height:var(--deckH,640px);border-radius:28px;background:var(--abyss);
-  box-shadow:0 2px 4px rgba(4,32,43,.12),0 22px 44px -18px rgba(4,32,43,.55);
+  /* overflow:hidden alone does not clip a blurred layer to rounded corners
+     on every phone (Safari); clip-path does, on all of them. */
+  clip-path:inset(0 round 28px);
 }
-.pass.today{box-shadow:0 0 0 3px rgba(56,195,192,.75),0 22px 44px -18px rgba(4,32,43,.55)}
 /* Day cards: the photo covers the whole card, darkening from the title down. */
 .pass.k-day::after{content:"";position:absolute;inset:0;z-index:-1;
   background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 15%,rgba(4,32,43,0) 36%,rgba(4,32,43,.55) 56%,rgba(4,32,43,.9) 78%,rgba(4,32,43,.96) 100%),var(--img);
@@ -936,7 +939,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v65 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v66 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2020,8 +2023,15 @@ const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg","img/
    Rules marked head are general place photos ("Coron", "Tokyo"); the rest
    name something specific (a wreck, Nacpan Beach, an onsen). Dive days only
    ever get underwater shots; land days never do. */
-function dayPhotoCands(d){
+/* The last day of a trip that lands in Warsaw shows Warsaw, not the
+   destination. Until day-warsaw.jpg exists the card falls back to the
+   day's next photo (see viewDays), so it is never blank. */
+const HOME_PHOTO = "img/day-warsaw.jpg";
+const isHomecoming = d => d === trip.days[trip.days.length - 1] && d.coords
+  && Math.abs(d.coords[0] - 52.17) < 0.3 && Math.abs(d.coords[1] - 20.97) < 0.3;
+function dayPhotoCands(d, home){
   if(d.photo) return {list:[d.photo], strength:9};
+  if(home !== false && isHomecoming(d)) return {list:[HOME_PHOTO], strength:9};
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
   const body = (d.items || []).map(([, x]) => both(x)).concat((d.dives || []).map(v => both(v.site))).join(" ");
@@ -2047,11 +2057,11 @@ function dayPhotoCands(d){
    A day whose own options are all taken borrows an unused photo from this
    trip's own destinations — preferring one that matches the day — never
    one from somewhere the trip does not go. */
-function dayPhotos(days){
+function dayPhotos(days, home){
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const text = d => [both(d.title), both(d.base), ...(d.items || []).map(([, x]) => both(x)), ...(d.dives || []).map(v => both(v.site))].join(" ");
   const tripText = days.map(text).join(" ");
-  const cands = days.map(dayPhotoCands);
+  const cands = days.map(d => dayPhotoCands(d, home));
   const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
   const stays = trip.hotels.filter(h => h.photo).map(h => h.photo);
   const poolFor = dive => [...new Set([
@@ -2103,7 +2113,7 @@ function deckHTML(key, cards, start, ariaLabel){
       ${arrow(1, W.next, cur === cards.length - 1)}
     </div>
     <div class="passtrack" tabindex="0" aria-label="${esc(ariaLabel)} — ${W.swipe}">${
-      cards.map((c, i) => `<div class="passwrap" data-label="${esc(c.label)}">${c.html}</div>`).join("")}</div>
+      cards.map((c, i) => `<div class="passwrap ${/\btoday\b/.test(c.dot || "") ? "today" : ""}" data-label="${esc(c.label)}">${c.html}</div>`).join("")}</div>
   </div>`;
 }
 /* The "More info" sheet shared by every card. */
@@ -2123,7 +2133,7 @@ function viewDays(){
   const KD = lang === "pl"
     ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", deck:"Dni wyprawy"}
     : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", deck:"Trip days"};
-  const photos = dayPhotos(trip.days);
+  const photos = dayPhotos(trip.days), photosAway = dayPhotos(trip.days, false);
   const cards = trip.days.map((d, i) => {
     const isToday = d.date === t;
     const kinds = (d.items || []).map(([, x]) => lineKind(x));
@@ -2132,7 +2142,9 @@ function viewDays(){
     const kind = dive ? "dive" : moving * 2 >= Math.max(1, kinds.length) ? "travel" : "land";
     const nDives = (d.dives || []).length;
     const dt = dateOnly(d.date);
-    const img = photos[i];
+    /* Two layers for the homecoming day: Warsaw on top, the day's next photo
+       underneath, shown if the Warsaw file has not been added yet. */
+    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}` : photos[i];
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
     const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));

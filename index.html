@@ -907,7 +907,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v63 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v64 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1989,40 +1989,47 @@ const PHOTO_RULES = [
   {water:false, rx:/hills|valley|trek|springs|źródł/i,              img:["img/hero-valley.jpg"]}
 ];
 const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg"];
-function dayPhoto(d, prev){
-  if(d.photo) return d.photo;
+/* Every photo that truly fits a day, best first, with how strongly the
+   best one belongs to it: 3 = the title names it (the thresher day),
+   2 = the plan or the place names it, 1 = the hotel or a general photo.
+   Rules marked head are general place photos ("Coron", "Tokyo"); the rest
+   name something specific (a wreck, Nacpan Beach, an onsen). Dive days only
+   ever get underwater shots; land days never do. */
+function dayPhotoCands(d){
+  if(d.photo) return {list:[d.photo], strength:9};
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
   const body = (d.items || []).map(([, x]) => both(x)).concat((d.dives || []).map(v => both(v.site))).join(" ");
   const dive = isDiveDay(d);
   const all = head + " " + body;
   const pool = PHOTO_RULES.filter(r => r.water === dive && (!r.where || r.where.test(all)));
-  const pick = list => list.find(x => x !== prev) || list[0];
-  /* Rules marked head are general place photos ("Coron", "Tokyo"); the rest
-     name something specific (a wreck, Nacpan Beach, an onsen).
-     1. Something specific in the title wins outright, even if yesterday
-        showed the same — the thresher day shows the thresher.
-     2. Otherwise something specific in the plan, then the place in the
-        title, then where you sleep that night (or woke up) — avoiding
-        yesterday's photo when another true one exists.
-     3. Only when nothing about the day matches: the trip's general photos.
-     Dive days only ever get underwater shots; land days never do. */
   const specific = pool.filter(r => !r.head);
-  const t1 = specific.filter(r => r.rx.test(head)).flatMap(r => r.img);
-  if(t1.length) return pick(t1);
   const stays = trip.hotels.filter(h => !h.optional && h.photo);
   const hotel = stays.find(h => daysBetween(h.checkIn, d.date) >= 0 && daysBetween(d.date, h.checkOut) > 0)
              || stays.find(h => h.checkOut === d.date);
-  const relevant = [
-    ...specific.filter(r => r.rx.test(body)).flatMap(r => r.img),
-    ...pool.filter(r => r.head && r.rx.test(head)).flatMap(r => r.img),
-    ...(dive ? [] : [hotel && hotel.photo])
-  ].filter(Boolean);
-  if(relevant.length) return pick(relevant);
-  if(dive) return pick(UNDERWATER_DEFAULT);
+  const t1 = specific.filter(r => r.rx.test(head)).flatMap(r => r.img);
+  const t2 = [...specific.filter(r => r.rx.test(body)).flatMap(r => r.img),
+              ...pool.filter(r => r.head && r.rx.test(head)).flatMap(r => r.img)];
   const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
-  const general = [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays.map(h => h.photo)];
-  return pick(general.length ? general : UNDERWATER_DEFAULT);
+  const t3 = dive ? UNDERWATER_DEFAULT
+                  : [hotel && hotel.photo, ...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays.map(h => h.photo)];
+  const list = [...new Set([...t1, ...t2, ...t3].filter(Boolean))];
+  return {list: list.length ? list : UNDERWATER_DEFAULT, strength: t1.length ? 3 : t2.length ? 2 : 1};
+}
+/* Photos for the whole trip at once, so no two days in a row share one.
+   When neighbours want the same photo, the day it belongs to more strongly
+   keeps it (the thresher day keeps the thresher) and the other takes its
+   next true option. */
+function dayPhotos(days){
+  const cands = days.map(dayPhotoCands);
+  const img = cands.map(c => c.list[0]);
+  for(let i = 1; i < days.length; i++){
+    if(img[i] !== img[i - 1]) continue;
+    const j = cands[i].strength > cands[i - 1].strength ? i - 1 : i;
+    const alt = cands[j].list.find(x => x !== img[j - 1] && x !== img[j + 1]);
+    if(alt) img[j] = alt;
+  }
+  return img;
 }
 
 /* ---- Full-screen card decks ---------------------------------------------
@@ -2074,7 +2081,7 @@ function viewDays(){
   const KD = lang === "pl"
     ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", deck:"Dni wyprawy"}
     : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", deck:"Trip days"};
-  let prevImg = "";
+  const photos = dayPhotos(trip.days);
   const cards = trip.days.map((d, i) => {
     const isToday = d.date === t;
     const kinds = (d.items || []).map(([, x]) => lineKind(x));
@@ -2083,7 +2090,7 @@ function viewDays(){
     const kind = dive ? "dive" : moving * 2 >= Math.max(1, kinds.length) ? "travel" : "land";
     const nDives = (d.dives || []).length;
     const dt = dateOnly(d.date);
-    const img = dayPhoto(d, prevImg); prevImg = img;
+    const img = photos[i];
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
     const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));

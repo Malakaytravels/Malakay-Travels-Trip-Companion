@@ -3392,7 +3392,8 @@
       "note": {
         "pl": "Pierwszy dzień nurkowy — 2–3 nurkowania. Irako ma potężne ładownie i światło wpadające przez otwory w kadłubie; Okikawa jest pokryta miękkimi koralami. Wieczorem wracamy na powierzchnię i witamy Nowy Rok.",
         "en": "The first diving day — two or three dives. Irako has vast holds and light falling through the hull; Okikawa is covered in soft coral. In the evening we surface and see the year in."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 6,
@@ -3478,7 +3479,8 @@
       "note": {
         "pl": "Znów 2–3 nurkowania. Akitsushima robi największe wrażenie ogromnym dźwigiem pokładowym, dziś domem dla ławic ryb. Lusong jest tak płytki, że nadaje się nawet na snorkeling.",
         "en": "Two or three dives again. Akitsushima is defined by its huge deck crane, now home to schools of fish. Lusong is shallow enough to snorkel."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 8,
@@ -3664,7 +3666,8 @@
       "note": {
         "pl": "OSTATNI DZIEŃ NURKOWY. Od ostatniego wynurzenia do pierwszego lotu mamy około 42 godziny — bezpiecznie ponad 18-godzinne minimum DAN. Karta na ekranie głównym liczy to dokładnie.",
         "en": "THE LAST DIVING DAY. From the final ascent to the first flight is roughly 42 hours — comfortably beyond DAN's 18-hour minimum. The card on the home screen counts it precisely."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 12,

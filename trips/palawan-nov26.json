@@ -1767,7 +1767,8 @@
       "note": {
         "pl": "Coron uchodzi za jedno z najlepszych miejsc na świecie do nurkowania wrakowego. Dziś 2–3 nurkowania.",
         "en": "Coron is considered one of the best wreck diving destinations in the world. Two to three dives today."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 5,
@@ -1853,7 +1854,8 @@
       "note": {
         "pl": "Od historii ukrytej w stalowych wrakach po tętniące życiem rafy. 2–3 nurkowania.",
         "en": "From history hidden in steel to reefs full of life. Two to three dives."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 7,
@@ -2046,7 +2048,8 @@
       "note": {
         "pl": "Ostatni dzień nurkowy wyprawy. Po nim zostaje ponad doba do pierwszego lotu.",
         "en": "The last diving day of the trip. Over a day before the first flight after it."
-      }
+      },
+      "diveDay": true
     },
     {
       "n": 11,

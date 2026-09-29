@@ -152,6 +152,40 @@ section{padding-top:6px}
 .sched{display:grid;grid-template-columns:56px 1fr;gap:4px 12px;margin:4px 0 0}
 .sched .t{font-family:'IBM Plex Mono';font-size:12px;color:var(--ochre);font-weight:600;padding-top:2px}
 .sched .x{font-size:14px;padding-bottom:6px}
+/* Diving / non-diving switch at the top of DAYS. Two equal halves,
+   48px tall for wet hands, teal marks the active one. */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--slate-2);border-radius:12px;padding:4px;margin:14px 0 6px}
+.seg button{
+  min-height:48px;border:none;border-radius:9px;background:transparent;color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  padding:7px 8px;text-align:center;line-height:1.15;-webkit-tap-highlight-color:transparent;
+  font-family:'Archivo';font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+  transition:background .18s ease-out,color .18s ease-out;
+}
+.seg button .c{font-family:'IBM Plex Mono';font-size:10.5px;font-weight:500;letter-spacing:.08em;color:var(--muted);transition:color .18s ease-out}
+.seg button[aria-selected="true"]{background:var(--reef-dim);color:#fff}
+.seg button[aria-selected="true"] .c{color:#D4F1EE}
+.seg button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.seg .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--reef);margin-left:6px;vertical-align:middle}
+.seglead{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
+@media (prefers-reduced-motion:reduce){.seg button,.seg button .c{transition:none}}
+/* Ready for no signal — checklist on NOW */
+.offlist{list-style:none;margin:14px 0 0;padding:0}
+.offlist li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--slate-2)}
+.offlist .tick{flex:none;width:26px;height:26px;border-radius:50%;border:2px solid var(--slate-2);
+  display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;margin-top:1px}
+.offlist li.done .tick{background:var(--reef-dim);border-color:var(--reef-dim)}
+.offlist .ob{flex:1;min-width:0}
+.offlist .ot{font-family:'Archivo';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+.offlist .os{font-size:13.5px;color:var(--muted);margin-top:2px}
+.offlist .row{margin-top:8px}
+.offlist .btn{min-height:44px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* Pin names on the offline map */
+.leaflet-tooltip.mklabel{background:rgba(7,26,36,.86);color:#F1EBDD;border:1px solid #1B5566;border-radius:6px;
+  box-shadow:none;padding:2px 6px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em}
+.leaflet-tooltip.mklabel::before{display:none}
+#map:not(.zoomed-in) .mklabel:not(.mklabel-hotel){display:none}
 .dive{background:#EAF4F3;border:1px solid #CBE3E1;border-radius:10px;padding:10px 12px;margin-top:8px}
 .dive .n{font-family:'Archivo';font-weight:700;font-size:14px}
 .dive .m{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);letter-spacing:.05em;text-transform:uppercase}
@@ -674,11 +708,16 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v55 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v58 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
   if(!res.ok) throw new Error("HTTP " + res.status);
+  /* The service worker marks a copy served from the phone. Anything else
+     came from the server just now — remember when, for the NOW screen. */
+  if(!res.headers.get("x-malakay-offline")){
+    try{ await window.storage.set(K("tripFetchedAt"), String(Date.now())); }catch(e){}
+  }
   return await res.json();
 }
 
@@ -763,7 +802,31 @@ const UI = {
     docsAdd:"Dodaj je przed wylotem — działają bez zasięgu.", add:"Dodaj",
     installTitle:"Dodaj do ekranu głównego", installBody:"żeby otwierało się jak aplikacja i działało bez zasięgu.",
     installIos:'Dotknij Udostępnij, potem „Do ekranu początkowego” — wtedy zadziała bez zasięgu.',
-    dayByDay:"Plan dzień po dzień", maxDepth:"Maks.", showOnMap:"Pokaż na mapie",
+    dayByDay:"Plan dzień po dzień", divingItinerary:"Plan nurkowań", nonDiving:"Poza nurkowaniem",
+    divingLead:"Dni nurkowe — nurkowiska, głębokości i to, na co polujemy pod wodą.",
+    nonDivingLead:"Podróże, odpoczynek i wycieczki lądowe — dla osób nienurkujących i na dni między nurkowaniami.",
+    off:{
+      eyebrow:"Gotowi na brak zasięgu", intro:"Zrób to w domu, na Wi‑Fi. Na łodzi i na wyspach zasięgu często nie ma.",
+      allReady:"Wszystko zapisane w telefonie", allReadySub:"Plan, dokumenty i mapa działają bez internetu.",
+      doneWord:"gotowe",
+      homeTitle:"Aplikacja na ekranie głównym", homeDone:"Otwierasz ją z ikony — tak działa najpewniej offline.",
+      homeIos:"Safari → Udostępnij → Do ekranu początkowego. Potem otwórz ją raz z ikony, z internetem — iPhone trzyma jej dane osobno od Safari.",
+      homeOther:"Menu przeglądarki → Dodaj do ekranu głównego. Potem otwórz ją raz z ikony, z internetem.",
+      tripTitle:"Plan wyprawy zapisany w telefonie", tripSaved:"Plan, loty, noclegi i zdjęcia są w telefonie.",
+      tripUpdated:"Zapisany w telefonie · ostatnia aktualizacja", tripNotYet:"Jeszcze nie — zamknij i otwórz aplikację raz, z internetem.",
+      mapTitle:"Mapa offline", saveMap:"Zapisz mapę", saveAgain:"Zapisz ponownie", tryAgain:"Spróbuj ponownie",
+      mapNotSaved:"Zapisz mapę okolic hoteli, miasteczek i nurkowisk (ok. 10–40 MB — najlepiej na Wi‑Fi).",
+      mapNeedsSignal:"Potrzebny internet, żeby zapisać mapę. Bez niej offline widać linię brzegową, trasę i nazwy przystanków.",
+      mapSaving:"Zapisuję mapę…", mapFailed:"Nie udało się zapisać całej mapy — sprawdź połączenie i spróbuj ponownie.",
+      mapSaved:"Zapisana", keptUntil:"ważna do",
+      saveAgainFrom:"Najlepiej zapisać od", saveAgainWhy:"— mapa może zostać w telefonie 30 dni, więc wtedy wystarczy do końca wyprawy.",
+      saveAgainNow:"Ta kopia wygaśnie przed końcem wyprawy — zapisz ponownie.",
+      mapTerms:"Dostawca map (CARTO) pozwala trzymać mapę w telefonie do 30 dni — potem aplikacja sama ją usuwa.",
+      mapOfflineSaved:"Offline: zapisana mapa, trasa i przystanki",
+      gmapsTitle:"Region w Google Maps offline",
+      gmapsHow:"Przyciski „Otwórz w Mapach” prowadzą do Google Maps. Otwórz region → dotknij swojego zdjęcia → Mapy offline → Wybierz własną mapę → Pobierz.",
+      openGmaps:"Otwórz Google Maps", markDone:"Zrobione", undo:"Cofnij"
+    }, maxDepth:"Maks.", showOnMap:"Pokaż na mapie",
     flights:"Loty", flightNote:"Przycisk otwiera zewnętrzny tracker lotu. Zawsze ufaj aplikacji linii i tablicy na lotnisku bardziej niż temu ekranowi.",
     checkStatus:"Śledź lot", numberPending:"Numer rejsu podamy przed wylotem", trackNote:"Strona pokazuje historię tego rejsu — sprawdź datę swojego lotu na liście.",
     bookingRef:"Rezerwacja", room:"Pokój", phone:"Telefon", address:"Adres",
@@ -875,7 +938,31 @@ const UI = {
     docsAdd:"Add them before you fly — they work offline.", add:"Add",
     installTitle:"Add this to your home screen", installBody:"so it opens like an app and works without signal.",
     installIos:'Tap Share, then "Add to Home Screen" — it will then work without signal.',
-    dayByDay:"Day by day", maxDepth:"Max", showOnMap:"Show on map",
+    dayByDay:"Day by day", divingItinerary:"Diving itinerary", nonDiving:"Non-diving activities",
+    divingLead:"Dive days — the sites, the depths and what we are looking for underwater.",
+    nonDivingLead:"Travel, rest and land excursions — for non-divers, and for the days between dives.",
+    off:{
+      eyebrow:"Ready for no signal", intro:"Do this at home on Wi‑Fi. On the boat and the islands there is often no signal.",
+      allReady:"Everything is on your phone", allReadySub:"Your plan, documents and map work without internet.",
+      doneWord:"done",
+      homeTitle:"App on your home screen", homeDone:"You are opening it from the icon — the most reliable way offline.",
+      homeIos:"Safari → Share → Add to Home Screen. Then open it once from the icon, with internet — iPhone keeps its data separate from Safari.",
+      homeOther:"Browser menu → Add to Home screen. Then open it once from the icon, with internet.",
+      tripTitle:"Trip saved on this phone", tripSaved:"Plan, flights, hotels and photos are on your phone.",
+      tripUpdated:"Saved on this phone · last updated", tripNotYet:"Not yet — close and reopen the app once while online.",
+      mapTitle:"Offline map", saveMap:"Save map", saveAgain:"Save again", tryAgain:"Try again",
+      mapNotSaved:"Save the map around your hotels, towns and dive sites (about 10–40 MB — best on Wi‑Fi).",
+      mapNeedsSignal:"Needs internet to save. Without it, offline shows the coastline, route and stop names.",
+      mapSaving:"Saving map…", mapFailed:"Could not save the whole map — check your connection and try again.",
+      mapSaved:"Saved", keptUntil:"kept until",
+      saveAgainFrom:"Best saved from", saveAgainWhy:"— the map may stay on the phone for 30 days, so from then it lasts the whole trip.",
+      saveAgainNow:"This copy expires before the trip ends — save it again.",
+      mapTerms:"Our map provider (CARTO) allows the map to be kept on your phone for up to 30 days — after that the app removes it.",
+      mapOfflineSaved:"Offline: saved map, route and stops",
+      gmapsTitle:"Region downloaded in Google Maps",
+      gmapsHow:"“Open in Maps” buttons go to Google Maps. Open the region → tap your profile picture → Offline maps → Select your own map → Download.",
+      openGmaps:"Open Google Maps", markDone:"Done", undo:"Undo"
+    }, maxDepth:"Max", showOnMap:"Show on map",
     flights:"Flights", flightNote:"The button opens an external flight tracker. Always trust the airline app and the airport board over this screen.",
     checkStatus:"Track flight", numberPending:"Flight number confirmed before departure", trackNote:"The tracker lists this flight's recent history — check the date of your own flight in the list.",
     bookingRef:"Booking", room:"Room", phone:"Phone", address:"Address",
@@ -961,6 +1048,7 @@ let trip = null;
 let tab = "now";
 let wx = null, marine = null, wxKey = null;
 let openFactGroup = 0;   // which fact section is open
+let daysMode = null;     // DAYS tab: "dive" or "land"; null until first shown
 let gearTicked = {};     // gear item id -> true, saved on this device
 let openGearGroup = 0;
 let diveLog = [];        // {id, date, site, depth, time, buddy, saw, notes}
@@ -1279,6 +1367,7 @@ function nextFlight(){
 /* ---------------- weather ---------------- */
 let wxAt = null;          // when the current reading was taken
 let wxStale = false;      // true when we are showing a saved reading
+let wxFailAt = 0;         // last failed fetch — no retry for a minute
 
 /* Last good reading is kept on the device so the app still has
    something to show on a boat with no signal. */
@@ -1298,12 +1387,16 @@ async function restoreWx(key){
 
 async function getWeather(lat,lng){
   const key = `${lat.toFixed(2)},${lng.toFixed(2)}`;
+  /* render() calls this, and this calls render(). With no signal the fetch
+     fails at once, so without a pause the two chased each other hundreds
+     of times a second — flat battery, and buttons replaced mid-tap. */
+  if(Date.now() - wxFailAt < 60000 && wxKey === key) return;
   if(wxKey === key && wx && !wxStale) return;   // fresh already, nothing to do
   if(wxKey !== key){ wx = null; marine = null; wxAt = null; wxStale = false; }
   wxKey = key;
 
   // Show the saved reading immediately, then try to better it.
-  if(!wx){ if(await restoreWx(key)) render(); }
+  if(!wx){ if(await restoreWx(key) && (tab === "now" || tab === "days")) render(); }
 
   let got = false;
   try{
@@ -1324,10 +1417,13 @@ async function getWeather(lat,lng){
     wxAt = new Date(); wxStale = false;
     cacheWx(key);
   }else{
-    // Failed. Let a later attempt try again instead of giving up for good.
-    if(!wx) wxKey = null;
+    // Failed. Try again after a pause (or when signal returns), not at once.
+    wxFailAt = Date.now();
   }
-  render(); band();
+  /* Weather shows on NOW and DAYS only. Re-rendering MAP for it rebuilt the
+     map mid fly-in and left the old intro's handlers pointing at a dead map. */
+  if(tab === "now" || tab === "days") render();
+  band();
 }
 
 /* ---------------- instrument band ---------------- */
@@ -1517,7 +1613,7 @@ function viewNow(){
           ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
           : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
     </div>`;
-  })() : (navigator.onLine
+  })() : (navigator.onLine && !wxFailAt
     ? `<div class="card"><span class="spin"></span>${U().loadingCond}</div>`
     : `<div class="card">
         <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
@@ -1588,16 +1684,45 @@ function viewNow(){
     </div>
   </div>` : "";
 
-  return head + nextBlock + installBlock + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
+  return head + nextBlock + installBlock + offlineBlock() + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
+}
+
+/* A dive day either lists its dives, or is flagged diveDay in the trip
+   file when the sites are written into the schedule instead. */
+const isDiveDay = d => (d.dives || []).length > 0 || d.diveDay === true;
+
+function dayCount(n){
+  if(n === 1) return lang === "pl" ? "1 dzień" : "1 day";
+  return `${n} ${U().days_}`;
 }
 
 function viewDays(){
   const t = todayISO();
+  const diveDays = trip.days.filter(isDiveDay);
+  const landDays = trip.days.filter(d => !isDiveDay(d));
+  /* A trip with no diving has nothing to switch between — show every day. */
+  const split = diveDays.length > 0 && landDays.length > 0;
+  if(split && !daysMode){
+    const today = trip.days.find(d => d.date === t);
+    daysMode = today && !isDiveDay(today) ? "land" : "dive";
+  }
+  const list = !split ? trip.days : daysMode === "land" ? landDays : diveDays;
+  const hasToday = ds => ds.some(d => d.date === t);
+  const segBtn = (mode, label, ds) =>
+    `<button role="tab" id="seg-${mode}" aria-controls="daylist" aria-selected="${daysMode===mode}" data-dmode="${mode}">
+      <span>${label}${hasToday(ds) && daysMode!==mode ? `<span class="dot" aria-label="${U().today}"></span>` : ""}</span>
+      <span class="c">${dayCount(ds.length)}</span></button>`;
+
   return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
-    <span class="pill">${trip.days.length} ${U().days_}</span></div>` +
-  trip.days.map(d=>{
+    <span class="pill">${dayCount(trip.days.length)}</span></div>` +
+  (split ? `<div class="seg" role="tablist" aria-label="${U().dayByDay}">
+      ${segBtn("dive", U().divingItinerary, diveDays)}
+      ${segBtn("land", U().nonDiving, landDays)}</div>
+    <p class="seglead">${daysMode==="land" ? U().nonDivingLead : U().divingLead}</p>` : "") +
+  `<div id="daylist" ${split ? `role="tabpanel" aria-labelledby="seg-${daysMode}"` : ""}>` +
+  list.map((d, i)=>{
     const isToday = d.date === t, past = daysBetween(d.date,t) > 0;
-    const open = isToday || (tripPhase().phase==="before" && d.n===1);
+    const open = isToday || (tripPhase().phase==="before" && i===0);
     return `<div class="day ${isToday?"today":""} ${past?"past":""}">
       <button class="daybtn" data-day="${d.n}" aria-expanded="${open}">
         <span class="dnum">D${String(d.n).padStart(2,"0")}<br>${fmtDate(d.date).split(",")[0]}</span>
@@ -1612,7 +1737,7 @@ function viewDays(){
         ${d.note?`<p class="note" style="margin-top:10px">${esc(tr(d.note))}</p>`:""}
         ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${U().showOnMap} · ${esc(tr(d.base))}</button></div>`:""}
       </div></div>`;
-  }).join("");
+  }).join("") + `</div>`;
 }
 
 function viewFlights(){
@@ -2211,7 +2336,26 @@ function viewMap(){
       <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
       <span><i style="background:var(--coral)"></i>${U().legTown}</span>
       <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
-    </div>`;
+    </div>` + mapCardHTML();
+}
+
+function mapCardHTML(){
+      const m = mapSaveRow();
+      return `<div class="card" id="mapsavecard">
+        <div class="hd"><div><div class="eyebrow">${U().off.mapTitle}</div>
+          <p class="sub" style="margin-top:6px">${m.sub}</p></div>
+          <span class="pill ${m.done?"ok":""}">${m.done ? "✓" : "Offline"}</span></div>
+        ${m.extra || ""}
+        ${m.action ? `<div class="row">${m.action}</div>` : ""}
+        <p class="note" style="margin-top:10px">${U().off.mapTerms}</p>
+      </div>`;
+}
+
+/* Re-render without redrawing the map: on MAP only its card changes. */
+function refreshOfflineUI(){
+  const card = document.getElementById("mapsavecard");
+  if(tab === "map" && card) card.outerHTML = mapCardHTML();
+  else render();
 }
 
 function viewGuide(){
@@ -2426,7 +2570,7 @@ function drawLand(){
     landLayer = L.polygon(polys, {
       stroke:true, color:"#1B5566", weight:0.7,
       fill:true, fillColor:"#0B2C38", fillOpacity:1,
-      interactive:false, renderer: L.canvas()
+      interactive:false, pane:"land", renderer: L.canvas({pane:"land"})
     }).addTo(map);
   }
   landLayer.bringToBack();
@@ -2470,8 +2614,259 @@ function mapOfflineNote(on){
     n.innerHTML = '<span class="dot"></span><span></span>';
     box.insertAdjacentElement("afterend", n);
   }
-  n.querySelector("span:last-child").textContent = U().mapOffline;
+  n.querySelector("span:last-child").textContent = mapSave ? U().off.mapOfflineSaved : U().mapOffline;
   n.classList.toggle("on", !!on);
+}
+
+/* ---- Offline map ---------------------------------------------------------
+   The service worker keeps CARTO tiles in their own cache, stamped, for at
+   most 30 days — the limit in CARTO's basemap terms. "Save map" fetches the
+   tiles for this trip ahead of time: a world view for the fly-in, the trip
+   region, and street level around every hotel, town and airport (dive
+   sites stop at z13 — there are no streets at sea). Names must match sw.js. */
+const TILE_CACHE = "malakay-tiles";
+const TILE_MAX_AGE_DAYS = 30;
+let mapSave = null;        // {at, count, bytes} for this trip, once saved
+let mapSaving = null;      // {done, total, failed} while a save is running
+
+function lon2tile(lng, z){ return Math.floor((lng + 180) / 360 * 2 ** z); }
+function lat2tile(lat, z){
+  const r = lat * Math.PI / 180;
+  return Math.floor((1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * 2 ** z);
+}
+
+function tripTiles(){
+  const set = new Set();
+  const add = (z, x, y) => { if(x >= 0 && y >= 0 && x < 2 ** z && y < 2 ** z) set.add(z + "/" + x + "/" + y); };
+  /* The fly-in from Warsaw crosses half the world at z2–3. */
+  for(let z = 2; z <= 3; z++) for(let x = 0; x < 2 ** z; x++) for(let y = 0; y < 2 ** z; y++) add(z, x, y);
+  /* Region: the hotels frame the trip. Places can include Warsaw, which
+     would stretch the box across a continent. */
+  const hc = trip.hotels.map(h => h.coords).filter(Boolean);
+  if(hc.length){
+    let n = Math.max(...hc.map(c => c[0])), s = Math.min(...hc.map(c => c[0]));
+    let e = Math.max(...hc.map(c => c[1])), w = Math.min(...hc.map(c => c[1]));
+    /* Squared first: a tall phone map fitted to a north–south trip like
+       Palawan shows far more east–west than the hotels span. */
+    const side = Math.max(n - s, e - w), cy0 = (n + s) / 2, cx0 = (e + w) / 2;
+    n = cy0 + side / 2; s = cy0 - side / 2; e = cx0 + side / 2; w = cx0 - side / 2;
+    const pad = side * .25 + .5;
+    n += pad; s -= pad; e += pad; w -= pad;
+    for(let z = 4; z <= 10; z++){
+      const x0 = lon2tile(w, z), x1 = lon2tile(e, z), y0 = lat2tile(n, z), y1 = lat2tile(s, z);
+      if((x1 - x0 + 1) * (y1 - y0 + 1) > 400) continue;
+      for(let x = x0; x <= x1; x++) for(let y = y0; y <= y1; y++) add(z, x, y);
+    }
+  }
+  /* The fly-in: it opens over Warsaw at z5, passes through z4–6 on the way
+     and descends into the region. Without this band the first seconds of
+     the intro were dark offline, with the saved map appearing only once the
+     plane reached the trip. Five tiles wide covers a phone-sized map. */
+  if(hc.length){
+    const end = [(Math.max(...hc.map(c => c[0])) + Math.min(...hc.map(c => c[0]))) / 2,
+                 (Math.max(...hc.map(c => c[1])) + Math.min(...hc.map(c => c[1]))) / 2];
+    for(let i = 0; i <= 64; i++){
+      const [lat, lng] = greatCircle(WAW, end, i / 64);
+      for(let z = 4; z <= 6; z++){
+        const cx = lon2tile(lng, z), cy = lat2tile(lat, z);
+        for(let dx = -2; dx <= 2; dx++) for(let dy = -2; dy <= 2; dy++) add(z, cx + dx, cy + dy);
+      }
+    }
+  }
+  const stops = trip.hotels.map(h => ({c: h.coords, type: "hotel"}))
+    .concat(trip.places.map(p => ({c: p.coords, type: p.type})));
+  stops.forEach(st => {
+    if(!st.c) return;
+    const top = st.type === "dive" ? 13 : 15;
+    for(let z = 11; z <= top; z++){
+      const cx = lon2tile(st.c[1], z), cy = lat2tile(st.c[0], z);
+      for(let dx = -1; dx <= 1; dx++) for(let dy = -1; dy <= 1; dy++) add(z, cx + dx, cy + dy);
+    }
+  });
+  /* Exactly what Leaflet will ask for, so the service worker finds it. */
+  const r = (window.L && L.Browser.retina) ? "@2x" : "";
+  const base = tileUrl();
+  return [...set].map(k => {
+    const [z, x, y] = k.split("/");
+    return base.replace("{s}", "a").replace("{z}", z).replace("{x}", x).replace("{y}", y).replace("{r}", r);
+  });
+}
+
+async function loadMapSave(){
+  try{
+    const v = await window.storage.get(K("offlineMap"));
+    mapSave = JSON.parse(v.value);
+  }catch(e){ mapSave = null; }
+  if(mapSave && mapExpiry() <= new Date()) mapSave = null;
+}
+function mapExpiry(){
+  return mapSave ? new Date(mapSave.at + TILE_MAX_AGE_DAYS * 864e5) : null;
+}
+
+async function saveMapOffline(){
+  if(mapSaving || !navigator.onLine) return;
+  const urls = tripTiles();
+  mapSaving = { done: 0, total: urls.length, failed: 0 };
+  refreshOfflineUI();
+  /* Ask the browser not to clear our storage when the phone runs low. */
+  try{ if(navigator.storage && navigator.storage.persist) await navigator.storage.persist(); }catch(e){}
+  const viaWorker = !!(navigator.serviceWorker && navigator.serviceWorker.controller);
+  const c = await caches.open(TILE_CACHE);
+  let bytes = 0, i = 0;
+  const one = async (u) => {
+    try{
+      /* With the service worker in charge it stores the tile itself. On the
+         very first visit it is not in charge yet, so store it here. */
+      const res = await fetch(u, { mode: "cors", credentials: "omit" });
+      if(!res.ok) throw new Error(res.status);
+      const blob = await res.blob();
+      bytes += blob.size;
+      if(!viaWorker){
+        const headers = new Headers(res.headers);
+        headers.set("x-malakay-saved", String(Date.now()));
+        await c.put("https://a.basemaps.cartocdn.com" + new URL(u).pathname + new URL(u).search,
+          new Response(blob, { status: 200, headers }));
+      }
+    }catch(e){ mapSaving.failed++; }
+    mapSaving.done++;
+  };
+  const worker = async () => { while(i < urls.length){ await one(urls[i++]); updateMapProgress(); } };
+  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  const ok = mapSaving.done - mapSaving.failed;
+  /* Most tiles in: good enough — a stray missing tile falls back to the
+     coastline. Mostly failures means the provider refused or signal died. */
+  if(ok >= mapSaving.total * 0.9){
+    mapSave = { at: Date.now(), count: ok, bytes };
+    try{ await window.storage.set(K("offlineMap"), JSON.stringify(mapSave)); }catch(e){}
+    mapSaving = null;
+  } else {
+    mapSaving = { ...mapSaving, error: true };
+  }
+  refreshOfflineUI();
+  checkOffline();
+}
+
+function updateMapProgress(){
+  if(!mapSaving) return;
+  document.querySelectorAll("[data-mapprog]").forEach(el => {
+    el.style.width = Math.round(mapSaving.done / mapSaving.total * 100) + "%";
+  });
+  document.querySelectorAll("[data-mapcount]").forEach(el => {
+    el.textContent = `${mapSaving.done} / ${mapSaving.total}`;
+  });
+}
+
+function fmtMB(b){ return (b / 1048576).toFixed(b > 10485760 ? 0 : 1) + " MB"; }
+function fmtShort(d){ return d.toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB", {day:"numeric", month:"short"}); }
+
+/* Status line + action for the offline map. Shared by NOW and MAP. */
+function mapSaveRow(){
+  const O = U().off;
+  if(mapSaving && !mapSaving.error){
+    return { done: false, sub: `${O.mapSaving} <span class="mono" data-mapcount>${mapSaving.done} / ${mapSaving.total}</span>`,
+      extra: `<div class="prog" style="margin-top:8px"><i data-mapprog style="width:${Math.round(mapSaving.done/mapSaving.total*100)}%"></i></div>`,
+      action: "" };
+  }
+  if(mapSaving && mapSaving.error){
+    return { done: false, sub: navigator.onLine ? O.mapFailed : O.mapNeedsSignal,
+      action: navigator.onLine ? `<button class="btn" data-savemap="1">${O.tryAgain}</button>` : "" };
+  }
+  /* One save covers 30 days. Only a copy that lasts to the last day of the
+     trip counts as done; otherwise say when a save would last. */
+  const end = dateOnly(trip.meta.end);
+  const bestFrom = new Date(end.getTime() - (TILE_MAX_AGE_DAYS - 1) * 864e5);
+  const early = new Date() < bestFrom;
+  const when = early ? `<br><b>${O.saveAgainFrom} ${fmtShort(bestFrom)}</b> ${O.saveAgainWhy}` : "";
+  if(mapSave){
+    const exp = mapExpiry();
+    const lapses = exp < end;
+    return { done: !lapses,
+      sub: `${O.mapSaved} ${fmtShort(new Date(mapSave.at))} · ${fmtMB(mapSave.bytes)} · ${O.keptUntil} ${fmtShort(exp)}`
+        + (lapses ? when || `<br>${O.saveAgainNow}` : ""),
+      action: lapses && !early && navigator.onLine ? `<button class="btn" data-savemap="1">${O.saveAgain}</button>` : "" };
+  }
+  return { done: false, sub: (navigator.onLine ? O.mapNotSaved : O.mapNeedsSignal) + (navigator.onLine ? when : ""),
+    action: navigator.onLine ? `<button class="btn ${early?"ghost":""}" data-savemap="1">${O.saveMap}</button>` : "" };
+}
+
+/* ---- Ready for no signal -------------------------------------------------
+   What a client needs on the phone before they lose signal, checked for
+   real where the app can check it, ticked by hand where it cannot. */
+let offlineStatus = { trip: false, at: null };
+let gmapsDone = false;
+
+async function checkOffline(){
+  let tripOk = false;
+  try{
+    tripOk = !!(navigator.serviceWorker && navigator.serviceWorker.controller)
+      && !!(await caches.match("trips/" + TRIP_ID + ".json"))
+      && !!(await caches.match("index.html"));
+  }catch(e){}
+  let at = null;
+  try{ at = Number((await window.storage.get(K("tripFetchedAt"))).value) || null; }catch(e){}
+  try{ gmapsDone = (await window.storage.get(K("gmapsOffline"))).value === "1"; }catch(e){ gmapsDone = false; }
+  const changed = tripOk !== offlineStatus.trip || at !== offlineStatus.at;
+  offlineStatus = { trip: tripOk, at };
+  if(changed && tab === "now") render();
+}
+
+function offlineBlock(){
+  const p = tripPhase();
+  if(p.phase === "after") return "";
+  const O = U().off;
+  const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  const m = mapSaveRow();
+  const hc = trip.hotels.map(h => h.coords).filter(Boolean);
+  const mid = hc.length
+    ? [hc.reduce((a, c) => a + c[0], 0) / hc.length, hc.reduce((a, c) => a + c[1], 0) / hc.length]
+    : null;
+  const rows = [
+    { done: !!standalone, title: O.homeTitle,
+      sub: standalone ? O.homeDone : (/iPad|iPhone|iPod/.test(navigator.userAgent) ? O.homeIos : O.homeOther) },
+    { done: offlineStatus.trip, title: O.tripTitle,
+      sub: offlineStatus.trip
+        ? (offlineStatus.at ? `${O.tripUpdated} ${new Date(offlineStatus.at).toLocaleString(lang==="pl"?"pl-PL":"en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}` : O.tripSaved)
+        : O.tripNotYet },
+    { done: m.done, title: O.mapTitle, sub: m.sub, extra: m.extra || "", action: m.action },
+    { done: gmapsDone, title: O.gmapsTitle, sub: O.gmapsHow,
+      action: `${mid && !gmapsDone ? `<a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener" href="https://www.google.com/maps/@${mid[0].toFixed(3)},${mid[1].toFixed(3)},9z">${O.openGmaps}</a>` : ""}
+        <button class="btn ${gmapsDone?"ghost":""}" data-gmaps="1" aria-pressed="${gmapsDone}">${gmapsDone ? O.undo : O.markDone}</button>` }
+  ];
+  const n = rows.filter(r => r.done).length;
+  const all = n === rows.length;
+  return `<div class="card offcard">
+    <div class="hd"><div><div class="eyebrow">${O.eyebrow}</div>
+      <h3 style="margin-top:4px">${all ? O.allReady : `${n} / ${rows.length} ${U().ready}`}</h3>
+      <p class="sub">${all ? O.allReadySub : O.intro}</p></div>
+      <span class="pill ${all?"ok":""}">${all ? "✓ Offline" : "Offline"}</span></div>
+    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(n/rows.length*100)}%"></i></div>
+    <ol class="offlist">${rows.map(r => `<li class="${r.done?"done":""}">
+      <span class="tick" aria-hidden="true">${r.done ? "✓" : ""}</span>
+      <div class="ob"><div class="ot">${r.title}<span class="sr">${r.done ? " — " + O.doneWord : ""}</span></div>
+        <div class="os">${r.sub}</div>${r.extra || ""}
+        ${r.action ? `<div class="row">${r.action}</div>` : ""}</div></li>`).join("")}</ol>
+  </div>`;
+}
+
+/* Pin names for the offline map. Without tiles there are no place names at
+   all, so the pins carry their own. Hotels always — they are where the
+   route stops; everything else once zoomed in, or the overview is a pile
+   of overlapping labels. */
+let mapMarkers = [];
+function pinLabels(on){
+  mapMarkers.forEach(m => {
+    if(on && !m.mk.getTooltip()){
+      m.mk.bindTooltip(esc(m.name), { permanent: true, direction: "right", offset: [8, 0],
+        className: "mklabel mklabel-" + m.type, interactive: false });
+    } else if(!on && m.mk.getTooltip()){
+      m.mk.unbindTooltip();
+    }
+  });
+  zoomClass();
+}
+function zoomClass(){
+  const box = document.getElementById("map");
+  if(box && map) box.classList.toggle("zoomed-in", map.getZoom() >= 11);
 }
 
 function drawMap(){
@@ -2488,8 +2883,16 @@ function drawMap(){
   box.classList.remove("tiles-offline");
   mapOfflineNote(false);
   map = L.map(box,{scrollWheelZoom:false});
+  /* The offline coastline sits beneath the tiles, so a saved map covers it
+     and any tile that was not saved shows land and sea instead of a hole. */
+  map.createPane("land").style.zIndex = 150;
+  map.on("zoomend", zoomClass);
   const tiles = L.tileLayer(tileUrl(),
     {attribution:"© OpenStreetMap, © CARTO", subdomains:"abcd", maxZoom:20}).addTo(map);
+  const goOffline = () => {
+    if(box.classList.contains("tiles-offline")) return;
+    box.classList.add("tiles-offline"); mapOfflineNote(true); landOn(); pinLabels(true);
+  };
   /* A single failed tile is routine — a CDN hiccup, a tile that does not exist
      at that zoom. Only treat the map as offline when the browser says we are
      offline, or when several tiles in a row fail and none has ever arrived.
@@ -2498,18 +2901,18 @@ function drawMap(){
   let tileOk = 0, tileFail = 0;
   tiles.on("tileerror", () => {
     tileFail++;
-    if(navigator.onLine === false || (tileOk === 0 && tileFail >= 6)){
-      box.classList.add("tiles-offline"); mapOfflineNote(true); landOn();
-    }
+    if(navigator.onLine === false || (tileOk === 0 && tileFail >= 6)) goOffline();
   });
   tiles.on("tileload", () => {
     tileOk++; tileFail = 0;
-    if(box.classList.contains("tiles-offline")){
-      box.classList.remove("tiles-offline"); mapOfflineNote(false); landOff();
+    /* A saved tile loads fine with no signal — that is not "back online". */
+    if(navigator.onLine && box.classList.contains("tiles-offline")){
+      box.classList.remove("tiles-offline"); mapOfflineNote(false); landOff(); pinLabels(false);
     }
   });
 
   const pts = [], markers = [];
+  mapMarkers = markers;
   const add = (name,type,coords,note,addr,pid) => {
     pts.push(coords);
     const href = mapsUrl(name, addr, coords, pid);
@@ -2517,13 +2920,15 @@ function drawMap(){
       .addTo(map).bindPopup(
         `<b>${esc(name)}</b><br>${esc(note||"")}`
         + `<br><a href="${href}" target="_blank" rel="noopener">${U().openInMaps}</a>`);
-    markers.push({coords, mk});
+    markers.push({coords, mk, name, type});
   };
   trip.places.forEach(p => add(p.name,p.type,p.coords,tr(p.note),p.address,p.placeId));
   trip.hotels.forEach(h => add(h.name,"hotel",h.coords,`${tr(h.place)} · ${daysBetween(h.checkIn,h.checkOut)} ${U().nights}`,h.address,h.placeId));
 
   const route = trip.hotels.map(h=>h.coords);
   if(route.length>1) L.polyline(route,{color:"#0E3346",weight:2,opacity:.5,dashArray:"5,6"}).addTo(map);
+
+  if(navigator.onLine === false) goOffline();
 
   if(focusPoint){
     // Arrived here from a hotel or a day — zoom in and open that pin.
@@ -2547,9 +2952,11 @@ function drawMap(){
 /* The trip starts in Warsaw. Opening the map replays that: it settles over
    Poland, flies the route east, then hands over to the Philippines view. */
 const WAW = [52.1657, 20.9671];               // Chopin airport
+let introUnbind = null;   // detaches the running intro's skip handlers
 function clearIntro(){
   if(introRaf) cancelAnimationFrame(introRaf), introRaf = null;
   if(introTimer) clearTimeout(introTimer), introTimer = null;
+  if(introUnbind) introUnbind(), introUnbind = null;
 }
 function toXYZ(p){
   const a = p[0]*Math.PI/180, b = p[1]*Math.PI/180;
@@ -2588,17 +2995,21 @@ function flyFromWarsaw(map, box, dest){
   requestAnimationFrame(()=>cap.classList.add("on"));
 
   let done = false;
+  const unbind = () => { map.off("moveend", finish); box.removeEventListener("pointerdown", finish); };
   const finish = () => {
     if(done) return; done = true;
+    introUnbind = null;
     clearIntro();
-    map.off("moveend", finish);
-    box.removeEventListener("pointerdown", finish);
+    unbind();
     try{ map.removeLayer(line); map.removeLayer(plane); }catch(e){}
     cap.classList.remove("on");
     setTimeout(()=>cap.remove(), 500);
     map.fitBounds(dest);
   };
   box.addEventListener("pointerdown", finish, {once:true});
+  /* If the map is rebuilt before the intro ends, the old handlers must not
+     fire on the old, removed map. */
+  introUnbind = () => { done = true; unbind(); };
 
   map.setView(WAW, 5);
   introTimer = setTimeout(()=>{
@@ -2628,7 +3039,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-day],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-day],[data-dmode],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.rename){ openGate(); return; }
@@ -2655,6 +3066,16 @@ document.addEventListener("click", async (e) => {
     return;
   }
 
+  if(t.dataset.savemap){ saveMapOffline(); return; }
+  if(t.dataset.gmaps){
+    gmapsDone = !gmapsDone;
+    try{ await window.storage.set(K("gmapsOffline"), gmapsDone ? "1" : "0"); }catch(e){}
+    render(); return;
+  }
+  if(t.dataset.dmode){
+    if(daysMode !== t.dataset.dmode){ daysMode = t.dataset.dmode; render(); }
+    return;
+  }
   if(t.dataset.day){
     const b = document.getElementById("dbody-"+t.dataset.day);
     const open = b.classList.toggle("hidden");
@@ -2745,11 +3166,11 @@ function offbar(){
 }
 window.addEventListener("online", () => {
   offbar();
-  wxKey = null; wxStale = true;      // force a refresh attempt
+  wxKey = null; wxStale = true; wxFailAt = 0;   // force a refresh attempt
   const d = currentDay();
   if(d?.coords) getWeather(d.coords[0], d.coords[1]); else render();
 });
-window.addEventListener("offline", offbar);
+window.addEventListener("offline", () => { offbar(); if(tab === "now") render(); });
 
 async function doInstall(){
   if(!installEvent) return;
@@ -2956,7 +3377,16 @@ $("#ng-input").addEventListener("keydown", e => {
   await loadLog();
   await loadPassport();
   await recordPassport();
+  await loadMapSave();
   render();
+  checkOffline();
+  if(navigator.serviceWorker){
+    navigator.serviceWorker.ready.then(reg => {
+      checkOffline();
+      /* Tiles past CARTO's 30-day limit go, even if the app was not updated. */
+      try{ (navigator.serviceWorker.controller || reg.active).postMessage("sweep-tiles"); }catch(e){}
+    }).catch(() => {});
+  }
   offbar();
   setInterval(band, 1000);
   /* Asked once. Skipping is allowed — nobody should be locked out of

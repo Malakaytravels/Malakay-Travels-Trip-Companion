@@ -1,13 +1,13 @@
 /* ============================================================
    MALAKAY TRAVELS — service worker
-   Cache key: malakay-v58
+   Cache key: malakay-v59
 
    Bump CACHE on every deploy. If you do not, phones that already
    have the app saved will keep serving the old version from disk
    and never see the change.
    ============================================================ */
 
-const CACHE = "malakay-v58";
+const CACHE = "malakay-v59";
 
 /* The shell: everything that is the same for every trip. */
 const SHELL = [
@@ -32,26 +32,22 @@ const SHELL = [
   "./vendor/images/marker-icon.png",
   "./vendor/images/marker-shadow.png",
 
-  "./vendor/fonts/archivo-latin-500-normal.woff2",
-  "./vendor/fonts/archivo-latin-700-normal.woff2",
-  "./vendor/fonts/archivo-latin-800-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-500-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-700-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-800-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-400-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-500-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-600-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-400-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-500-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-600-normal.woff2",
-  "./vendor/fonts/karla-latin-400-italic.woff2",
-  "./vendor/fonts/karla-latin-400-normal.woff2",
-  "./vendor/fonts/karla-latin-500-normal.woff2",
-  "./vendor/fonts/karla-latin-700-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-400-italic.woff2",
-  "./vendor/fonts/karla-latin-ext-400-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-500-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-700-normal.woff2"
+  "./vendor/fonts/outfit-latin-ext-400-normal.woff2",
+  "./vendor/fonts/outfit-latin-400-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-500-normal.woff2",
+  "./vendor/fonts/outfit-latin-500-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-600-normal.woff2",
+  "./vendor/fonts/outfit-latin-600-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-700-normal.woff2",
+  "./vendor/fonts/outfit-latin-700-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-800-normal.woff2",
+  "./vendor/fonts/outfit-latin-800-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-400-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-400-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-500-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-500-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-600-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-600-normal.woff2"
 ];
 
 /* Trip photos. Hotel and hero images are part of what the traveller

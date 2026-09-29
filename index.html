@@ -15,40 +15,54 @@
 
 <style>
 :root{
-  --abyss:#071A24;
-  --deep:#0E3346;
-  --reef:#17B8AE;
-  --reef-dim:#0F7E78;
-  --slate:#F1EBDD;
-  --slate-2:#E1D8C4;
-  --card:#FBF7EE;
-  --ink:#12212A;
-  --muted:#5F6E76;
-  --ochre:#B5762D;
-  --gold:#DFC45D;
-  --coral:#D8492B;
-  --r:14px;
+  /* Brand palette. The old names stay so every view keeps working:
+     slate = sand (the surface), card = paper, reef = lagoon, reef-dim = teal. */
+  --abyss:#04202B;
+  --deep:#0B3442;
+  --reef:#38C3C0;
+  --reef-dim:#0E7C86;
+  --teal-ink:#0A5E66;
+  --slate:#F0EAE1;
+  --slate-2:#E3DACB;
+  --card:#FBF8F3;
+  --ink:#0F2129;
+  --muted:#5B6B72;
+  --ochre:#B8901C;
+  --gold:#C9A227;
+  --coral:#C4553A;
+  --line:rgba(4,32,43,.08);
+  --tint:rgba(14,124,134,.07);
+  --shadow-1:0 1px 2px rgba(4,32,43,.05),0 6px 18px -6px rgba(4,32,43,.10);
+  --shadow-2:0 2px 6px rgba(4,32,43,.06),0 18px 40px -14px rgba(4,32,43,.22);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --r:18px;
+  --r-sm:12px;
   --pad:16px;
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  background:var(--slate);
+  /* Warm sand at the top, cooling towards teal at the bottom of the page:
+     you descend as you scroll. Quiet enough not to be noticed. */
+  background:linear-gradient(180deg,#F4EEE5 0%,#F0EAE1 30%,#E6E8E2 75%,#DCE6E3 100%) var(--slate);
+  min-height:100vh;
   color:var(--ink);
-  font-family:'Karla',system-ui,sans-serif;
-  font-size:15px;line-height:1.5;
+  font-family:'Outfit',system-ui,sans-serif;
+  font-size:15.5px;line-height:1.55;
   -webkit-font-smoothing:antialiased;
-  padding-bottom:40px;
+  text-rendering:optimizeLegibility;
+  padding-bottom:56px;
 }
 .wrap{max-width:760px;margin:0 auto;padding:0 var(--pad)}
-h1,h2,h3{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.02em}
-.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:'Outfit',sans-serif;margin:0;letter-spacing:-.02em;font-weight:700;color:var(--ink)}
+.mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
 .eyebrow{
-  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--reef-dim);
 }
-button{font-family:inherit;font-size:inherit;cursor:pointer}
+button{font-family:inherit;font-size:inherit;cursor:pointer;color:inherit;-webkit-tap-highlight-color:transparent}
 a{color:var(--reef-dim)}
+::selection{background:rgba(56,195,192,.28)}
 
 /* ---------- instrument band (the signature) ---------- */
 .instrument{
@@ -57,14 +71,14 @@ a{color:var(--reef-dim)}
   padding:14px 0 0;
 }
 .brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
-.brand{font-family:'Archivo';font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brand{font-family:'Outfit';font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .brand .mark{height:22px;width:auto;display:block}
 .brand span{color:var(--gold)}
 .brand{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .brand:hover .mark{transform:scale(1.06)}
 .brand .mark{transition:transform .18s ease-out}
 .brand:focus-visible{outline:2px solid var(--reef);outline-offset:4px;border-radius:6px}
-.tripcode{font-family:'IBM Plex Mono';font-size:11px;color:#7F98A3;letter-spacing:.08em}
+.tripcode{font-family:'JetBrains Mono';font-size:11px;color:#7F98A3;letter-spacing:.08em}
 
 .readout{
   display:grid;grid-template-columns:repeat(4,1fr);
@@ -72,14 +86,14 @@ a{color:var(--reef-dim)}
 }
 .cell{padding:10px 0 12px;border-right:1px solid #1B3A48}
 .cell:last-child{border-right:none}
-.cell .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.12em;color:#6E8794;text-transform:uppercase}
-.cell .v{font-family:'IBM Plex Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
+.cell .k{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.12em;color:#6E8794;text-transform:uppercase}
+.cell .v{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
 .cell .v small{font-size:11px;color:#8FA9B4;font-weight:400;margin-left:2px}
 .cell.wide{grid-column:span 2}
 .cell.wide .v{font-size:16px;color:var(--slate);letter-spacing:-.01em}
 
 .langsw{display:flex;border:1px solid #24485A;border-radius:99px;overflow:hidden}
-.langsw button{background:none;border:none;color:#7F98A3;font-family:'IBM Plex Mono';font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 9px}
+.langsw button{background:none;border:none;color:#7F98A3;font-family:'JetBrains Mono';font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 9px}
 .langsw button[aria-pressed="true"]{background:var(--reef-dim);color:#fff}
 .live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--reef);margin-right:6px;vertical-align:middle;animation:pulse 2.4s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
@@ -89,86 +103,180 @@ a{color:var(--reef-dim)}
 .tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 var(--pad)}
 .tabs::-webkit-scrollbar{display:none}
 .tab{
-  background:none;border:none;color:#7F98A3;padding:11px 13px 10px;white-space:nowrap;
-  font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
-  border-bottom:2px solid transparent;
+  background:none;border:none;color:#8AA3AD;padding:14px 13px 12px;white-space:nowrap;min-height:48px;
+  font-family:'Outfit';font-weight:600;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  border-bottom:3px solid transparent;transition:color .18s var(--ease),border-color .18s var(--ease);
 }
-.tab[aria-selected="true"]{color:var(--slate);border-bottom-color:var(--reef)}
+.tab:hover{color:#C9D6DB}
+.tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--reef)}
 .tab:focus-visible{outline:2px solid var(--reef);outline-offset:-2px}
 
 /* ---------- cards ---------- */
 .card{
-  background:var(--card);border:1px solid var(--slate-2);border-radius:var(--r);
-  padding:16px;margin:12px 0;
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px;margin:14px 0;box-shadow:var(--shadow-1);
 }
-.card.flat{background:transparent;border-style:dashed}
-.card h3{font-size:17px}
+.card.flat{background:transparent;border:1px dashed var(--slate-2);box-shadow:none}
+.card h3{font-size:18.5px;line-height:1.2}
 .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.sub{color:var(--muted);font-size:13.5px;margin-top:3px}
-.hair{height:1px;background:var(--slate-2);margin:13px -16px}
+.sub{color:var(--muted);font-size:14px;margin-top:4px;line-height:1.5}
+.hair{height:1px;background:var(--line);margin:14px -18px}
 section{padding-top:6px}
-.sectitle{display:flex;align-items:center;gap:10px;margin:22px 0 2px}
-.sectitle h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
-.sectitle .rule{flex:1;height:1px;background:var(--slate-2)}
+/* Section titles carry the page: large, tight, sentence case. */
+.sectitle{display:flex;align-items:center;gap:12px;margin:30px 0 4px}
+.sectitle h2{font-size:clamp(24px,6.6vw,30px);line-height:1.05;letter-spacing:-.03em;font-weight:700}
+.sectitle .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--slate-2),transparent)}
 
-.big{font-family:'Archivo';font-weight:800;font-size:clamp(30px,9vw,46px);line-height:.95;letter-spacing:-.035em}
+.big{font-family:'Outfit';font-weight:800;font-size:clamp(32px,9.5vw,48px);line-height:.98;letter-spacing:-.035em}
 .big em{font-style:normal;color:var(--reef-dim)}
 
 .pill{
-  display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;font-weight:600;
-  letter-spacing:.09em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
-  background:var(--slate-2);color:#41525B;
+  display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;padding:5px 10px;border-radius:99px;line-height:1.2;
+  background:rgba(4,32,43,.06);color:#3D4F57;white-space:nowrap;
 }
 .pill.live{background:var(--reef-dim);color:#fff}
 .pill.warn{background:var(--coral);color:#fff}
-.pill.ok{background:#1E6B4F;color:#fff}
+.pill.ok{background:var(--reef-dim);color:#fff}
 .pill.ochre{background:var(--ochre);color:#fff}
 
+/* Buttons: teal fills for the main action, outlined teal for the rest.
+   Every colour is set here — nothing may fall back to the browser's blue. */
 .btn{
-  background:var(--abyss);color:var(--slate);border:none;border-radius:9px;
-  padding:9px 14px;font-family:'Archivo';font-weight:700;font-size:12px;
-  letter-spacing:.07em;text-transform:uppercase;
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--reef-dim);color:#fff;border:1.5px solid var(--reef-dim);border-radius:var(--r-sm);
+  min-height:44px;padding:10px 16px;font-family:'Outfit';font-weight:600;font-size:13px;
+  letter-spacing:.06em;text-transform:uppercase;text-decoration:none;
+  box-shadow:0 1px 2px rgba(4,32,43,.12),0 6px 14px -8px rgba(14,124,134,.6);
+  transition:background .18s var(--ease),border-color .18s var(--ease),transform .15s var(--ease),box-shadow .18s var(--ease);
 }
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--slate-2)}
+.btn:hover{background:var(--teal-ink);border-color:var(--teal-ink)}
+.btn:active{transform:translateY(1px)}
+.btn.ghost{background:transparent;color:var(--reef-dim);border-color:rgba(14,124,134,.32);box-shadow:none}
+.btn.ghost:hover{background:var(--tint);border-color:var(--reef-dim)}
 .btn:disabled{opacity:.45;cursor:wait}
 .btn:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.btn svg{width:16px;height:16px;flex:none}
 
-/* ---------- day list ---------- */
-.day{border-left:2px solid var(--slate-2);padding:0 0 2px 16px;margin-left:6px;position:relative}
-.day::before{
-  content:"";position:absolute;left:-6px;top:6px;width:10px;height:10px;border-radius:50%;
-  background:var(--slate);border:2px solid var(--slate-2);
+/* ---------- days: one card per day ----------
+   Photo above, information below. A photo band appears on the day you
+   arrive somewhere new — the hotel you sleep in that night — so the list
+   has a rhythm of places instead of fourteen identical boxes. */
+.daylist{display:flex;flex-direction:column;gap:14px;margin-top:4px}
+.dcard{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow-1);overflow:hidden;
+  transition:box-shadow .25s var(--ease),transform .25s var(--ease),border-color .25s var(--ease);
 }
-.day.today{border-left-color:var(--reef-dim)}
-.day.today::before{background:var(--reef);border-color:var(--reef-dim)}
-.day.past::before{background:var(--slate-2)}
-.daybtn{
-  width:100%;text-align:left;background:none;border:none;padding:12px 0;display:flex;gap:12px;align-items:baseline;
+.dcard.open{box-shadow:var(--shadow-2)}
+.dcard.today{border-color:rgba(14,124,134,.55);box-shadow:0 0 0 3px rgba(56,195,192,.18),var(--shadow-2)}
+/* A thin edge in the day's colour: teal for water, sand-gold for land. */
+.dcard::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;z-index:3;
+  background:linear-gradient(180deg,var(--reef),var(--reef-dim))}
+.dcard.k-land::before{background:linear-gradient(180deg,#E4D8C2,#CDBB98)}
+.dcard .pband{height:168px}
+.dcard .pband .pt{left:20px}
+
+.dhead{
+  width:100%;text-align:left;background:none;border:0;color:var(--ink);
+  display:grid;grid-template-columns:auto 1fr auto;gap:4px 16px;align-items:start;
+  padding:18px 18px 18px 22px;min-height:48px;
 }
-.dnum{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;min-width:52px}
-.dttl{font-family:'Archivo';font-weight:700;font-size:15.5px;letter-spacing:-.015em;flex:1}
-.dbase{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
-.daybody{padding:0 0 16px}
-.sched{display:grid;grid-template-columns:56px 1fr;gap:4px 12px;margin:4px 0 0}
-.sched .t{font-family:'IBM Plex Mono';font-size:12px;color:var(--ochre);font-weight:600;padding-top:2px}
-.sched .x{font-size:14px;padding-bottom:6px}
-/* Diving / non-diving switch at the top of DAYS. Two equal halves,
-   48px tall for wet hands, teal marks the active one. */
-.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:var(--slate-2);border-radius:12px;padding:4px;margin:14px 0 6px}
+.dhead:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-4px;border-radius:var(--r)}
+/* The day number is the anchor of each card. */
+.dno{display:flex;flex-direction:column;align-items:center;min-width:48px;padding-top:2px}
+.dno b{font-family:'Outfit';font-weight:700;font-size:30px;line-height:.9;letter-spacing:-.04em;color:var(--reef-dim)}
+.dcard.k-land .dno b{color:var(--deep)}
+.dno small{font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--muted);margin-top:6px}
+.dmain{min-width:0;display:flex;flex-direction:column;gap:6px}
+.dkind{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;
+  font-family:'JetBrains Mono';font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:4px 9px 4px 7px;border-radius:99px;background:var(--tint);color:var(--reef-dim)}
+.dkind svg{width:14px;height:14px}
+.dcard.k-land .dkind{background:rgba(4,32,43,.06);color:#3D4F57}
+.dkind .live{margin:0 0 0 2px;background:var(--reef)}
+.dttl{font-family:'Outfit';font-weight:700;font-size:19px;line-height:1.2;letter-spacing:-.02em;color:var(--ink)}
+.dmeta{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;
+  display:flex;flex-wrap:wrap;gap:2px 10px}
+.dmeta .co{color:var(--reef-dim);text-transform:none;letter-spacing:.02em}
+.chev{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:rgba(4,32,43,.05);color:var(--muted);margin-top:2px;transition:transform .3s var(--ease),background .2s var(--ease)}
+.chev svg{width:16px;height:16px}
+.dcard.open .chev{transform:rotate(180deg);background:var(--tint);color:var(--reef-dim)}
+.dcard.past:not(.open) .dttl,.dcard.past:not(.open) .dno b{opacity:.55}
+
+/* Opening a day: the body grows from 0 to its natural height. */
+.dbody{display:grid;grid-template-rows:0fr;transition:grid-template-rows .35s var(--ease)}
+.dcard.open .dbody{grid-template-rows:1fr}
+.dbody > .din{overflow:hidden;min-height:0}
+.dbody .dpad{padding:2px 18px 20px 22px;border-top:1px solid var(--line);margin:0 0 0 0}
+
+/* The day's plan as a vertical line of icons. */
+.sched{list-style:none;margin:16px 0 0;padding:0;position:relative}
+.sched::before{content:"";position:absolute;left:17px;top:14px;bottom:14px;width:2px;
+  background:linear-gradient(180deg,var(--slate-2),rgba(227,218,203,.3))}
+.sched li{position:relative;display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start;padding:6px 0}
+.ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;background:#fff;border:1.5px solid var(--slate-2);color:var(--muted)}
+.ico svg{width:18px;height:18px}
+.ico.water{background:linear-gradient(160deg,#E4F5F4,#CDEAE8);border-color:rgba(14,124,134,.3);color:var(--reef-dim)}
+.ico.travel{background:#fff;border-color:rgba(4,32,43,.14);color:var(--deep)}
+.ico.land{background:linear-gradient(160deg,#FAF5EC,#EFE6D5);border-color:rgba(120,96,52,.22);color:#6E5A36}
+.sched .x{font-size:15px;line-height:1.45;padding-top:7px;color:var(--ink)}
+.sched .t{display:block;font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ochre);margin-bottom:1px}
+
+/* Dive sites: the instrument card of the day. */
+.dive{position:relative;display:grid;grid-template-columns:40px 1fr;gap:14px;
+  background:linear-gradient(160deg,#F2FAF9,#E3F2F1);border:1px solid rgba(14,124,134,.18);
+  border-radius:var(--r-sm);padding:14px 16px;margin-top:12px}
+.dive .dico{width:40px;height:40px;border-radius:12px;background:var(--reef-dim);color:#fff;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -8px rgba(14,124,134,.8)}
+.dive .dico svg{width:22px;height:22px}
+.dive .n{font-family:'Outfit';font-weight:700;font-size:16.5px;letter-spacing:-.015em;line-height:1.2}
+.dive .m{display:inline-block;margin-top:5px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;color:var(--reef-dim);text-transform:uppercase;background:rgba(255,255,255,.7);
+  border:1px solid rgba(14,124,134,.18);border-radius:99px;padding:3px 9px}
+.dive .dn{font-size:14px;line-height:1.5;margin-top:8px;color:#243840}
+.dnote{display:flex;gap:10px;margin-top:14px;padding:12px 14px;border-radius:var(--r-sm);
+  background:rgba(4,32,43,.035);font-size:14px;line-height:1.5;color:#33464E}
+.dnote svg{width:18px;height:18px;flex:none;color:var(--reef-dim);margin-top:1px}
+.dcard .row{margin-top:16px}
+
+/* ---------- diving / non-diving switch ----------
+   Two equal halves, 52px tall for wet hands. The teal thumb slides between
+   them; the list fades out, and the new one rises in card by card. */
+.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(4,32,43,.06);
+  border-radius:16px;padding:5px;margin:16px 0 8px;box-shadow:inset 0 1px 2px rgba(4,32,43,.06)}
+.seg::before{content:"";position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:12px;
+  background:linear-gradient(160deg,var(--reef-dim),var(--teal-ink));
+  box-shadow:0 2px 4px rgba(4,32,43,.14),0 10px 20px -10px rgba(14,124,134,.9);
+  transition:transform .42s var(--ease)}
+.seg[data-mode="land"]::before{transform:translateX(100%)}
 .seg button{
-  min-height:48px;border:none;border-radius:9px;background:transparent;color:var(--ink);
+  position:relative;z-index:1;min-height:56px;border:none;border-radius:12px;background:transparent;color:var(--ink);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  padding:7px 8px;text-align:center;line-height:1.15;-webkit-tap-highlight-color:transparent;
-  font-family:'Archivo';font-weight:700;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
-  transition:background .18s ease-out,color .18s ease-out;
+  padding:8px;text-align:center;line-height:1.15;
+  font-family:'Outfit';font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;
+  transition:color .3s var(--ease);
 }
-.seg button .c{font-family:'IBM Plex Mono';font-size:10.5px;font-weight:500;letter-spacing:.08em;color:var(--muted);transition:color .18s ease-out}
-.seg button[aria-selected="true"]{background:var(--reef-dim);color:#fff}
-.seg button[aria-selected="true"] .c{color:#D4F1EE}
+.seg button .l{display:block}
+.seg button .l svg{width:16px;height:16px;vertical-align:-3px;margin-right:6px}
+.seg button .c{font-family:'JetBrains Mono';font-size:10.5px;font-weight:500;letter-spacing:.08em;color:var(--muted);transition:color .3s var(--ease)}
+.seg button[aria-selected="true"]{color:#fff}
+.seg button[aria-selected="true"] .c{color:rgba(255,255,255,.78)}
 .seg button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
-.seg .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--reef);margin-left:6px;vertical-align:middle}
-.seglead{font-size:13.5px;color:var(--muted);margin:4px 0 10px}
-@media (prefers-reduced-motion:reduce){.seg button,.seg button .c{transition:none}}
+.seg .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--reef);margin-left:2px;
+  box-shadow:0 0 0 3px rgba(56,195,192,.25)}
+.seglead{font-size:14px;color:var(--muted);margin:6px 2px 12px;line-height:1.5}
+.dswap{transition:opacity .18s var(--ease),transform .18s var(--ease)}
+.dswap.leaving{opacity:0;transform:translateY(8px)}
+@keyframes dRise{from{opacity:0;transform:translateY(14px) scale(.985)}to{opacity:1;transform:none}}
+.dswap.enter .seglead,.dswap.enter .dcard{animation:dRise .46s var(--ease) both;animation-delay:calc(var(--i,0) * 55ms)}
+@media (prefers-reduced-motion:reduce){
+  .seg::before,.seg button,.seg button .c,.dswap,.dbody,.chev,.dcard{transition:none}
+  .dswap.enter .seglead,.dswap.enter .dcard{animation:none}
+}
 /* Ready for no signal — checklist on NOW */
 .offlist{list-style:none;margin:14px 0 0;padding:0}
 .offlist li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--slate-2)}
@@ -176,45 +284,42 @@ section{padding-top:6px}
   display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;margin-top:1px}
 .offlist li.done .tick{background:var(--reef-dim);border-color:var(--reef-dim)}
 .offlist .ob{flex:1;min-width:0}
-.offlist .ot{font-family:'Archivo';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+.offlist .ot{font-family:'Outfit';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
 .offlist .os{font-size:13.5px;color:var(--muted);margin-top:2px}
 .offlist .row{margin-top:8px}
 .offlist .btn{min-height:44px}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 /* Pin names on the offline map */
 .leaflet-tooltip.mklabel{background:rgba(7,26,36,.86);color:#F1EBDD;border:1px solid #1B5566;border-radius:6px;
-  box-shadow:none;padding:2px 6px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em}
+  box-shadow:none;padding:2px 6px;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.04em}
 .leaflet-tooltip.mklabel::before{display:none}
 #map:not(.zoomed-in) .mklabel:not(.mklabel-hotel){display:none}
-.dive{background:#EAF4F3;border:1px solid #CBE3E1;border-radius:10px;padding:10px 12px;margin-top:8px}
-.dive .n{font-family:'Archivo';font-weight:700;font-size:14px}
-.dive .m{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);letter-spacing:.05em;text-transform:uppercase}
 
 /* ---------- flights ---------- */
 .leg{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:12px 0 4px}
-.leg .iata{font-family:'Archivo';font-weight:800;font-size:26px;letter-spacing:-.03em}
+.leg .iata{font-family:'Outfit';font-weight:800;font-size:26px;letter-spacing:-.03em}
 .leg .city{font-size:12px;color:var(--muted)}
-.leg .time{font-family:'IBM Plex Mono';font-size:14px;font-weight:600;margin-top:3px}
+.leg .time{font-family:'JetBrains Mono';font-size:14px;font-weight:600;margin-top:3px}
 .leg .mid{text-align:center;color:var(--slate-2)}
 .leg .r{text-align:right}
 .dashed{border-top:1px dashed var(--slate-2);position:relative;width:100%;min-width:40px}
-.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:13px;margin-top:10px}
-.kv dt{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:2px}
-.kv dd{margin:0;font-weight:500}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:14px;margin-top:14px}
+.kv dt{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
+.kv dd{margin:0;font-weight:500;color:var(--ink)}
 
 /* ---------- weather ---------- */
 .wxrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px;margin-top:10px}
-.wx{background:var(--abyss);border-radius:10px;padding:10px 8px;text-align:center;color:var(--slate)}
-.wx .d{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.1em;color:#7F98A3;text-transform:uppercase}
+.wx{background:linear-gradient(180deg,var(--deep),var(--abyss));border-radius:var(--r-sm);padding:12px 8px;text-align:center;color:var(--slate)}
+.wx .d{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.1em;color:#7F98A3;text-transform:uppercase}
 .wx .i{font-size:20px;margin:5px 0 3px;line-height:1}
-.wx .t{font-family:'IBM Plex Mono';font-size:13px;font-weight:600}
+.wx .t{font-family:'JetBrains Mono';font-size:13px;font-weight:600}
 .wx .t small{color:#7F98A3;font-weight:400}
 .sea{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap}
 .sea div{flex:1;min-width:110px}
-.sea .v{font-family:'IBM Plex Mono';font-size:22px;font-weight:600;color:var(--reef-dim);line-height:1.1}
+.sea .v{font-family:'JetBrains Mono';font-size:22px;font-weight:600;color:var(--reef-dim);line-height:1.1}
 
 /* ---------- map ---------- */
-#map{height:min(62vh,460px);border-radius:var(--r);border:1px solid var(--slate-2);margin-top:12px;background:#DCE8EA}
+#map{height:min(62vh,460px);border-radius:var(--r);border:1px solid var(--line);margin-top:14px;background:#DCE8EA;box-shadow:var(--shadow-1)}
 /* Tiles come from the CARTO CDN and are the one part of the map that needs
    a connection. When they fail, the container goes dark so the route and
    pins read as a deliberate schematic rather than a half-loaded page. */
@@ -223,7 +328,7 @@ section{padding-top:6px}
 #map.tiles-offline .leaflet-control-zoom a{background:#0E3346;color:#F1EBDD;border-color:#17B8AE}
 #map.tiles-offline .leaflet-control-attribution{background:rgba(7,26,36,.75);color:#8FA3AB}
 .map-offline-note{display:none;align-items:center;gap:8px;margin-top:10px;
-  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.45;
+  font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.45;
   color:var(--muted)}
 .map-offline-note.on{display:flex}
 .map-offline-note .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
@@ -237,26 +342,26 @@ section{padding-top:6px}
 
 /* ---------- misc ---------- */
 .dvform{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px}
-.dvform label{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.dvform label{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
 .dvform label.wide{grid-column:1/-1}
 .dvform input,.dvform textarea{
-  font-family:'Karla',sans-serif;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0;
+  font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0;
   border:1px solid var(--slate-2);border-radius:8px;padding:9px 10px;background:#fff;width:100%;
 }
 .dvform input:focus,.dvform textarea:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
 .dvrow{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;font-size:inherit}
-.dvnum{font-family:'IBM Plex Mono';font-size:19px;font-weight:600;color:var(--reef-dim);text-align:right;line-height:1.15}
+.dvnum{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef-dim);text-align:right;line-height:1.15}
 .dvnum small{font-size:11px;color:var(--muted);font-weight:400;margin-left:1px}
 .dvnum span{display:block;font-size:14px}
-.nextcard{background:var(--abyss);color:var(--slate);border-radius:var(--r);padding:16px;margin:12px 0}
+.nextcard{background:linear-gradient(180deg,var(--deep),var(--abyss));color:var(--slate);border-radius:var(--r);padding:18px;margin:14px 0;box-shadow:var(--shadow-2)}
 .nextcard .eyebrow{color:var(--reef)}
 .nexttrip{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
 .nexttrip .nm,.nexttrip .nn{display:block}
 .nexttrip .arr{color:#5E7C89;margin-left:2px}
 .nexttrip:last-child{border-bottom:none}
-.nexttrip .nm{font-family:'Archivo';font-weight:700;font-size:14.5px}
+.nexttrip .nm{font-family:'Outfit';font-weight:700;font-size:14.5px}
 .nexttrip .nn{font-size:12.5px;color:#9DB3BD;margin-top:2px}
-.nexttrip .nw{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;white-space:nowrap;text-align:right}
+.nexttrip .nw{font-family:'JetBrains Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;white-space:nowrap;text-align:right}
 .gear{
   width:100%;background:none;border:none;border-bottom:1px solid var(--slate-2);
   padding:11px 0;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;text-align:left;
@@ -273,22 +378,22 @@ section{padding-top:6px}
 .gear:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px;border-radius:6px}
 .factgrp{
   width:100%;background:none;border:none;padding:2px 0;display:flex;justify-content:space-between;align-items:center;
-  font-family:'Archivo';font-weight:700;font-size:15.5px;letter-spacing:-.015em;color:var(--ink);text-align:left;
+  font-family:'Outfit';font-weight:700;font-size:15.5px;letter-spacing:-.015em;color:var(--ink);text-align:left;
 }
-.factgrp .cnt{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.06em}
+.factgrp .cnt{font-family:'JetBrains Mono';font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.06em}
 .fact{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--slate-2)}
 .fact:last-child{border-bottom:none}
-.fact .n{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);font-weight:600;padding-top:3px}
-.note{font-size:12.5px;color:var(--muted);font-style:italic}
+.fact .n{font-family:'JetBrains Mono';font-size:11px;color:var(--reef-dim);font-weight:600;padding-top:3px}
+.note{font-size:13px;color:var(--muted);line-height:1.55}
 .banner{
   background:var(--ochre);color:#fff;border-radius:var(--r);padding:13px 15px;margin:12px 0;
   display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
 }
 .banner p{margin:0;font-size:13.5px}
-.banner b{font-family:'Archivo'}
-.banner button{background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-family:'Archivo';font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.banner b{font-family:'Outfit'}
+.banner button{background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-family:'Outfit';font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 textarea{
-  width:100%;min-height:340px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.55;
+  width:100%;min-height:340px;font-family:'JetBrains Mono';font-size:11.5px;line-height:1.55;
   border:1px solid var(--slate-2);border-radius:10px;padding:12px;background:#fff;color:var(--ink);resize:vertical;
 }
 .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
@@ -301,8 +406,8 @@ textarea{
 }
 .privacy .eyebrow{color:var(--reef)}
 .privacy p{margin:6px 0 0;font-size:13.5px;color:#C6D3D8}
-.prog{height:5px;background:var(--slate-2);border-radius:99px;overflow:hidden;margin-top:10px}
-.prog i{display:block;height:100%;background:var(--reef-dim);border-radius:99px;transition:width .4s ease}
+.prog{height:6px;background:rgba(4,32,43,.07);border-radius:99px;overflow:hidden;margin-top:12px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--reef-dim),var(--reef));border-radius:99px;transition:width .5s var(--ease)}
 .doc{display:grid;grid-template-columns:52px 1fr auto;gap:13px;align-items:center;padding:12px 0;border-bottom:1px solid var(--slate-2)}
 .doc:last-of-type{border-bottom:none}
 .thumb{
@@ -311,7 +416,7 @@ textarea{
 }
 .thumb img{width:100%;height:100%;object-fit:cover}
 .thumb.done{border-color:var(--reef-dim);border-width:2px}
-.doc .l{font-family:'Archivo';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+.doc .l{font-family:'Outfit';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
 .doc .s{font-size:12px;color:var(--muted);margin-top:2px}
 .doc .s b{color:var(--reef-dim)}
 .iconbtn{
@@ -331,20 +436,20 @@ textarea{
 .modal iframe{width:100%;height:100%;border:none;border-radius:10px;background:#fff}
 .offbar{
   background:var(--coral);color:#fff;text-align:center;padding:6px 12px;
-  font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+  font-family:'JetBrains Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;
 }
 .installbar{
-  background:var(--reef-dim);color:#fff;border-radius:var(--r);padding:12px 15px;margin:12px 0;
+  background:linear-gradient(135deg,var(--reef-dim),var(--teal-ink));color:#fff;border-radius:var(--r);padding:14px 16px;margin:14px 0;box-shadow:var(--shadow-1);
   display:flex;gap:12px;align-items:center;justify-content:space-between;
 }
 .installbar p{margin:0;font-size:13.5px}
-.installbar button{background:rgba(255,255,255,.22);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-family:'Archivo';font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.installbar button{background:rgba(255,255,255,.22);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-family:'Outfit';font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
 .hidden{display:none!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* ---------- photo hero (Now) ---------- */
-.hero{position:relative;background:var(--abyss);border:1px solid var(--slate-2);
-  border-radius:var(--r);overflow:hidden;margin:12px 0}
+.hero{position:relative;background:var(--abyss);border:0;
+  border-radius:22px;overflow:hidden;margin:12px 0 18px;box-shadow:var(--shadow-2)}
 .hero .stage{position:relative;height:340px}
 .hero figure{position:absolute;inset:0;margin:0;opacity:0;animation:heroFade 24s infinite}
 .hero figure img{width:100%;height:100%;object-fit:cover;display:block}
@@ -352,20 +457,20 @@ textarea{
 .hero .stage::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,
   rgba(7,26,36,.5) 0%,rgba(7,26,36,.1) 30%,rgba(7,26,36,.62) 66%,rgba(7,26,36,.96) 100%)}
 .hero .txt{position:absolute;z-index:3;left:18px;right:18px;bottom:18px}
-.hero .hk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;
+.hero .hk{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;
   text-transform:uppercase;color:var(--reef);text-shadow:0 1px 8px rgba(7,26,36,.7)}
-.hero h1{font-family:'Archivo',sans-serif;font-weight:800;color:#fff;margin:12px 0 0;
-  font-size:clamp(26px,6.2vw,38px);line-height:1.05;letter-spacing:-.025em;
+.hero h1{font-family:'Outfit',sans-serif;font-weight:700;color:#fff;margin:12px 0 0;
+  font-size:clamp(30px,8.4vw,44px);line-height:1.02;letter-spacing:-.03em;
   text-shadow:0 3px 18px rgba(7,26,36,.55)}
 .hero .facts{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);
   border-top:1px solid var(--slate-2)}
 .hfact{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   padding:14px 6px 15px;text-align:center;border-right:1px solid var(--slate-2)}
 .hfact:last-child{border-right:0}
-.hfact .fk{display:block;width:100%;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+.hfact .fk{display:block;width:100%;font-family:'JetBrains Mono',monospace;font-size:9.5px;
   line-height:1.35;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
   margin:0 0 8px;min-height:2.7em;overflow-wrap:break-word;hyphens:none}
-.hfact .fv{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;color:var(--ink);
+.hfact .fv{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:600;color:var(--ink);
   line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
 .hfact .fv small{font-size:10px;font-weight:400;color:var(--muted);margin-left:3px;letter-spacing:.06em}
 @media (max-width:520px){
@@ -384,31 +489,31 @@ textarea{
 }
 
 /* ---------- stay: summary strip + photo cards ---------- */
-.staysum{display:grid;grid-template-columns:1fr 1fr;background:var(--abyss);color:var(--slate);
-  border-radius:var(--r);padding:14px 16px;margin:12px 0}
+.staysum{display:grid;grid-template-columns:1fr 1fr;background:linear-gradient(180deg,var(--deep),var(--abyss));color:var(--slate);
+  border-radius:var(--r);padding:16px 18px;margin:14px 0;box-shadow:var(--shadow-1)}
 .staysum > div{padding-left:14px;border-left:1px solid #1B3A48}
 .staysum > div:first-child{padding-left:0;border-left:0}
-.staysum .k{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;
+.staysum .k{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.12em;
   text-transform:uppercase;color:#6E8794;margin-bottom:6px}
-.staysum .v{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:#fff;
+.staysum .v{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600;color:#fff;
   font-variant-numeric:tabular-nums}
 .card.photo{padding:0;overflow:hidden}
-.card.photo .pbody{padding:16px}
-.pband{position:relative;height:200px;background:var(--abyss)}
+.card.photo .pbody{padding:18px}
+.pband{position:relative;height:220px;background:var(--abyss);overflow:hidden}
 .pband img{width:100%;height:100%;object-fit:cover;display:block}
 .pband::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,
   rgba(7,26,36,.3) 0%,rgba(7,26,36,0) 30%,rgba(7,26,36,.55) 62%,rgba(7,26,36,.93) 100%)}
 .pband .pt{position:absolute;z-index:2;left:16px;right:16px;bottom:14px}
-.pband .pk{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.16em;
+.pband .pk{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.16em;
   text-transform:uppercase;color:var(--reef);text-shadow:0 1px 8px rgba(7,26,36,.7)}
-.pband h3{color:#fff;margin:6px 0 5px;font-size:21px;line-height:1.1;
+.pband h3{color:#fff;margin:6px 0 5px;font-size:24px;line-height:1.08;letter-spacing:-.025em;
   text-shadow:0 2px 12px rgba(7,26,36,.55)}
-.pband .pc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.8)}
+.pband .pc{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,.8)}
 .pband .pill{position:absolute;z-index:3;top:12px;right:12px;background:rgba(7,26,36,.62);
   color:#fff;border:1px solid rgba(255,255,255,.3)}
 .pband .pill.live{background:var(--reef-dim);border-color:var(--reef-dim)}
 .pband .pill.ochre{background:var(--ochre);border-color:var(--ochre);color:#fff}
-.daterow{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;
+.daterow{display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;
   background:rgba(23,184,174,.07);border-radius:9px;padding:10px 12px;margin-bottom:12px;
   font-variant-numeric:tabular-nums}
 .daterow .dt{font-size:13.5px;font-weight:600;color:var(--ink)}
@@ -420,7 +525,7 @@ textarea{
 .plane svg{display:block;filter:drop-shadow(0 1px 3px rgba(7,26,36,.5))}
 .mapcap{position:absolute;z-index:600;left:12px;top:12px;pointer-events:none;
   background:rgba(7,26,36,.86);color:#fff;border-radius:999px;padding:8px 14px;
-  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
+  font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;
   text-transform:uppercase;display:flex;align-items:center;gap:10px;
   opacity:0;transition:opacity .5s ease}
 .mapcap.on{opacity:1}
@@ -432,9 +537,9 @@ textarea{
   border-radius:12px;background:var(--slate-2);display:block}
 .guidecard .gbody{flex:1;min-width:0}
 .guidecard h3{margin:0;font-size:20px;line-height:1.15}
-.guidecard .grole{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
+.guidecard .grole{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--reef-dim);margin-top:5px}
-.guidecard .gtel{display:inline-block;margin-top:10px;font-family:'IBM Plex Mono',monospace;
+.guidecard .gtel{display:inline-block;margin-top:10px;font-family:'JetBrains Mono',monospace;
   font-size:14px;font-weight:600;color:var(--reef-dim);text-decoration:none;
   background:rgba(23,184,174,.09);border-radius:9px;padding:9px 13px;min-height:40px}
 .guidecard .gtel:hover{background:rgba(23,184,174,.16)}
@@ -459,7 +564,7 @@ textarea{
 }
 .namegate .ng-mark{height:40px;width:auto;display:block;margin-bottom:26px}
 .namegate h2{
-  font-family:'Archivo'; font-weight:800;
+  font-family:'Outfit'; font-weight:800;
   font-size:clamp(28px,8vw,40px); line-height:1.02; letter-spacing:-.03em;
   margin:0;
 }
@@ -467,7 +572,7 @@ textarea{
 .namegate input{
   width:100%; margin-top:26px; background:var(--card);
   border:1.5px solid var(--slate-2); border-radius:var(--r);
-  padding:16px; font-family:'Karla',system-ui,sans-serif;
+  padding:16px; font-family:'Outfit',system-ui,sans-serif;
   font-size:20px; color:var(--ink); min-height:58px;
 }
 .namegate input:focus{outline:none;border-color:var(--reef-dim)}
@@ -488,7 +593,7 @@ textarea{
 .namegate .ng-pick{
   width:100%; background:var(--card);
   border:1.5px solid var(--slate-2); border-radius:var(--r);
-  padding:16px; font-family:'Archivo',system-ui,sans-serif; font-weight:700;
+  padding:16px; font-family:'Outfit',system-ui,sans-serif; font-weight:700;
   font-size:20px; color:var(--ink); min-height:58px; text-align:left;
   letter-spacing:-.01em; cursor:pointer;
   display:flex; align-items:center; justify-content:space-between; gap:12px;
@@ -502,13 +607,13 @@ textarea{
 .namegate .ng-pick:active{border-color:var(--reef-dim)}
 .namegate .ng-other{
   background:none; border:none; padding:6px 0; margin-top:2px;
-  font-family:'Karla',system-ui,sans-serif; font-size:14.5px;
+  font-family:'Outfit',system-ui,sans-serif; font-size:14.5px;
   color:var(--muted); text-decoration:underline; text-align:left; cursor:pointer;
 }
 /* Skip stays reachable but stops looking like an equal choice. */
 .namegate .ng-actions #ng-skip{
   background:none; border:none; min-height:auto; padding:10px 0;
-  font-family:'Karla',system-ui,sans-serif; font-size:14px;
+  font-family:'Outfit',system-ui,sans-serif; font-size:14px;
   color:var(--muted); text-decoration:underline;
 }
 @media (prefers-reduced-motion: reduce){
@@ -529,11 +634,11 @@ textarea{
 .namegate .btn{min-height:52px;font-size:16px}
 .greetrow{
   display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
-  margin:2px 0 14px;
+  margin:20px 0 14px;
 }
 .greetrow .gr-txt{
-  font-family:'Archivo'; font-weight:800;
-  font-size:clamp(19px,5.2vw,25px); letter-spacing:-.02em; line-height:1.1;
+  font-family:'Outfit'; font-weight:600;
+  font-size:clamp(22px,6vw,28px); letter-spacing:-.025em; line-height:1.1;
 }
 .greetrow .gr-txt em{font-style:normal;color:var(--reef-dim)}
 .greetrow button{
@@ -550,8 +655,8 @@ textarea{
 
 /* ---- no-fly card ---- */
 .nofly{
-  margin:0 0 16px; border-radius:var(--r); padding:16px 16px 14px;
-  border:1px solid var(--slate-2); background:var(--card);
+  margin:0 0 16px; border-radius:var(--r); padding:18px 18px 16px;
+  border:1px solid var(--line); background:var(--card); box-shadow:var(--shadow-1);
 }
 .nofly.ok{border-color:rgba(56,195,192,.45)}
 .nofly.tight{border-color:#C9A82F}
@@ -571,7 +676,7 @@ textarea{
   display:flex; align-items:baseline; gap:10px;
   margin:12px 0 4px; padding-top:12px; border-top:1px solid var(--slate-2);
 }
-.nofly-gap b{font-family:'Archivo'; font-weight:800; font-size:34px; letter-spacing:-.02em; line-height:1}
+.nofly-gap b{font-family:'Outfit'; font-weight:800; font-size:34px; letter-spacing:-.02em; line-height:1}
 .nofly.ok .nofly-gap b{color:var(--reef-dim)}
 .nofly.tight .nofly-gap b{color:#9A7D15}
 .nofly.under .nofly-gap b{color:#A6402A}
@@ -708,7 +813,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v58 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v59 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -731,7 +836,7 @@ function loadFailed(err){
     + (pl
         ? "Sprawdź połączenie i odśwież stronę. Jeśli aplikacja była już wcześniej otwarta na tym telefonie, powinna działać także bez internetu — spróbuj zamknąć ją całkowicie i otworzyć ponownie."
         : "Check your connection and reload. If the app has been opened on this phone before it should also work offline — try closing it fully and opening it again.")
-    + '</p><p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#5F6E76">trips/' + TRIP_ID + '.json — ' + String(err && err.message || err) + '</p>'
+    + '</p><p style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:#5F6E76">trips/' + TRIP_ID + '.json — ' + String(err && err.message || err) + '</p>'
     + '<p style="font-size:13px;color:#5F6E76">Michał Sieczkowski · +48 509 905 507</p></div>';
 }
 
@@ -1696,8 +1801,53 @@ function dayCount(n){
   return `${n} ${U().days_}`;
 }
 
+/* Line icons (24px grid, stroke = currentColor). Plane, compass, pin and
+   chevron after Lucide (ISC licence); the mask and waves are drawn here. */
+const ICON = {
+  water:  '<path d="M2 9c1.7 0 1.7-1.5 3.3-1.5S7 9 8.7 9s1.6-1.5 3.3-1.5S13.7 9 15.3 9s1.7-1.5 3.4-1.5S20.3 9 22 9"/><path d="M2 15c1.7 0 1.7-1.5 3.3-1.5S7 15 8.7 15s1.6-1.5 3.3-1.5 1.7 1.5 3.3 1.5 1.7-1.5 3.4-1.5 1.6 1.5 3.3 1.5"/>',
+  mask:   '<path d="M3 9.5A3.5 3.5 0 0 1 6.5 6h11A3.5 3.5 0 0 1 21 9.5V11a4.5 4.5 0 0 1-4.5 4.5h-1.2a2 2 0 0 1-1.7-.95l-.75-1.2a1 1 0 0 0-1.7 0l-.75 1.2a2 2 0 0 1-1.7.95H7.5A4.5 4.5 0 0 1 3 11z"/><path d="M8 18.5h8"/>',
+  travel: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  land:   '<circle cx="12" cy="12" r="9.5"/><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/>',
+  route:  '<circle cx="6" cy="19" r="2.5"/><path d="M8.5 19h8a3.5 3.5 0 0 0 0-7h-10a3.5 3.5 0 0 1 0-7h8.5"/><circle cx="18" cy="5" r="2.5"/>',
+  bed:    '<path d="M2.5 5v15"/><path d="M2.5 9h16a3 3 0 0 1 3 3v8"/><path d="M2.5 16.5h19"/><path d="M6.5 9v7.5"/>',
+  pin:    '<path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
+  info:   '<circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5"/><path d="M12 8h.01"/>',
+  chev:   '<path d="m6 9 6 6 6-6"/>'
+};
+const svg = (k, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
+
+/* Which icon a line of the plan gets. Read from both languages so the
+   answer does not change when the client switches PL/EN. Order matters:
+   "transfer, then set up dive gear" is a travel line, not a dive.
+   fly = flights and airports (the Polish "odprawa" is airport check-in),
+   move = boats, vans, trains, stay = hotel check-in/out, water, land. */
+const RX_FLY    = /\b(flights?|fly|flying|airport|landing|land (in|at)|departure)\b|lotnisk|wylot|przylot|lądowani|odpraw/i;
+const RX_FLIGHT = /\b[A-Z]{2} ?\d{2,4}\b|\b[A-Z]\d ?\d{2,4}\b/;   // CA 738, PR2685, G3 1234 — case matters
+const RX_MOVE   = /\b(transfers?|ferry|boat crossing|the crossing|pier|jetty|train|shinkansen|by boat|boat to|drive (across|through)|road (to|from))\b|→|prom\b|przepraw|molo|pociąg|przejazd|przesiad/i;
+const RX_STAY   = /\bcheck[- ]?(in|out)\b|zameldowa|wymeldowa/i;
+const RX_WATER  = /\b(dives?|diving|snorkel\w*|wrecks?|reefs?|shoal|maru|coral|marine park|tunnel|underwater|lagoons?|ship)\b|nurk|wrak|rafa|rafy|rafie|koral|snork|lagun|pod wodą|okręt/i;
+const LINE_ICON = {fly:"travel", move:"route", stay:"bed", water:"water", land:"land"};
+function lineKind(x){
+  const txt = typeof x === "object" && x ? [x.en, x.pl].join(" ") : String(x || "");
+  if(RX_FLY.test(txt) || RX_FLIGHT.test(txt)) return "fly";
+  if(RX_MOVE.test(txt)) return "move";
+  if(RX_STAY.test(txt)) return "stay";
+  if(RX_WATER.test(txt)) return "water";
+  return "land";
+}
+function fmtCoord(c){
+  if(!c) return "";
+  const [la, lo] = c;
+  return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
+}
+let daysEnter = false;   // animate the list in once, right after a switch
+
 function viewDays(){
   const t = todayISO();
+  const L = lang === "pl" ? "pl-PL" : "en-GB";
+  const KD = lang === "pl"
+    ? {dive:"Dzień nurkowy", travel:"Dzień w podróży", land:"Dzień na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`}
+    : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`};
   const diveDays = trip.days.filter(isDiveDay);
   const landDays = trip.days.filter(d => !isDiveDay(d));
   /* A trip with no diving has nothing to switch between — show every day. */
@@ -1708,36 +1858,66 @@ function viewDays(){
   }
   const list = !split ? trip.days : daysMode === "land" ? landDays : diveDays;
   const hasToday = ds => ds.some(d => d.date === t);
-  const segBtn = (mode, label, ds) =>
+  const segBtn = (mode, label, ds, icon) =>
     `<button role="tab" id="seg-${mode}" aria-controls="daylist" aria-selected="${daysMode===mode}" data-dmode="${mode}">
-      <span>${label}${hasToday(ds) && daysMode!==mode ? `<span class="dot" aria-label="${U().today}"></span>` : ""}</span>
+      <span class="l">${svg(icon)}${label}${hasToday(ds) && daysMode!==mode ? `<span class="dot" aria-label="${U().today}"></span>` : ""}</span>
       <span class="c">${dayCount(ds.length)}</span></button>`;
 
-  return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
-    <span class="pill">${dayCount(trip.days.length)}</span></div>` +
-  (split ? `<div class="seg" role="tablist" aria-label="${U().dayByDay}">
-      ${segBtn("dive", U().divingItinerary, diveDays)}
-      ${segBtn("land", U().nonDiving, landDays)}</div>
-    <p class="seglead">${daysMode==="land" ? U().nonDivingLead : U().divingLead}</p>` : "") +
-  `<div id="daylist" ${split ? `role="tabpanel" aria-labelledby="seg-${daysMode}"` : ""}>` +
-  list.map((d, i)=>{
+  const cards = list.map((d, i) => {
     const isToday = d.date === t, past = daysBetween(d.date,t) > 0;
     const open = isToday || (tripPhase().phase==="before" && i===0);
-    return `<div class="day ${isToday?"today":""} ${past?"past":""}">
-      <button class="daybtn" data-day="${d.n}" aria-expanded="${open}">
-        <span class="dnum">D${String(d.n).padStart(2,"0")}<br>${fmtDate(d.date).split(",")[0]}</span>
-        <span class="dttl">${esc(tr(d.title))}${isToday?` <span class="pill live">${U().today}</span>`:""}</span>
-        <span class="dbase">${esc(tr(d.base))}</span>
+    const kinds = (d.items || []).map(([, x]) => lineKind(x));
+    const dive = isDiveDay(d);
+    const moving = kinds.filter(k => k === "fly" || k === "move").length;
+    const kind = dive ? "dive" : moving * 2 >= Math.max(1, kinds.length) ? "travel" : "land";
+    const nDives = (d.dives || []).length;
+    const dt = dateOnly(d.date);
+    /* Arriving somewhere new: that night's hotel, photo on top. */
+    const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date && x.photo);
+    const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
+    const band = h ? `<div class="pband">
+        <img src="${esc(h.photo)}" alt="${esc(h.name)}" loading="lazy">
+        <span class="pill">${nights} ${nights===1?U().night:U().nights}</span>
+        <div class="pt"><div class="pk">${U().tonight} · ${esc(tr(h.place))}</div>
+          <h3>${esc(h.name)}</h3><div class="pc">${fmtCoord(h.coords)}</div></div>
+      </div>` : "";
+    return `<article class="dcard ${dive ? "k-dive" : "k-land"} ${isToday?"today":""} ${past?"past":""} ${open?"open":""}" style="--i:${Math.min(i, 8) + 1}">
+      ${band}
+      <button class="dhead" data-day="${d.n}" aria-expanded="${open}" aria-controls="dbody-${d.n}">
+        <span class="dno"><b>${String(d.n).padStart(2,"0")}</b>
+          <small>${esc(dt.toLocaleDateString(L,{weekday:"short"}).replace(".",""))}</small>
+          <small style="margin-top:1px">${esc(dt.toLocaleDateString(L,{day:"numeric",month:"short"}).replace(".",""))}</small></span>
+        <span class="dmain">
+          <span class="dkind">${svg(dive ? "mask" : kind)}${dive ? KD.dive + (nDives ? " · " + KD.dives(nDives) : "") : KD[kind]}${isToday ? ` · ${U().today}<span class="live"></span>` : ""}</span>
+          <span class="dttl">${esc(tr(d.title))}</span>
+          <span class="dmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</span>
+        </span>
+        <span class="chev">${svg("chev", 2)}</span>
       </button>
-      <div class="daybody ${open?"":"hidden"}" id="dbody-${d.n}">
-        <div class="sched">${(d.items||[]).map(([tm,x])=>`<div class="t">${esc(tm)}</div><div class="x">${esc(tr(x))}</div>`).join("")}</div>
-        ${(d.dives||[]).map(dv=>`<div class="dive"><div class="n">${esc(tr(dv.site))}</div>
-          <div class="m">${U().maxDepth} ${esc(tr(dv.depth))}</div>
-          <div style="font-size:13.5px;margin-top:4px">${esc(tr(dv.note))}</div></div>`).join("")}
-        ${d.note?`<p class="note" style="margin-top:10px">${esc(tr(d.note))}</p>`:""}
-        ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${U().showOnMap} · ${esc(tr(d.base))}</button></div>`:""}
-      </div></div>`;
-  }).join("") + `</div>`;
+      <div class="dbody" id="dbody-${d.n}"><div class="din" ${open ? "" : "inert"}><div class="dpad">
+        <ol class="sched">${(d.items||[]).map(([tm,x], k)=>`<li>
+          <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
+          <div class="x">${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}${esc(tr(x))}</div></li>`).join("")}</ol>
+        ${(d.dives||[]).map(dv=>`<div class="dive"><span class="dico">${svg("mask")}</span><div>
+          <div class="n">${esc(tr(dv.site))}</div>
+          <span class="m">${U().maxDepth} ${esc(tr(dv.depth))}</span>
+          <div class="dn">${esc(tr(dv.note))}</div></div></div>`).join("")}
+        ${d.note?`<div class="dnote">${svg("info")}<span>${esc(tr(d.note))}</span></div>`:""}
+        ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${svg("pin")}${U().showOnMap} · ${esc(tr(d.base))}</button></div>`:""}
+      </div></div></div>
+    </article>`;
+  }).join("");
+
+  const enter = daysEnter; daysEnter = false;
+  return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
+    <span class="pill">${dayCount(trip.days.length)}</span></div>` +
+  (split ? `<div class="seg" role="tablist" aria-label="${U().dayByDay}" data-mode="${daysMode}">
+      ${segBtn("dive", U().divingItinerary, diveDays, "mask")}
+      ${segBtn("land", U().nonDiving, landDays, "land")}</div>` : "") +
+  `<div class="dswap ${enter ? "enter" : ""}" id="dswap">
+    ${split ? `<p class="seglead" style="--i:0">${daysMode==="land" ? U().nonDivingLead : U().divingLead}</p>` : ""}
+    <div class="daylist" id="daylist" ${split ? `role="tabpanel" aria-labelledby="seg-${daysMode}"` : ""}>${cards}</div>
+  </div>`;
 }
 
 function viewFlights(){
@@ -1757,7 +1937,7 @@ function viewFlights(){
     return `<div class="card">
       <div class="hd"><div><div class="eyebrow">${esc(tr(f.label))}</div>
         <h3 style="margin-top:4px">${esc(tr(f.airline))} ${esc(f.number)}</h3></div>
-        <span class="pill ochre">${fmtDate(f.dep.time.split(" ")[0])}</span></div>
+        <span class="pill">${fmtDate(f.dep.time.split(" ")[0])}</span></div>
       <div class="leg">
         <div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div><div class="time">${fmtTime(f.dep.time)}</div></div>
         <div class="mid"><div class="dashed"></div><div style="font-size:11px;color:var(--muted);margin-top:4px">✈</div></div>
@@ -3073,13 +3253,27 @@ document.addEventListener("click", async (e) => {
     render(); return;
   }
   if(t.dataset.dmode){
-    if(daysMode !== t.dataset.dmode){ daysMode = t.dataset.dmode; render(); }
+    const mode = t.dataset.dmode;
+    if(daysMode === mode) return;
+    /* Slide the thumb and fade the old list first, then draw the new one
+       rising in. Straight swap when the client prefers reduced motion. */
+    const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const seg = t.closest(".seg"), swap = document.getElementById("dswap");
+    daysMode = mode;
+    if(still || !seg || !swap){ render(); return; }
+    seg.dataset.mode = mode;
+    seg.querySelectorAll("[data-dmode]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.dmode === mode)));
+    swap.classList.remove("enter");
+    swap.classList.add("leaving");
+    setTimeout(() => { if(tab === "days" && daysMode === mode){ daysEnter = true; render(); } }, 190);
     return;
   }
   if(t.dataset.day){
-    const b = document.getElementById("dbody-"+t.dataset.day);
-    const open = b.classList.toggle("hidden");
-    t.setAttribute("aria-expanded", String(!open));
+    const card = t.closest(".dcard");
+    const open = card.classList.toggle("open");
+    t.setAttribute("aria-expanded", String(open));
+    const din = card.querySelector(".din");
+    if(din) din.toggleAttribute("inert", !open);
     return;
   }
   if(t.id === "dv-new"){ newDive(); return; }

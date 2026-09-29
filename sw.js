@@ -1,13 +1,13 @@
 /* ============================================================
    MALAKAY TRAVELS — service worker
-   Cache key: malakay-v56
+   Cache key: malakay-v57
 
    Bump CACHE on every deploy. If you do not, phones that already
    have the app saved will keep serving the old version from disk
    and never see the change.
    ============================================================ */
 
-const CACHE = "malakay-v56";
+const CACHE = "malakay-v57";
 
 /* The shell: everything that is the same for every trip. */
 const SHELL = [
@@ -117,10 +117,68 @@ self.addEventListener("install", e => {
   })());
 });
 
+/* ---- Map tiles --------------------------------------------------------
+   CARTO tiles live in their own cache so a new app version does not wipe
+   a map the client saved last week. CARTO's basemap terms allow keeping
+   tiles on the device for at most 30 days, so every tile is stamped when
+   it is stored, never served past 30 days, and swept out on activate and
+   whenever the page asks. The page shares these names — keep them in step. */
+const TILE_CACHE = "malakay-tiles";
+const TILE_HOST = "basemaps.cartocdn.com";
+const TILE_MAX_AGE = 30 * 24 * 60 * 60 * 1000;
+
+/* a., b., c. and d. serve the same tile; store it once. */
+function tileKey(url){
+  const u = new URL(url);
+  return "https://a." + TILE_HOST + u.pathname + u.search;
+}
+function tileFresh(res){
+  const at = Number(res && res.headers.get("x-malakay-saved"));
+  return at > 0 && Date.now() - at < TILE_MAX_AGE;
+}
+async function sweepTiles(){
+  const c = await caches.open(TILE_CACHE);
+  for(const req of await c.keys()){
+    const res = await c.match(req);
+    if(!tileFresh(res)) await c.delete(req);
+  }
+}
+async function serveTile(req){
+  const c = await caches.open(TILE_CACHE);
+  const key = tileKey(req.url);
+  const hit = await c.match(key);
+  if(hit && tileFresh(hit)) return hit;
+  try{
+    /* CORS, so the tile can be read and stamped. If CARTO ever refuses
+       CORS this throws, and the tile is fetched exactly as Leaflet asked
+       for it — the live map keeps working, it just is not saved. */
+    const res = await fetch(req.url, { mode: "cors", credentials: "omit" });
+    if(!res.ok) return res;
+    const body = await res.blob();
+    const headers = new Headers(res.headers);
+    headers.set("x-malakay-saved", String(Date.now()));
+    const stamped = new Response(body, { status: 200, headers });
+    await c.put(key, stamped.clone());
+    return stamped;
+  }catch(err){
+    try{ return await fetch(req); }
+    catch(e){
+      /* Offline and past 30 days: the stale tile may not be shown. */
+      if(hit) await c.delete(key);
+      throw e;
+    }
+  }
+}
+
+self.addEventListener("message", e => {
+  if(e.data === "sweep-tiles") e.waitUntil(sweepTiles());
+});
+
 self.addEventListener("activate", e => {
   e.waitUntil((async () => {
     const keys = await caches.keys();
-    await Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)));
+    await Promise.all(keys.filter(k => k !== CACHE && k !== TILE_CACHE).map(k => caches.delete(k)));
+    await sweepTiles().catch(() => {});
     await self.clients.claim();
   })());
 });
@@ -130,7 +188,8 @@ self.addEventListener("fetch", e => {
   if(req.method !== "GET") return;
 
   const url = new URL(req.url);
-  if(url.origin !== self.location.origin) return;   /* weather, tiles and outbound links are left alone */
+  if(url.hostname.endsWith(TILE_HOST)){ e.respondWith(serveTile(req)); return; }
+  if(url.origin !== self.location.origin) return;   /* weather and outbound links are left alone */
 
   /* Trip JSON: network first, so a corrected itinerary reaches the
      phone as soon as there is signal; cache is the fallback offline. */
@@ -144,8 +203,14 @@ self.addEventListener("fetch", e => {
         }
         return fresh;
       }catch(err){
+        /* Marked, so the page can tell a saved copy from a fresh one
+           and show clients when their trip was last updated. */
         const hit = await caches.match(req);
-        if(hit) return hit;
+        if(hit){
+          const headers = new Headers(hit.headers);
+          headers.set("x-malakay-offline", "1");
+          return new Response(await hit.blob(), { status: 200, headers });
+        }
         throw err;
       }
     })());

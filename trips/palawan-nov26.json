@@ -1,0 +1,2975 @@
+{
+  "meta": {
+    "name": {
+      "pl": "Palawan — Coron i El Nido",
+      "en": "Palawan — Coron and El Nido"
+    },
+    "code": "DXEXH5WTBC",
+    "operator": "Malakay Travels Sp. z o.o.",
+    "guide": {
+      "name": "Michał Sieczkowski",
+      "phone": "+48 509 905 507",
+      "photo": "img/michal.jpg",
+      "role": {
+        "pl": "Prowadzi wyprawę",
+        "en": "Trip leader"
+      },
+      "intro": {
+        "pl": "Michał prowadzi tę wyprawę na miejscu. Spotyka grupę na lotnisku w Manili 25 listopada i jest z Wami aż do ostatniego nurkowania w El Nido. Jeśli coś się posypie — zagubiony bagaż, przesunięty prom, pytanie o wrak — to jego szukajcie.",
+        "en": "Michał runs this expedition on the ground. He meets the group at Manila airport on 25 November and stays with you through to the last dive in El Nido. If something goes sideways — a bag that didn't arrive, a ferry that shifted, a question about a wreck — he is the one to find."
+      }
+    },
+    "website": "https://www.malakaytravels.com",
+    "email": "michal@malakaytravels.com",
+    "start": "2026-11-24",
+    "end": "2026-12-07",
+    "dives": 10,
+    "tz": "Asia/Manila",
+    "country": {
+      "pl": "Filipiny",
+      "en": "Philippines"
+    },
+    "currency": {
+      "pl": "PHP — peso filipińskie",
+      "en": "PHP — Philippine peso"
+    },
+    "noFly": {
+      "lastDive": "2026-12-04 15:00",
+      "firstFlight": "2026-12-06 09:00",
+      "firstFlightLabel": {
+        "pl": "El Nido → Manila",
+        "en": "El Nido → Manila"
+      },
+      "minHours": 18
+    },
+    "emergency": [
+      {
+        "label": {
+          "pl": "Michał — prowadzi wyprawę",
+          "en": "Michał — trip leader"
+        },
+        "value": "+48 509 905 507"
+      },
+      {
+        "label": {
+          "pl": "E-mail",
+          "en": "Email"
+        },
+        "value": "michal@malakaytravels.com"
+      },
+      {
+        "label": {
+          "pl": "DAN Asia-Pacific — wypadki nurkowe",
+          "en": "DAN Asia-Pacific — diving emergencies"
+        },
+        "value": "+61 8 8212 9242"
+      },
+      {
+        "label": {
+          "pl": "Filipiny — numer alarmowy",
+          "en": "Philippines — emergency number"
+        },
+        "value": "911"
+      },
+      {
+        "label": {
+          "pl": "Komora dekompresyjna",
+          "en": "Recompression chamber"
+        },
+        "value": {
+          "pl": "Najbliższa komora nie znajduje się na Palawan. Do potwierdzenia z bazą nurkową w Coron pierwszego dnia.",
+          "en": "The nearest chamber is not on Palawan. To be confirmed with the Coron dive shop on day one."
+        }
+      },
+      {
+        "label": {
+          "pl": "Gotówka na miejscu",
+          "en": "Cash you will need"
+        },
+        "value": {
+          "pl": "Opłaty środowiskowe za wstęp do parków (Kayangan, Twin Lagoon, Nacpan) oraz opłaty nurkowe nie są wliczone — płatne gotówką na miejscu.",
+          "en": "Park environmental fees (Kayangan, Twin Lagoon, Nacpan) and dive fees are not included — pay in cash locally."
+        }
+      }
+    ],
+    "hero": [
+      "img/hero-elnido.jpg",
+      "img/hero-coron.jpg",
+      "img/hero-jacks.jpg"
+    ],
+    "route": {
+      "pl": "Warszawa → Palawan",
+      "en": "Warsaw → Palawan"
+    },
+    "transfers": {
+      "pl": "Wszystkie transfery z lotniska, między hotelami i na lotnisko są wliczone w cenę wyprawy.",
+      "en": "All transfers from the airport, between hotels and back to the airport are included in the trip price."
+    },
+    "divePackage": {
+      "pl": "10 nurkowań: wraki Coron i rafy El Nido. Pakiet płatny osobno — 450 USD.",
+      "en": "10 dives: the Coron wrecks and the El Nido reefs. The package is paid separately — USD 450."
+    }
+  },
+  "travellers": {
+    "18062026": {
+      "ref": "NR 18/06/2026",
+      "names": [
+        "Jadwiga",
+        "Sławomir"
+      ],
+      "flights": "jadwiga",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/jadwiga-b4eebe4d/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/jadwiga-b4eebe4d/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/jadwiga-b4eebe4d/vouchers.pdf"
+        }
+      ]
+    },
+    "34092026": {
+      "ref": "NR 34/09/2026",
+      "names": [
+        "Ewa"
+      ],
+      "flights": "ewa",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/ewa-6ea8b475/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/ewa-6ea8b475/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/ewa-6ea8b475/vouchers.pdf"
+        }
+      ]
+    },
+    "30082026": {
+      "ref": "NR 30/08/2026",
+      "names": [
+        "Dariusz"
+      ],
+      "flights": "dariusz",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/dariusz-f2fb3e7d/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/dariusz-f2fb3e7d/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/dariusz-f2fb3e7d/vouchers.pdf"
+        }
+      ]
+    }
+  },
+  "flightSets": {
+    "std": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Amsterdamu",
+          "en": "Outbound — Warsaw to Amsterdam"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 1314",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-11-24 12:45",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 14:50",
+          "tz": "Europe/Amsterdam"
+        }
+      },
+      {
+        "id": "f1b",
+        "label": {
+          "pl": "Wylot — Amsterdam do Manili",
+          "en": "Outbound — Amsterdam to Manila"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 807",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 20:20",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-11-25 19:40",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Przylot następnego dnia. Transfer do hotelu w Makati.",
+          "en": "Arrives the next day. Transfer to the hotel in Makati."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Przelot krajowy — Clark do Coron",
+          "en": "Domestic — Clark to Coron"
+        },
+        "airline": {
+          "pl": "Philippine Airlines (PAL Express)",
+          "en": "Philippine Airlines (PAL Express)"
+        },
+        "number": "PR 2685",
+        "dep": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-11-26 14:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "USU",
+          "city": {
+            "pl": "Coron Busuanga",
+            "en": "Coron Busuanga"
+          },
+          "time": "2026-11-26 15:05",
+          "tz": "Asia/Manila"
+        },
+        "baggage": {
+          "pl": "10 kg + 15 kg opłacone z góry",
+          "en": "10 kg + 15 kg prepaid"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati około 8:30 — na dojazd do Clark liczymy 3 godziny.",
+          "en": "We leave Makati around 08:30 — budget three hours to reach Clark."
+        },
+        "pnr": "Z4WIQJ"
+      },
+      {
+        "id": "f2b",
+        "label": {
+          "pl": "Prom — Coron do El Nido",
+          "en": "Ferry — Coron to El Nido"
+        },
+        "airline": {
+          "pl": "Montenegro Shipping Lines",
+          "en": "Montenegro Shipping Lines"
+        },
+        "number": "",
+        "dep": {
+          "iata": "Coron",
+          "city": {
+            "pl": "Port Coron",
+            "en": "Coron Port"
+          },
+          "time": "2026-12-01 06:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "El Nido",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-01 09:30",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Na przystani o 5:00. Przeprawa planowo 3,5 godziny — opóźnienia się zdarzają.",
+          "en": "At the pier by 05:00. Scheduled at 3.5 hours — delays are common."
+        },
+        "pnr": "BW5517080"
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — El Nido do Clark",
+          "en": "Domestic — El Nido to Clark"
+        },
+        "airline": {
+          "pl": "Cebu Pacific (Cebgo)",
+          "en": "Cebu Pacific (Cebgo)"
+        },
+        "number": "DG 6346",
+        "dep": {
+          "iata": "ENI",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-05 17:40",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-12-05 19:15",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Po wylądowaniu przejazd do Makati — około 3 godziny.",
+          "en": "After landing, road transfer to Makati — about three hours."
+        },
+        "pnr": "MHKZUC"
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Paryża",
+          "en": "Return — Manila to Paris"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 209",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-12-06 21:45",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 06:00",
+          "tz": "Europe/Paris"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati z zapasem — wieczorny ruch w Manili bywa ciężki.",
+          "en": "Leave Makati with time to spare — Manila's evening traffic is heavy."
+        },
+        "pnr": "XTGHSM"
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Paryż do Warszawy",
+          "en": "Return — Paris to Warsaw"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 1146",
+        "dep": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 09:45",
+          "tz": "Europe/Paris"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-12-07 12:05",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "XTGHSM"
+      }
+    ],
+    "dariusz": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Amsterdamu",
+          "en": "Outbound — Warsaw to Amsterdam"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 1314",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-11-24 12:45",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 14:50",
+          "tz": "Europe/Amsterdam"
+        }
+      },
+      {
+        "id": "f1b",
+        "label": {
+          "pl": "Wylot — Amsterdam do Manili",
+          "en": "Outbound — Amsterdam to Manila"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 807",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 20:20",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-11-25 19:40",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Przylot następnego dnia. Transfer do hotelu w Makati.",
+          "en": "Arrives the next day. Transfer to the hotel in Makati."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Przelot krajowy — Clark do Coron",
+          "en": "Domestic — Clark to Coron"
+        },
+        "airline": {
+          "pl": "Philippine Airlines (PAL Express)",
+          "en": "Philippine Airlines (PAL Express)"
+        },
+        "number": "PR 2685",
+        "dep": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-11-26 14:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "USU",
+          "city": {
+            "pl": "Coron Busuanga",
+            "en": "Coron Busuanga"
+          },
+          "time": "2026-11-26 15:05",
+          "tz": "Asia/Manila"
+        },
+        "baggage": {
+          "pl": "10 kg + 15 kg opłacone z góry",
+          "en": "10 kg + 15 kg prepaid"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati około 8:30 — na dojazd do Clark liczymy 3 godziny.",
+          "en": "We leave Makati around 08:30 — budget three hours to reach Clark."
+        },
+        "pnr": "Z4WIQJ"
+      },
+      {
+        "id": "f2b",
+        "label": {
+          "pl": "Prom — Coron do El Nido",
+          "en": "Ferry — Coron to El Nido"
+        },
+        "airline": {
+          "pl": "Montenegro Shipping Lines",
+          "en": "Montenegro Shipping Lines"
+        },
+        "number": "",
+        "dep": {
+          "iata": "Coron",
+          "city": {
+            "pl": "Port Coron",
+            "en": "Coron Port"
+          },
+          "time": "2026-12-01 06:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "El Nido",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-01 09:30",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Na przystani o 5:00. Przeprawa planowo 3,5 godziny — opóźnienia się zdarzają.",
+          "en": "At the pier by 05:00. Scheduled at 3.5 hours — delays are common."
+        },
+        "pnr": "BW5517080"
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — El Nido do Clark",
+          "en": "Domestic — El Nido to Clark"
+        },
+        "airline": {
+          "pl": "Cebu Pacific (Cebgo)",
+          "en": "Cebu Pacific (Cebgo)"
+        },
+        "number": "DG 6346",
+        "dep": {
+          "iata": "ENI",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-05 17:40",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-12-05 19:15",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Po wylądowaniu przejazd do Makati — około 3 godziny.",
+          "en": "After landing, road transfer to Makati — about three hours."
+        },
+        "pnr": "MHKZUC"
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Paryża",
+          "en": "Return — Manila to Paris"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 209",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-12-06 21:45",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 06:00",
+          "tz": "Europe/Paris"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati z zapasem — wieczorny ruch w Manili bywa ciężki.",
+          "en": "Leave Makati with time to spare — Manila's evening traffic is heavy."
+        },
+        "pnr": "XTGHSM"
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Paryż do Warszawy",
+          "en": "Return — Paris to Warsaw"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 1146",
+        "dep": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 09:45",
+          "tz": "Europe/Paris"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-12-07 12:05",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "XTGHSM"
+      }
+    ],
+    "ewa": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Amsterdamu",
+          "en": "Outbound — Warsaw to Amsterdam"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 1314",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-11-24 12:45",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 14:50",
+          "tz": "Europe/Amsterdam"
+        }
+      },
+      {
+        "id": "f1b",
+        "label": {
+          "pl": "Wylot — Amsterdam do Manili",
+          "en": "Outbound — Amsterdam to Manila"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 807",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 20:20",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-11-25 19:40",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Przylot następnego dnia. Transfer do hotelu w Makati.",
+          "en": "Arrives the next day. Transfer to the hotel in Makati."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Przelot krajowy — Clark do Coron",
+          "en": "Domestic — Clark to Coron"
+        },
+        "airline": {
+          "pl": "Philippine Airlines (PAL Express)",
+          "en": "Philippine Airlines (PAL Express)"
+        },
+        "number": "PR 2685",
+        "dep": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-11-26 14:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "USU",
+          "city": {
+            "pl": "Coron Busuanga",
+            "en": "Coron Busuanga"
+          },
+          "time": "2026-11-26 15:05",
+          "tz": "Asia/Manila"
+        },
+        "baggage": {
+          "pl": "10 kg + 15 kg opłacone z góry",
+          "en": "10 kg + 15 kg prepaid"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati około 8:30 — na dojazd do Clark liczymy 3 godziny.",
+          "en": "We leave Makati around 08:30 — budget three hours to reach Clark."
+        },
+        "pnr": "Z4WIQJ"
+      },
+      {
+        "id": "f2b",
+        "label": {
+          "pl": "Prom — Coron do El Nido",
+          "en": "Ferry — Coron to El Nido"
+        },
+        "airline": {
+          "pl": "Montenegro Shipping Lines",
+          "en": "Montenegro Shipping Lines"
+        },
+        "number": "",
+        "dep": {
+          "iata": "Coron",
+          "city": {
+            "pl": "Port Coron",
+            "en": "Coron Port"
+          },
+          "time": "2026-12-01 06:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "El Nido",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-01 09:30",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Na przystani o 5:00. Przeprawa planowo 3,5 godziny — opóźnienia się zdarzają.",
+          "en": "At the pier by 05:00. Scheduled at 3.5 hours — delays are common."
+        },
+        "pnr": "BW5517080"
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — El Nido do Clark",
+          "en": "Domestic — El Nido to Clark"
+        },
+        "airline": {
+          "pl": "Cebu Pacific (Cebgo)",
+          "en": "Cebu Pacific (Cebgo)"
+        },
+        "number": "DG 6346",
+        "dep": {
+          "iata": "ENI",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-05 17:40",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-12-05 19:15",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Po wylądowaniu przejazd do Makati — około 3 godziny.",
+          "en": "After landing, road transfer to Makati — about three hours."
+        },
+        "pnr": "MHKZUC"
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Paryża",
+          "en": "Return — Manila to Paris"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 209",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-12-06 21:45",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 06:00",
+          "tz": "Europe/Paris"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati z zapasem — wieczorny ruch w Manili bywa ciężki.",
+          "en": "Leave Makati with time to spare — Manila's evening traffic is heavy."
+        },
+        "pnr": "Z54V6V"
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Paryż do Warszawy",
+          "en": "Return — Paris to Warsaw"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 1146",
+        "dep": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 09:45",
+          "tz": "Europe/Paris"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-12-07 12:05",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "Z54V6V"
+      }
+    ],
+    "jadwiga": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Amsterdamu",
+          "en": "Outbound — Warsaw to Amsterdam"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 1314",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-11-24 12:45",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 14:50",
+          "tz": "Europe/Amsterdam"
+        }
+      },
+      {
+        "id": "f1b",
+        "label": {
+          "pl": "Wylot — Amsterdam do Manili",
+          "en": "Outbound — Amsterdam to Manila"
+        },
+        "airline": {
+          "pl": "KLM",
+          "en": "KLM"
+        },
+        "number": "KL 807",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam",
+            "en": "Amsterdam"
+          },
+          "time": "2026-11-24 20:20",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-11-25 19:45",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Przylot następnego dnia. Transfer do hotelu w Makati.",
+          "en": "Arrives the next day. Transfer to the hotel in Makati."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Przelot krajowy — Clark do Coron",
+          "en": "Domestic — Clark to Coron"
+        },
+        "airline": {
+          "pl": "Philippine Airlines (PAL Express)",
+          "en": "Philippine Airlines (PAL Express)"
+        },
+        "number": "PR 2685",
+        "dep": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-11-26 14:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "USU",
+          "city": {
+            "pl": "Coron Busuanga",
+            "en": "Coron Busuanga"
+          },
+          "time": "2026-11-26 15:05",
+          "tz": "Asia/Manila"
+        },
+        "baggage": {
+          "pl": "10 kg + 15 kg opłacone z góry",
+          "en": "10 kg + 15 kg prepaid"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati około 8:30 — na dojazd do Clark liczymy 3 godziny.",
+          "en": "We leave Makati around 08:30 — budget three hours to reach Clark."
+        },
+        "pnr": "Z4WIQJ"
+      },
+      {
+        "id": "f2b",
+        "label": {
+          "pl": "Prom — Coron do El Nido",
+          "en": "Ferry — Coron to El Nido"
+        },
+        "airline": {
+          "pl": "Montenegro Shipping Lines",
+          "en": "Montenegro Shipping Lines"
+        },
+        "number": "",
+        "dep": {
+          "iata": "Coron",
+          "city": {
+            "pl": "Port Coron",
+            "en": "Coron Port"
+          },
+          "time": "2026-12-01 06:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "El Nido",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-01 09:30",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Na przystani o 5:00. Przeprawa planowo 3,5 godziny — opóźnienia się zdarzają.",
+          "en": "At the pier by 05:00. Scheduled at 3.5 hours — delays are common."
+        },
+        "pnr": "BW5517080"
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — El Nido do Clark",
+          "en": "Domestic — El Nido to Clark"
+        },
+        "airline": {
+          "pl": "Cebu Pacific (Cebgo)",
+          "en": "Cebu Pacific (Cebgo)"
+        },
+        "number": "DG 6346",
+        "dep": {
+          "iata": "ENI",
+          "city": {
+            "pl": "El Nido",
+            "en": "El Nido"
+          },
+          "time": "2026-12-05 17:40",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CRK",
+          "city": {
+            "pl": "Clark",
+            "en": "Clark"
+          },
+          "time": "2026-12-05 19:15",
+          "tz": "Asia/Manila"
+        },
+        "seatNote": {
+          "pl": "Po wylądowaniu przejazd do Makati — około 3 godziny.",
+          "en": "After landing, road transfer to Makati — about three hours."
+        },
+        "pnr": "MHKZUC"
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Paryża",
+          "en": "Return — Manila to Paris"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 209",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila",
+            "en": "Manila"
+          },
+          "time": "2026-12-06 22:00",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 06:10",
+          "tz": "Europe/Paris"
+        },
+        "seatNote": {
+          "pl": "Wyjazd z Makati z zapasem — wieczorny ruch w Manili bywa ciężki.",
+          "en": "Leave Makati with time to spare — Manila's evening traffic is heavy."
+        },
+        "pnr": "7XNNFG"
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Paryż do Warszawy",
+          "en": "Return — Paris to Warsaw"
+        },
+        "airline": {
+          "pl": "Air France",
+          "en": "Air France"
+        },
+        "number": "AF 1146",
+        "dep": {
+          "iata": "CDG",
+          "city": {
+            "pl": "Paryż",
+            "en": "Paris"
+          },
+          "time": "2026-12-07 09:45",
+          "tz": "Europe/Paris"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa",
+            "en": "Warsaw"
+          },
+          "time": "2026-12-07 12:05",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "7XNNFG"
+      }
+    ]
+  },
+  "flights": [],
+  "hotels": [
+    {
+      "name": "1898 Hotel Colonia En Las Filipinas",
+      "place": {
+        "pl": "Manila — Makati",
+        "en": "Manila — Makati"
+      },
+      "coords": [
+        14.5639577,
+        121.0305858
+      ],
+      "photo": "img/stay-manila.jpg",
+      "checkIn": "2026-11-25",
+      "checkOut": "2026-11-26",
+      "ref": "Malakay Group · MK_02-26",
+      "phone": "+63 2 8876 3333",
+      "room": {
+        "pl": "Pokój dwuosobowy ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "5030 P. Burgos Street cor. Kalayaan Ave, Poblacion, Makati City 1210, Metro Manila",
+      "placeId": "ChIJydDr8EvJlzMRZVNoqzEI-jI",
+      "notes": {
+        "pl": "Hotel w stylu kolonialnym, w dzielnicy Poblacion. Recepcja czynna całą dobę, basen na dachu, spa i restauracja hiszpańska. Nocne życie Makati tuż obok, ale sam hotel jest odsunięty od hałasu.",
+        "en": "A colonial-style hotel in Poblacion. Reception open 24 hours, rooftop pool, spa and a Spanish restaurant. Makati nightlife is next door, but the hotel itself sits back from the noise."
+      }
+    },
+    {
+      "name": "Bacau Bay Resort Coron",
+      "place": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        12.0030215,
+        120.1930989
+      ],
+      "photo": "img/stay-coron.jpg",
+      "checkIn": "2026-11-26",
+      "checkOut": "2026-12-01",
+      "ref": "Malakay Group · MK_02-26",
+      "phone": "+63 995 760 3444",
+      "room": {
+        "pl": "Pokój dwuosobowy ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "Sitio Jolo, Governor's Drive, Poblacion 5, Coron, 5316 Palawan",
+      "placeId": "ChIJT2hL7GsfujMRzL_daeLQmLM",
+      "notes": {
+        "pl": "Nasza baza na wszystkie nurkowania wrakowe. Rozległy teren z basenami i pomostem nad zatoką, restauracje na miejscu. Około 20–30 minut od lotniska, transfery organizujemy grupowo. Sprzęt zostaje w bazie nurkowej między dniami.",
+        "en": "Our base for all the wreck diving. Large grounds with pools and a deck over the bay, restaurants on site. Around 20–30 minutes from the airport; transfers are arranged as a group. Gear stays at the dive base between days."
+      }
+    },
+    {
+      "name": "Cadlao Resort & Restaurant",
+      "place": {
+        "pl": "El Nido",
+        "en": "El Nido"
+      },
+      "coords": [
+        11.1878324,
+        119.3952885
+      ],
+      "photo": "img/stay-elnido.jpg",
+      "checkIn": "2026-12-01",
+      "checkOut": "2026-12-05",
+      "ref": "Malakay Group · MK_02-26",
+      "phone": "+63 917 589 7069",
+      "room": {
+        "pl": "Pokój dwuosobowy ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "Caalan Masagana, El Nido 5313, Palawan",
+      "placeId": "ChIJi15_zzhVtjMRfYAxIpdtlg0",
+      "notes": {
+        "pl": "Cztery noce nad zatoką, z widokiem na wyspę Cadlao — zachody słońca stąd są najlepsze w El Nido. Basen nad wodą, restauracja Jinjer na miejscu. Do centrum 12 minut pieszo albo darmowym tuk-tukiem resortu. Brzeg jest kamienisty — na kąpiel lepszy basen albo plaże, do których dopływamy łodzią.",
+        "en": "Four nights over the bay, looking at Cadlao Island — the best sunsets in El Nido are from here. Pool above the water, Jinjer restaurant on site. Town is a 12-minute walk or a free resort tuk-tuk. The shore is rocky — for swimming, use the pool or the beaches we reach by boat."
+      }
+    },
+    {
+      "name": "1898 Hotel Colonia En Las Filipinas",
+      "place": {
+        "pl": "Manila — Makati",
+        "en": "Manila — Makati"
+      },
+      "coords": [
+        14.5639577,
+        121.0305858
+      ],
+      "photo": "img/stay-manila.jpg",
+      "checkIn": "2026-12-05",
+      "checkOut": "2026-12-06",
+      "ref": "Malakay Group · MK_02-26",
+      "phone": "+63 2 8876 3333",
+      "room": {
+        "pl": "Pokój dwuosobowy ze śniadaniem — ostatnia noc",
+        "en": "Twin room, breakfast included — final night"
+      },
+      "address": "5030 P. Burgos Street cor. Kalayaan Ave, Poblacion, Makati City 1210, Metro Manila",
+      "placeId": "ChIJydDr8EvJlzMRZVNoqzEI-jI",
+      "notes": {
+        "pl": "Hotel w stylu kolonialnym, w dzielnicy Poblacion. Recepcja czynna całą dobę, basen na dachu, spa i restauracja hiszpańska. Nocne życie Makati tuż obok, ale sam hotel jest odsunięty od hałasu.",
+        "en": "A colonial-style hotel in Poblacion. Reception open 24 hours, rooftop pool, spa and a Spanish restaurant. Makati nightlife is next door, but the hotel itself sits back from the noise."
+      }
+    }
+  ],
+  "places": [
+    {
+      "name": "Manila Ninoy Aquino",
+      "type": "air",
+      "coords": [
+        14.5086,
+        121.0195
+      ],
+      "note": {
+        "pl": "Przylot na Filipiny",
+        "en": "Arrival into the Philippines"
+      }
+    },
+    {
+      "name": "Makati",
+      "type": "town",
+      "coords": [
+        14.5547,
+        121.0244
+      ],
+      "note": {
+        "pl": "Baza — 2 noce",
+        "en": "Base — 2 nights"
+      }
+    },
+    {
+      "name": "Intramuros",
+      "type": "town",
+      "coords": [
+        14.5896,
+        120.975
+      ],
+      "note": {
+        "pl": "Stare miasto otoczone murami",
+        "en": "The old walled city"
+      }
+    },
+    {
+      "name": "Binondo",
+      "type": "town",
+      "coords": [
+        14.6008,
+        120.9744
+      ],
+      "note": {
+        "pl": "Najstarsze Chinatown na świecie",
+        "en": "The oldest Chinatown in the world"
+      }
+    },
+    {
+      "name": "Coron Busuanga",
+      "type": "air",
+      "coords": [
+        12.1215,
+        120.0999
+      ],
+      "note": {
+        "pl": "Lotnisko na Busuandze",
+        "en": "Airport on Busuanga"
+      }
+    },
+    {
+      "name": "Coron Town",
+      "type": "town",
+      "coords": [
+        11.9986,
+        120.2044
+      ],
+      "note": {
+        "pl": "Baza — 5 nocy",
+        "en": "Base — 5 nights"
+      }
+    },
+    {
+      "name": "Irako Maru",
+      "type": "dive",
+      "coords": [
+        12.0333,
+        120.0333
+      ],
+      "note": {
+        "pl": "Japoński wrak z II wojny światowej — potężne ładownie",
+        "en": "Japanese WWII wreck — huge cargo holds"
+      }
+    },
+    {
+      "name": "Okikawa Maru",
+      "type": "dive",
+      "coords": [
+        12.05,
+        120.0167
+      ],
+      "note": {
+        "pl": "Najlepiej zachowany wrak w okolicy",
+        "en": "The best preserved wreck in the area"
+      }
+    },
+    {
+      "name": "Siete Pecados",
+      "type": "dive",
+      "coords": [
+        11.9833,
+        120.2333
+      ],
+      "note": {
+        "pl": "Park morski — rafa i mnóstwo ryb",
+        "en": "Marine park — reef and huge fish numbers"
+      }
+    },
+    {
+      "name": "Kogyo Maru",
+      "type": "dive",
+      "coords": [
+        12.0389,
+        120.025
+      ],
+      "note": {
+        "pl": "Wrak statku zaopatrzeniowego",
+        "en": "Supply ship wreck"
+      }
+    },
+    {
+      "name": "Akitsushima",
+      "type": "dive",
+      "coords": [
+        12.05,
+        120.0333
+      ],
+      "note": {
+        "pl": "Okręt wspierający hydroplany — wielki dźwig pokładowy",
+        "en": "Seaplane tender — the great deck crane"
+      }
+    },
+    {
+      "name": "Lusong Coral Garden",
+      "type": "dive",
+      "coords": [
+        12.0333,
+        120.1
+      ],
+      "note": {
+        "pl": "Płytka, kolorowa rafa — dobra też na snorkeling",
+        "en": "Shallow, colourful reef — good for snorkelling too"
+      }
+    },
+    {
+      "name": "Kayangan Lake",
+      "type": "town",
+      "coords": [
+        11.9333,
+        120.2
+      ],
+      "note": {
+        "pl": "Jedno z najczystszych jezior w Azji",
+        "en": "One of the cleanest lakes in Asia"
+      }
+    },
+    {
+      "name": "Maquinit Hot Springs",
+      "type": "town",
+      "coords": [
+        11.9722,
+        120.2444
+      ],
+      "note": {
+        "pl": "Gorące źródła wśród mangrowców",
+        "en": "Hot springs among the mangroves"
+      }
+    },
+    {
+      "name": "Mount Tapyas",
+      "type": "town",
+      "coords": [
+        12,
+        120.2
+      ],
+      "note": {
+        "pl": "Punkt widokowy nad zatoką",
+        "en": "Viewpoint over the bay"
+      }
+    },
+    {
+      "name": "El Nido",
+      "type": "town",
+      "coords": [
+        11.1949,
+        119.4013
+      ],
+      "note": {
+        "pl": "Baza — 4 noce",
+        "en": "Base — 4 nights"
+      }
+    },
+    {
+      "name": "South Miniloc",
+      "type": "dive",
+      "coords": [
+        11.15,
+        119.3167
+      ],
+      "note": {
+        "pl": "Ściany i ogrody koralowe",
+        "en": "Walls and coral gardens"
+      }
+    },
+    {
+      "name": "Dilumacad Tunnel",
+      "type": "dive",
+      "coords": [
+        11.2167,
+        119.3167
+      ],
+      "note": {
+        "pl": "Przepływ podwodnym tunelem",
+        "en": "Swim-through tunnel"
+      }
+    },
+    {
+      "name": "Helicopter Island Reef",
+      "type": "dive",
+      "coords": [
+        11.1833,
+        119.3333
+      ],
+      "note": {
+        "pl": "Spokojna rafa na zakończenie",
+        "en": "A calm reef to finish on"
+      }
+    },
+    {
+      "name": "Nacpan Beach",
+      "type": "town",
+      "coords": [
+        11.2833,
+        119.4167
+      ],
+      "note": {
+        "pl": "Jedna z najpiękniejszych plaż regionu",
+        "en": "One of the finest beaches in the region"
+      }
+    },
+    {
+      "name": "El Nido Lio",
+      "type": "air",
+      "coords": [
+        11.205,
+        119.42
+      ],
+      "note": {
+        "pl": "Wylot do Manili",
+        "en": "Departure to Manila"
+      }
+    }
+  ],
+  "days": [
+    {
+      "n": 1,
+      "date": "2026-11-24",
+      "title": {
+        "pl": "Początek przygody | Wylot do Filipin",
+        "en": "The adventure begins | Flying to the Philippines"
+      },
+      "base": {
+        "pl": "W drodze",
+        "en": "In transit"
+      },
+      "coords": [
+        52.1657,
+        20.9671
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Spotkanie na lotnisku Chopina w Warszawie",
+            "en": "Meet at Warsaw Chopin airport"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Krótki briefing i odprawa",
+            "en": "Short briefing and check-in"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wylot w kierunku Filipin",
+            "en": "Fly out towards the Philippines"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Komputer nurkowy, maskę i kartę certyfikacyjną trzymaj w bagażu podręcznym.",
+        "en": "Keep your dive computer, mask and certification card in hand luggage."
+      }
+    },
+    {
+      "n": 2,
+      "date": "2026-11-25",
+      "title": {
+        "pl": "Cosmo Manila",
+        "en": "Cosmo Manila"
+      },
+      "base": {
+        "pl": "Manila — Makati",
+        "en": "Manila — Makati"
+      },
+      "coords": [
+        14.5547,
+        121.0244
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Przylot do Manili i transfer do hotelu w Makati",
+            "en": "Land in Manila and transfer to the hotel in Makati"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Chwila na oddech i regenerację po locie",
+            "en": "A moment to breathe and recover from the flight"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorem: pierwsza eksploracja miasta, kolacja wedle ochoty",
+            "en": "Evening: a first look at the city, dinner as you fancy"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień na regenerację. Dziś bez nurkowania — odpoczywaj i pij dużo wody.",
+        "en": "A recovery day. No diving — rest and drink plenty of water."
+      }
+    },
+    {
+      "n": 3,
+      "date": "2026-11-26",
+      "title": {
+        "pl": "Manila — Clark — Coron",
+        "en": "Manila — Clark — Coron"
+      },
+      "base": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        11.9986,
+        120.2044
+      ],
+      "items": [
+        [
+          "08:30",
+          {
+            "pl": "Wczesne śniadanie i wymeldowanie — wyjazd z Makati około 8:30",
+            "en": "Early breakfast and check-out — leaving Makati around 08:30"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przejazd na lotnisko Clark — liczymy około 3 godziny",
+            "en": "Road transfer to Clark airport — budget about 3 hours"
+          }
+        ],
+        [
+          "14:00",
+          {
+            "pl": "PR2685 Clark → Busuanga, 14:00–15:05",
+            "en": "PR2685 Clark → Busuanga, 14:00–15:05"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Transfer do Bacau Bay, zameldowanie, przygotowanie sprzętu",
+            "en": "Transfer to Bacau Bay, check in, set up dive gear"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Omówienie planu na kolejne dni",
+            "en": "Run through the plan for the coming days"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorem: kolacja w resorcie",
+            "en": "Evening: dinner at the resort"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Długi dzień w drodze. Lot krajowy ma niższy limit bagażu niż międzynarodowy — komputer, maskę i kartę certyfikacyjną trzymaj przy sobie.",
+        "en": "A long day on the move. The domestic flight has a lower baggage limit than the international one — keep your computer, mask and certification card with you."
+      }
+    },
+    {
+      "n": 4,
+      "date": "2026-11-27",
+      "title": {
+        "pl": "Nurkowanie czas start",
+        "en": "Diving begins"
+      },
+      "base": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        12.0333,
+        120.0333
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Irako Maru — ogromny japoński wrak, potężne ładownie i gra światła",
+            "en": "Irako Maru — a huge Japanese wreck, vast holds and shafts of light"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Okikawa Maru — jeden z najlepiej zachowanych wraków w okolicy",
+            "en": "Okikawa Maru — one of the best preserved wrecks here"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Siete Pecados Marine Park — rafa na spokojne zakończenie dnia",
+            "en": "Siete Pecados Marine Park — a reef to finish the day calmly"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Coron uchodzi za jedno z najlepszych miejsc na świecie do nurkowania wrakowego. Dziś 2–3 nurkowania.",
+        "en": "Coron is considered one of the best wreck diving destinations in the world. Two to three dives today."
+      }
+    },
+    {
+      "n": 5,
+      "date": "2026-11-28",
+      "title": {
+        "pl": "Wakacje!",
+        "en": "A day off"
+      },
+      "base": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        11.9986,
+        120.2044
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Plaża — miękki piasek, słońce i szum fal",
+            "en": "The beach — soft sand, sun and the sound of the water"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Coron Town — lokalne knajpki, świeży koktajl albo kawa",
+            "en": "Coron Town — local places, a fresh cocktail or a coffee"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dla chętnych: wycieczka łodzią po ukrytych zatokach i lagunach",
+            "en": "Optional: a boat trip to the hidden bays and lagoons"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień bez nurkowania. Dobry moment, żeby złapać oddech w środku wyprawy.",
+        "en": "No diving today. A good moment to catch your breath mid-trip."
+      }
+    },
+    {
+      "n": 6,
+      "date": "2026-11-29",
+      "title": {
+        "pl": "Nurkowanie!",
+        "en": "Diving!"
+      },
+      "base": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        12.0389,
+        120.025
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Kogyo Maru — wrak statku zaopatrzeniowego, pozostałości sprzętu w ładowniach",
+            "en": "Kogyo Maru — a supply ship wreck, equipment still in the holds"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Akitsushima — okręt wspierający hydroplany, ogromny dźwig pokładowy",
+            "en": "Akitsushima — a seaplane tender with its great deck crane"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Lusong Coral Garden — płytka, kolorowa rafa na zakończenie",
+            "en": "Lusong Coral Garden — a shallow, colourful reef to finish"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Od historii ukrytej w stalowych wrakach po tętniące życiem rafy. 2–3 nurkowania.",
+        "en": "From history hidden in steel to reefs full of life. Two to three dives."
+      }
+    },
+    {
+      "n": 7,
+      "date": "2026-11-30",
+      "title": {
+        "pl": "Relaks przed podróżą",
+        "en": "Rest before we move on"
+      },
+      "base": {
+        "pl": "Coron",
+        "en": "Coron"
+      },
+      "coords": [
+        11.9722,
+        120.2444
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Dzień wolny — zajęcia w podgrupach, wedle ochoty",
+            "en": "A free day — smaller groups, whatever you fancy"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Opcja lądowa: Mount Tapyas i gorące źródła Maquinit Hot Springs",
+            "en": "Land option: Mount Tapyas and the Maquinit Hot Springs"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Opcja morska: island hopping — Kayangan Lake, Twin Lagoon, ukryte plaże",
+            "en": "Sea option: island hopping — Kayangan Lake, Twin Lagoon, hidden beaches"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień bez nurkowania przed przeprawą do El Nido. Michał pomoże zorganizować dodatkowe aktywności.",
+        "en": "No diving before the crossing to El Nido. Michał will help arrange anything extra."
+      }
+    },
+    {
+      "n": 8,
+      "date": "2026-12-01",
+      "title": {
+        "pl": "El Nido — tropikalny raj",
+        "en": "El Nido — tropical paradise"
+      },
+      "base": {
+        "pl": "El Nido",
+        "en": "El Nido"
+      },
+      "coords": [
+        11.1949,
+        119.4013
+      ],
+      "items": [
+        [
+          "04:45",
+          {
+            "pl": "Pobudka i wymeldowanie — śniadanie w formie pakietu",
+            "en": "Early start and check-out — breakfast packed to take"
+          }
+        ],
+        [
+          "05:00",
+          {
+            "pl": "Na przystani w Coron",
+            "en": "At Coron pier"
+          }
+        ],
+        [
+          "06:00",
+          {
+            "pl": "Prom Coron → El Nido, planowo do 9:30",
+            "en": "Ferry Coron → El Nido, scheduled to arrive 09:30"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Transfer i zameldowanie w Cadlao",
+            "en": "Transfer and check-in at Cadlao"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorem: zachód słońca — w El Nido to osobna historia",
+            "en": "Evening: sunset — in El Nido that is a story of its own"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Bardzo wczesny start. Przeprawa planowo 3,5 godziny, ale opóźnienia się zdarzają — nie planujemy nic sztywno na to popołudnie. Tabletki na chorobę morską warto mieć pod ręką.",
+        "en": "A very early start. The crossing is scheduled at 3.5 hours but delays are common — nothing is planned rigidly for that afternoon. Keep seasickness tablets handy."
+      }
+    },
+    {
+      "n": 9,
+      "date": "2026-12-02",
+      "title": {
+        "pl": "Ukryte plaże i laguny",
+        "en": "Hidden beaches and lagoons"
+      },
+      "base": {
+        "pl": "El Nido",
+        "en": "El Nido"
+      },
+      "coords": [
+        11.15,
+        119.3167
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Wypływamy łodzią z El Nido",
+            "en": "Out by boat from El Nido"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Laguny ukryte wśród wapiennych klifów",
+            "en": "Lagoons hidden among the limestone cliffs"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Ukryte plaże dostępne tylko od strony morza",
+            "en": "Beaches you can only reach from the water"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Snorkeling i czas na relaks na białym piasku",
+            "en": "Snorkelling and time on the white sand"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień bez nurkowania — island hopping. Krem z filtrem i coś na głowę.",
+        "en": "No diving — island hopping. Sunscreen and something for your head."
+      }
+    },
+    {
+      "n": 10,
+      "date": "2026-12-03",
+      "title": {
+        "pl": "Nurkowanie w El Nido",
+        "en": "Diving El Nido"
+      },
+      "base": {
+        "pl": "El Nido",
+        "en": "El Nido"
+      },
+      "coords": [
+        11.15,
+        119.3167
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "South Miniloc — piękne ściany i ogrody koralowe pełne życia",
+            "en": "South Miniloc — fine walls and coral gardens full of life"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dilumacad Tunnel — przepływ podwodnym tunelem",
+            "en": "Dilumacad Tunnel — a swim through an underwater tunnel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Helicopter Island Reef — spokojna rafa na zakończenie",
+            "en": "Helicopter Island Reef — a calm reef to close on"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Ostatni dzień nurkowy wyprawy. Po nim zostaje ponad doba do pierwszego lotu.",
+        "en": "The last diving day of the trip. Over a day before the first flight after it."
+      }
+    },
+    {
+      "n": 11,
+      "date": "2026-12-04",
+      "title": {
+        "pl": "Land Tour",
+        "en": "Land tour"
+      },
+      "base": {
+        "pl": "El Nido",
+        "en": "El Nido"
+      },
+      "coords": [
+        11.2833,
+        119.4167
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Opcja 1: Nacpan Beach — jedna z najpiękniejszych plaż regionu",
+            "en": "Option 1: Nacpan Beach — one of the finest beaches in the region"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Opcja 2: trekking do wodospadu Nagkalit-kalit w głębi wyspy",
+            "en": "Option 2: trek to the Nagkalit-kalit waterfall inland"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pakowanie sprzętu — jutro wylot",
+            "en": "Pack the gear — we fly tomorrow"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień do dopasowania pod własny nastrój: relaks albo aktywne odkrywanie.",
+        "en": "A day to suit your mood: rest or active exploring."
+      }
+    },
+    {
+      "n": 12,
+      "date": "2026-12-05",
+      "title": {
+        "pl": "El Nido — Clark — Manila",
+        "en": "El Nido — Clark — Manila"
+      },
+      "base": {
+        "pl": "W drodze",
+        "en": "In transit"
+      },
+      "coords": [
+        11.205,
+        119.42
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Ostatni poranek w El Nido, śniadanie i wymeldowanie",
+            "en": "A last morning in El Nido, breakfast and check-out"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Transfer na lotnisko Lio",
+            "en": "Transfer to Lio airport"
+          }
+        ],
+        [
+          "17:40",
+          {
+            "pl": "DG6346 El Nido → Clark, 17:40–19:15",
+            "en": "DG6346 El Nido → Clark, 17:40–19:15"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przejazd z Clark do Makati — około 3 godziny, późne zameldowanie",
+            "en": "Road from Clark to Makati — about 3 hours, late check-in"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dojedziemy do hotelu późno. Nic nie jest zaplanowane na ten wieczór.",
+        "en": "We reach the hotel late. Nothing is planned for that evening."
+      }
+    },
+    {
+      "n": 13,
+      "date": "2026-12-06",
+      "title": {
+        "pl": "Manila — ostatni dzień",
+        "en": "Manila — the last day"
+      },
+      "base": {
+        "pl": "Manila",
+        "en": "Manila"
+      },
+      "coords": [
+        14.5896,
+        120.975
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Przejazd kultowym jeepneyem — najbardziej charakterystyczny transport Filipin",
+            "en": "Ride an iconic jeepney — the most characteristic transport in the Philippines"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Intramuros — stare, kolonialne miasto otoczone murami",
+            "en": "Intramuros — the old colonial walled city"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Binondo — najstarsze Chinatown na świecie",
+            "en": "Binondo — the oldest Chinatown in the world"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Lokalny targ — owoce, zapachy i codzienne życie",
+            "en": "A local market — fruit, smells and everyday life"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Bonifacio Global City na zakończenie dnia",
+            "en": "Bonifacio Global City to finish the day"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Późne wymeldowanie, bagaż zostaje w hotelu",
+            "en": "Late check-out, bags left at the hotel"
+          }
+        ],
+        [
+          "18:00",
+          {
+            "pl": "Wyjazd na lotnisko — wieczorny ruch w Manili",
+            "en": "Leave for the airport — Manila evening traffic"
+          }
+        ],
+        [
+          "21:45",
+          {
+            "pl": "AF209 Manila → Paryż (Jadwiga i Sławomir: 22:00)",
+            "en": "AF209 Manila → Paris (Jadwiga and Sławomir: 22:00)"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Cały dzień wolny przed wieczornym wylotem — dobry moment na Manilę bez pośpiechu.",
+        "en": "A full free day before the evening flight — a good moment to see Manila without rushing."
+      }
+    },
+    {
+      "n": 14,
+      "date": "2026-12-07",
+      "title": {
+        "pl": "Lądowanie w Warszawie",
+        "en": "Landing in Warsaw"
+      },
+      "base": {
+        "pl": "Warszawa",
+        "en": "Warsaw"
+      },
+      "coords": [
+        52.1657,
+        20.9671
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Lądowanie w Warszawie — koniec wspólnej podróży",
+            "en": "Landing in Warsaw — the end of the journey together"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Uzupełnij logbook, póki wszystko świeże",
+            "en": "Fill in your logbook while it is all still fresh"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Czas wrócić do rzeczywistości — i pamiętajcie, załóżcie kurtkę.",
+        "en": "Time to return to reality — and remember, put a jacket on."
+      }
+    }
+  ],
+  "facts": [
+    {
+      "group": {
+        "pl": "Nurkowanie",
+        "en": "Diving"
+      },
+      "items": [
+        {
+          "pl": "Filipiny leżą w sercu Trójkąta Koralowego — obszaru o największej różnorodności życia morskiego na Ziemi. Rośnie tu ponad 500 gatunków koralowców, więcej niż na całych Karaibach.",
+          "en": "The Philippines sits at the heart of the Coral Triangle — the most biodiverse marine region on Earth. Over 500 coral species grow here, more than in the entire Caribbean."
+        },
+        {
+          "pl": "Antenariusz (frogfish) ma jeden z najszybszych ataków w świecie zwierząt — otwiera pysk i zasysa ofiarę w kilka milisekund. Zbyt szybko, żeby zobaczyć to gołym okiem.",
+          "en": "A frogfish has one of the fastest strikes in the animal kingdom — it opens its mouth and sucks in prey in a few milliseconds. Too fast to see with the naked eye."
+        },
+        {
+          "pl": "Nagoskrzelne (nudibranchs) potrafią zjeść parzydełkowca i przejąć jego komórki parzydełkowe, po czym używać ich do własnej obrony.",
+          "en": "Nudibranchs can eat a stinging animal, take over its stinging cells, and then use them for their own defence."
+        },
+        {
+          "pl": "Żółw morski odpoczywający na dnie potrafi wstrzymać oddech na kilka godzin. Podczas aktywnego pływania wynurza się co kilka–kilkanaście minut.",
+          "en": "A sea turtle resting on the bottom can hold its breath for hours. When actively swimming it surfaces every few minutes."
+        },
+        {
+          "pl": "Ryba mandarynka przystępuje do godów wyłącznie o zmierzchu, przez kilkanaście minut po zachodzie słońca. Dlatego nurkowania na nie zawsze zaczynają się o tej samej porze.",
+          "en": "Mandarin fish spawn only at dusk, for a short window after sunset. That is why mandarin fish dives always start at the same time of day."
+        },
+        {
+          "pl": "Zasada 24 godzin przed lotem nie jest przesądem — azot rozpuszczony w tkankach potrzebuje czasu, żeby się uwolnić, a w kabinie samolotu ciśnienie jest niższe niż na poziomie morza.",
+          "en": "The 24-hour no-fly rule is not superstition — dissolved nitrogen needs time to leave your tissues, and cabin pressure is lower than at sea level."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Coron i wraki",
+        "en": "Coron and the wrecks"
+      },
+      "items": [
+        {
+          "pl": "Wraki w Coron to japońska flota zaopatrzeniowa zatopiona 24 września 1944 roku podczas amerykańskiego nalotu. Samoloty startowały z lotniskowców oddalonych o ponad 550 km — to był wtedy najdalszy taki atak w historii lotnictwa morskiego.",
+          "en": "The Coron wrecks are a Japanese supply fleet sunk on 24 September 1944 in an American air raid. The aircraft flew from carriers over 550 km away — at the time the longest such strike in naval aviation history."
+        },
+        {
+          "pl": "Większość wraków leży na głębokości 10–40 metrów, co czyni Coron jednym z niewielu miejsc na świecie, gdzie nurkowanie wrakowe jest dostępne także dla nurków rekreacyjnych.",
+          "en": "Most of the wrecks lie between 10 and 40 metres, making Coron one of the few places in the world where serious wreck diving is open to recreational divers."
+        },
+        {
+          "pl": "Akitsushima był okrętem-bazą dla hydroplanów — przewoził jedną wielką łódź latającą Kawanishi H8K i dźwig, którym ją opuszczał na wodę. Ten dźwig wciąż leży na dnie i jest najbardziej rozpoznawalnym elementem wraku.",
+          "en": "Akitsushima was a seaplane tender — it carried a single large Kawanishi H8K flying boat and the crane that lowered it into the water. That crane still lies on the bottom and is the wreck's most recognisable feature."
+        },
+        {
+          "pl": "Irako był okrętem chłodniczym — dostarczał świeżą żywność flocie. Dziś uchodzi za jeden z najlepszych wraków w Coron ze względu na zachowaną maszynownię.",
+          "en": "Irako was a refrigerated stores ship, supplying fresh food to the fleet. Today it is rated among the finest wrecks in Coron thanks to its intact engine room."
+        },
+        {
+          "pl": "Nazwa „Maru” w nazwach japońskich statków oznaczała jednostki cywilne, nie wojenne. Wiele z tych statków zostało jednak zarekwirowanych przez marynarkę wojenną.",
+          "en": "The suffix \"Maru\" in Japanese ship names marked civilian vessels rather than warships. Many of these ships had nonetheless been requisitioned by the navy."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Coron i Busuanga",
+        "en": "Coron and Busuanga"
+      },
+      "items": [
+        {
+          "pl": "Kayangan Lake uchodzi za najczystsze jezioro w Azji. Woda jest w około 70% słodka i 30% słona — warstwy nie mieszają się, co tworzy widoczne zafalowanie w toni.",
+          "en": "Kayangan Lake is considered the cleanest lake in Asia. The water is roughly 70% fresh and 30% salt — the layers do not mix, creating a visible shimmer in the water column."
+        },
+        {
+          "pl": "Twin Lagoon dzieli wapienna ściana. Przy niskiej wodzie przepływa się pod nią przez wąską szczelinę — po drugiej stronie zimna słodka woda spotyka ciepłą słoną.",
+          "en": "Twin Lagoon is split by a limestone wall. At low tide you swim under it through a narrow gap — on the far side cold fresh water meets warm salt water."
+        },
+        {
+          "pl": "Jeziora i część wybrzeża Coron należą do ludu Tagbanua — jednej z najstarszych grup etnicznych Filipin. To oni zarządzają dostępem do Kayangan i pobierają opłaty środowiskowe.",
+          "en": "The lakes and part of the Coron coast belong to the Tagbanua people — one of the oldest ethnic groups in the Philippines. They manage access to Kayangan and collect the environmental fees."
+        },
+        {
+          "pl": "Maquinit Hot Springs to jedne z nielicznych na świecie gorących źródeł słonowodnych. Woda ma około 40°C i pochodzi z aktywności geotermalnej pod wyspą.",
+          "en": "Maquinit Hot Springs is one of very few saltwater hot springs in the world. The water sits around 40°C and comes from geothermal activity beneath the island."
+        },
+        {
+          "pl": "Na szczyt Mount Tapyas prowadzi 721 schodów. Widok obejmuje całą zatokę Coron i okoliczne wyspy — najlepiej o zachodzie słońca.",
+          "en": "There are 721 steps to the top of Mount Tapyas. The view takes in the whole of Coron bay and the surrounding islands — best at sunset."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "El Nido i Palawan",
+        "en": "El Nido and Palawan"
+      },
+      "items": [
+        {
+          "pl": "Nazwa „El Nido” to po hiszpańsku „gniazdo”. Pochodzi od gniazd jerzyków budowanych na wapiennych klifach — z nich robi się słynną zupę z ptasich gniazd.",
+          "en": "\"El Nido\" is Spanish for \"the nest\". It refers to the swiftlet nests built on the limestone cliffs — the ones used for bird's nest soup."
+        },
+        {
+          "pl": "Wapienne klify El Nido mają około 250 milionów lat. Powstały z osadów morskich i są jedną z najstarszych formacji tego typu na Filipinach.",
+          "en": "The limestone cliffs of El Nido are around 250 million years old. They formed from marine sediment and are among the oldest such formations in the Philippines."
+        },
+        {
+          "pl": "Palawan bywa nazywany „ostatnią granicą” Filipin. To najsłabiej zurbanizowana duża wyspa kraju — ponad połowa powierzchni to wciąż las.",
+          "en": "Palawan is often called the Philippines' \"last frontier\". It is the least urbanised of the large islands — over half its surface is still forest."
+        },
+        {
+          "pl": "Dilumacad Island nazywana jest Helicopter Island, bo z profilu wygląda jak leżący śmigłowiec. Tunel pod wyspą ma około 35 metrów długości.",
+          "en": "Dilumacad Island is known as Helicopter Island because its profile looks like a helicopter lying down. The tunnel beneath it runs about 35 metres."
+        },
+        {
+          "pl": "Wody wokół El Nido należą do rezerwatu El Nido-Taytay — obszaru chronionego obejmującego ponad 900 km² morza i lądu.",
+          "en": "The waters around El Nido form part of the El Nido-Taytay Managed Resource Protected Area — over 900 km² of sea and land under protection."
+        },
+        {
+          "pl": "Palawan jest jednym z niewielu miejsc na Filipinach, gdzie wciąż żyją diugonie. Są rzadkie i płochliwe, ale czasem pojawiają się w płytkich zatokach.",
+          "en": "Palawan is one of the few places in the Philippines where dugongs still live. They are rare and shy, but occasionally appear in the shallow bays."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Manila",
+        "en": "Manila"
+      },
+      "items": [
+        {
+          "pl": "Nazwę Manila najczęściej wywodzi się od „may nilad” — miejsca, gdzie rośnie nilad, krzew z brzegów zatoki. Część językoznawców to kwestionuje, ale wersja przyjęła się na dobre.",
+          "en": "The name Manila is most often traced to \"may nilad\" — the place where nilad grows, a shrub from the bay shore. Some linguists dispute it, but the story has stuck."
+        },
+        {
+          "pl": "Intramuros to otoczone murami hiszpańskie miasto z 1571 roku. Przez trzysta lat to właśnie ono było „Manilą” — wszystko poza murami było przedmieściem.",
+          "en": "Intramuros is the walled Spanish city from 1571. For three hundred years it *was* Manila — everything outside the walls was suburb."
+        },
+        {
+          "pl": "Binondo to najstarsza chińska dzielnica na świecie, założona w 1594 roku dla chińskich katolików.",
+          "en": "Binondo is the oldest Chinatown in the world, established in 1594 for Chinese Catholics."
+        },
+        {
+          "pl": "Jeepneye powstały z amerykańskich jeepów pozostawionych po II wojnie światowej. Filipińczycy wydłużyli je, dodali ławki i pomalowali — i tak zostało.",
+          "en": "Jeepneys began as American jeeps left behind after the Second World War. Filipinos stretched them, added benches and painted them — and it stuck."
+        },
+        {
+          "pl": "José Rizal, filipiński bohater narodowy, został rozstrzelany w 1896 roku w miejscu, gdzie dziś jest park jego imienia — kilka minut od Intramuros.",
+          "en": "José Rizal, the national hero, was executed in 1896 on the ground that is now the park named after him — minutes from Intramuros."
+        }
+      ]
+    }
+  ],
+  "gear": [
+    {
+      "group": {
+        "pl": "Sprzęt nurkowy",
+        "en": "Dive gear"
+      },
+      "items": [
+        {
+          "id": "g01",
+          "label": {
+            "pl": "Komputer nurkowy + zapasowa bateria",
+            "en": "Dive computer + spare battery"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego. Wymiana baterii na wyspach bywa niemożliwa.",
+            "en": "Hand luggage. Getting a battery changed on the islands may be impossible."
+          }
+        },
+        {
+          "id": "g02",
+          "label": {
+            "pl": "Maska (i zapasowa, jeśli masz)",
+            "en": "Mask (and a spare if you have one)"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego. Pęknięta maska pierwszego dnia potrafi zepsuć tydzień.",
+            "en": "Hand luggage. A cracked mask on day one can ruin the week."
+          }
+        },
+        {
+          "id": "g03",
+          "label": {
+            "pl": "Automat i oktopus po przeglądzie",
+            "en": "Regulator and octopus, serviced"
+          },
+          "note": {
+            "pl": "Zrób przegląd przed wyjazdem, nie po przylocie.",
+            "en": "Service it before you leave, not after you land."
+          }
+        },
+        {
+          "id": "g04",
+          "label": {
+            "pl": "Pianka 3 mm lub shorty",
+            "en": "3 mm wetsuit or shorty"
+          },
+          "note": {
+            "pl": "Woda ma zwykle 28–29°C. Gruba pianka jest zbędna, ale przy 4 nurkowaniach dziennie robi się chłodno.",
+            "en": "Water is usually 28–29°C. A thick suit is overkill, but four dives a day gets cold."
+          }
+        },
+        {
+          "id": "g05",
+          "label": {
+            "pl": "Bojka SMB i kołowrotek",
+            "en": "SMB and reel"
+          },
+          "note": {
+            "pl": "Obowiązkowa na wraki Coron — wynurzenia bywają w prądzie, z dala od łodzi.",
+            "en": "Required at the Coron wrecks — ascents can be in current, away from the boat."
+          }
+        },
+        {
+          "id": "g06",
+          "label": {
+            "pl": "Latarka + zapasowe baterie",
+            "en": "Torch + spare batteries"
+          },
+          "note": {
+            "pl": "Wnętrza wraków są ciemne — latarka jest tu obowiązkowa, nie opcjonalna.",
+            "en": "Wreck interiors are dark — a torch here is required, not optional."
+          }
+        },
+        {
+          "id": "g07",
+          "label": {
+            "pl": "Płetwy i buty",
+            "en": "Fins and boots"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g08",
+          "label": {
+            "pl": "Nóż lub nożyczki nurkowe",
+            "en": "Dive knife or shears"
+          },
+          "note": {
+            "pl": "Do bagażu rejestrowanego, nigdy do podręcznego.",
+            "en": "Checked bag only, never hand luggage."
+          }
+        },
+        {
+          "id": "g09",
+          "label": {
+            "pl": "Logbook i karta certyfikacyjna",
+            "en": "Logbook and certification card"
+          },
+          "note": {
+            "pl": "Baza poprosi pierwszego dnia.",
+            "en": "The dive shop will ask on day one."
+          }
+        },
+        {
+          "id": "g10",
+          "label": {
+            "pl": "Zestaw naprawczy: o-ringi, opaski, taśma",
+            "en": "Save-a-dive kit: o-rings, straps, tape"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Dokumenty i pieniądze",
+        "en": "Documents and money"
+      },
+      "items": [
+        {
+          "id": "g11",
+          "label": {
+            "pl": "Paszport ważny 6 mies. po 20.11.2026",
+            "en": "Passport valid 6 months past 20 Nov 2026"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g12",
+          "label": {
+            "pl": "Ubezpieczenie nurkowe",
+            "en": "Diving insurance"
+          },
+          "note": {
+            "pl": "Obowiązkowe i kupowane osobno — polisa w pakiecie go nie obejmuje.",
+            "en": "Mandatory and bought separately — the package policy does not cover it."
+          }
+        },
+        {
+          "id": "g13",
+          "label": {
+            "pl": "Gotówka w pesos na opłaty rezerwatowe",
+            "en": "Cash in pesos for sanctuary fees"
+          },
+          "note": {
+            "pl": "Płatne gotówką w bazie po ostatnim nurkowaniu w każdej lokalizacji. Na Coron nie ma bankomatu.",
+            "en": "Paid in cash at the dive shop after your last dive at each location. There is no ATM on Coron."
+          }
+        },
+        {
+          "id": "g14",
+          "label": {
+            "pl": "Karta płatnicza z włączonymi płatnościami zagranicznymi",
+            "en": "Card enabled for use abroad"
+          },
+          "note": {
+            "pl": "Poza dużymi miastami wiele miejsc przyjmuje wyłącznie gotówkę.",
+            "en": "Outside the cities many places take cash only."
+          }
+        },
+        {
+          "id": "g15",
+          "label": {
+            "pl": "Kopie dokumentów w telefonie",
+            "en": "Document copies on your phone"
+          },
+          "note": {
+            "pl": "Zakładka Dokumenty w tej aplikacji — działa bez zasięgu.",
+            "en": "The Docs tab in this app — it works with no signal."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Apteczka",
+        "en": "Medical"
+      },
+      "items": [
+        {
+          "id": "g16",
+          "label": {
+            "pl": "Leki własne w oryginalnych opakowaniach",
+            "en": "Your own medication in original packaging"
+          },
+          "note": {
+            "pl": "Weź zapas na cały wyjazd plus kilka dni. Podręczny, nie rejestrowany.",
+            "en": "Bring enough for the whole trip plus a few days. Hand luggage, not checked."
+          }
+        },
+        {
+          "id": "g17",
+          "label": {
+            "pl": "Krople do uszu / środek na zapalenie ucha zewnętrznego",
+            "en": "Ear drops for swimmer's ear"
+          },
+          "note": {
+            "pl": "Cztery nurkowania dziennie przez tydzień to najprostszy sposób, żeby je złapać.",
+            "en": "Four dives a day for a week is the classic way to get it."
+          }
+        },
+        {
+          "id": "g18",
+          "label": {
+            "pl": "Filtr przeciwsłoneczny bezpieczny dla raf",
+            "en": "Reef-safe sunscreen"
+          },
+          "note": {
+            "pl": "Bez oksybenzonu i oktinoksatu. Na Filipinach trudno o dobry — kup w Polsce.",
+            "en": "No oxybenzone or octinoxate. Hard to find a good one locally — buy at home."
+          }
+        },
+        {
+          "id": "g19",
+          "label": {
+            "pl": "Środek na komary",
+            "en": "Insect repellent"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g20",
+          "label": {
+            "pl": "Coś na żołądek i elektrolity",
+            "en": "Something for your stomach, plus electrolytes"
+          },
+          "note": {
+            "pl": "Zmiana wody i jedzenia plus upał.",
+            "en": "Different water and food, plus the heat."
+          }
+        },
+        {
+          "id": "g21",
+          "label": {
+            "pl": "Plastry, dezynfekcja, opatrunki",
+            "en": "Plasters, antiseptic, dressings"
+          },
+          "note": {
+            "pl": "Otarcia od koralowców goją się wolno w tropikach.",
+            "en": "Coral grazes heal slowly in the tropics."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Elektronika",
+        "en": "Electronics"
+      },
+      "items": [
+        {
+          "id": "g22",
+          "label": {
+            "pl": "Powerbank",
+            "en": "Power bank"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego — w rejestrowanym jest zabroniony. Na wyspach zdarzają się przerwy w prądzie.",
+            "en": "Hand luggage only — banned in checked bags. Power cuts happen on the islands."
+          }
+        },
+        {
+          "id": "g23",
+          "label": {
+            "pl": "Przejściówka — gniazda typu A i B, 220 V",
+            "en": "Adapter — type A and B sockets, 220 V"
+          },
+          "note": {
+            "pl": "Filipiny mają wtyczki amerykańskie, ale napięcie europejskie.",
+            "en": "The Philippines uses American plugs but European voltage."
+          }
+        },
+        {
+          "id": "g24",
+          "label": {
+            "pl": "Wodoszczelny worek na telefon i dokumenty",
+            "en": "Dry bag for phone and documents"
+          },
+          "note": {
+            "pl": "Na bangce nie ma suchego miejsca.",
+            "en": "There is no dry place on a bangka."
+          }
+        },
+        {
+          "id": "g25",
+          "label": {
+            "pl": "Aparat podwodny, karty pamięci, ładowarki",
+            "en": "Underwater camera, memory cards, chargers"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Odzież i reszta",
+        "en": "Clothing and the rest"
+      },
+      "items": [
+        {
+          "id": "g26",
+          "label": {
+            "pl": "Lekkie ubrania na 28–32°C",
+            "en": "Light clothing for 28–32°C"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g27",
+          "label": {
+            "pl": "Coś z długim rękawem",
+            "en": "Something long-sleeved"
+          },
+          "note": {
+            "pl": "Na słońce na łodzi, komary wieczorem i klimatyzację w samolocie.",
+            "en": "For sun on the boat, mosquitoes in the evening and aircon on the plane."
+          }
+        },
+        {
+          "id": "g28",
+          "label": {
+            "pl": "Klapki i wygodne buty",
+            "en": "Flip-flops and comfortable shoes"
+          },
+          "note": {
+            "pl": "Buty przydadzą się przy Kawasan i Pulangbato Falls.",
+            "en": "Shoes are useful at Kawasan and Pulangbato Falls."
+          }
+        },
+        {
+          "id": "g29",
+          "label": {
+            "pl": "Ręcznik szybkoschnący",
+            "en": "Quick-dry towel"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g30",
+          "label": {
+            "pl": "Coś ciepłego na powrót",
+            "en": "Something warm for the journey home"
+          },
+          "note": {
+            "pl": "W Warszawie 20 listopada będzie około 0–5°C.",
+            "en": "Warsaw on 20 November will be around 0–5°C."
+          }
+        }
+      ]
+    }
+  ],
+  "nextTrips": [
+    {
+      "name": {
+        "pl": "Palawan — Nowy Rok pod wodą",
+        "en": "Palawan — New Year underwater"
+      },
+      "when": {
+        "pl": "grudzień 2026 – styczeń 2027",
+        "en": "December 2026 – January 2027"
+      },
+      "note": {
+        "pl": "Ta sama trasa, Sylwester na Filipinach.",
+        "en": "The same route, New Year in the Philippines."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Japonia",
+        "en": "Japan"
+      },
+      "when": {
+        "pl": "kwiecień 2027",
+        "en": "April 2027"
+      },
+      "note": {
+        "pl": "Tokio, Hakone, Kioto i Osaka — wyprawa lądowa.",
+        "en": "Tokyo, Hakone, Kyoto and Osaka — a land expedition."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Egipt — obóz rodzinny",
+        "en": "Egypt — family camp"
+      },
+      "when": {
+        "pl": "lipiec 2027",
+        "en": "July 2027"
+      },
+      "note": {
+        "pl": "Morze Czerwone dla całej rodziny — nurkowanie i wypoczynek.",
+        "en": "The Red Sea for the whole family — diving and time off."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Chuuk Lagoon",
+        "en": "Chuuk Lagoon"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Największe cmentarzysko wraków na świecie.",
+        "en": "The greatest wreck graveyard in the world."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Wyspy Salomona",
+        "en": "Solomon Islands"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Wraki, rafy i miejsca, gdzie nurkuje niewielu.",
+        "en": "Wrecks, reefs and places few people dive."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Raja Ampat — Nowy Rok",
+        "en": "Raja Ampat — New Year"
+      },
+      "when": {
+        "pl": "grudzień 2027",
+        "en": "December 2027"
+      },
+      "note": {
+        "pl": "Serce Trójkąta Koralowego.",
+        "en": "The heart of the Coral Triangle."
+      },
+      "url": ""
+    }
+  ],
+  "documents": {
+    "wallet": [
+      {
+        "id": "passport",
+        "label": {
+          "pl": "Paszport",
+          "en": "Passport"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Strona ze zdjęciem. Ważny minimum 6 miesięcy po 07.12.2026.",
+          "en": "Photo page. Valid at least 6 months beyond 7 Dec 2026."
+        }
+      },
+      {
+        "id": "visa",
+        "label": {
+          "pl": "Wiza / zgoda na wjazd",
+          "en": "Visa or entry permit"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Polski paszport — 30 dni bez wizy na Filipinach. Zwykle nic tu nie trzeba.",
+          "en": "Polish passports get 30 days visa-free. Usually nothing needed here."
+        }
+      },
+      {
+        "id": "id",
+        "label": {
+          "pl": "Dowód osobisty lub prawo jazdy",
+          "en": "National ID or driving licence"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Przydatny jako zapasowy dokument, gdy paszport zostaje w sejfie.",
+          "en": "Useful backup ID when your passport is in the resort safe."
+        }
+      },
+      {
+        "id": "insurance",
+        "label": {
+          "pl": "Polisa ubezpieczeniowa",
+          "en": "Travel insurance policy"
+        },
+        "required": true,
+        "hint": {
+          "pl": "W pakiecie: KL 40 000 EUR, NNW 2500 EUR, bagaż 250 EUR, OC 25 000 EUR, sprzęt sportowy 500 EUR. Ubezpieczenie nurkowe wykupujesz osobno — jest obowiązkowe.",
+          "en": "Included: medical EUR 40,000, accident EUR 2,500, baggage EUR 250, liability EUR 25,000, sports equipment EUR 500. Diving insurance is bought separately and is mandatory."
+        }
+      },
+      {
+        "id": "divecert",
+        "label": {
+          "pl": "Karta certyfikacyjna nurka",
+          "en": "Dive certification card"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Obie strony. Baza nurkowa poprosi o nią pierwszego dnia.",
+          "en": "Both sides. The dive shop will ask for it on day one."
+        }
+      },
+      {
+        "id": "divelog",
+        "label": {
+          "pl": "Ostatnie wpisy w logbooku",
+          "en": "Recent logbook entries"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Przy głębszych nurkowaniach mogą zapytać o świeże doświadczenie.",
+          "en": "For the deeper dives they may ask about recent experience."
+        }
+      },
+      {
+        "id": "other",
+        "label": {
+          "pl": "Coś jeszcze",
+          "en": "Anything else"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Recepty, zapasowe zdjęcie do paszportu, kontakt alarmowy.",
+          "en": "Prescriptions, a spare passport photo, emergency contact card."
+        }
+      }
+    ],
+    "issued": [
+      {
+        "id": "govpl",
+        "label": {
+          "pl": "Informacje MSZ o Filipinach",
+          "en": "Polish MFA advice — Philippines"
+        },
+        "note": {
+          "pl": "Oficjalne zalecenia dla podróżnych — gov.pl",
+          "en": "Official travel advice — gov.pl"
+        },
+        "url": "https://www.gov.pl/web/dyplomacja/filipiny"
+      }
+    ]
+  }
+}

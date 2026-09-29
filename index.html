@@ -1,0 +1,2969 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Malakay Travels — Trip Companion</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#071A24">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Malakay">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="googlebot" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="vendor/leaflet.css">
+<link rel="stylesheet" href="vendor/fonts.css">
+
+<style>
+:root{
+  --abyss:#071A24;
+  --deep:#0E3346;
+  --reef:#17B8AE;
+  --reef-dim:#0F7E78;
+  --slate:#F1EBDD;
+  --slate-2:#E1D8C4;
+  --card:#FBF7EE;
+  --ink:#12212A;
+  --muted:#5F6E76;
+  --ochre:#B5762D;
+  --gold:#DFC45D;
+  --coral:#D8492B;
+  --r:14px;
+  --pad:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--slate);
+  color:var(--ink);
+  font-family:'Karla',system-ui,sans-serif;
+  font-size:15px;line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:40px;
+}
+.wrap{max-width:760px;margin:0 auto;padding:0 var(--pad)}
+h1,h2,h3{font-family:'Archivo',sans-serif;margin:0;letter-spacing:-.02em}
+.mono{font-family:'IBM Plex Mono',monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);
+}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+a{color:var(--reef-dim)}
+
+/* ---------- instrument band (the signature) ---------- */
+.instrument{
+  background:var(--abyss);color:var(--slate);
+  border-bottom:2px solid var(--reef-dim);
+  padding:14px 0 0;
+}
+.brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.brand{font-family:'Archivo';font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.brand .mark{height:22px;width:auto;display:block}
+.brand span{color:var(--gold)}
+.brand{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent}
+.brand:hover .mark{transform:scale(1.06)}
+.brand .mark{transition:transform .18s ease-out}
+.brand:focus-visible{outline:2px solid var(--reef);outline-offset:4px;border-radius:6px}
+.tripcode{font-family:'IBM Plex Mono';font-size:11px;color:#7F98A3;letter-spacing:.08em}
+
+.readout{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  margin-top:12px;border-top:1px solid #1B3A48;
+}
+.cell{padding:10px 0 12px;border-right:1px solid #1B3A48}
+.cell:last-child{border-right:none}
+.cell .k{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.12em;color:#6E8794;text-transform:uppercase}
+.cell .v{font-family:'IBM Plex Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
+.cell .v small{font-size:11px;color:#8FA9B4;font-weight:400;margin-left:2px}
+.cell.wide{grid-column:span 2}
+.cell.wide .v{font-size:16px;color:var(--slate);letter-spacing:-.01em}
+
+.langsw{display:flex;border:1px solid #24485A;border-radius:99px;overflow:hidden}
+.langsw button{background:none;border:none;color:#7F98A3;font-family:'IBM Plex Mono';font-size:10px;font-weight:600;letter-spacing:.1em;padding:4px 9px}
+.langsw button[aria-pressed="true"]{background:var(--reef-dim);color:#fff}
+.live{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--reef);margin-right:6px;vertical-align:middle;animation:pulse 2.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+
+/* ---------- tabs ---------- */
+.tabsbar{background:var(--abyss);position:sticky;top:0;z-index:500;border-bottom:1px solid #1B3A48}
+.tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;padding:0 var(--pad)}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+  background:none;border:none;color:#7F98A3;padding:11px 13px 10px;white-space:nowrap;
+  font-family:'Archivo';font-weight:700;font-size:12px;letter-spacing:.09em;text-transform:uppercase;
+  border-bottom:2px solid transparent;
+}
+.tab[aria-selected="true"]{color:var(--slate);border-bottom-color:var(--reef)}
+.tab:focus-visible{outline:2px solid var(--reef);outline-offset:-2px}
+
+/* ---------- cards ---------- */
+.card{
+  background:var(--card);border:1px solid var(--slate-2);border-radius:var(--r);
+  padding:16px;margin:12px 0;
+}
+.card.flat{background:transparent;border-style:dashed}
+.card h3{font-size:17px}
+.hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.sub{color:var(--muted);font-size:13.5px;margin-top:3px}
+.hair{height:1px;background:var(--slate-2);margin:13px -16px}
+section{padding-top:6px}
+.sectitle{display:flex;align-items:center;gap:10px;margin:22px 0 2px}
+.sectitle h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+.sectitle .rule{flex:1;height:1px;background:var(--slate-2)}
+
+.big{font-family:'Archivo';font-weight:800;font-size:clamp(30px,9vw,46px);line-height:.95;letter-spacing:-.035em}
+.big em{font-style:normal;color:var(--reef-dim)}
+
+.pill{
+  display:inline-block;font-family:'IBM Plex Mono';font-size:10.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;padding:3px 8px;border-radius:99px;
+  background:var(--slate-2);color:#41525B;
+}
+.pill.live{background:var(--reef-dim);color:#fff}
+.pill.warn{background:var(--coral);color:#fff}
+.pill.ok{background:#1E6B4F;color:#fff}
+.pill.ochre{background:var(--ochre);color:#fff}
+
+.btn{
+  background:var(--abyss);color:var(--slate);border:none;border-radius:9px;
+  padding:9px 14px;font-family:'Archivo';font-weight:700;font-size:12px;
+  letter-spacing:.07em;text-transform:uppercase;
+}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--slate-2)}
+.btn:disabled{opacity:.45;cursor:wait}
+.btn:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+
+/* ---------- day list ---------- */
+.day{border-left:2px solid var(--slate-2);padding:0 0 2px 16px;margin-left:6px;position:relative}
+.day::before{
+  content:"";position:absolute;left:-6px;top:6px;width:10px;height:10px;border-radius:50%;
+  background:var(--slate);border:2px solid var(--slate-2);
+}
+.day.today{border-left-color:var(--reef-dim)}
+.day.today::before{background:var(--reef);border-color:var(--reef-dim)}
+.day.past::before{background:var(--slate-2)}
+.daybtn{
+  width:100%;text-align:left;background:none;border:none;padding:12px 0;display:flex;gap:12px;align-items:baseline;
+}
+.dnum{font-family:'IBM Plex Mono';font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.06em;min-width:52px}
+.dttl{font-family:'Archivo';font-weight:700;font-size:15.5px;letter-spacing:-.015em;flex:1}
+.dbase{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.daybody{padding:0 0 16px}
+.sched{display:grid;grid-template-columns:56px 1fr;gap:4px 12px;margin:4px 0 0}
+.sched .t{font-family:'IBM Plex Mono';font-size:12px;color:var(--ochre);font-weight:600;padding-top:2px}
+.sched .x{font-size:14px;padding-bottom:6px}
+.dive{background:#EAF4F3;border:1px solid #CBE3E1;border-radius:10px;padding:10px 12px;margin-top:8px}
+.dive .n{font-family:'Archivo';font-weight:700;font-size:14px}
+.dive .m{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);letter-spacing:.05em;text-transform:uppercase}
+
+/* ---------- flights ---------- */
+.leg{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:10px;margin:12px 0 4px}
+.leg .iata{font-family:'Archivo';font-weight:800;font-size:26px;letter-spacing:-.03em}
+.leg .city{font-size:12px;color:var(--muted)}
+.leg .time{font-family:'IBM Plex Mono';font-size:14px;font-weight:600;margin-top:3px}
+.leg .mid{text-align:center;color:var(--slate-2)}
+.leg .r{text-align:right}
+.dashed{border-top:1px dashed var(--slate-2);position:relative;width:100%;min-width:40px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;font-size:13px;margin-top:10px}
+.kv dt{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.kv dd{margin:0;font-weight:500}
+
+/* ---------- weather ---------- */
+.wxrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px;margin-top:10px}
+.wx{background:var(--abyss);border-radius:10px;padding:10px 8px;text-align:center;color:var(--slate)}
+.wx .d{font-family:'IBM Plex Mono';font-size:9.5px;letter-spacing:.1em;color:#7F98A3;text-transform:uppercase}
+.wx .i{font-size:20px;margin:5px 0 3px;line-height:1}
+.wx .t{font-family:'IBM Plex Mono';font-size:13px;font-weight:600}
+.wx .t small{color:#7F98A3;font-weight:400}
+.sea{display:flex;gap:18px;margin-top:12px;flex-wrap:wrap}
+.sea div{flex:1;min-width:110px}
+.sea .v{font-family:'IBM Plex Mono';font-size:22px;font-weight:600;color:var(--reef-dim);line-height:1.1}
+
+/* ---------- map ---------- */
+#map{height:min(62vh,460px);border-radius:var(--r);border:1px solid var(--slate-2);margin-top:12px;background:#DCE8EA}
+/* Tiles come from the CARTO CDN and are the one part of the map that needs
+   a connection. When they fail, the container goes dark so the route and
+   pins read as a deliberate schematic rather than a half-loaded page. */
+#map.tiles-offline{background:var(--abyss);border-color:#0E3346}
+#map.tiles-offline .leaflet-container{background:var(--abyss)}
+#map.tiles-offline .leaflet-control-zoom a{background:#0E3346;color:#F1EBDD;border-color:#17B8AE}
+#map.tiles-offline .leaflet-control-attribution{background:rgba(7,26,36,.75);color:#8FA3AB}
+.map-offline-note{display:none;align-items:center;gap:8px;margin-top:10px;
+  font-family:'IBM Plex Mono',ui-monospace,monospace;font-size:11.5px;line-height:1.45;
+  color:var(--muted)}
+.map-offline-note.on{display:flex}
+.map-offline-note .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);flex:none}
+.mk{width:14px;height:14px;border-radius:50%;border:2.5px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.mk.dive{background:var(--reef-dim)}
+.mk.hotel{background:var(--ochre)}
+.mk.air{background:var(--abyss)}
+.mk.town{background:var(--coral)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
+
+/* ---------- misc ---------- */
+.dvform{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px}
+.dvform label{font-family:'IBM Plex Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.dvform label.wide{grid-column:1/-1}
+.dvform input,.dvform textarea{
+  font-family:'Karla',sans-serif;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0;
+  border:1px solid var(--slate-2);border-radius:8px;padding:9px 10px;background:#fff;width:100%;
+}
+.dvform input:focus,.dvform textarea:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.dvrow{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;font-size:inherit}
+.dvnum{font-family:'IBM Plex Mono';font-size:19px;font-weight:600;color:var(--reef-dim);text-align:right;line-height:1.15}
+.dvnum small{font-size:11px;color:var(--muted);font-weight:400;margin-left:1px}
+.dvnum span{display:block;font-size:14px}
+.nextcard{background:var(--abyss);color:var(--slate);border-radius:var(--r);padding:16px;margin:12px 0}
+.nextcard .eyebrow{color:var(--reef)}
+.nexttrip{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
+.nexttrip .nm,.nexttrip .nn{display:block}
+.nexttrip .arr{color:#5E7C89;margin-left:2px}
+.nexttrip:last-child{border-bottom:none}
+.nexttrip .nm{font-family:'Archivo';font-weight:700;font-size:14.5px}
+.nexttrip .nn{font-size:12.5px;color:#9DB3BD;margin-top:2px}
+.nexttrip .nw{font-family:'IBM Plex Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;white-space:nowrap;text-align:right}
+.gear{
+  width:100%;background:none;border:none;border-bottom:1px solid var(--slate-2);
+  padding:11px 0;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;text-align:left;
+}
+.gear:last-child{border-bottom:none}
+.gear .box{
+  width:22px;height:22px;border-radius:6px;border:1.5px solid var(--slate-2);background:var(--slate);
+  display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;margin-top:1px;
+}
+.gear.on .box{background:var(--reef-dim);border-color:var(--reef-dim)}
+.gear .gl{display:block;font-size:14.5px;font-weight:500;line-height:1.35}
+.gear.on .gl{color:var(--muted);text-decoration:line-through}
+.gear .gn{display:block;font-size:12.5px;color:var(--muted);margin-top:3px;line-height:1.4}
+.gear:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px;border-radius:6px}
+.factgrp{
+  width:100%;background:none;border:none;padding:2px 0;display:flex;justify-content:space-between;align-items:center;
+  font-family:'Archivo';font-weight:700;font-size:15.5px;letter-spacing:-.015em;color:var(--ink);text-align:left;
+}
+.factgrp .cnt{font-family:'IBM Plex Mono';font-size:11.5px;color:var(--muted);font-weight:500;letter-spacing:.06em}
+.fact{display:grid;grid-template-columns:26px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid var(--slate-2)}
+.fact:last-child{border-bottom:none}
+.fact .n{font-family:'IBM Plex Mono';font-size:11px;color:var(--reef-dim);font-weight:600;padding-top:3px}
+.note{font-size:12.5px;color:var(--muted);font-style:italic}
+.banner{
+  background:var(--ochre);color:#fff;border-radius:var(--r);padding:13px 15px;margin:12px 0;
+  display:flex;gap:12px;align-items:flex-start;justify-content:space-between;
+}
+.banner p{margin:0;font-size:13.5px}
+.banner b{font-family:'Archivo'}
+.banner button{background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:7px;padding:5px 10px;font-size:11px;font-family:'Archivo';font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+textarea{
+  width:100%;min-height:340px;font-family:'IBM Plex Mono';font-size:11.5px;line-height:1.55;
+  border:1px solid var(--slate-2);border-radius:10px;padding:12px;background:#fff;color:var(--ink);resize:vertical;
+}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.err{color:var(--coral);font-size:13px;font-weight:700;margin-top:8px}
+.spin{display:inline-block;width:11px;height:11px;border:2px solid var(--slate-2);border-top-color:var(--reef-dim);border-radius:50%;animation:sp .7s linear infinite;vertical-align:-1px;margin-right:6px}
+@keyframes sp{to{transform:rotate(360deg)}}
+/* ---------- documents ---------- */
+.privacy{
+  background:var(--abyss);color:var(--slate);border-radius:var(--r);padding:14px 16px;margin:12px 0;
+}
+.privacy .eyebrow{color:var(--reef)}
+.privacy p{margin:6px 0 0;font-size:13.5px;color:#C6D3D8}
+.prog{height:5px;background:var(--slate-2);border-radius:99px;overflow:hidden;margin-top:10px}
+.prog i{display:block;height:100%;background:var(--reef-dim);border-radius:99px;transition:width .4s ease}
+.doc{display:grid;grid-template-columns:52px 1fr auto;gap:13px;align-items:center;padding:12px 0;border-bottom:1px solid var(--slate-2)}
+.doc:last-of-type{border-bottom:none}
+.thumb{
+  width:52px;height:52px;border-radius:9px;background:var(--slate);border:1px solid var(--slate-2);
+  display:flex;align-items:center;justify-content:center;overflow:hidden;font-size:19px;color:var(--muted);
+}
+.thumb img{width:100%;height:100%;object-fit:cover}
+.thumb.done{border-color:var(--reef-dim);border-width:2px}
+.doc .l{font-family:'Archivo';font-weight:700;font-size:14.5px;letter-spacing:-.01em}
+.doc .s{font-size:12px;color:var(--muted);margin-top:2px}
+.doc .s b{color:var(--reef-dim)}
+.iconbtn{
+  background:none;border:1px solid var(--slate-2);border-radius:8px;width:32px;height:32px;
+  font-size:13px;color:var(--muted);line-height:1;
+}
+.iconbtn:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.docacts{display:flex;gap:6px}
+.modal{
+  position:fixed;inset:0;background:rgba(7,26,36,.94);z-index:900;
+  display:flex;flex-direction:column;padding:14px;
+}
+.modal .bar{display:flex;justify-content:space-between;align-items:center;color:var(--slate);margin-bottom:12px}
+.modal .bar h3{font-size:15px}
+.modal .body{flex:1;display:flex;align-items:center;justify-content:center;overflow:auto}
+.modal img{max-width:100%;max-height:100%;border-radius:10px}
+.modal iframe{width:100%;height:100%;border:none;border-radius:10px;background:#fff}
+.offbar{
+  background:var(--coral);color:#fff;text-align:center;padding:6px 12px;
+  font-family:'IBM Plex Mono';font-size:11px;letter-spacing:.08em;text-transform:uppercase;
+}
+.installbar{
+  background:var(--reef-dim);color:#fff;border-radius:var(--r);padding:12px 15px;margin:12px 0;
+  display:flex;gap:12px;align-items:center;justify-content:space-between;
+}
+.installbar p{margin:0;font-size:13.5px}
+.installbar button{background:rgba(255,255,255,.22);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-family:'Archivo';font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.hidden{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- photo hero (Now) ---------- */
+.hero{position:relative;background:var(--abyss);border:1px solid var(--slate-2);
+  border-radius:var(--r);overflow:hidden;margin:12px 0}
+.hero .stage{position:relative;height:340px}
+.hero figure{position:absolute;inset:0;margin:0;opacity:0;animation:heroFade 24s infinite}
+.hero figure img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes heroFade{0%{opacity:0}4%{opacity:1}30%{opacity:1}37%{opacity:0}100%{opacity:0}}
+.hero .stage::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,
+  rgba(7,26,36,.5) 0%,rgba(7,26,36,.1) 30%,rgba(7,26,36,.62) 66%,rgba(7,26,36,.96) 100%)}
+.hero .txt{position:absolute;z-index:3;left:18px;right:18px;bottom:18px}
+.hero .hk{font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--reef);text-shadow:0 1px 8px rgba(7,26,36,.7)}
+.hero h1{font-family:'Archivo',sans-serif;font-weight:800;color:#fff;margin:12px 0 0;
+  font-size:clamp(26px,6.2vw,38px);line-height:1.05;letter-spacing:-.025em;
+  text-shadow:0 3px 18px rgba(7,26,36,.55)}
+.hero .facts{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);
+  border-top:1px solid var(--slate-2)}
+.hfact{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding:14px 6px 15px;text-align:center;border-right:1px solid var(--slate-2)}
+.hfact:last-child{border-right:0}
+.hfact .fk{display:block;width:100%;font-family:'IBM Plex Mono',monospace;font-size:9.5px;
+  line-height:1.35;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);
+  margin:0 0 8px;min-height:2.7em;overflow-wrap:break-word;hyphens:none}
+.hfact .fv{font-family:'IBM Plex Mono',monospace;font-size:19px;font-weight:600;color:var(--ink);
+  line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.hfact .fv small{font-size:10px;font-weight:400;color:var(--muted);margin-left:3px;letter-spacing:.06em}
+@media (max-width:520px){
+  .hero .stage{height:290px}
+  .hfact{padding:12px 4px 13px}
+  .hfact .fk{font-size:8.5px;letter-spacing:.07em}
+  .hfact .fv{font-size:17px}
+}
+@media (max-width:340px){
+  .hfact .fk{font-size:8px;letter-spacing:.04em}
+  .hfact .fv{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero figure{animation:none;opacity:0}
+  .hero figure:first-of-type{opacity:1}
+}
+
+/* ---------- stay: summary strip + photo cards ---------- */
+.staysum{display:grid;grid-template-columns:1fr 1fr;background:var(--abyss);color:var(--slate);
+  border-radius:var(--r);padding:14px 16px;margin:12px 0}
+.staysum > div{padding-left:14px;border-left:1px solid #1B3A48}
+.staysum > div:first-child{padding-left:0;border-left:0}
+.staysum .k{display:block;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:#6E8794;margin-bottom:6px}
+.staysum .v{font-family:'IBM Plex Mono',monospace;font-size:16px;font-weight:600;color:#fff;
+  font-variant-numeric:tabular-nums}
+.card.photo{padding:0;overflow:hidden}
+.card.photo .pbody{padding:16px}
+.pband{position:relative;height:200px;background:var(--abyss)}
+.pband img{width:100%;height:100%;object-fit:cover;display:block}
+.pband::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,
+  rgba(7,26,36,.3) 0%,rgba(7,26,36,0) 30%,rgba(7,26,36,.55) 62%,rgba(7,26,36,.93) 100%)}
+.pband .pt{position:absolute;z-index:2;left:16px;right:16px;bottom:14px}
+.pband .pk{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--reef);text-shadow:0 1px 8px rgba(7,26,36,.7)}
+.pband h3{color:#fff;margin:6px 0 5px;font-size:21px;line-height:1.1;
+  text-shadow:0 2px 12px rgba(7,26,36,.55)}
+.pband .pc{font-family:'IBM Plex Mono',monospace;font-size:11px;color:rgba(255,255,255,.8)}
+.pband .pill{position:absolute;z-index:3;top:12px;right:12px;background:rgba(7,26,36,.62);
+  color:#fff;border:1px solid rgba(255,255,255,.3)}
+.pband .pill.live{background:var(--reef-dim);border-color:var(--reef-dim)}
+.pband .pill.ochre{background:var(--ochre);border-color:var(--ochre);color:#fff}
+.daterow{display:flex;align-items:center;gap:10px;font-family:'IBM Plex Mono',monospace;
+  background:rgba(23,184,174,.07);border-radius:9px;padding:10px 12px;margin-bottom:12px;
+  font-variant-numeric:tabular-nums}
+.daterow .dt{font-size:13.5px;font-weight:600;color:var(--ink)}
+.daterow .ar{color:var(--reef-dim);font-weight:600}
+.daterow .nn{margin-left:auto;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- map intro flight ---------- */
+.plane{transform-origin:50% 50%;transition:none;will-change:transform}
+.plane svg{display:block;filter:drop-shadow(0 1px 3px rgba(7,26,36,.5))}
+.mapcap{position:absolute;z-index:600;left:12px;top:12px;pointer-events:none;
+  background:rgba(7,26,36,.86);color:#fff;border-radius:999px;padding:8px 14px;
+  font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;display:flex;align-items:center;gap:10px;
+  opacity:0;transition:opacity .5s ease}
+.mapcap.on{opacity:1}
+.mapcap i{font-style:normal;color:#6E8794;letter-spacing:.06em;text-transform:none;font-size:10px}
+
+/* ---------- meet your guide ---------- */
+.guidecard{display:flex;gap:16px;align-items:flex-start}
+.guidecard img{width:104px;height:130px;flex:0 0 auto;object-fit:cover;object-position:50% 32%;
+  border-radius:12px;background:var(--slate-2);display:block}
+.guidecard .gbody{flex:1;min-width:0}
+.guidecard h3{margin:0;font-size:20px;line-height:1.15}
+.guidecard .grole{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--reef-dim);margin-top:5px}
+.guidecard .gtel{display:inline-block;margin-top:10px;font-family:'IBM Plex Mono',monospace;
+  font-size:14px;font-weight:600;color:var(--reef-dim);text-decoration:none;
+  background:rgba(23,184,174,.09);border-radius:9px;padding:9px 13px;min-height:40px}
+.guidecard .gtel:hover{background:rgba(23,184,174,.16)}
+.guideintro{margin-top:14px;font-size:14.5px;line-height:1.55;color:var(--ink)}
+@media (max-width:400px){
+  .guidecard img{width:88px;height:110px}
+  .guidecard h3{font-size:18px}
+}
+
+/* ---- first-run name step ---- */
+.namegate{
+  position:fixed; inset:0; z-index:900;
+  background:var(--slate);
+  display:flex; align-items:stretch; justify-content:center;
+  overflow-y:auto;
+}
+.namegate.hidden{display:none}
+.namegate .ng-inner{
+  width:100%; max-width:520px;
+  padding:34px 20px 28px;
+  display:flex; flex-direction:column;
+}
+.namegate .ng-mark{height:40px;width:auto;display:block;margin-bottom:26px}
+.namegate h2{
+  font-family:'Archivo'; font-weight:800;
+  font-size:clamp(28px,8vw,40px); line-height:1.02; letter-spacing:-.03em;
+  margin:0;
+}
+.namegate .ng-help{color:var(--muted);font-size:14.5px;margin:12px 0 0;max-width:32ch}
+.namegate input{
+  width:100%; margin-top:26px; background:var(--card);
+  border:1.5px solid var(--slate-2); border-radius:var(--r);
+  padding:16px; font-family:'Karla',system-ui,sans-serif;
+  font-size:20px; color:var(--ink); min-height:58px;
+}
+.namegate input:focus{outline:none;border-color:var(--reef-dim)}
+.namegate .ng-picks{margin-top:26px;display:flex;flex-direction:column;gap:10px}
+.namegate .ng-picks.hidden{display:none}
+.namegate input.hidden{display:none}
+
+/* The names rise in one after another, then the first one gives a single
+   soft pulse. Attention without the broken-page feel of a blink. */
+@keyframes ngRise{
+  from{opacity:0; transform:translateY(10px)}
+  to  {opacity:1; transform:translateY(0)}
+}
+@keyframes ngNudge{
+  0%,100%{border-color:var(--slate-2); box-shadow:0 0 0 0 rgba(0,0,0,0)}
+  50%    {border-color:var(--reef-dim); box-shadow:0 0 0 4px rgba(45,166,153,.16)}
+}
+.namegate .ng-pick{
+  width:100%; background:var(--card);
+  border:1.5px solid var(--slate-2); border-radius:var(--r);
+  padding:16px; font-family:'Archivo',system-ui,sans-serif; font-weight:700;
+  font-size:20px; color:var(--ink); min-height:58px; text-align:left;
+  letter-spacing:-.01em; cursor:pointer;
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  opacity:0; animation:ngRise .34s cubic-bezier(.2,.7,.3,1) forwards;
+}
+.namegate .ng-pick:nth-child(1){animation-delay:.10s}
+.namegate .ng-pick:nth-child(2){animation-delay:.20s}
+.namegate .ng-pick .ng-arrow{color:var(--reef-dim); font-weight:400; font-size:18px}
+.namegate .ng-pick.nudge{animation:ngRise .34s cubic-bezier(.2,.7,.3,1) forwards,
+                                   ngNudge 1.5s ease-in-out .9s 2}
+.namegate .ng-pick:active{border-color:var(--reef-dim)}
+.namegate .ng-other{
+  background:none; border:none; padding:6px 0; margin-top:2px;
+  font-family:'Karla',system-ui,sans-serif; font-size:14.5px;
+  color:var(--muted); text-decoration:underline; text-align:left; cursor:pointer;
+}
+/* Skip stays reachable but stops looking like an equal choice. */
+.namegate .ng-actions #ng-skip{
+  background:none; border:none; min-height:auto; padding:10px 0;
+  font-family:'Karla',system-ui,sans-serif; font-size:14px;
+  color:var(--muted); text-decoration:underline;
+}
+@media (prefers-reduced-motion: reduce){
+  .namegate .ng-pick{opacity:1; animation:none}
+  .namegate .ng-pick.nudge{animation:none; border-color:var(--reef-dim)}
+}
+.namegate .ng-ref{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:10.5px; letter-spacing:.05em; color:var(--muted);
+  margin-top:18px;
+}
+.namegate .ng-note{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:10.5px; letter-spacing:.05em; color:var(--muted);
+  margin-top:12px; line-height:1.6;
+}
+.namegate .ng-actions{margin-top:auto;padding-top:28px;display:flex;flex-direction:column;gap:10px}
+.namegate .btn{min-height:52px;font-size:16px}
+.greetrow{
+  display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+  margin:2px 0 14px;
+}
+.greetrow .gr-txt{
+  font-family:'Archivo'; font-weight:800;
+  font-size:clamp(19px,5.2vw,25px); letter-spacing:-.02em; line-height:1.1;
+}
+.greetrow .gr-txt em{font-style:normal;color:var(--reef-dim)}
+.greetrow button{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+  background:transparent; border:0; padding:4px 2px;
+  color:var(--muted); cursor:pointer; text-decoration:underline;
+}
+.greetrow button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.greetrow .gr-add{
+  color:var(--ochre); font-weight:700; text-decoration:none;
+  border:1px solid var(--ochre); border-radius:999px; padding:5px 12px;
+}
+
+/* ---- no-fly card ---- */
+.nofly{
+  margin:0 0 16px; border-radius:var(--r); padding:16px 16px 14px;
+  border:1px solid var(--slate-2); background:var(--card);
+}
+.nofly.ok{border-color:rgba(56,195,192,.45)}
+.nofly.tight{border-color:#C9A82F}
+.nofly.under{border-color:#C4553A; background:rgba(196,85,58,.07)}
+.nofly h4{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:10.5px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); margin:0 0 12px; font-weight:500;
+}
+.nofly-row{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:7px}
+.nofly-row span:first-child{font-size:13.5px; color:var(--muted)}
+.nofly-row span:last-child{
+  font-family:'JetBrains Mono',ui-monospace,monospace;
+  font-size:13px; color:var(--ink); text-align:right;
+}
+.nofly-gap{
+  display:flex; align-items:baseline; gap:10px;
+  margin:12px 0 4px; padding-top:12px; border-top:1px solid var(--slate-2);
+}
+.nofly-gap b{font-family:'Archivo'; font-weight:800; font-size:34px; letter-spacing:-.02em; line-height:1}
+.nofly.ok .nofly-gap b{color:var(--reef-dim)}
+.nofly.tight .nofly-gap b{color:#9A7D15}
+.nofly.under .nofly-gap b{color:#A6402A}
+.nofly-gap i{font-style:normal; font-size:13.5px; color:var(--muted)}
+.nofly-verdict{
+  font-size:13.5px; font-weight:700; margin-top:6px;
+}
+.nofly.ok .nofly-verdict{color:var(--reef-dim)}
+.nofly.tight .nofly-verdict{color:#9A7D15}
+.nofly.under .nofly-verdict{color:#A6402A}
+.nofly-note{font-size:11.5px; line-height:1.55; color:var(--muted); margin:10px 0 0}
+</style>
+
+<div class="instrument">
+  <div class="wrap">
+    <div class="brandrow">
+      <a class="brand" href="https://www.malakaytravels.com" target="_blank" rel="noopener" aria-label="Malakay Travels"><img src="coral.png" alt="" class="mark">Malakay <span>Travels</span></a>
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="tripcode mono" id="tripcode">—</div>
+        <div class="langsw" id="langsw"></div>
+      </div>
+    </div>
+    <div class="readout">
+      <div class="cell wide"><div class="k" id="k1">Status</div><div class="v" id="v1">—</div></div>
+      <div class="cell"><div class="k" id="k2">Local time</div><div class="v" id="v2">—</div></div>
+      <div class="cell"><div class="k" id="k3">Water</div><div class="v" id="v3">—</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="offbar hidden" id="offbar"></div>
+
+<div class="tabsbar">
+  <div class="wrap" style="padding:0">
+    <div class="tabs" role="tablist" id="tabs"></div>
+  </div>
+</div>
+
+<div class="namegate hidden" id="namegate">
+  <div class="ng-inner">
+    <img src="coral.png" alt="" class="ng-mark">
+    <h2 id="ng-ask">What should we call you?</h2>
+    <p class="ng-help" id="ng-help"></p>
+    <div class="ng-picks hidden" id="ng-picks"></div>
+    <input id="ng-input" type="text" maxlength="24" autocomplete="given-name" autocapitalize="words" spellcheck="false">
+    <p class="ng-note" id="ng-note"></p>
+    <div class="ng-actions">
+      <button class="btn" id="ng-save"></button>
+      <button class="btn ghost" id="ng-skip"></button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap"><main id="view"></main></div>
+
+<script src="vendor/leaflet.js"></script>
+<script>
+/* ============================================================
+   MALAKAY TRAVELS — CLIENT TRIP COMPANION
+   Single-file app. Replace SEED via the Setup tab, or load
+   a different trip JSON per departure.
+   ============================================================ */
+
+
+/* Every visible string is {pl, en}. tr() picks by the chosen language. */
+/* ============================================================
+   TRIP LOADER  —  v35 consolidated shell
+   ------------------------------------------------------------
+   Trip content no longer lives in this file. Each departure is a
+   separate JSON file in trips/, and this shell fetches the one the
+   link asks for:
+
+       app.malakaytravels.com/#trip=japan-dec26
+       app.malakaytravels.com/#trip=cebu-nov26&t=04042026
+
+   The part after # is a URL fragment. Browsers never send it to the
+   server, so neither the trip name nor the contract number appears in
+   any hosting access log. That is the whole reason it is a # and not
+   a ? — it removes a pseudonymous identifier from a US server log at
+   no cost.
+
+   ?trip= and ?t= still work, so any link already sent keeps working.
+   ============================================================ */
+
+const DEFAULT_TRIP = "cebu-nov26";
+const KNOWN_TRIPS  = ["cebu-nov26", "palawan-nov26", "japan-dec26", "palawan-nye"];
+
+/* Reads a parameter from either the fragment or the query string.
+   The fragment wins; the query string is the fallback for old links. */
+function urlParams(){
+  const out = new URLSearchParams();
+  try{
+    const h = (location.hash || "").replace(/^#/, "");
+    if(h) new URLSearchParams(h).forEach((v, k) => out.set(k, v));
+  }catch(e){}
+  try{
+    new URLSearchParams(location.search).forEach((v, k) => { if(!out.has(k)) out.set(k, v); });
+  }catch(e){}
+  return out;
+}
+
+/* Which trip is this?
+   The link a client is sent carries #trip=<id>. But a home-screen icon on
+   Android launches start_url from the manifest, which cannot carry a
+   fragment — so by the time it matters most, on the boat, the fragment is
+   gone. We therefore remember the last valid trip this device opened and
+   fall back to that before falling back to the default. The URL always
+   wins when it is present, so re-sending a corrected link still works.
+   Unprefixed on purpose: which trip this phone belongs to is a fact about
+   the device, not about any one departure. */
+const TRIP_ID = (function(){
+  let fromUrl = "";
+  try{
+    fromUrl = (urlParams().get("trip") || "").trim().toLowerCase();
+  }catch(e){}
+  if(KNOWN_TRIPS.includes(fromUrl)){
+    try{ localStorage.setItem("malakay:lastTrip", fromUrl); }catch(e){}
+    return fromUrl;
+  }
+  try{
+    const remembered = (localStorage.getItem("malakay:lastTrip") || "").trim().toLowerCase();
+    if(KNOWN_TRIPS.includes(remembered)) return remembered;
+  }catch(e){}
+  return DEFAULT_TRIP;
+})();
+
+/* Per-trip storage namespace.
+   Four trips now share one web address, which means they share one
+   storage area. Without this prefix, the Palawan group's dive log and
+   the Cebu group's dive log would be the same log. Language, first
+   name and the document wallet stay unprefixed: those belong to the
+   person, not to the departure. */
+const K = s => "malakay:" + TRIP_ID + ":" + s;
+
+let SEED = null;
+
+const APP_VERSION = "v55 · PL/EN · " + TRIP_ID;
+
+async function fetchTrip(){
+  const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
+  if(!res.ok) throw new Error("HTTP " + res.status);
+  return await res.json();
+}
+
+function loadFailed(err){
+  const pl = (navigator.language || "").slice(0,2) === "pl";
+  document.body.innerHTML =
+    '<div style="max-width:420px;margin:0 auto;padding:64px 22px;font-family:Karla,system-ui,sans-serif;color:#12212A">'
+    + '<div style="font-family:Archivo,system-ui,sans-serif;font-weight:800;font-size:22px;letter-spacing:-.01em;margin-bottom:12px">'
+    + (pl ? "Nie udało się wczytać wyprawy" : "Could not load the trip")
+    + '</div><p style="line-height:1.55;color:#5F6E76;margin:0 0 18px">'
+    + (pl
+        ? "Sprawdź połączenie i odśwież stronę. Jeśli aplikacja była już wcześniej otwarta na tym telefonie, powinna działać także bez internetu — spróbuj zamknąć ją całkowicie i otworzyć ponownie."
+        : "Check your connection and reload. If the app has been opened on this phone before it should also work offline — try closing it fully and opening it again.")
+    + '</p><p style="font-family:\'IBM Plex Mono\',monospace;font-size:11px;color:#5F6E76">trips/' + TRIP_ID + '.json — ' + String(err && err.message || err) + '</p>'
+    + '<p style="font-size:13px;color:#5F6E76">Michał Sieczkowski · +48 509 905 507</p></div>';
+}
+
+
+/* ---------------- language ---------------- */
+const LANGS = ["pl","en"];
+let lang = "pl";
+
+/* Trip content is stored as {pl, en}; plain strings are used as-is. */
+function tr(v){
+  if(v == null) return "";
+  if(typeof v === "object" && !Array.isArray(v) && (v.pl || v.en)) return v[lang] ?? v.pl ?? v.en;
+  return v;
+}
+
+const UI = {
+  pl:{
+    tabs:{now:"Teraz",days:"Dni",flights:"Loty",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
+    passport:{
+      title:"Paszport", sub:"Twoje wyprawy z Malakay",
+      hero:"Paszport wypraw", since:"od",
+      trips:"Wyprawy", countries:"Kraje", dives:"Nurkowania", hours:"Pod wodą",
+      search:"Szukaj kraju, miejscówki, restauracji…",
+      results:"wyników", nothing:"Nic takiego w paszporcie.",
+      nothingNote:"Spróbuj nazwy kraju, miejscówki albo osoby. Szukanie działa też bez internetu.",
+      tagCountry:"Kraj", tagTrip:"Wyprawa", tagDive:"Miejscówka", tagPlace:"Miejsce", tagPerson:"Osoba",
+      empty:"Paszport jest jeszcze pusty.",
+      emptyNote:"Otwórz swoją wyprawę, a zapisze się tutaj sama. Każda kolejna dołączy do archiwum.",
+      thisTrip:"Ta wyprawa", upcoming:"Nadchodzi", past:"Za nami", current:"Trwa",
+      nights:"nocy", bases:"Bazy", deepest:"Najgłębiej", longest:"Najdłużej",
+      back:"Paszport", noDives:"Wyprawa bez nurkowania — paszport zapisuje ją tak samo.",
+      export:"Zapisz kopię zapasową", import:"Przywróć z kopii",
+      exported:"Kopia zapisana w plikach telefonu",
+      importOk:"Wczytano wypraw: ", importBad:"Nie udało się odczytać pliku.",
+      privacy:"Paszport zostaje na tym telefonie. Malakay go nie widzi i nie ma do niego dostępu. Eksportuj plik, zanim zmienisz telefon.",
+      firstOpened:"Pierwsze otwarcie", buddy:"Partner", saw:"Widziane",
+      sleptAt:"Gdzie spaliśmy", diveSites:"Miejscówki", visited:"Byliśmy tu", plan:"Dzień po dniu",
+      yourDives:"Twój dziennik", noLog:"Nie zapisałeś jeszcze żadnego nurkowania z tej wyprawy."
+    },
+    packList:"Lista pakowania", packProgress:"Postęp",
+    packNote:"Odhaczaj, co już spakowane. Zapisuje się na tym telefonie i działa bez zasięgu.",
+    packPrivacy:"Lista jest przygotowana pod tę konkretną wyprawę — temperaturę wody, nurkowania przed świtem i brak bankomatu na Malapascua.",
+    packReady:"spakowane",
+    wxPreview:"Tak jest teraz w miejscu, do którego lecisz —", atDestination:"Na miejscu",
+    diveLog:"Dziennik nurkowań", dives:"Nurkowania", deepest:"Najgłębiej", dive:"Nurkowanie",
+    addDive:"Dodaj nurkowanie", newDive:"Nowe nurkowanie", editDive:"Edytuj nurkowanie",
+    dvDate:"Data", dvSite:"Miejsce", dvDepth:"Głębokość (m)", dvTime:"Czas (min)",
+    dvBuddy:"Partner", dvSaw:"Obserwacje", dvSawEg:"np. kosogon, żółw, ośmiornica",
+    dvNotes:"Notatki", cancel:"Anuluj", deleteDive:"Usunąć ten wpis z tego telefonu?",
+    logEmpty:"Jeszcze pusto", logEmptyNote:"Po każdym nurkowaniu dodaj wpis — po powrocie będziesz mieć cały wyjazd w jednym miejscu.",
+    logPrivacy:"Dziennik zapisuje się wyłącznie na tym telefonie. Nikt poza Tobą go nie widzi.",
+    whatsNext:"Następne wyprawy", whatsNextNote:"Jeśli chcesz popłynąć z nami jeszcze raz — oto co planujemy. Dotknij, żeby zobaczyć ofertę na stronie.",
+    nextCta:"Zobacz wszystkie wyprawy", nextEmail:"Napisz do nas", staffPreview:"podgląd, klienci zobaczą to na koniec wyprawy", nextSubject:"Pytanie o kolejną wyprawę",
+    status:"Status", today:"Dziś", localTime:"Czas lokalny", water:"Woda", trip:"Wyprawa",
+    departsIn:"Do wylotu", complete:"Zakończona", days_:"dni", day:"Dzień", of:"z",
+    welcomeHome:"Witaj<br><em>w domu</em>", toGo:"dni<br>do wylotu", bases:"bazy",
+    nextUp:"Za chwilę", nothingElse:"Nic więcej dziś nie zaplanowano.",
+    liveConditions:"Warunki na żywo", live:"Na żywo", saved:"Zapisane",
+    air:"Powietrze", seaTemp:"Temp. wody", swell:"Fala",
+    noMarine:"Brak danych morskich dla tego miejsca", comfortable:"Spokojny rejs", expectMovement:"Może kołysać",
+    shorty:"Pogoda na krótką piankę",
+    loadingCond:"Ładowanie warunków…", condNotSaved:"Jeszcze nie zapisane",
+    condHint:"Otwórz tę zakładkę raz z zasięgiem, a prognoza będzie dostępna offline.",
+    forecastFrom:"Prognoza Open-Meteo dla", seaNote:"Dane morskie bywają puste tuż przy brzegu.",
+    lastReading:"Ostatni odczyt", willRefresh:"Odświeży się samo, gdy złapiesz zasięg.",
+    nextFlight:"Najbliższy lot", open:"Otwórz", tonight:"Dziś w nocy", firstBase:"Pierwsza baza",
+    yourDocs:"Twoje dokumenty", ready:"gotowe", docsAllSaved:"Wszystko zapisane na tym telefonie.",
+    docsAdd:"Dodaj je przed wylotem — działają bez zasięgu.", add:"Dodaj",
+    installTitle:"Dodaj do ekranu głównego", installBody:"żeby otwierało się jak aplikacja i działało bez zasięgu.",
+    installIos:'Dotknij Udostępnij, potem „Do ekranu początkowego” — wtedy zadziała bez zasięgu.',
+    dayByDay:"Plan dzień po dzień", maxDepth:"Maks.", showOnMap:"Pokaż na mapie",
+    flights:"Loty", flightNote:"Przycisk otwiera zewnętrzny tracker lotu. Zawsze ufaj aplikacji linii i tablicy na lotnisku bardziej niż temu ekranowi.",
+    checkStatus:"Śledź lot", numberPending:"Numer rejsu podamy przed wylotem", trackNote:"Strona pokazuje historię tego rejsu — sprawdź datę swojego lotu na liście.",
+    bookingRef:"Rezerwacja", room:"Pokój", phone:"Telefon", address:"Adres",
+    checkInL:"Zameldowanie", checkOutL:"Wymeldowanie", directions:"Nawigacja",
+    whereYouSleep:"Gdzie śpimy", optional:"Opcjonalnie", night:"noc", nights:"nocy",
+    tripLength:"Długość", groupBooking:"Rezerwacja grupowa",
+    skipIntro:"Dotknij, aby pominąć",
+    tripMap:"Mapa wyprawy", wholeRoute:"Cała trasa",
+    mapNote:"Wszystkie bazy, nurkowiska i lotniska na trasie. Dotknij pinezki po szczegóły.",
+    openInMaps:"Otwórz w Google Maps",
+    mapOffline:"Offline: linia brzegowa, trasa i przystanki · nazwy miejscowości wymagają połączenia",
+    mapUnavailable:"Mapa jest chwilowo niedostępna.",
+    legDive:"Nurkowisko", legHotel:"Hotel", legTown:"Baza / miasto", legAir:"Lotnisko",
+    emergency:"Awaryjne", goodToKnow:"Warto wiedzieć", funFacts:"Ciekawostki", moreFacts:"Znajdź więcej",
+    finding:"Szukam…", country:"Kraj", currency:"Waluta", timezone:"Strefa czasowa", now:"teraz",
+    yourGuide:"Twój przewodnik", operator:"Organizator",
+    chamberNote:"Potwierdź najbliższą działającą komorę z przewodnikiem pierwszego dnia. Dostępność na Filipinach się zmienia.",
+    docsStaysHere:"Zostaje na tym telefonie",
+    docsPrivacy:"Wszystko, co tu dodasz, zapisuje się na Twoim urządzeniu i nigdzie indziej. Malakay Travels tego nie widzi i nic nie jest nigdzie wysyłane. Działa bez zasięgu — a o to właśnie chodzi, bo na łodzi zasięgu nie ma.",
+    packing:"Twoje papiery", needed:"Wymagane", saved_:"Zapisano",
+    photoHint:"Zrób zdjęcie strony w dobrym świetle zamiast skanu — plik zostanie mały, a wszystko będzie czytelne. Zdjęcia są automatycznie zmniejszane.",
+    fromMalakay:"Od Malakay", notIssued:"Jeszcze nie wystawione",
+    issuedNote:"Wystawiamy przed wylotem. Zapisz kopię na telefonie, żeby mieć ją offline.",
+    view:"Podgląd", remove:"Usuń", removeConfirm:"Usunąć dokument:",
+    removeConfirm2:"? Plik zniknie z tego telefonu.", saving:"Zapisuję…",
+    tooLarge:"Ten plik jest za duży. Zrób zdjęcie strony zamiast skanu.",
+    cannotSave:"Nie udało się zapisać pliku.",
+    tripData:"Dane wyprawy", save:"Zapisz", reset:"Przywróć oryginał", copy:"Kopiuj JSON",
+    savedDevice:"Zapisano na tym urządzeniu", savedSession:"Zapisano tylko na tę sesję",
+    jsonFail:"Ten JSON się nie sparsował:", running:"Wersja", versionNote:"Jeśli to nie zgadza się z tym, co przed chwilą opublikowałaś, zamknij aplikację całkiem i otwórz ponownie.",
+    hideTab:"Ukryj tę zakładkę", hideTabConfirm:"Ukryć zakładkę Ustawienia na tym urządzeniu? Wróci po otwarciu adresu z ?setup na końcu.",
+    setupNote:"Edytuj JSON i zapisz. Zostaje na tym urządzeniu. Żeby zrobić drugi wyjazd, skopiuj to, zmień i wklej z powrotem.",
+    offline:"Offline — pokazujemy zapisaną wersję", close:"Zamknij",
+    nameAsk:"Jak mamy się do Ciebie zwracać?",
+    nameHelp:"Używamy imienia tylko tutaj, w powitaniu i w Twoim logbooku.",
+    namePh:"Twoje imię",
+    nameSave:"Dalej",
+    nameSkip:"Pomiń na razie",
+    nameNote:"Zapisane tylko na tym urządzeniu. Nie wysyłamy tego nigdzie. Zawsze możesz to zmienić na ekranie startowym.",
+    nameAskPick:"Kto trzyma ten telefon?",
+    nameHelpPick:"Stuknij swoje imię. Używamy go tylko tutaj — w powitaniu i w Twoim logbooku.",
+    nameOther:"Ktoś inny — wpiszę imię",
+    contractRef:"Umowa",
+    nameChange:"zmień",
+    nameAdd:"dodaj swoje imię",
+    nfTitle:"Ostatnie nurkowanie a lot powrotny",
+    nfLast:"Ostatnie nurkowanie kończy się",
+    nfFlight:"Pierwszy lot",
+    nfGap:"Przerwa",
+    nfMin:"Minimum DAN dla nurkowań powtarzanych",
+    nfOk:"Z zapasem ponad minimum",
+    nfTight:"Na granicy minimum",
+    nfUnder:"PONIŻEJ MINIMUM — skontaktuj się z Michałem",
+    nfNote:"To są minima, nie cele — dłuższa przerwa zawsze jest bezpieczniejsza. Jeśli Twój komputer nurkowy nadal odlicza czas do lotu, obowiązuje komputer.",
+    nfHours:"h", nfDays:"d",
+    goodMorning:"Dzień dobry", goodEvening:"Dobry wieczór", welcomeBack:"Witaj ponownie"
+  },
+  en:{
+    tabs:{now:"Now",days:"Days",flights:"Flights",stay:"Stay",docs:"Docs",gear:"Packing",log:"Log",passport:"Passport",map:"Map",guide:"Guide",setup:"Setup"},
+    passport:{
+      title:"Passport", sub:"Your trips with Malakay",
+      hero:"Trip passport", since:"since",
+      trips:"Trips", countries:"Countries", dives:"Dives", hours:"Underwater",
+      search:"Search a country, a dive site, a restaurant…",
+      results:"results", nothing:"Nothing like that in the passport.",
+      nothingNote:"Try a country, a dive site or a person. Search works offline too.",
+      tagCountry:"Country", tagTrip:"Trip", tagDive:"Dive site", tagPlace:"Place", tagPerson:"Person",
+      empty:"The passport is still empty.",
+      emptyNote:"Open your trip and it records itself here. Every trip after that joins the archive.",
+      thisTrip:"This trip", upcoming:"Upcoming", past:"Past", current:"Under way",
+      nights:"nights", bases:"Bases", deepest:"Deepest", longest:"Longest",
+      back:"Passport", noDives:"A trip without diving — the passport records it just the same.",
+      export:"Save a backup", import:"Restore from backup",
+      exported:"Backup saved to your phone's files",
+      importOk:"Trips loaded: ", importBad:"Could not read that file.",
+      privacy:"The passport stays on this phone. Malakay cannot see it and has no access to it. Export the file before you change phones.",
+      firstOpened:"First opened", buddy:"Buddy", saw:"Seen",
+      sleptAt:"Where you slept", diveSites:"Dive sites", visited:"Places you went", plan:"Day by day",
+      yourDives:"Your log", noLog:"You have not logged a dive from this trip yet."
+    },
+    packList:"Packing list", packProgress:"Progress",
+    packNote:"Tick things off as you pack. It saves on this phone and works with no signal.",
+    packPrivacy:"This list is written for this specific trip — the water temperature, the pre-dawn dives and the fact there is no ATM on Malapascua.",
+    packReady:"packed",
+    wxPreview:"This is what it is doing right now where you are heading —", atDestination:"At the destination",
+    diveLog:"Dive log", dives:"Dives", deepest:"Deepest", dive:"Dive",
+    addDive:"Add a dive", newDive:"New dive", editDive:"Edit dive",
+    dvDate:"Date", dvSite:"Site", dvDepth:"Depth (m)", dvTime:"Time (min)",
+    dvBuddy:"Buddy", dvSaw:"What you saw", dvSawEg:"e.g. thresher, turtle, octopus",
+    dvNotes:"Notes", cancel:"Cancel", deleteDive:"Delete this entry from this phone?",
+    logEmpty:"Nothing logged yet", logEmptyNote:"Add an entry after each dive — by the time you fly home you will have the whole trip in one place.",
+    logPrivacy:"The log is saved only on this phone. Nobody else can see it.",
+    whatsNext:"Where we go next", whatsNextNote:"If you would like to dive with us again, here is what we are planning. Tap to see the offer on our website.",
+    nextCta:"See all expeditions", nextEmail:"Email us", staffPreview:"preview — clients see this at the end of the trip", nextSubject:"Question about the next expedition",
+    status:"Status", today:"Today", localTime:"Local time", water:"Water", trip:"Trip",
+    departsIn:"Departs in", complete:"Complete", days_:"days", day:"Day", of:"of",
+    welcomeHome:"Welcome<br><em>home</em>", toGo:"days<br>to go", bases:"bases",
+    nextUp:"Next up", nothingElse:"Nothing further scheduled today.",
+    liveConditions:"Live conditions", live:"Live", saved:"Saved",
+    air:"Air", seaTemp:"Sea temp", swell:"Swell",
+    noMarine:"No marine data here", comfortable:"Comfortable boat ride", expectMovement:"Expect movement",
+    shorty:"3 mm shorty weather",
+    loadingCond:"Loading conditions…", condNotSaved:"Not saved yet",
+    condHint:"Open this tab once with signal and the forecast will be here next time you are offline.",
+    forecastFrom:"Forecast from Open-Meteo for", seaNote:"Sea data can be blank very close to shore.",
+    lastReading:"Last reading", willRefresh:"It will refresh by itself when you have signal.",
+    nextFlight:"Next flight", open:"Open", tonight:"Tonight", firstBase:"First base",
+    yourDocs:"Your documents", ready:"ready", docsAllSaved:"Everything saved to this phone.",
+    docsAdd:"Add them before you fly — they work offline.", add:"Add",
+    installTitle:"Add this to your home screen", installBody:"so it opens like an app and works without signal.",
+    installIos:'Tap Share, then "Add to Home Screen" — it will then work without signal.',
+    dayByDay:"Day by day", maxDepth:"Max", showOnMap:"Show on map",
+    flights:"Flights", flightNote:"The button opens an external flight tracker. Always trust the airline app and the airport board over this screen.",
+    checkStatus:"Track flight", numberPending:"Flight number confirmed before departure", trackNote:"The tracker lists this flight's recent history — check the date of your own flight in the list.",
+    bookingRef:"Booking", room:"Room", phone:"Phone", address:"Address",
+    checkInL:"Check in", checkOutL:"Check out", directions:"Directions",
+    whereYouSleep:"Where you sleep", optional:"Optional", night:"night", nights:"nights",
+    tripLength:"Length", groupBooking:"Group booking",
+    skipIntro:"Tap to skip",
+    tripMap:"Trip map", wholeRoute:"Whole route",
+    mapNote:"Every base, dive site and airport on the route. Tap a marker for detail.",
+    openInMaps:"Open in Google Maps",
+    mapOffline:"Offline: coastline, route and stops · place names need a connection",
+    mapUnavailable:"The map is temporarily unavailable.",
+    legDive:"Dive site", legHotel:"Hotel", legTown:"Town / base", legAir:"Airport",
+    emergency:"Emergency", goodToKnow:"Good to know", funFacts:"Fun facts", moreFacts:"Find more",
+    finding:"Finding…", country:"Country", currency:"Currency", timezone:"Time zone", now:"now",
+    yourGuide:"Your guide", operator:"Operator",
+    chamberNote:"Confirm the nearest working chamber with your guide on day one. Chamber availability in the Philippines changes.",
+    docsStaysHere:"Stays on this phone",
+    docsPrivacy:"Everything you add here is saved on your own device and nowhere else. Malakay Travels cannot see it, and it is not sent anywhere. It works with no signal — which is the point, because on the boat there isn't any.",
+    packing:"Packing your paperwork", needed:"Needed", saved_:"Saved",
+    photoHint:"Photograph each page in good light rather than scanning it — the file stays small and still reads clearly. Photos are shrunk automatically.",
+    fromMalakay:"From Malakay", notIssued:"Not issued yet",
+    issuedNote:"Issued by us before departure. Save a copy to your phone so you can reach it offline.",
+    view:"View", remove:"Remove", removeConfirm:"Remove your",
+    removeConfirm2:"? This deletes it from this phone.", saving:"Saving…",
+    tooLarge:"That file is too large. Photograph the page instead of scanning it.",
+    cannotSave:"Could not save that file.",
+    tripData:"Trip data", save:"Save trip", reset:"Reset to sample", copy:"Copy JSON",
+    savedDevice:"Saved to this device", savedSession:"Saved for this session only",
+    jsonFail:"That JSON did not parse:", running:"Running", versionNote:"If this does not match what you just published, close the app fully and reopen it.",
+    hideTab:"Hide this tab", hideTabConfirm:"Hide the Setup tab on this device? Open the address with ?setup on the end to bring it back.",
+    setupNote:"Edit the JSON, then save. It stays on this device. To run a second departure, copy this out, change it, and load it back in.",
+    offline:"Offline — showing your saved trip", close:"Close",
+    nameAsk:"What should we call you?",
+    nameHelp:"We use it only here — in your greeting and on your dive log.",
+    namePh:"Your first name",
+    nameSave:"Continue",
+    nameSkip:"Skip for now",
+    nameNote:"Saved on this device only. It is never sent anywhere. You can always change it from the home screen.",
+    nameAskPick:"Who is holding this phone?",
+    nameHelpPick:"Tap your name. We use it only here — in your greeting and on your dive log.",
+    nameOther:"Someone else — let me type it",
+    contractRef:"Contract",
+    nameChange:"change",
+    nameAdd:"add your name",
+    nfTitle:"Last dive and your flight home",
+    nfLast:"Last dive ends",
+    nfFlight:"First flight",
+    nfGap:"Interval",
+    nfMin:"DAN minimum for repetitive diving",
+    nfOk:"Clear, with margin",
+    nfTight:"At the minimum",
+    nfUnder:"BELOW THE MINIMUM — speak to Michał",
+    nfNote:"These are minimums, not targets — a longer interval is always safer. If your dive computer is still counting down to fly, the computer governs.",
+    nfHours:"h", nfDays:"d",
+    goodMorning:"Good morning", goodEvening:"Good evening", welcomeBack:"Welcome back"
+  }
+};
+const U = () => UI[lang];
+
+async function setLang(l){
+  lang = l;
+  try{ await window.storage.set("malakay:lang", l); }catch(e){}
+  document.documentElement.lang = l;
+  if(!$("#namegate").classList.contains("hidden")) paintGate();
+  render();
+}
+async function loadLang(){
+  try{
+    const r = await window.storage.get("malakay:lang");
+    if(r?.value && LANGS.includes(r.value)) lang = r.value;
+    else if((navigator.language||"").slice(0,2) !== "pl") lang = "en";
+  }catch(e){
+    if((navigator.language||"").slice(0,2) !== "pl") lang = "en";
+  }
+  document.documentElement.lang = lang;
+}
+
+const WMO = {0:["☀️","Clear"],1:["🌤","Mostly clear"],2:["⛅","Partly cloudy"],3:["☁️","Overcast"],45:["🌫","Fog"],48:["🌫","Rime fog"],51:["🌦","Light drizzle"],53:["🌦","Drizzle"],55:["🌦","Heavy drizzle"],61:["🌧","Light rain"],63:["🌧","Rain"],65:["🌧","Heavy rain"],80:["🌦","Showers"],81:["🌦","Showers"],82:["⛈","Violent showers"],95:["⛈","Thunderstorm"],96:["⛈","Thunderstorm"],99:["⛈","Thunderstorm"]};
+
+/* ---------------- state ---------------- */
+let trip = null;
+let tab = "now";
+let wx = null, marine = null, wxKey = null;
+let openFactGroup = 0;   // which fact section is open
+let gearTicked = {};     // gear item id -> true, saved on this device
+let openGearGroup = 0;
+let diveLog = [];        // {id, date, site, depth, time, buddy, saw, notes}
+let editingDive = null;
+let travellerName = "";  // first name, this device only
+let map = null, introRaf = null, introTimer = null;
+let focusPoint = null;   // [lat,lng] to zoom to when the map opens
+
+const $ = s => document.querySelector(s);
+const el = (h) => { const d = document.createElement("div"); d.innerHTML = h.trim(); return d.firstElementChild; };
+/* Build a Google Maps link that shows a readable place name rather than
+   raw coordinates. placeId, when present, guarantees the exact venue. */
+function mapsUrl(name, address, coords, placeId){
+  const q = [name, address].filter(Boolean).join(", ");
+  if(!q) return `https://www.google.com/maps/search/?api=1&query=${coords[0]},${coords[1]}`;
+  let u = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`;
+  if(placeId) u += `&query_place_id=${encodeURIComponent(placeId)}`;
+  return u;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------------- storage ----------------
+   The Claude preview injects a window.storage; a plain web host does not.
+   When it is missing we back the same four methods with IndexedDB, so
+   passport scans and the dive log survive a reload. localStorage is the
+   last resort — it is capped around 5 MB and cannot hold scans, but it
+   keeps language, gear ticks and the trip itself working. */
+if(!window.storage){
+  window.storage = (function(){
+    const DB = "malakay", STORE = "kv";
+    const hasIDB = (() => { try { return !!window.indexedDB; } catch(e){ return false; } })();
+
+    if(hasIDB){
+      let dbp = null;
+      const open = () => dbp || (dbp = new Promise((res, rej) => {
+        const q = indexedDB.open(DB, 1);
+        q.onupgradeneeded = () => q.result.createObjectStore(STORE);
+        q.onsuccess = () => res(q.result);
+        q.onerror   = () => rej(q.error || new Error("indexeddb"));
+      }));
+      const run = async (mode, fn) => {
+        const db = await open();
+        return new Promise((res, rej) => {
+          const t = db.transaction(STORE, mode);
+          const r = fn(t.objectStore(STORE));
+          t.oncomplete = () => res(r ? r.result : undefined);
+          t.onerror    = () => rej(t.error || new Error("tx"));
+          t.onabort    = () => rej(t.error || new Error("abort"));
+        });
+      };
+      return {
+        async get(key){
+          const v = await run("readonly", s => s.get(key));
+          if(v === undefined) throw new Error("not found: " + key);
+          return { key, value: v };
+        },
+        async set(key, value){ await run("readwrite", s => s.put(String(value), key)); return { key, value }; },
+        async delete(key){ await run("readwrite", s => s.delete(key)); return { key, deleted: true }; },
+        async list(prefix){
+          const keys = await run("readonly", s => s.getAllKeys());
+          const p = prefix || "";
+          return { keys: (keys || []).map(String).filter(k => k.indexOf(p) === 0) };
+        }
+      };
+    }
+
+    const LS = window.localStorage;
+    return {
+      async get(key){
+        const v = LS ? LS.getItem(key) : null;
+        if(v === null) throw new Error("not found: " + key);
+        return { key, value: v };
+      },
+      async set(key, value){
+        if(!LS) throw new Error("no storage");
+        LS.setItem(key, String(value));      // throws QuotaExceeded on big scans
+        return { key, value };
+      },
+      async delete(key){ if(LS) LS.removeItem(key); return { key, deleted: true }; },
+      async list(prefix){
+        const p = prefix || "", keys = [];
+        for(let i = 0; LS && i < LS.length; i++){
+          const k = LS.key(i);
+          if(k && k.indexOf(p) === 0) keys.push(k);
+        }
+        return { keys };
+      }
+    };
+  })();
+}
+
+
+/* The traveller's own name. Cosmetic only: it never leaves the device
+   and nothing in the trip depends on it. */
+async function loadName(){
+  try{
+    const r = await window.storage.get("malakay:name");
+    if(r && typeof r.value === "string") travellerName = r.value;
+  }catch(e){ /* first run */ }
+}
+async function saveName(n){
+  travellerName = (n || "").trim().slice(0, 24);
+  try{ await window.storage.set("malakay:name", travellerName); }catch(e){}
+}
+
+async function loadTrip(){
+  try{
+    const r = await window.storage.get(K("trip:active"));
+    if(r && r.value) trip = JSON.parse(r.value);
+  }catch(e){ /* nothing saved yet — seed stands */ }
+}
+async function saveTrip(){
+  try{ await window.storage.set(K("trip:active"), JSON.stringify(trip)); return true; }
+  catch(e){ return false; }
+}
+
+/* ---------------- document wallet ----------------
+   Files never leave the traveller's own device. They are compressed
+   in the browser and written to local storage, one key per slot.
+   Malakay Travels never receives them.
+--------------------------------------------------- */
+let wallet = {};          // slotId -> {name, mime, data, added, bytes}
+let walletLoaded = false;
+
+async function loadWallet(){
+  wallet = {};
+  try{
+    const list = await window.storage.list("malakay:doc:");
+    for(const k of (list?.keys || [])){
+      try{
+        const r = await window.storage.get(k);
+        if(r?.value) wallet[k.replace("malakay:doc:","")] = JSON.parse(r.value);
+      }catch(e){}
+    }
+  }catch(e){}
+  walletLoaded = true;
+}
+
+function readFile(file){
+  return new Promise((res,rej)=>{
+    const r = new FileReader();
+    r.onload = () => res(r.result);
+    r.onerror = () => rej(new Error("Could not read that file"));
+    r.readAsDataURL(file);
+  });
+}
+
+async function shrinkImage(dataUrl){
+  const img = await new Promise((res,rej)=>{
+    const i = new Image(); i.onload=()=>res(i); i.onerror=()=>rej(new Error("bad image")); i.src = dataUrl;
+  });
+  const MAX = 1500;
+  const scale = Math.min(1, MAX / Math.max(img.width, img.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(img.width*scale); c.height = Math.round(img.height*scale);
+  c.getContext("2d").drawImage(img,0,0,c.width,c.height);
+  return c.toDataURL("image/jpeg", 0.72);
+}
+
+async function storeDoc(slotId, file){
+  docMsg(slotId, U().saving);
+  try{
+    let data = await readFile(file);
+    let mime = file.type || "application/octet-stream";
+    if(mime.startsWith("image/")){ data = await shrinkImage(data); mime = "image/jpeg"; }
+    if(data.length > 4.4e6) throw new Error(U().tooLarge);
+    const rec = { name:file.name, mime, data, added:new Date().toISOString(), bytes:data.length };
+    await window.storage.set("malakay:doc:"+slotId, JSON.stringify(rec));
+    wallet[slotId] = rec;
+    render();
+  }catch(e){
+    docMsg(slotId, e.message || U().cannotSave);
+  }
+}
+
+async function removeDoc(slotId){
+  try{ await window.storage.delete("malakay:doc:"+slotId); }catch(e){}
+  delete wallet[slotId];
+  render();
+}
+
+function docMsg(slotId, text){
+  const n = document.getElementById("msg-"+slotId);
+  if(n) n.innerHTML = `<span class="err" style="font-size:12px">${esc(text)}</span>`;
+}
+
+function openDoc(slotId){
+  const rec = wallet[slotId]; if(!rec) return;
+  const slot = trip.documents.wallet.find(s=>s.id===slotId);
+  const m = el(`<div class="modal">
+    <div class="bar"><h3>${esc(slot?tr(slot.label):rec.name)}</h3>
+      <button class="btn ghost" id="closedoc" style="color:var(--slate);border-color:#2A4C5C">${U().close}</button></div>
+    <div class="body"></div></div>`);
+  const body = m.querySelector(".body");
+  body.appendChild(rec.mime === "application/pdf"
+    ? el(`<iframe src="${rec.data}" title="${esc(rec.name)}"></iframe>`)
+    : el(`<img src="${rec.data}" alt="${esc(rec.name)}">`));
+  m.addEventListener("click", ev => { if(ev.target === m || ev.target.id === "closedoc") m.remove(); });
+  document.body.appendChild(m);
+}
+
+/* ---------------- dive log ----------------
+   Written by the diver, saved on their own phone. Never sent anywhere. */
+async function loadLog(){
+  try{
+    const r = await window.storage.get(K("divelog"));
+    if(r?.value) diveLog = JSON.parse(r.value);
+  }catch(e){ diveLog = []; }
+}
+async function saveLog(){
+  try{ await window.storage.set(K("divelog"), JSON.stringify(diveLog)); }catch(e){}
+  /* Keep the archive in step with the log the moment a dive is written. */
+  try{ if(typeof recordPassport === "function") await recordPassport(); }catch(e){}
+}
+function newDive(){
+  const d = currentDay();
+  editingDive = { id:"d"+Date.now(), date: d ? d.date : todayISO(),
+                  site:"", depth:"", time:"", buddy:"", saw:"", notes:"" };
+  render();
+}
+function saveDive(){
+  const f = id => (document.getElementById(id)?.value || "").trim();
+  const rec = { ...editingDive, date:f("dv-date"), site:f("dv-site"), depth:f("dv-depth"),
+                time:f("dv-time"), buddy:f("dv-buddy"), saw:f("dv-saw"), notes:f("dv-notes") };
+  if(!rec.site){ const el = document.getElementById("dv-site"); if(el) el.focus(); return; }
+  const i = diveLog.findIndex(x=>x.id===rec.id);
+  if(i >= 0) diveLog[i] = rec; else diveLog.push(rec);
+  diveLog.sort((a,b)=> a.date === b.date ? 0 : (a.date < b.date ? -1 : 1));
+  editingDive = null;
+  saveLog(); render();
+}
+function editDive(id){ editingDive = {...diveLog.find(d=>d.id===id)}; render(); }
+function deleteDive(id){ diveLog = diveLog.filter(d=>d.id!==id); saveLog(); editingDive = null; render(); }
+
+/* Suggest sites from the itinerary so people do not have to type. */
+function knownSites(){
+  const out = [];
+  (trip.days||[]).forEach(d => (d.dives||[]).forEach(dv => out.push(tr(dv.site))));
+  (trip.places||[]).filter(p=>p.type==="dive").forEach(p => out.push(p.name));
+  return [...new Set(out)];
+}
+
+/* ---------------- gear checklist ---------------- */
+async function loadGear(){
+  try{
+    const r = await window.storage.get(K("gear"));
+    if(r?.value) gearTicked = JSON.parse(r.value);
+  }catch(e){ gearTicked = {}; }
+}
+async function saveGear(){
+  try{ await window.storage.set(K("gear"), JSON.stringify(gearTicked)); }catch(e){}
+}
+function toggleGear(id){
+  if(gearTicked[id]) delete gearTicked[id]; else gearTicked[id] = true;
+  saveGear();
+  render();
+}
+function gearCount(){
+  const all = (trip.gear||[]).flatMap(g=>g.items);
+  return { done: all.filter(i=>gearTicked[i.id]).length, total: all.length };
+}
+
+/* ---------------- time helpers ---------------- */
+const parseLocal = s => { const [d,t] = s.split(" "); const [Y,M,D]=d.split("-").map(Number); const [h,m]=(t||"00:00").split(":").map(Number); return new Date(Y,M-1,D,h,m); };
+const dateOnly = s => parseLocal(s + " 00:00");
+const todayISO = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; };
+const fmtDate = s => dateOnly(s).toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+const fmtTime = s => s.split(" ")[1] || "";
+function daysBetween(a,b){ return Math.round((dateOnly(b)-dateOnly(a))/86400000); }
+function tzNow(tz){
+  try{ return new Intl.DateTimeFormat("en-GB",{timeZone:tz,hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date()); }
+  catch(e){ return "--:--"; }
+}
+
+function tripPhase(){
+  const t = todayISO(), m = trip.meta;
+  if(daysBetween(t, m.start) > 0) return {phase:"before", days:daysBetween(t,m.start)};
+  if(daysBetween(t, m.end) < 0) return {phase:"after"};
+  return {phase:"during", dayIndex: trip.days.findIndex(d => d.date === t)};
+}
+/* Before departure, show the destination — nobody counting down 103 days
+   wants the Warsaw forecast. During the trip, show where you actually are. */
+function weatherPlace(){
+  const p = tripPhase();
+  if(p.phase === "during"){
+    const d = currentDay();
+    if(d?.coords) return { coords:d.coords, base:d.base, preview:false };
+  }
+  /* Pick the first day that is actually at the destination rather than
+     in transit. This used to test "latitude below 30", which quietly
+     meant "the Philippines" and matched nothing in Japan. Comparing
+     against the trip's own first base works anywhere. */
+  const home = (trip.flights && trip.flights[0] && trip.flights[0].dep.tz) || "Europe/Warsaw";
+  const first = (trip.days || []).find(d => d.coords && d.base && tr(d.base) && d.n > 1
+                  && !/w drodze|in transit/i.test(tr(d.base)))
+             || (trip.days || []).find(d => d.coords && d.n > 1)
+             || trip.days?.[1];
+  return { coords: first?.coords, base: first?.base, preview: p.phase !== "during" };
+}
+
+function currentDay(){
+  const p = tripPhase();
+  if(p.phase === "during" && p.dayIndex >= 0) return trip.days[p.dayIndex];
+  if(p.phase === "before") return trip.days[0];
+  return trip.days[trip.days.length-1];
+}
+function currentHotel(){
+  const t = todayISO();
+  return trip.hotels.find(h => !h.optional && daysBetween(h.checkIn,t) >= 0 && daysBetween(t,h.checkOut) > 0) || trip.hotels[0];
+}
+function nextFlight(){
+  const now = new Date();
+  return trip.flights.find(f => parseLocal(f.dep.time) > now) || null;
+}
+
+/* ---------------- weather ---------------- */
+let wxAt = null;          // when the current reading was taken
+let wxStale = false;      // true when we are showing a saved reading
+
+/* Last good reading is kept on the device so the app still has
+   something to show on a boat with no signal. */
+async function cacheWx(key){
+  try{ await window.storage.set(K("wx:")+key,
+    JSON.stringify({wx, marine, at:new Date().toISOString()})); }catch(e){}
+}
+async function restoreWx(key){
+  try{
+    const r = await window.storage.get(K("wx:")+key);
+    if(!r?.value) return false;
+    const s = JSON.parse(r.value);
+    wx = s.wx; marine = s.marine; wxAt = new Date(s.at); wxStale = true;
+    return true;
+  }catch(e){ return false; }
+}
+
+async function getWeather(lat,lng){
+  const key = `${lat.toFixed(2)},${lng.toFixed(2)}`;
+  if(wxKey === key && wx && !wxStale) return;   // fresh already, nothing to do
+  if(wxKey !== key){ wx = null; marine = null; wxAt = null; wxStale = false; }
+  wxKey = key;
+
+  // Show the saved reading immediately, then try to better it.
+  if(!wx){ if(await restoreWx(key)) render(); }
+
+  let got = false;
+  try{
+    const u = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}`
+      + `&current=temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m`
+      + `&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max`
+      + `&timezone=auto&forecast_days=5`;
+    const r = await fetch(u);
+    if(r.ok){ wx = await r.json(); got = true; }
+  }catch(e){}
+
+  if(got){
+    try{
+      const u2 = `https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lng}`
+        + `&current=sea_surface_temperature,wave_height&timezone=auto`;
+      const r2 = await fetch(u2); if(r2.ok) marine = await r2.json();
+    }catch(e){}
+    wxAt = new Date(); wxStale = false;
+    cacheWx(key);
+  }else{
+    // Failed. Let a later attempt try again instead of giving up for good.
+    if(!wx) wxKey = null;
+  }
+  render(); band();
+}
+
+/* ---------------- instrument band ---------------- */
+/* Where this trip actually goes. The first flight tells us the city we
+   leave from; the first flight that lands in the trip's own timezone
+   tells us where we are heading. Falls back to the country, which is
+   never wrong even if the flight data is thin. */
+/* A trip dives if it says how many dives it has, or if any day lists
+   dive sites. Japan has neither, so the dive furniture stays hidden. */
+function isDiveTrip(){
+  if(trip.meta && trip.meta.dives != null) return true;
+  return (trip.days || []).some(d => (d.dives || []).length);
+}
+
+/* "Asia/Tokyo" -> "JP". Short label for the status band. */
+const TZ_LABEL = {
+  "Asia/Manila":"PH", "Asia/Tokyo":"JP", "Asia/Jakarta":"ID", "Asia/Makassar":"ID",
+  "Africa/Cairo":"EG", "Europe/Warsaw":"PL", "Pacific/Guadalcanal":"SB",
+  "Pacific/Chuuk":"FM", "Africa/Sao_Tome":"ST"
+};
+function tzLabel(tz){
+  return TZ_LABEL[tz] || String(tz || "").split("/").pop().replace(/_/g," ").slice(0,3).toUpperCase();
+}
+
+function introRoute(){
+  /* An explicit meta.route in the trip file always wins. Everything
+     below is only a sensible default. */
+  if(trip.meta.route) return tr(trip.meta.route);
+  const legs = (trip.flights && trip.flights.length) ? trip.flights : [];
+  const from = cityOnly(legs[0] && tr(legs[0].dep.city));
+  const into = (legs.find(f => f.arr && f.arr.tz === trip.meta.tz) || {}).arr;
+  const to   = into ? cityOnly(tr(into.city)) : tr(trip.meta.country);
+  return (from && to) ? `${from} \u2192 ${to}` : tr(trip.meta.country);
+}
+
+/* Airport fields are written "City AirportName" — "Warszawa Chopina",
+   "Cebu Mactan (T2)", "Tokio Haneda". For a route caption we want the
+   city. Drop anything bracketed, then drop a trailing airport name. */
+function cityOnly(s){
+  s = String(s || "").replace(/\s*\(.*?\)\s*/g, " ").trim();
+  const w = s.split(/\s+/);
+  return w.length === 2 ? w[0] : s;
+}
+
+function band(){
+  const m = trip.meta, p = tripPhase();
+  $("#tripcode").textContent = m.code;
+
+  $("#langsw").innerHTML = LANGS.map(l =>
+    `<button data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join("");
+
+  if(p.phase === "before"){
+    $("#k1").textContent = U().departsIn;
+    $("#v1").innerHTML = `<span class="live"></span>${p.days} <small>${U().days_} · ${fmtDate(m.start)}</small>`;
+  } else if(p.phase === "after"){
+    $("#k1").textContent = U().trip; $("#v1").innerHTML = `${U().complete} <small>· ${trip.days.length} ${U().days_}</small>`;
+  } else {
+    const d = currentDay();
+    $("#k1").textContent = U().today;
+    $("#v1").innerHTML = `<span class="live"></span>${U().day} ${d ? d.n : "—"} <small>· ${d ? esc(tr(d.base)) : ""}</small>`;
+  }
+  $("#k2") && ($("#k2").textContent = U().localTime);
+  $("#k3") && ($("#k3").textContent = U().water);
+  $("#k3") && ($("#k3").textContent = U().water);
+  $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${esc(tzLabel(m.tz))}</small>`;
+  /* Sea temperature belongs to a diving trip. On a land trip show how
+     far in we are instead — the slot is too prominent to leave blank. */
+  if(isDiveTrip()){
+    $("#k3") && ($("#k3").textContent = U().water);
+    const sst = marine?.current?.sea_surface_temperature;
+    $("#v3").innerHTML = sst != null ? `${Math.round(sst)}<small>°C</small>` : `<small>—</small>`;
+  } else {
+    $("#k3") && ($("#k3").textContent = U().tripLength);
+    $("#v3").innerHTML = `${trip.days.length}<small> ${U().days_}</small>`;
+  }
+}
+
+/* ---------------- views ---------------- */
+const CLIENT_TABS = ["now","days","flights","stay","docs","gear","log","passport","map","guide"];
+let setupUnlocked = false;   // Setup tab is hidden from clients
+
+/* Unlock with ?setup at the end of the address; ?setup=0 hides it again.
+   The choice is remembered on that device only. */
+async function loadSetupFlag(){
+  const q = urlParams();
+  if(q.has("setup")){
+    setupUnlocked = q.get("setup") !== "0";
+    try{ await window.storage.set("malakay:setup", setupUnlocked ? "1" : "0"); }catch(e){}
+    // Leaving ?setup in the address bar means one forwarded link unlocks the
+    // tab for everyone it reaches. Take it back out.
+    try{
+      const u = new URL(location.href);
+      u.searchParams.delete("setup");
+      if(u.hash){
+        const hp = new URLSearchParams(u.hash.replace(/^#/, ""));
+        hp.delete("setup");
+        const rest = hp.toString();
+        u.hash = rest ? "#" + rest : "";
+      }
+      history.replaceState(null, "", u.pathname + (u.search || "") + u.hash);
+    }catch(e){}
+    return;
+  }
+  try{
+    const r = await window.storage.get("malakay:setup");
+    setupUnlocked = r?.value === "1";
+  }catch(e){ setupUnlocked = false; }
+}
+const TABS = () => setupUnlocked ? [...CLIENT_TABS, "setup"] : CLIENT_TABS;
+
+function renderTabs(){
+  $("#tabs").innerHTML = TABS().map(k =>
+    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${U().tabs[k]}</button>`).join("");
+}
+
+function viewNow(){
+  const p = tripPhase(), d = currentDay(), h = currentHotel(), f = nextFlight();
+  /* Hero images come from the trip file. A thresher shark on the Japan
+     trip was the tell that these belonged in the data, not the shell. */
+  const HERO = (trip.meta.hero && trip.meta.hero.length)
+    ? trip.meta.hero
+    : ["img/hero-thresher.jpg","img/hero-bangkas.jpg","img/hero-valley.jpg"];
+  let kicker = "", dayCard = "";
+  if(p.phase === "before"){
+    kicker = `${U().departsIn} · ${fmtDate(trip.meta.start)}`;
+  } else if(p.phase === "after"){
+    kicker = U().complete;
+  } else {
+    kicker = `${U().day} ${d.n} ${U().of} ${trip.days.length} · ${fmtDate(d.date)}`;
+    const next = (d?.items || []).find(([t]) => t > tzNow(trip.meta.tz));
+    dayCard = `<div class="card">
+      <div class="eyebrow">${U().today}</div>
+      <div class="big" style="font-size:clamp(22px,6vw,30px);margin:8px 0 10px">${esc(tr(d.title))}</div>
+      ${next ? `<div class="hair"></div><div class="eyebrow">${U().nextUp}</div>
+        <p style="margin:6px 0 0"><span class="mono" style="color:var(--ochre);font-weight:600">${next[0]}</span> &nbsp;${esc(tr(next[1]))}</p>`
+      : `<p class="sub" style="margin:0">${U().nothingElse}</p>`}
+    </div>`;
+  }
+  const bases = trip.hotels.filter(x=>!x.optional).length;
+  const greet = travellerName
+    ? `<div class="greetrow">
+         <span class="gr-txt">${greetWord()}, <em>${esc(travellerName)}</em></span>
+         <button data-rename="1">${U().nameChange}</button>
+       </div>`
+    : `<div class="greetrow">
+         <span class="gr-txt">${greetWord()}</span>
+         <button class="gr-add" data-rename="1">${U().nameAdd}</button>
+       </div>`;
+  const head = greet + `<div class="hero">
+    <div class="stage">
+      ${HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
+      <div class="txt">
+        <div class="hk">${kicker}</div>
+        <h1>${esc(tr(trip.meta.name))}</h1>
+      </div>
+    </div>
+    <div class="facts">
+      <div class="hfact"><span class="fk">${U().tripLength}</span><span class="fv">${trip.days.length}<small>${U().days_}</small></span></div>
+      <div class="hfact"><span class="fk">${U().bases}</span><span class="fv">${bases}</span></div>
+      <div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>
+    </div>
+  </div>` + noFlyCard() + dayCard;
+
+  const wp = weatherPlace();
+  const wxBlock = wx ? (() => {
+    const c = wx.current, code = WMO[c.weather_code] || ["·","—"];
+    const days = wx.daily.time.map((t,i)=>{
+      const w = WMO[wx.daily.weather_code[i]] || ["·",""];
+      const lbl = i===0 ? "Today" : dateOnly(t).toLocaleDateString(undefined,{weekday:"short"});
+      return `<div class="wx"><div class="d">${lbl}</div><div class="i">${w[0]}</div>
+        <div class="t">${Math.round(wx.daily.temperature_2m_max[i])}°<small>/${Math.round(wx.daily.temperature_2m_min[i])}°</small></div></div>`;
+    }).join("");
+    const sst = marine?.current?.sea_surface_temperature, wave = marine?.current?.wave_height;
+    return `<div class="card">
+      <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
+        <h3 style="margin-top:4px">${esc(tr(wp.base) || tr(trip.meta.country))}</h3></div>
+        <span class="pill ${wxStale?"warn":"live"}">${wxStale?U().saved:(wp.preview?U().atDestination:U().live)}</span></div>
+      <div class="sea">
+        <div><div class="eyebrow">${U().air}</div><div class="v">${Math.round(c.temperature_2m)}°C</div><div class="note">${code[1]}</div></div>
+        <div><div class="eyebrow">${U().seaTemp}</div><div class="v">${sst!=null?Math.round(sst)+"°C":"—"}</div><div class="note">${sst!=null?U().shorty:U().noMarine}</div></div>
+        <div><div class="eyebrow">${U().swell}</div><div class="v">${wave!=null?wave.toFixed(1)+" m":"—"}</div><div class="note">${wave!=null?(wave<0.7?U().comfortable:U().expectMovement):"—"}</div></div>
+      </div>
+      <div class="wxrow">${days}</div>
+      <p class="note" style="margin:10px 0 0">${wxStale
+        ? `${U().lastReading}: ${wxAt ? wxAt.toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "—"}. ${U().willRefresh}`
+        : wp.preview
+          ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
+          : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
+    </div>`;
+  })() : (navigator.onLine
+    ? `<div class="card"><span class="spin"></span>${U().loadingCond}</div>`
+    : `<div class="card">
+        <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
+          <h3 style="margin-top:4px">${U().condNotSaved}</h3>
+          <p class="sub">${U().condHint}</p></div>
+          <span class="pill warn">Offline</span></div>
+      </div>`);
+
+  const flightBlock = f ? `<div class="card">
+    <div class="hd"><div><div class="eyebrow">${U().nextFlight}</div>
+      <h3 style="margin-top:4px">${esc(tr(f.label))}</h3>
+      <p class="sub">${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(f.dep.time.split(" ")[0])}</p></div>
+      <button class="btn ghost" data-goto="flights">${U().open}</button></div></div>` : "";
+
+  const hotelBlock = h ? `<div class="card">
+    <div class="hd"><div><div class="eyebrow">${p.phase==="during"?U().tonight:U().firstBase}</div>
+      <h3 style="margin-top:4px">${esc(h.name)}</h3>
+      <p class="sub">${esc(tr(h.place))}</p></div>
+      <button class="btn ghost" data-goto="stay">${U().open}</button></div></div>` : "";
+
+  const req = (trip.documents?.wallet || []).filter(s=>s.required);
+  const ready = req.filter(s=>wallet[s.id]).length;
+  const docsBlock = req.length ? `<div class="card">
+    <div class="hd"><div><div class="eyebrow">${U().yourDocs}</div>
+      <h3 style="margin-top:4px">${ready} / ${req.length} ${U().ready}</h3>
+      <p class="sub">${ready===req.length ? U().docsAllSaved : U().docsAdd}</p></div>
+      <button class="btn ${ready===req.length?"ghost":""}" data-goto="docs">${ready===req.length?U().open:U().add}</button></div>
+    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(ready/req.length*100)}%"></i></div>
+  </div>` : "";
+
+  const iosLike = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+  let installBlock = "";
+  if(!standalone && installEvent){
+    installBlock = `<div class="installbar">
+      <p><b>${U().installTitle}</b> — ${U().installBody}</p>
+      <button id="installbtn">${U().add}</button></div>`;
+  } else if(!standalone && iosLike){
+    installBlock = `<div class="installbar">
+      <p><b>${U().installTitle}.</b> ${U().installIos}</p></div>`;
+  }
+
+  const gc = gearCount();
+  const gearBlock = (p.phase === "before" && gc.total) ? `<div class="card">
+    <div class="hd"><div><div class="eyebrow">${U().packList}</div>
+      <h3 style="margin-top:4px">${gc.done} / ${gc.total} ${U().packReady}</h3></div>
+      <button class="btn ${gc.done===gc.total?"ghost":""}" data-goto="gear">${U().open}</button></div>
+    <div class="prog" style="margin-top:12px"><i style="width:${gc.total?Math.round(gc.done/gc.total*100):0}%"></i></div>
+  </div>` : "";
+
+  // Near the end of the trip and afterwards, show what is coming next.
+  const nearEnd = p.phase === "after" ||
+    (p.phase === "during" && daysBetween(todayISO(), trip.meta.end) <= 2) ||
+    setupUnlocked;   // staff preview — clients only see it at the end of the trip
+  const site = trip.meta.website || "";
+  const mail = trip.meta.email || "";
+  const nextBlock = (nearEnd && (trip.nextTrips||[]).length && site) ? `<div class="nextcard">
+    <div class="eyebrow">${U().whatsNext}${(setupUnlocked && !(p.phase==="after" || (p.phase==="during" && daysBetween(todayISO(), trip.meta.end) <= 2))) ? ` · ${U().staffPreview}` : ""}</div>
+    <p style="margin:6px 0 10px;font-size:13.5px;color:#C6D3D8">${U().whatsNextNote}</p>
+    ${trip.nextTrips.map(t=>`<a class="nexttrip" href="${esc(t.url || site)}" target="_blank" rel="noopener">
+      <span><span class="nm">${esc(tr(t.name))}</span><span class="nn">${esc(tr(t.note))}</span></span>
+      <span class="nw">${esc(tr(t.when))} <span class="arr">→</span></span></a>`).join("")}
+    <div class="row">
+      <a class="btn" style="background:var(--reef-dim);text-decoration:none"
+         href="${esc(site)}" target="_blank" rel="noopener">${U().nextCta}</a>
+      <a class="btn ghost" style="color:var(--slate);border-color:#2A4C5C;text-decoration:none"
+         href="mailto:${esc(mail)}?subject=${encodeURIComponent(U().nextSubject)}">${U().nextEmail}</a>
+    </div>
+  </div>` : "";
+
+  return head + nextBlock + installBlock + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
+}
+
+function viewDays(){
+  const t = todayISO();
+  return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
+    <span class="pill">${trip.days.length} ${U().days_}</span></div>` +
+  trip.days.map(d=>{
+    const isToday = d.date === t, past = daysBetween(d.date,t) > 0;
+    const open = isToday || (tripPhase().phase==="before" && d.n===1);
+    return `<div class="day ${isToday?"today":""} ${past?"past":""}">
+      <button class="daybtn" data-day="${d.n}" aria-expanded="${open}">
+        <span class="dnum">D${String(d.n).padStart(2,"0")}<br>${fmtDate(d.date).split(",")[0]}</span>
+        <span class="dttl">${esc(tr(d.title))}${isToday?` <span class="pill live">${U().today}</span>`:""}</span>
+        <span class="dbase">${esc(tr(d.base))}</span>
+      </button>
+      <div class="daybody ${open?"":"hidden"}" id="dbody-${d.n}">
+        <div class="sched">${(d.items||[]).map(([tm,x])=>`<div class="t">${esc(tm)}</div><div class="x">${esc(tr(x))}</div>`).join("")}</div>
+        ${(d.dives||[]).map(dv=>`<div class="dive"><div class="n">${esc(tr(dv.site))}</div>
+          <div class="m">${U().maxDepth} ${esc(tr(dv.depth))}</div>
+          <div style="font-size:13.5px;margin-top:4px">${esc(tr(dv.note))}</div></div>`).join("")}
+        ${d.note?`<p class="note" style="margin-top:10px">${esc(tr(d.note))}</p>`:""}
+        ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${U().showOnMap} · ${esc(tr(d.base))}</button></div>`:""}
+      </div></div>`;
+  }).join("");
+}
+
+function viewFlights(){
+  return `<div class="sectitle"><h2>${U().flights}</h2><div class="rule"></div></div>
+  <p class="note" style="margin:8px 0 0">${U().flightNote}</p>` +
+  trip.flights.map(f=>{
+    const hasNumber = f.number && f.number !== "—";
+    const q = hasNumber ? f.number.replace(/\s/g,"") : "";
+    const statusRow = hasNumber
+      ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
+            href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${
+              (f.dep.time||"").slice(0,10) ? "#" + (f.dep.time||"").slice(0,10) : ""}">${U().checkStatus}</a>
+         <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
+            href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
+      : `<span class="pill">${U().numberPending}</span>`;
+
+    return `<div class="card">
+      <div class="hd"><div><div class="eyebrow">${esc(tr(f.label))}</div>
+        <h3 style="margin-top:4px">${esc(tr(f.airline))} ${esc(f.number)}</h3></div>
+        <span class="pill ochre">${fmtDate(f.dep.time.split(" ")[0])}</span></div>
+      <div class="leg">
+        <div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div><div class="time">${fmtTime(f.dep.time)}</div></div>
+        <div class="mid"><div class="dashed"></div><div style="font-size:11px;color:var(--muted);margin-top:4px">✈</div></div>
+        <div class="r"><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div><div class="time">${fmtTime(f.arr.time)}</div></div>
+      </div>
+      <dl class="kv">
+        <dt>${U().bookingRef}</dt><dd class="mono">${esc(f.pnr)}</dd>
+        <dt>${lang==="pl"?"Bagaż":"Baggage"}</dt><dd>${esc(tr(f.baggage))}</dd>
+        ${f.seatNote?`<dt>${lang==="pl"?"Uwagi":"Note"}</dt><dd>${esc(tr(f.seatNote))}</dd>`:""}
+      </dl>
+      <div class="row">${statusRow}</div>
+    </div>`;
+  }).join("");
+}
+
+function viewStay(){
+  const t = todayISO();
+  const core = trip.hotels.filter(h=>!h.optional);
+  const nightsTotal = core.reduce((n,h)=>n+daysBetween(h.checkIn,h.checkOut),0);
+
+  const summary = `<div class="staysum">
+    <div><span class="k">${U().bases}</span><span class="v">${core.length}</span></div>
+    <div><span class="k">${U().nights}</span><span class="v">${nightsTotal}</span></div>
+  </div>`;
+
+  const cards = trip.hotels.map(h=>{
+    const now = daysBetween(h.checkIn,t)>=0 && daysBetween(t,h.checkOut)>0;
+    const nights = daysBetween(h.checkIn,h.checkOut);
+    const pill = h.optional ? `<span class="pill ochre">${U().optional}</span>`
+               : now ? `<span class="pill live">${U().today}</span>`
+               : `<span class="pill">${nights} ${nights===1?U().night:U().nights}</span>`;
+    const coords = `${h.coords[0].toFixed(4)}° N · ${h.coords[1].toFixed(4)}° E`;
+
+    // Photo band on top; every practical detail stays below it on the light card.
+    const band = h.photo ? `<div class="pband">
+        <img src="${esc(h.photo)}" alt="${esc(h.name)}" loading="lazy">
+        ${pill}
+        <div class="pt">
+          <div class="pk">${esc(tr(h.place))}</div>
+          <h3>${esc(h.name)}</h3>
+          <div class="pc">${coords}</div>
+        </div>
+      </div>` : "";
+
+    const plainHead = h.photo ? "" : `<div class="hd"><div>
+        <div class="eyebrow">${esc(tr(h.place))}</div>
+        <h3 style="margin-top:4px">${esc(h.name)}</h3>
+        <div class="mono" style="font-size:11px;color:var(--reef-dim);margin-top:5px">${coords}</div>
+      </div>${pill}</div>`;
+
+    return `<div class="card${h.photo?" photo":""}">
+      ${band}
+      <div class="${h.photo?"pbody":""}">
+        ${plainHead}
+        <div class="daterow">
+          <span class="dt">${fmtDate(h.checkIn)}</span><span class="ar">&rarr;</span>
+          <span class="dt">${fmtDate(h.checkOut)}</span>
+          <span class="nn">${nights} ${nights===1?U().night:U().nights}</span>
+        </div>
+        <dl class="kv">
+          ${h.room?`<dt>${U().room}</dt><dd>${esc(tr(h.room))}</dd>`:""}
+          <dt>${U().phone}</dt><dd><a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a></dd>
+          <dt>${U().address}</dt><dd>${esc(h.address)}</dd>
+        </dl>
+        ${h.notes?`<p class="sub" style="margin-top:10px">${esc(tr(h.notes))}</p>`:""}
+        <div class="row">
+          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
+             href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${U().directions}</a>
+          <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+
+  return `<div class="sectitle"><h2>${U().whereYouSleep}</h2><div class="rule"></div></div>`
+       + summary + cards;
+}
+
+function viewDocs(){
+  const cfg = trip.documents || {wallet:[],issued:[]};
+  const req = cfg.wallet.filter(s=>s.required);
+  const done = req.filter(s=>wallet[s.id]).length;
+  const pct = req.length ? Math.round(done/req.length*100) : 0;
+
+  const rows = cfg.wallet.map(s=>{
+    const rec = wallet[s.id];
+    const thumb = rec
+      ? (rec.mime==="application/pdf" ? `<div class="thumb done">PDF</div>` : `<div class="thumb done"><img src="${rec.data}" alt=""></div>`)
+      : `<div class="thumb">+</div>`;
+    const added = rec ? new Date(rec.added).toLocaleDateString(undefined,{day:"numeric",month:"short"}) : "";
+    return `<div class="doc">
+      ${thumb}
+      <div>
+        <div class="l">${esc(tr(s.label))}${
+          s.id === "contract" && trip.meta && trip.meta.contractRef
+            ? ` <span class="mono" style="color:var(--ochre);font-weight:600">${esc(trip.meta.contractRef)}</span>` : ""
+        }${s.required?` <span class="pill">${U().needed}</span>`:""}</div>
+        <div class="s">${rec ? `<b>${U().saved_} ${added}</b> · ${Math.round(rec.bytes/1024)} KB` : esc(tr(s.hint))}</div>
+        <div id="msg-${s.id}"></div>
+      </div>
+      <div class="docacts">
+        ${rec ? `<button class="iconbtn" data-view="${s.id}" title="${U().view}">◉</button>
+                 <button class="iconbtn" data-del="${s.id}" title="${U().remove}">✕</button>`
+              : `<button class="btn ghost" data-add="${s.id}">${U().add}</button>`}
+      </div></div>`;
+  }).join("");
+
+  /* Documents we issue. Trip-level entries (gov.pl country advice, the trip
+     programme) are the same for everyone. Per-traveller entries — insurance,
+     e-ticket, hotel voucher — come from that person's own record, so a link
+     only ever appears for the person it belongs to. */
+  const issuedList = (cfg.issued||[]).concat((traveller && traveller.docs) || []);
+  const issued = issuedList.map(d=>`<div class="doc">
+      <div class="thumb">${d.url?"↓":"—"}</div>
+      <div><div class="l">${esc(tr(d.label))}</div><div class="s">${esc(tr(d.note))}</div></div>
+      <div class="docacts">${d.url
+        ? `<a class="btn ghost" style="text-decoration:none" href="${esc(d.url)}" target="_blank" rel="noopener">${U().open}</a>`
+        : `<span class="pill">${U().notIssued}</span>`}</div>
+    </div>`).join("");
+
+  return `<div class="sectitle"><h2>${U().yourDocs}</h2><div class="rule"></div>
+      <span class="pill ${done===req.length?"ok":"ochre"}">${done} / ${req.length} ${U().ready}</span></div>
+
+  <div class="privacy">
+    <div class="eyebrow">${U().docsStaysHere}</div>
+    <p>${U().docsPrivacy}</p>
+  </div>
+
+  <div class="card">
+    <div class="eyebrow">${U().packing}</div>
+    <div class="prog"><i style="width:${pct}%"></i></div>
+    <div class="hair"></div>
+    ${rows}
+    <p class="note" style="margin-top:12px">${U().photoHint}</p>
+  </div>
+
+  <div class="sectitle"><h2>${U().fromMalakay}</h2><div class="rule"></div></div>
+  <div class="card">${issued}
+    <p class="note" style="margin-top:12px">${U().issuedNote}</p>
+  </div>
+
+  <input type="file" id="picker" class="hidden" accept="image/*,application/pdf">`;
+}
+
+/* ============================================================
+   PASSPORT
+   ------------------------------------------------------------
+   An archive of every Malakay trip opened on this phone. It is
+   the reason four trips had to move onto one web address: browser
+   storage is tied to the origin, so separate sites could never
+   have seen each other's history.
+
+   Stored UNPREFIXED, unlike the dive log and gear ticks. Those
+   belong to a departure; this belongs to the traveller.
+
+   Nothing here is invented. A trip appears because it was opened;
+   a dive appears because the traveller logged it. If the archive
+   says eleven dives, eleven dives were written down.
+
+   Never leaves the device. No server, no sync, no account — which
+   is also why it needs no lawful basis and no retention rule.
+   ============================================================ */
+
+const PP_KEY = "malakay:passport";
+let passport = {};
+let ppQuery  = "";
+let ppOpen   = null;
+
+async function loadPassport(){
+  try{
+    const r = await window.storage.get(PP_KEY);
+    if(r && r.value) passport = JSON.parse(r.value) || {};
+  }catch(e){ passport = {}; }
+}
+async function savePassport(){
+  try{ await window.storage.set(PP_KEY, JSON.stringify(passport)); }catch(e){}
+}
+
+/* Writes the current trip into the archive, then folds in whatever
+   the traveller has logged. Runs on every open, so a corrected
+   itinerary or a new dive is picked up without any action. */
+async function recordPassport(){
+  if(!trip || !trip.meta) return;
+  const prev = passport[TRIP_ID] || {};
+  passport[TRIP_ID] = {
+    id: TRIP_ID,
+    code: trip.meta.code || "",
+    name: trip.meta.name,
+    country: trip.meta.country,
+    start: trip.meta.start,
+    end: trip.meta.end,
+    tz: trip.meta.tz,
+    guide: (trip.meta.guide && trip.meta.guide.name) || "",
+    bases: (trip.hotels || []).map(h => ({
+      name: h.name, place: h.place, checkIn: h.checkIn, checkOut: h.checkOut, coords: h.coords
+    })),
+    sites: (trip.places || []).filter(p => p.type === "dive")
+                              .map(p => ({ name: p.name, note: p.note, coords: p.coords })),
+    towns: (trip.places || []).filter(p => p.type === "town")
+                              .map(p => ({ name: p.name, note: p.note })),
+    /* The day-by-day, kept so the archive can answer "what did we
+       actually do on the Tuesday" years later. Titles and stops only:
+       the long prose stays in the trip file, which is reachable any
+       time the trip is opened again. */
+    days: (trip.days || []).map(d => ({
+      n: d.n, date: d.date, title: d.title, base: d.base,
+      items: (d.items || []).map(it => (it && it[1]) ? it[1] : null).filter(Boolean)
+    })),
+    dives: diveLog.map(d => ({
+      date: d.date, site: d.site, depth: d.depth, time: d.time,
+      buddy: d.buddy, saw: d.saw, notes: d.notes
+    })),
+    firstOpened: prev.firstOpened || todayISO(),
+    lastSeen: todayISO()
+  };
+  await savePassport();
+}
+
+const ppList = () => Object.values(passport)
+  .sort((a,b) => String(b.start).localeCompare(String(a.start)));
+
+function ppStats(){
+  const trips = ppList();
+  const dives = trips.flatMap(t => t.dives || []);
+  const mins  = dives.reduce((a,d) => a + (parseFloat(d.time) || 0), 0);
+  return {
+    trips: trips.length,
+    countries: new Set(trips.map(t => tr(t.country))).size,
+    dives: dives.length,
+    hours: Math.round(mins / 60),
+    deepest: dives.reduce((a,d) => Math.max(a, parseFloat(d.depth) || 0), 0)
+  };
+}
+
+/* Diacritics folded so "lodz" finds "Łódź" and an English keyboard
+   still finds Polish entries. */
+function ppNorm(s){
+  return String(s == null ? "" : s).toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/ł/g, "l");
+}
+
+function ppIndex(){
+  const ix = [];
+  const seen = new Set();
+  ppList().forEach(t => {
+    const c = tr(t.country);
+    if(c && !seen.has("c|" + c)){
+      seen.add("c|" + c);
+      ix.push({type:"country", trip:t.id, label:c, hay:[ppNorm(t.country && t.country.pl), ppNorm(t.country && t.country.en)]});
+    }
+    ix.push({type:"trip", trip:t.id, label:tr(t.name),
+             sub:`${c} · ${fmtDate(t.start)}`,
+             hay:[ppNorm(t.name && t.name.pl), ppNorm(t.name && t.name.en), ppNorm(t.code)]});
+    (t.dives || []).forEach(d => ix.push({type:"dive", trip:t.id, label:d.site,
+             sub:[d.depth && d.depth + " m", d.time && d.time + " min", fmtDate(d.date)].filter(Boolean).join(" · "),
+             hay:[ppNorm(d.site), ppNorm(d.saw), ppNorm(d.notes)]}));
+    (t.sites || []).forEach(s => ix.push({type:"dive", trip:t.id, label:s.name,
+             sub:`${c} · ${tr(s.note) || ""}`, hay:[ppNorm(s.name), ppNorm(tr(s.note))]}));
+    (t.towns || []).forEach(s => ix.push({type:"place", trip:t.id, label:s.name,
+             sub:`${c} · ${tr(s.note) || ""}`, hay:[ppNorm(s.name), ppNorm(tr(s.note))]}));
+    (t.bases || []).forEach(b => ix.push({type:"place", trip:t.id, label:b.name,
+             sub:`${tr(b.place)} · ${fmtDate(b.checkIn)}`, hay:[ppNorm(b.name), ppNorm(tr(b.place))]}));
+    const people = new Set((t.dives || []).map(d => d.buddy).filter(Boolean));
+    if(t.guide) people.add(t.guide);
+    people.forEach(p => ix.push({type:"person", trip:t.id, label:p,
+             sub:`${tr(t.name)} · ${String(t.start).slice(0,4)}`, hay:[ppNorm(p)]}));
+  });
+  return ix;
+}
+
+function ppSearch(q){
+  const n = ppNorm(q).trim();
+  if(!n) return [];
+  const rank = {country:0, trip:1, dive:2, place:3, person:4};
+  const out = [], seen = new Set();
+  ppIndex().forEach(r => {
+    let score = -1;
+    r.hay.forEach(h => {
+      if(!h) return;
+      if(h.startsWith(n)) score = Math.max(score, 2);
+      else if(h.includes(n)) score = Math.max(score, 1);
+    });
+    if(score < 0) return;
+    /* One row per thing, not per trip. Michał guides every departure
+       and the Coron wrecks appear on both Palawan trips; listing them
+       once each keeps the results readable. ppIndex walks newest trip
+       first, so the row that survives points at the most recent visit. */
+    const k = r.type + "|" + ppNorm(r.label);
+    if(seen.has(k)) return;
+    seen.add(k);
+    out.push({...r, score});
+  });
+  return out.sort((a,b) => b.score - a.score || rank[a.type] - rank[b.type]
+                        || String(a.label).localeCompare(String(b.label))).slice(0, 30);
+}
+
+function ppMark(text, q){
+  const s = String(text == null ? "" : text);
+  const n = ppNorm(q).trim();
+  if(!n) return esc(s);
+  const i = ppNorm(s).indexOf(n);
+  if(i < 0) return esc(s);
+  return esc(s.slice(0, i)) + "<mark>" + esc(s.slice(i, i + n.length)) + "</mark>" + esc(s.slice(i + n.length));
+}
+
+function ppPhase(t){
+  const today = todayISO();
+  if(today < t.start) return {k:"upcoming", cls:""};
+  if(today > t.end)   return {k:"past",     cls:"ok"};
+  return {k:"current", cls:"ok"};
+}
+
+function ppTripCard(t, q){
+  const P = U().passport, ph = ppPhase(t);
+  const nights = (t.bases || []).reduce((a,b) => a + Math.max(0,
+      (new Date(b.checkOut) - new Date(b.checkIn)) / 86400000), 0);
+  const nd = (t.dives || []).length;
+  return `<button class="card dvrow" data-pp="${esc(t.id)}">
+    <div class="hd"><div>
+      <div class="eyebrow">${esc(tr(t.country))} · ${fmtDate(t.start)}${t.id === TRIP_ID ? ` · ${P.thisTrip}` : ""}</div>
+      <h3 style="margin-top:4px">${ppMark(tr(t.name), q)}</h3></div>
+      <span class="pill ${ph.cls}">${P[ph.k]}</span>
+    </div>
+    <div class="sea" style="margin-top:10px">
+      <div><div class="eyebrow">${P.nights}</div><div class="v">${nights || "—"}</div></div>
+      <div><div class="eyebrow">${P.bases}</div><div class="v">${(t.bases || []).length || "—"}</div></div>
+      <div><div class="eyebrow">${P.dives}</div><div class="v">${nd || "—"}</div></div>
+    </div></button>`;
+}
+
+function viewPassport(){
+  const P = U().passport;
+  const trips = ppList();
+
+  if(!trips.length){
+    return `<div class="sectitle"><h2>${P.title}</h2><div class="rule"></div></div>
+      <div class="card"><h3>${P.empty}</h3>
+      <p class="sub" style="margin-top:6px">${P.emptyNote}</p></div>
+      <p class="note">${P.privacy}</p>`;
+  }
+
+  /* Drilled into one trip */
+  if(ppOpen && passport[ppOpen]){
+    const t = passport[ppOpen];
+    const dives = t.dives || [];
+    const deepest = dives.reduce((a,d) => Math.max(a, parseFloat(d.depth) || 0), 0);
+    return `<div class="row" style="margin-bottom:10px">
+        <button class="btn ghost" data-ppback="1">← ${P.back}</button></div>
+      <div class="sectitle"><h2>${esc(tr(t.name))}</h2><div class="rule"></div></div>
+      <div class="card"><div class="eyebrow">${esc(tr(t.country))}</div>
+        <h3 style="margin-top:4px">${fmtDate(t.start)} → ${fmtDate(t.end)}</h3>
+        <div class="sea" style="margin-top:12px">
+          <div><div class="eyebrow">${P.bases}</div><div class="v">${(t.bases||[]).length || "—"}</div></div>
+          <div><div class="eyebrow">${P.dives}</div><div class="v">${dives.length || "—"}</div></div>
+          ${deepest ? `<div><div class="eyebrow">${P.deepest}</div><div class="v">${deepest} m</div></div>` : ""}
+        </div>
+        ${t.code ? `<p class="note" style="margin-top:10px">${esc(t.code)}</p>` : ""}
+      </div>
+      ${(t.bases || []).length ? `<div class="sectitle"><h2>${P.sleptAt}</h2><div class="rule"></div></div>` : ""}
+      ${(t.bases || []).map(b => `<div class="card">
+        <div class="eyebrow">${esc(tr(b.place))}</div>
+        <h3 style="margin-top:4px">${esc(b.name)}</h3>
+        <p class="sub" style="margin-top:4px">${fmtDate(b.checkIn)} → ${fmtDate(b.checkOut)}</p>
+      </div>`).join("")}
+
+      ${(t.sites || []).length ? `<div class="sectitle"><h2>${P.diveSites}</h2><div class="rule"></div>
+          <span class="pill">${(t.sites||[]).length}</span></div>
+        <div class="card">${(t.sites||[]).map(x => `<div style="padding:10px 0;border-bottom:1px solid var(--line)">
+          <h3 style="font-size:15px">${esc(x.name)}</h3>
+          ${tr(x.note) ? `<p class="sub" style="margin-top:3px">${esc(tr(x.note))}</p>` : ""}
+        </div>`).join("")}</div>` : ""}
+
+      ${(t.towns || []).length ? `<div class="sectitle"><h2>${P.visited}</h2><div class="rule"></div>
+          <span class="pill">${(t.towns||[]).length}</span></div>
+        <div class="card">${(t.towns||[]).map(x => `<div style="padding:10px 0;border-bottom:1px solid var(--line)">
+          <h3 style="font-size:15px">${esc(x.name)}</h3>
+          ${tr(x.note) ? `<p class="sub" style="margin-top:3px">${esc(tr(x.note))}</p>` : ""}
+        </div>`).join("")}</div>` : ""}
+
+      ${(t.days || []).length ? `<div class="sectitle"><h2>${P.plan}</h2><div class="rule"></div>
+          <span class="pill">${(t.days||[]).length}</span></div>
+        ${(t.days||[]).map(d => `<div class="card">
+          <div class="eyebrow">${U().day} ${d.n} · ${fmtDate(d.date)}${tr(d.base) ? ` · ${esc(tr(d.base))}` : ""}</div>
+          <h3 style="margin-top:4px;font-size:16px">${esc(tr(d.title))}</h3>
+          ${(d.items||[]).length ? `<ul class="sub" style="margin:8px 0 0;padding-left:18px">
+            ${(d.items||[]).map(it => `<li style="margin:3px 0">${esc(tr(it))}</li>`).join("")}
+          </ul>` : ""}
+        </div>`).join("")}` : ""}
+
+      <div class="sectitle"><h2>${P.yourDives}</h2><div class="rule"></div>
+        ${dives.length ? `<span class="pill ok">${dives.length}</span>` : ""}</div>
+      ${dives.length ? dives.map((d,i) => `<div class="card dvrow">
+          <div class="hd"><div>
+            <div class="eyebrow">${U().dive} ${String(i+1).padStart(2,"0")} · ${fmtDate(d.date)}</div>
+            <h3 style="margin-top:4px">${esc(d.site)}</h3></div>
+            <div class="dvnum">${d.depth?`${esc(d.depth)}<small>m</small>`:""}${d.time?`<span>${esc(d.time)}<small>min</small></span>`:""}</div>
+          </div>
+          ${d.saw ? `<p class="sub" style="margin:8px 0 0">${P.saw}: ${esc(d.saw)}</p>` : ""}
+          ${d.buddy ? `<p class="note" style="margin:6px 0 0">${P.buddy}: ${esc(d.buddy)}</p>` : ""}
+          ${d.notes ? `<p class="note" style="margin:6px 0 0">${esc(d.notes)}</p>` : ""}
+        </div>`).join("")
+      : `<div class="card"><p class="sub">${(t.sites||[]).length ? P.noLog : P.noDives}</p></div>`}
+      <p class="note">${P.firstOpened}: ${fmtDate(t.firstOpened)}</p>`;
+  }
+
+  /* Archive home */
+  const s = ppStats();
+  const years = trips.length ? String(trips[trips.length-1].start).slice(0,4) : "";
+  return `<div class="sectitle"><h2>${P.title}</h2><div class="rule"></div>
+      <span class="pill ok">${s.trips}</span></div>
+
+    <div class="card">
+      <div class="eyebrow">${P.hero}${years ? ` · ${P.since} ${years}` : ""}</div>
+      <div class="sea" style="margin-top:12px">
+        <div><div class="eyebrow">${P.trips}</div><div class="v">${s.trips}</div></div>
+        <div><div class="eyebrow">${P.countries}</div><div class="v">${s.countries}</div></div>
+        <div><div class="eyebrow">${P.dives}</div><div class="v">${s.dives || "—"}</div></div>
+        <div><div class="eyebrow">${P.hours}</div><div class="v">${s.hours ? s.hours + " h" : "—"}</div></div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0">
+      <input id="pp-q" type="search" autocomplete="off" value="${esc(ppQuery)}"
+        placeholder="${esc(P.search)}" aria-label="${esc(P.search)}"
+        style="width:100%;border:0;background:transparent;font:inherit;color:inherit;padding:16px 18px;outline:none;min-height:52px">
+    </div>
+
+    <div id="pp-results">${ppResultsHTML()}</div>
+
+    <div class="row"><button class="btn ghost" id="pp-export">${P.export}</button>
+      <button class="btn ghost" id="pp-import">${P.import}</button></div>
+    <input type="file" id="pp-file" accept="application/json,.json" style="display:none">
+    <p class="note">${P.privacy}</p>`;
+}
+
+function ppResultsHTML(){
+  const P = U().passport;
+  const q = ppQuery.trim();
+  if(!q) return ppList().map(t => ppTripCard(t, "")).join("");
+  const rs = ppSearch(q);
+  if(!rs.length) return `<div class="card"><h3>${P.nothing}</h3>
+    <p class="sub" style="margin-top:6px">${P.nothingNote}</p></div>`;
+  const tag = {country:P.tagCountry, trip:P.tagTrip, dive:P.tagDive, place:P.tagPlace, person:P.tagPerson};
+  return `<div class="sectitle"><h2>${rs.length} ${P.results}</h2><div class="rule"></div></div>`
+    + rs.map(r => `<button class="card dvrow" data-pp="${esc(r.trip)}">
+        <div class="hd"><div>
+          <div class="eyebrow">${tag[r.type]}</div>
+          <h3 style="margin-top:4px">${ppMark(r.label, q)}</h3>
+          ${r.sub ? `<p class="sub" style="margin-top:4px">${esc(r.sub)}</p>` : ""}
+        </div></div></button>`).join("");
+}
+
+async function ppExport(){
+  const blob = new Blob([JSON.stringify({schema:1, exported:todayISO(), trips:passport}, null, 2)],
+                        {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "malakay-" + (lang === "pl" ? "paszport" : "passport") + ".json";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+async function ppImport(file){
+  const P = U().passport;
+  try{
+    const data = JSON.parse(await file.text());
+    const incoming = data && data.trips ? data.trips : data;
+    let n = 0;
+    Object.keys(incoming || {}).forEach(k => {
+      const inc = incoming[k], cur = passport[k];
+      /* Merge rather than replace: a trip already on this phone keeps
+         whichever copy has more logged dives, so importing an older
+         export can never delete a dive. */
+      if(!cur || (inc.dives || []).length >= (cur.dives || []).length){
+        passport[k] = inc; n++;
+      }
+    });
+    await savePassport();
+    alert(P.importOk + n);
+    render();
+  }catch(e){ alert(P.importBad); }
+}
+
+function viewLog(){
+  const sites = knownSites();
+  const total = diveLog.length;
+  const deepest = diveLog.reduce((a,d)=>Math.max(a, parseFloat(d.depth)||0), 0);
+
+  const form = editingDive ? `<div class="card">
+    <div class="eyebrow">${editingDive.site ? U().editDive : U().newDive}</div>
+    <div class="dvform">
+      <label>${U().dvDate}<input type="date" id="dv-date" value="${esc(editingDive.date)}"></label>
+      <label>${U().dvSite}<input list="dvsites" id="dv-site" value="${esc(editingDive.site)}" placeholder="${esc(sites[0]||"")}"></label>
+      <label>${U().dvDepth}<input type="number" inputmode="decimal" id="dv-depth" value="${esc(editingDive.depth)}" placeholder="18"></label>
+      <label>${U().dvTime}<input type="number" inputmode="numeric" id="dv-time" value="${esc(editingDive.time)}" placeholder="45"></label>
+      <label class="wide">${U().dvBuddy}<input id="dv-buddy" value="${esc(editingDive.buddy)}"></label>
+      <label class="wide">${U().dvSaw}<input id="dv-saw" value="${esc(editingDive.saw)}" placeholder="${U().dvSawEg}"></label>
+      <label class="wide">${U().dvNotes}<textarea id="dv-notes" style="min-height:70px">${esc(editingDive.notes)}</textarea></label>
+    </div>
+    <datalist id="dvsites">${sites.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>
+    <div class="row">
+      <button class="btn" id="dv-save">${U().save}</button>
+      <button class="btn ghost" id="dv-cancel">${U().cancel}</button>
+      ${diveLog.some(d=>d.id===editingDive.id)?`<button class="btn ghost" data-dvdel="${editingDive.id}">${U().remove}</button>`:""}
+    </div></div>` : "";
+
+  const list = total ? diveLog.map((d,i)=>`
+    <button class="card dvrow" data-dvedit="${d.id}">
+      <div class="hd"><div>
+        <div class="eyebrow">${U().dive} ${String(i+1).padStart(2,"0")} · ${fmtDate(d.date)}</div>
+        <h3 style="margin-top:4px">${esc(d.site)}</h3></div>
+        <div class="dvnum">${d.depth?`${esc(d.depth)}<small>m</small>`:""}${d.time?`<span>${esc(d.time)}<small>min</small></span>`:""}</div>
+      </div>
+      ${d.saw?`<p class="sub" style="margin:8px 0 0">${esc(d.saw)}</p>`:""}
+      ${d.notes?`<p class="note" style="margin:6px 0 0">${esc(d.notes)}</p>`:""}
+      ${d.buddy?`<p class="note" style="margin:6px 0 0">${U().dvBuddy}: ${esc(d.buddy)}</p>`:""}
+    </button>`).join("")
+  : `<div class="card"><h3>${U().logEmpty}</h3><p class="sub" style="margin-top:6px">${U().logEmptyNote}</p></div>`;
+
+  return `<div class="sectitle"><h2>${U().diveLog}</h2><div class="rule"></div>
+      ${total?`<span class="pill ok">${total}</span>`:""}</div>
+    ${total ? `<div class="card"><div class="sea">
+        <div><div class="eyebrow">${U().dives}</div><div class="v">${total}</div></div>
+        ${deepest?`<div><div class="eyebrow">${U().deepest}</div><div class="v">${deepest} m</div></div>`:""}
+      </div></div>` : ""}
+    ${form}
+    ${editingDive ? "" : `<div class="row"><button class="btn" id="dv-new">${U().addDive}</button></div>`}
+    ${list}
+    <p class="note">${U().logPrivacy}</p>`;
+}
+
+function viewGear(){
+  const groups = trip.gear || [];
+  const c = gearCount();
+  const pct = c.total ? Math.round(c.done/c.total*100) : 0;
+
+  return `<div class="sectitle"><h2>${U().packList}</h2><div class="rule"></div>
+      <span class="pill ${c.done===c.total?"ok":"ochre"}">${c.done} / ${c.total}</span></div>
+    <div class="card">
+      <div class="eyebrow">${U().packProgress}</div>
+      <div class="prog" style="margin-top:10px"><i style="width:${pct}%"></i></div>
+      <p class="note" style="margin:10px 0 0">${U().packNote}</p>
+    </div>
+    ${groups.map((g,gi)=>{
+      const gc = g.items.filter(i=>gearTicked[i.id]).length;
+      return `<div class="card">
+        <button class="factgrp" data-ggroup="${gi}" aria-expanded="${openGearGroup===gi}">
+          <span>${esc(tr(g.group))}</span>
+          <span class="cnt">${gc}/${g.items.length} · ${openGearGroup===gi?"−":"+"}</span>
+        </button>
+        <div class="${openGearGroup===gi?"":"hidden"}">
+          <div class="hair"></div>
+          ${g.items.map(i=>{
+            const on = !!gearTicked[i.id];
+            const note = tr(i.note);
+            return `<button class="gear ${on?"on":""}" data-gear="${i.id}" aria-pressed="${on}">
+              <span class="box">${on?"✓":""}</span>
+              <span>
+                <span class="gl">${esc(tr(i.label))}</span>
+                ${note?`<span class="gn">${esc(note)}</span>`:""}
+              </span></button>`;
+          }).join("")}
+        </div></div>`;
+    }).join("")}
+    <p class="note">${U().packPrivacy}</p>`;
+}
+
+function viewMap(){
+  return `<div class="sectitle"><h2>${U().tripMap}</h2><div class="rule"></div>
+      <button class="btn ghost" id="showall">${U().wholeRoute}</button></div>
+    <p class="note" style="margin:8px 0 0">${U().mapNote}</p>
+    <div id="map"></div>
+    <div class="legend">
+      <span><i style="background:var(--reef-dim)"></i>${U().legDive}</span>
+      <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
+      <span><i style="background:var(--coral)"></i>${U().legTown}</span>
+      <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
+    </div>`;
+}
+
+function viewGuide(){
+  const m = trip.meta;
+  const groups = trip.facts || [];
+  /* Transfers and the dive package used to be written into this file,
+     with Cebu's numbers. Japan is not a diving trip and does not go to
+     Malapascua, so both now come from the trip itself and simply do not
+     appear when the trip has nothing to say. */
+  const T = lang==="pl"
+    ? {transfers:"Transfery", divePkg:"Pakiet nurkowy"}
+    : {transfers:"Transfers",  divePkg:"Dive package"};
+  const transfersV = m.transfers ? tr(m.transfers) : "";
+  const divePkgV   = m.divePackage ? tr(m.divePackage) : "";
+
+  const g = m.guide || {};
+  return `<div class="sectitle"><h2>${U().yourGuide}</h2><div class="rule"></div></div>
+  <div class="card">
+    <div class="guidecard">
+      ${g.photo ? `<img src="${esc(g.photo)}" alt="${esc(g.name||"")}" loading="lazy">` : ""}
+      <div class="gbody">
+        <h3>${esc(g.name||"")}</h3>
+        ${g.role ? `<div class="grole">${esc(tr(g.role))}</div>` : ""}
+        ${g.phone ? `<a class="gtel" href="tel:${esc(g.phone).replace(/\s/g,"")}">${esc(g.phone)}</a>` : ""}
+      </div>
+    </div>
+    ${g.intro ? `<p class="guideintro">${esc(tr(g.intro))}</p>` : ""}
+  </div>
+
+  <div class="sectitle"><h2>${U().emergency}</h2><div class="rule"></div></div>
+  <div class="card">
+    <dl class="kv">${m.emergency.map(e=>`<dt>${esc(tr(e.label))}</dt><dd>${esc(tr(e.value))}</dd>`).join("")}</dl>
+    ${isDiveTrip() ? `<p class="note" style="margin-top:10px">${U().chamberNote}</p>` : ""}
+  </div>
+
+  <div class="sectitle"><h2>${U().goodToKnow}</h2><div class="rule"></div></div>
+  <div class="card">
+    <dl class="kv">
+      <dt>${U().country}</dt><dd>${esc(tr(m.country))}</dd>
+      <dt>${U().currency}</dt><dd>${esc(tr(m.currency))}</dd>
+      <dt>${U().timezone}</dt><dd>${esc(m.tz)} · ${U().now} ${tzNow(m.tz)}</dd>
+      <dt>${U().operator}</dt><dd>${esc(m.operator)}</dd>
+      ${transfersV ? `<dt>${T.transfers}</dt><dd>${esc(transfersV)}</dd>` : ""}
+      ${divePkgV ? `<dt>${T.divePkg}</dt><dd>${esc(divePkgV)}</dd>` : ""}
+    </dl>
+  </div>
+
+  <div class="sectitle"><h2>${U().funFacts}</h2><div class="rule"></div>
+      <span class="pill">${groups.reduce((a,g)=>a+g.items.length,0)}</span></div>
+  ${groups.map((g,gi)=>`
+    <div class="card">
+      <button class="factgrp" data-fgroup="${gi}" aria-expanded="${openFactGroup===gi}">
+        <span>${esc(tr(g.group))}</span>
+        <span class="cnt">${g.items.length} · ${openFactGroup===gi?"−":"+"}</span>
+      </button>
+      <div class="${openFactGroup===gi?"":"hidden"}">
+        <div class="hair"></div>
+        ${g.items.map((f,i)=>`<div class="fact"><div class="n">${String(i+1).padStart(2,"0")}</div><div>${esc(tr(f))}</div></div>`).join("")}
+      </div>
+    </div>`).join("")}`;
+}
+
+function viewSetup(){
+  return `<div class="sectitle"><h2>${U().tripData}</h2><div class="rule"></div>
+      <span class="pill warn">${lang==="pl"?"Tylko dla Was":"Staff only"}</span></div>
+  <div class="banner">
+    <p>${lang==="pl"
+      ? "<b>Ta zakładka jest ukryta przed klientami.</b> Zmiany tutaj zapisują się tylko na tym urządzeniu — nie zmieniają tego, co widzą klienci. Żeby zmienić wersję na żywo, wgraj nowy plik na Netlify."
+      : "<b>This tab is hidden from clients.</b> Changes here save only on this device — they do not change what clients see. To change the live version, deploy a new file to Netlify."}</p>
+  </div>
+  <div class="card">
+    <p class="sub" style="margin-top:0">${U().setupNote}</p>
+    <textarea id="json" spellcheck="false">${esc(JSON.stringify(trip,null,2))}</textarea>
+    <div class="row">
+      <button class="btn" id="save">${U().save}</button>
+      <button class="btn ghost" id="reset">${U().reset}</button>
+      <button class="btn ghost" id="copy">${U().copy}</button>
+      <button class="btn ghost" id="lock">${U().hideTab}</button>
+      <span id="savemsg" class="mono" style="font-size:12px;color:var(--reef-dim)"></span>
+    </div>
+    <div id="jsonerr"></div>
+    <p class="note" style="margin-top:12px">${U().running}: ${APP_VERSION}. ${U().versionNote}</p>
+  </div>`;
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  /* Nothing can be drawn before the trip file has resolved. Several things
+     call render() on their own schedule — the language switch, the service
+     worker finding an update, weather arriving — and on a cold start any of
+     them can win the race against the fetch. tripPhase() then read trip.meta
+     on null, the view died mid-render, and the app fell back to the NOW tab.
+     The loader calls render() again as soon as the trip is in hand. */
+  if(!trip) return;
+  renderTabs();
+  if(tab === "setup" && !setupUnlocked) tab = "now";
+  const v = $("#view");
+  v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
+  if(tab === "map") setTimeout(drawMap, 30);
+  if(tab === "now" || tab === "days"){
+    const w = weatherPlace();
+    if(w?.coords) getWeather(w.coords[0], w.coords[1]);
+  }
+  band();
+}
+
+/* CARTO began requiring an API key on its raster basemaps in late August 2026.
+   Without one the tiles still load, but arrive with "API KEY REQUIRED" burned
+   diagonally across them. The key is free (fair use 5m tiles/month), and it
+   ships in the page like any other front-end key — restrict it to our own
+   domains in the CARTO dashboard rather than treating it as a secret.
+   Paste the key between the quotes. Left empty, the map still works; it just
+   carries the watermark. */
+const CARTO_KEY = "cb1_3mer_1_0727111f2027f0443f8b7023";
+
+/* CARTO's keyed raster tiles sit under /rastertiles/<style>/, which is not
+   where the old keyless light_all tiles lived. Appending a key to the old
+   path fails every tile, which in turn trips the offline treatment and the
+   map goes dark. Style options: "voyager" (CARTO's documented default),
+   "light_all" (flatter, closer to our cream), "dark_all". Change one word. */
+const CARTO_STYLE = "voyager";
+
+function tileUrl(){
+  const base = "https://{s}.basemaps.cartocdn.com/rastertiles/" + CARTO_STYLE
+             + "/{z}/{x}/{y}{r}.png";
+  return CARTO_KEY ? base + "?key=" + encodeURIComponent(CARTO_KEY) : base;
+}
+
+/* ---- Offline coastline ----------------------------------------------------
+   Tiles come from CARTO and need a connection. Without them the map was a
+   dark rectangle with coloured dots on it — true, but useless on a boat.
+   land.json holds simplified OpenStreetMap coastlines for the whole world,
+   every ring prefixed by its bounding box so we can pick out the handful in
+   view without touching the rest. Loaded once, cached by the service worker,
+   and drawn only when tiles fail. Not street level: land, sea, islands. */
+let LAND = null, landLayer = null, landPending = null;
+
+/* land.bin, little-endian:
+     uint32 version, uint32 ringCount
+     ringCount × [ float32 minx,miny,maxx,maxy | uint32 offset | uint32 nPts ]
+     float32 coordinate pairs
+   Read as typed arrays and left that way. The earlier JSON version parsed
+   into 63,000 JavaScript arrays and crashed Safari on the phone; typed
+   arrays keep it at roughly the size of the file. */
+/* Master switch. The coastline is an enhancement — if it misbehaves the map
+   must still work, so it can be turned off in one word without unpicking
+   anything. false = dark fallback only, exactly as v45 behaved. */
+const LAND_ENABLED = true;
+
+function loadLand(){
+  if(!LAND_ENABLED) return Promise.reject(new Error("land disabled"));
+  if(LAND) return Promise.resolve(LAND);
+  if(landPending) return landPending;
+  landPending = fetch("land.bin")
+    .then(r => r.ok ? r.arrayBuffer() : Promise.reject(new Error("land " + r.status)))
+    .then(buf => {
+      const head = new Uint32Array(buf, 0, 2);
+      const count = head[1];
+      const idxBytes = count * 24;
+      LAND = {
+        count: count,
+        bbox: new Float32Array(buf, 8, count * 6),            /* read as floats */
+        meta: new Uint32Array(buf, 8, count * 6),             /* same bytes, as ints */
+        xy:   new Float32Array(buf, 8 + idxBytes)
+      };
+      return LAND;
+    })
+    .catch(e => { landPending = null; throw e; });
+  return landPending;
+}
+
+/* Redraw the coastline for whatever is on screen. Called on every pan and
+   zoom while offline; the bbox test is four numeric comparisons per ring,
+   so scanning all of them costs less than drawing even one extra island. */
+function drawLand(){
+  if(!map || !LAND) return;
+  /* Draw well beyond the screen. Leaflet pans and zooms the layer we already
+     made, so a generous margin means an animation has land under it the whole
+     way without recomputing anything mid-flight. */
+  const b = map.getBounds().pad(1.5);
+  const w = b.getWest(), e = b.getEast(), s2 = b.getSouth(), n = b.getNorth();
+  const span = Math.max(e - w, n - s2);
+  const minSize = span * 0.004;
+  const step = span > 40 ? 8 : span > 12 ? 4 : span > 3 ? 2 : 1;
+  const bb = LAND.bbox, mt = LAND.meta, xy = LAND.xy;
+  const polys = [];
+  let budget = 18000;
+  for(let i = 0; i < LAND.count && budget > 0; i++){
+    const o = i * 6;
+    const x0 = bb[o], y0 = bb[o+1], x1 = bb[o+2], y1 = bb[o+3];
+    if(x0 > e || x1 < w || y0 > n || y1 < s2) continue;
+    if((x1 - x0) < minSize && (y1 - y0) < minSize) continue;
+    const start = mt[o+4], nPts = mt[o+5];
+    /* A single big coastline — Palawan, Luzon — can carry tens of thousands
+       of points on its own, so thin per ring as well as per zoom. */
+    const rStep = step * Math.max(1, Math.ceil(nPts / 2500));
+    const pts = [];
+    for(let k = 0; k < nPts; k += rStep){
+      const p = (start + k) * 2;
+      pts.push([xy[p+1], xy[p]]);            /* lat, lng */
+    }
+    if(pts.length < 3) continue;
+    pts.push(pts[0]);
+    budget -= pts.length;
+    polys.push(pts);
+  }
+  /* Reuse the layer. Removing and re-adding it churned canvas objects hard
+     enough to crash Safari; setLatLngs swaps the geometry in place. */
+  if(landLayer){
+    landLayer.setLatLngs(polys);
+  }else{
+    landLayer = L.polygon(polys, {
+      stroke:true, color:"#1B5566", weight:0.7,
+      fill:true, fillColor:"#0B2C38", fillOpacity:1,
+      interactive:false, renderer: L.canvas()
+    }).addTo(map);
+  }
+  landLayer.bringToBack();
+}
+
+/* Redraw while the map is still moving, not only when it settles. The replay
+   animation pans and zooms for several seconds; binding to moveend alone left
+   the coastline drawn for the first frame and black until the plane landed.
+   One redraw per animation frame at most, so a long flight stays smooth. */
+let landTimer = 0;
+function drawLandSoon(){
+  if(landTimer) clearTimeout(landTimer);
+  landTimer = setTimeout(() => { landTimer = 0; drawLand(); }, 300);
+}
+
+function landOn(){
+  loadLand().then(() => {
+    drawLand();
+    /* Only when the map has settled. The layer moves with the map on its own
+       during a pan or a replay, so recomputing mid-animation bought nothing
+       and cost enough memory to crash the phone. */
+    map.on("moveend zoomend", drawLandSoon);
+  }).catch(() => {});   /* no land file: the dark fallback still stands */
+}
+
+function landOff(){
+  if(!map) return;
+  map.off("moveend zoomend", drawLandSoon);
+  if(landTimer){ clearTimeout(landTimer); landTimer = 0; }
+  if(landLayer){ map.removeLayer(landLayer); landLayer = null; }
+}
+
+function mapOfflineNote(on){
+  let n = document.getElementById("mapOfflineNote");
+  if(!n){
+    const box = document.getElementById("map");
+    if(!box) return;
+    n = document.createElement("div");
+    n.id = "mapOfflineNote";
+    n.className = "map-offline-note";
+    n.innerHTML = '<span class="dot"></span><span></span>';
+    box.insertAdjacentElement("afterend", n);
+  }
+  n.querySelector("span:last-child").textContent = U().mapOffline;
+  n.classList.toggle("on", !!on);
+}
+
+function drawMap(){
+  const box = document.getElementById("map"); if(!box) return;
+  clearIntro();
+  /* Leaflet is served from our own origin and precached, so this should not
+     happen — but if the file is ever missing the tab must degrade, not throw. */
+  if(!window.L){
+    box.innerHTML = '<p class="note" style="padding:16px">' + U().mapUnavailable + '</p>';
+    return;
+  }
+  if(map){ landOff(); map.remove(); map = null; }
+  landLayer = null;
+  box.classList.remove("tiles-offline");
+  mapOfflineNote(false);
+  map = L.map(box,{scrollWheelZoom:false});
+  const tiles = L.tileLayer(tileUrl(),
+    {attribution:"© OpenStreetMap, © CARTO", subdomains:"abcd", maxZoom:20}).addTo(map);
+  /* A single failed tile is routine — a CDN hiccup, a tile that does not exist
+     at that zoom. Only treat the map as offline when the browser says we are
+     offline, or when several tiles in a row fail and none has ever arrived.
+     Flipping on one error meant a momentary glitch pulled in the whole
+     coastline and redrew it over a perfectly good map. */
+  let tileOk = 0, tileFail = 0;
+  tiles.on("tileerror", () => {
+    tileFail++;
+    if(navigator.onLine === false || (tileOk === 0 && tileFail >= 6)){
+      box.classList.add("tiles-offline"); mapOfflineNote(true); landOn();
+    }
+  });
+  tiles.on("tileload", () => {
+    tileOk++; tileFail = 0;
+    if(box.classList.contains("tiles-offline")){
+      box.classList.remove("tiles-offline"); mapOfflineNote(false); landOff();
+    }
+  });
+
+  const pts = [], markers = [];
+  const add = (name,type,coords,note,addr,pid) => {
+    pts.push(coords);
+    const href = mapsUrl(name, addr, coords, pid);
+    const mk = L.marker(coords,{icon:L.divIcon({className:"",html:`<div class="mk ${type}"></div>`,iconSize:[14,14],iconAnchor:[7,7]})})
+      .addTo(map).bindPopup(
+        `<b>${esc(name)}</b><br>${esc(note||"")}`
+        + `<br><a href="${href}" target="_blank" rel="noopener">${U().openInMaps}</a>`);
+    markers.push({coords, mk});
+  };
+  trip.places.forEach(p => add(p.name,p.type,p.coords,tr(p.note),p.address,p.placeId));
+  trip.hotels.forEach(h => add(h.name,"hotel",h.coords,`${tr(h.place)} · ${daysBetween(h.checkIn,h.checkOut)} ${U().nights}`,h.address,h.placeId));
+
+  const route = trip.hotels.map(h=>h.coords);
+  if(route.length>1) L.polyline(route,{color:"#0E3346",weight:2,opacity:.5,dashArray:"5,6"}).addTo(map);
+
+  if(focusPoint){
+    // Arrived here from a hotel or a day — zoom in and open that pin.
+    const [flat,flng] = focusPoint;
+    map.setView(focusPoint, 13);
+    let best = null, bestD = Infinity;
+    markers.forEach(m => {
+      const d = Math.abs(m.coords[0]-flat) + Math.abs(m.coords[1]-flng);
+      if(d < bestD){ bestD = d; best = m; }
+    });
+    if(best && bestD < 0.05) best.mk.openPopup();
+    focusPoint = null;
+  } else {
+    const dest = L.latLngBounds(pts).pad(0.12);
+    const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if(still) map.fitBounds(dest);
+    else flyFromWarsaw(map, box, dest);
+  }
+}
+
+/* The trip starts in Warsaw. Opening the map replays that: it settles over
+   Poland, flies the route east, then hands over to the Philippines view. */
+const WAW = [52.1657, 20.9671];               // Chopin airport
+function clearIntro(){
+  if(introRaf) cancelAnimationFrame(introRaf), introRaf = null;
+  if(introTimer) clearTimeout(introTimer), introTimer = null;
+}
+function toXYZ(p){
+  const a = p[0]*Math.PI/180, b = p[1]*Math.PI/180;
+  return [Math.cos(a)*Math.cos(b), Math.cos(a)*Math.sin(b), Math.sin(a)];
+}
+function greatCircle(p, q, f){        // slerp — the arc a plane actually flies
+  const A = toXYZ(p), B = toXYZ(q);
+  const dot = Math.min(1, Math.max(-1, A[0]*B[0]+A[1]*B[1]+A[2]*B[2]));
+  const w = Math.acos(dot);
+  if(w < 1e-9) return p;
+  const s1 = Math.sin((1-f)*w)/Math.sin(w), s2 = Math.sin(f*w)/Math.sin(w);
+  const x = A[0]*s1+B[0]*s2, y = A[1]*s1+B[1]*s2, z = A[2]*s1+B[2]*s2;
+  return [Math.atan2(z, Math.hypot(x,y))*180/Math.PI, Math.atan2(y,x)*180/Math.PI];
+}
+function bearing(p, q){
+  const f1 = p[0]*Math.PI/180, f2 = q[0]*Math.PI/180, dl = (q[1]-p[1])*Math.PI/180;
+  return Math.atan2(Math.sin(dl)*Math.cos(f2),
+    Math.cos(f1)*Math.sin(f2)-Math.sin(f1)*Math.cos(f2)*Math.cos(dl))*180/Math.PI;
+}
+
+function flyFromWarsaw(map, box, dest){
+  clearIntro();
+  const end = [dest.getCenter().lat, dest.getCenter().lng];
+  const arc = [];
+  for(let i=0;i<=64;i++) arc.push(greatCircle(WAW, end, i/64));
+
+  const line = L.polyline(arc,{color:"#17B8AE",weight:2,opacity:.75,dashArray:"6,7"}).addTo(map);
+  const plane = L.marker(WAW,{interactive:false,icon:L.divIcon({className:"",iconSize:[26,26],iconAnchor:[13,13],
+    html:`<div class="plane"><svg width="26" height="26" viewBox="0 0 24 24" fill="#DFC45D">
+      <path d="M12 2c.62 0 1.05.92 1.05 2.05V9.6l8 4.72v1.98l-8-2.4v4.62l2.95 2v1.55L12 21.1l-4 .97V20.5l2.95-2v-4.62l-8 2.4v-1.98l8-4.72V4.05C10.95 2.92 11.38 2 12 2z"/></svg></div>`})}).addTo(map);
+
+  const cap = document.createElement("div");
+  cap.className = "mapcap";
+  cap.innerHTML = `<span>${esc(introRoute())}</span><i>${U().skipIntro}</i>`;
+  box.appendChild(cap);
+  requestAnimationFrame(()=>cap.classList.add("on"));
+
+  let done = false;
+  const finish = () => {
+    if(done) return; done = true;
+    clearIntro();
+    map.off("moveend", finish);
+    box.removeEventListener("pointerdown", finish);
+    try{ map.removeLayer(line); map.removeLayer(plane); }catch(e){}
+    cap.classList.remove("on");
+    setTimeout(()=>cap.remove(), 500);
+    map.fitBounds(dest);
+  };
+  box.addEventListener("pointerdown", finish, {once:true});
+
+  map.setView(WAW, 5);
+  introTimer = setTimeout(()=>{
+    if(done) return;
+    const t0 = performance.now(), DUR = 4200;
+    map.flyToBounds(dest, {duration: DUR/1000, easeLinearity:.28});
+    map.once("moveend", finish);
+    const step = (now) => {
+      if(done) return;
+      const f = Math.min(1, (now - t0)/DUR);
+      const at = greatCircle(WAW, end, f);
+      const ahead = greatCircle(WAW, end, Math.min(1, f + 0.02));
+      plane.setLatLng(at);
+      const el = plane.getElement()?.querySelector(".plane");
+      if(el) el.style.transform = `rotate(${bearing(at, ahead)}deg)`;
+      if(f < 1) introRaf = requestAnimationFrame(step);
+    };
+    introRaf = requestAnimationFrame(step);
+  }, 850);
+}
+
+/* ---------------- events ---------------- */
+document.addEventListener("click", async (e) => {
+  /* passport navigation */
+  const ppBtn = e.target.closest("[data-pp]");
+  if(ppBtn){ ppOpen = ppBtn.getAttribute("data-pp"); render(); return; }
+  if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
+  if(e.target.closest("#pp-export")){ await ppExport(); return; }
+  if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-day],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  if(!t) return;
+
+  if(t.dataset.rename){ openGate(); return; }
+  if(t.dataset.lang){ setLang(t.dataset.lang); return; }
+
+  if(t.dataset.tab || t.dataset.goto){
+    if(t.dataset.focus) focusPoint = t.dataset.focus.split(",").map(Number);
+    tab = t.dataset.tab || t.dataset.goto; window.scrollTo(0,0); render(); return;
+  }
+
+  if(t.dataset.add){
+    const p = $("#picker");
+    p.dataset.slot = t.dataset.add;
+    p.value = "";
+    p.click();
+    return;
+  }
+  if(t.id === "showall"){ focusPoint = null; drawMap(); return; }
+  if(t.id === "installbtn"){ doInstall(); return; }
+  if(t.dataset.view){ openDoc(t.dataset.view); return; }
+  if(t.dataset.del){
+    const slot = trip.documents.wallet.find(s=>s.id===t.dataset.del);
+    if(confirm(`${U().removeConfirm} ${slot ? tr(slot.label).toLowerCase() : "?"}${U().removeConfirm2}`)) removeDoc(t.dataset.del);
+    return;
+  }
+
+  if(t.dataset.day){
+    const b = document.getElementById("dbody-"+t.dataset.day);
+    const open = b.classList.toggle("hidden");
+    t.setAttribute("aria-expanded", String(!open));
+    return;
+  }
+  if(t.id === "dv-new"){ newDive(); return; }
+  if(t.id === "dv-save"){ saveDive(); return; }
+  if(t.id === "dv-cancel"){ editingDive = null; render(); return; }
+  if(t.dataset.dvedit){ editDive(t.dataset.dvedit); return; }
+  if(t.dataset.dvdel){ if(confirm(U().deleteDive)) deleteDive(t.dataset.dvdel); return; }
+  if(t.dataset.gear){ toggleGear(t.dataset.gear); return; }
+  if(t.dataset.ggroup !== undefined){ const g = +t.dataset.ggroup; openGearGroup = (openGearGroup===g ? -1 : g); render(); return; }
+  if(t.dataset.fgroup !== undefined){ const g = +t.dataset.fgroup; openFactGroup = (openFactGroup===g ? -1 : g); render(); return; }
+
+  if(t.id === "save"){
+    try{
+      const parsed = JSON.parse($("#json").value);
+      if(!parsed.meta || !Array.isArray(parsed.days)) throw new Error("Needs a meta object and a days array.");
+      trip = parsed; wxKey = null; openFactGroup = 0;
+      const ok = await saveTrip();
+      render();
+      $("#savemsg").textContent = ok ? U().savedDevice : U().savedSession;
+    }catch(err){
+      $("#jsonerr").innerHTML = `<div class="err">${U().jsonFail} ${esc(err.message)}</div>`;
+    }
+    return;
+  }
+  if(t.id === "lock"){
+    if(!confirm(U().hideTabConfirm)) return;
+    setupUnlocked = false;
+    try{ await window.storage.set("malakay:setup","0"); }catch(e){}
+    tab = "now"; window.scrollTo(0,0); render(); return;
+  }
+  if(t.id === "reset"){ trip = structuredClone(SEED); wxKey=null; openFactGroup=0; await saveTrip(); render(); return; }
+  if(t.id === "copy"){
+    try{ await navigator.clipboard.writeText($("#json").value); $("#savemsg").textContent = "OK"; }catch(err){}
+    return;
+  }
+});
+
+document.addEventListener("input", (e) => {
+  if(!e.target || e.target.id !== "pp-q") return;
+  ppQuery = e.target.value;
+  const box = document.getElementById("pp-results");
+  if(box) box.innerHTML = ppResultsHTML();
+});
+
+document.addEventListener("change", (e) => {
+  if(e.target && e.target.id === "pp-file" && e.target.files && e.target.files[0]){
+    ppImport(e.target.files[0]); e.target.value = ""; return;
+  }
+  if(e.target.id !== "picker") return;
+  const file = e.target.files?.[0];
+  if(file) storeDoc(e.target.dataset.slot, file);
+});
+
+/* ---------------- offline + install ---------------- */
+let installEvent = null;
+
+let reloadingForUpdate = false;
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").then(reg => {
+      reg.update();                                  // check on every launch
+      setInterval(() => reg.update(), 60*60*1000);   // and hourly while open
+    }).catch(()=>{});
+  });
+
+  // A new version has taken control — reload once so the client sees it.
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if(reloadingForUpdate) return;
+    reloadingForUpdate = true;
+    location.reload();
+  });
+}
+
+window.addEventListener("beforeinstallprompt", ev => {
+  ev.preventDefault();
+  installEvent = ev;
+  render();
+});
+
+function offbar(){
+  const b = document.getElementById("offbar");
+  if(b){ b.textContent = U().offline; b.classList.toggle("hidden", navigator.onLine); }
+}
+window.addEventListener("online", () => {
+  offbar();
+  wxKey = null; wxStale = true;      // force a refresh attempt
+  const d = currentDay();
+  if(d?.coords) getWeather(d.coords[0], d.coords[1]); else render();
+});
+window.addEventListener("offline", offbar);
+
+async function doInstall(){
+  if(!installEvent) return;
+  installEvent.prompt();
+  await installEvent.userChoice;
+  installEvent = null;
+  render();
+}
+
+/* ---------------- traveller and flight set selection ----------------
+   The traveller's link carries ?t=<contract number>. That resolves to
+   their record, which names them and picks their flight set.
+
+   ?f=<set> is still honoured on its own, so any link already sent out
+   keeps working. Unknown or missing values fall back to "std", so a
+   mistyped link shows a working app rather than an empty flights tab.
+
+   Nothing here is a security control. The contract number is a lookup
+   key into a file every traveller already has, not a password. */
+let traveller = null;
+
+function normContract(s){
+  return String(s || "").replace(/\D/g, "");
+}
+
+function pickTraveller(){
+  const sets  = trip.flightSets || {};
+  const roll  = trip.travellers || {};
+  let key = "std";
+  traveller = null;
+
+  try{
+    const q = urlParams();
+
+    const t = normContract(q.get("t"));
+    if(t && Object.prototype.hasOwnProperty.call(roll, t)){
+      traveller = roll[t];
+      if(traveller.flights && Object.prototype.hasOwnProperty.call(sets, traveller.flights)){
+        key = traveller.flights;
+      }
+    }
+
+    /* ?f= wins only when no contract resolved, so an old link still works. */
+    if(!traveller){
+      const f = q.get("f");
+      if(f && Object.prototype.hasOwnProperty.call(sets, f)) key = f;
+    }
+  }catch(e){}
+
+  /* Older trip files (v31 and earlier) carry a flat flights array and no
+     flightSets. Only overwrite when there is actually a set to use, or
+     those trips would lose their flights entirely. */
+  if(Object.keys(sets).length) trip.flights = sets[key] || sets.std || [];
+  trip.flights = trip.flights || [];
+  trip.meta = trip.meta || {};
+  trip.meta.flightSet = key;
+  trip.meta.contractRef = traveller ? traveller.ref : "";
+}
+
+/* ---------------- no-fly window ----------------
+   Not a decompression calculation. It compares two timestamps the
+   operator already knows against DAN's published minimum surface
+   interval before flying. The diver's own computer always governs. */
+function noFlyState(){
+  const c = trip.meta && trip.meta.noFly;
+  if(!c || !c.lastDive || !c.firstFlight) return null;
+  const dive   = new Date(c.lastDive.replace(" ","T"));
+  const flight = new Date(c.firstFlight.replace(" ","T"));
+  if(isNaN(dive) || isNaN(flight)) return null;
+  const hours = (flight - dive) / 3600000;
+  if(hours <= 0) return null;
+  const min = c.minHours || 18;
+  return {
+    hours: Math.round(hours * 10) / 10,
+    long: hours >= 48,
+    days: Math.floor(hours / 24),
+    rem: Math.round(hours % 24),
+    min,
+    dive, flight,
+    label: c.firstFlightLabel,
+    level: hours < min ? "under" : (hours < min + 3 ? "tight" : "ok")
+  };
+}
+
+function fmtWhen(d){
+  return d.toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",
+    { day:"2-digit", month:"short" }) + " · " +
+    String(d.getHours()).padStart(2,"0") + ":" +
+    String(d.getMinutes()).padStart(2,"0");
+}
+
+function noFlyCard(){
+  const n = noFlyState();
+  if(!n) return "";
+  const U_ = U();
+  const verdict = n.level === "under" ? U_.nfUnder
+                : n.level === "tight" ? U_.nfTight
+                : U_.nfOk;
+  return `<div class="nofly ${n.level}">
+    <h4>${U_.nfTitle}</h4>
+    <div class="nofly-row"><span>${U_.nfLast}</span><span>${fmtWhen(n.dive)}</span></div>
+    <div class="nofly-row"><span>${U_.nfFlight}${n.label ? " · " + esc(tr(n.label)) : ""}</span><span>${fmtWhen(n.flight)}</span></div>
+    <div class="nofly-gap"><b>${n.long ? n.days + U_.nfDays + " " + n.rem + U_.nfHours : n.hours + U_.nfHours}</b><i>${U_.nfMin}: ${n.min}${U_.nfHours}</i></div>
+    <div class="nofly-verdict">${verdict}</div>
+    <p class="nofly-note">${U_.nfNote}</p>
+  </div>`;
+}
+
+/* ---------------- first-run name step ---------------- */
+function greetWord(){
+  const h = new Date().getHours();
+  /* Polish has no separate "good afternoon" — Dzien dobry covers the day. */
+  return h >= 18 ? U().goodEvening : U().goodMorning;
+}
+
+/* Typing stays available even when we know the names on the contract.
+   Contracts cover two people and phones get shared, so a hard list
+   would lock out anyone the booking did not name. */
+let gateTyping = false;
+
+function gateNames(){
+  return (traveller && Array.isArray(traveller.names)) ? traveller.names : [];
+}
+
+function paintGate(){
+  const names = gateNames();
+  const pick  = names.length > 0 && !gateTyping;
+
+  $("#ng-ask").textContent   = pick ? U().nameAskPick  : U().nameAsk;
+  $("#ng-help").textContent  = pick ? U().nameHelpPick : U().nameHelp;
+  $("#ng-note").textContent  = U().nameNote;
+  $("#ng-save").textContent  = U().nameSave;
+  $("#ng-skip").textContent  = U().nameSkip;
+  $("#ng-input").placeholder = U().namePh;
+
+  const picks = $("#ng-picks");
+  picks.classList.toggle("hidden", !pick);
+  $("#ng-input").classList.toggle("hidden", pick);
+  $("#ng-save").classList.toggle("hidden", pick);
+
+  if(pick){
+    picks.innerHTML =
+      names.map((n,i) => `<button class="ng-pick${i===0?" nudge":""}" data-pick="${esc(n)}">`
+        + `<span>${esc(n)}</span><span class="ng-arrow">&rarr;</span></button>`).join("")
+      + `<button class="ng-other" id="ng-other">${U().nameOther}</button>`
+      + (traveller && traveller.ref
+          ? `<p class="ng-ref">${U().contractRef}: ${esc(traveller.ref)}</p>` : "");
+  }else{
+    picks.innerHTML = "";
+  }
+}
+
+function openGate(){
+  gateTyping = false;
+  paintGate();
+  $("#ng-input").value = travellerName;
+  $("#namegate").classList.remove("hidden");
+  if(gateNames().length === 0) setTimeout(() => $("#ng-input").focus(), 80);
+}
+function closeGate(){
+  $("#namegate").classList.add("hidden");
+}
+
+async function commitName(v){
+  await saveName(v);
+  closeGate();
+  render();
+}
+
+$("#ng-picks").addEventListener("click", e => {
+  const pick = e.target.closest("[data-pick]");
+  if(pick){ commitName(pick.getAttribute("data-pick")); return; }
+  if(e.target.closest("#ng-other")){
+    gateTyping = true;
+    paintGate();
+    setTimeout(() => $("#ng-input").focus(), 60);
+  }
+});
+
+$("#ng-save").addEventListener("click", () => commitName($("#ng-input").value));
+$("#ng-skip").addEventListener("click", () => commitName(""));
+$("#ng-input").addEventListener("keydown", e => {
+  if(e.key === "Enter") commitName($("#ng-input").value);
+});
+
+/* ---------------- boot ---------------- */
+(async function(){
+  await loadLang();
+  try{
+    SEED = await fetchTrip();
+  }catch(err){
+    loadFailed(err);
+    return;
+  }
+  trip = structuredClone(SEED);
+  await loadName();
+  await loadSetupFlag();
+  await loadTrip();
+  /* pickTraveller runs after loadTrip, not before: loadTrip replaces the
+     whole trip object, so resolving the flight set first would be undone. */
+  pickTraveller();
+  await loadWallet();
+  await loadGear();
+  await loadLog();
+  await loadPassport();
+  await recordPassport();
+  render();
+  offbar();
+  setInterval(band, 1000);
+  /* Asked once. Skipping is allowed — nobody should be locked out of
+     their own documents because they will not type a name. */
+  try{
+    const seen = await window.storage.get("malakay:name");
+    if(!seen || typeof seen.value !== "string") openGate();
+  }catch(e){ openGate(); }
+})();
+</script>

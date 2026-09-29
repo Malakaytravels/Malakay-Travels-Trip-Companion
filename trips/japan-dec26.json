@@ -1,0 +1,1860 @@
+{
+  "meta": {
+    "name": {
+      "pl": "Neon, Sake & Samurai Spirit — męska Japonia",
+      "en": "Neon, Sake & Samurai Spirit — Japan, between men"
+    },
+    "code": "SEAVFX6X8X",
+    "operator": "Malakay Travels Sp. z o.o.",
+    "guide": {
+      "name": "Michał Sieczkowski",
+      "phone": "+48 509 905 507",
+      "photo": "img/michal.jpg",
+      "role": {
+        "pl": "Prowadzi wyprawę",
+        "en": "Trip leader"
+      },
+      "intro": {
+        "pl": "Michał prowadzi tę wyprawę na miejscu. Dołącza do grupy w hotelu w Tokio 7 grudnia i jest z Wami aż do powrotu do Warszawy 18 grudnia. Jest też tłumaczem — jeśli trzeba coś powiedzieć po japońsku, od rezerwacji stolika po szukanie zgubionej walizki, to jego szukajcie.",
+        "en": "Michał runs this trip on the ground. He joins the group at the hotel in Tokyo on 7 December and is with you through to landing back in Warsaw on 18 December. He is also the interpreter — if something needs saying in Japanese, from booking a table to chasing a lost bag, he is the one to find."
+      }
+    },
+    "website": "https://www.malakaytravels.com",
+    "email": "michal@malakaytravels.com",
+    "start": "2026-12-06",
+    "end": "2026-12-18",
+    "tz": "Asia/Tokyo",
+    "country": {
+      "pl": "Japonia",
+      "en": "Japan"
+    },
+    "currency": {
+      "pl": "JPY — jen japoński",
+      "en": "JPY — Japanese yen"
+    },
+    "emergency": [
+      {
+        "label": {
+          "pl": "Michał — prowadzi wyprawę",
+          "en": "Michał — trip leader"
+        },
+        "value": "+48 509 905 507"
+      },
+      {
+        "label": {
+          "pl": "E-mail",
+          "en": "Email"
+        },
+        "value": "michal@malakaytravels.com"
+      },
+      {
+        "label": {
+          "pl": "Japonia — pogotowie i straż",
+          "en": "Japan — ambulance and fire"
+        },
+        "value": "119"
+      },
+      {
+        "label": {
+          "pl": "Japonia — policja",
+          "en": "Japan — police"
+        },
+        "value": "110"
+      },
+      {
+        "label": {
+          "pl": "Ambasada RP w Tokio",
+          "en": "Polish Embassy, Tokyo"
+        },
+        "value": {
+          "pl": "Numer do potwierdzenia przed wylotem",
+          "en": "Number to be confirmed before departure"
+        }
+      },
+      {
+        "label": {
+          "pl": "Gotówka na miejscu",
+          "en": "Cash you will need"
+        },
+        "value": {
+          "pl": "Japonia jest bardziej gotówkowa, niż się wydaje. Małe izakaye, stoiska na targach i bary w bocznych uliczkach często przyjmują wyłącznie gotówkę. Bankomaty w 7-Eleven i na poczcie akceptują karty zagraniczne.",
+          "en": "Japan runs on cash more than you would expect. Small izakaya, market stalls and back-street bars are often cash only. ATMs in 7-Eleven and post offices accept foreign cards."
+        }
+      }
+    ],
+    "hero": [
+      "img/hero-fuji.jpg",
+      "img/hero-torii-path.jpg",
+      "img/hero-torii-gate.jpg"
+    ],
+    "route": {
+      "pl": "Warszawa → Tokio",
+      "en": "Warsaw → Tokyo"
+    },
+    "transfers": {
+      "pl": "Wszystkie transfery japońskimi środkami komunikacji, w tym przejazdy Shinkansenem, są wliczone w cenę.",
+      "en": "All transfers by Japanese public transport, including the Shinkansen, are included in the price."
+    }
+  },
+  "travellers": {
+    "26082026": {
+      "ref": "NR 26/08/2026",
+      "names": [
+        "Marcin"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/marcin-cd35de1d/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/marcin-cd35de1d/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/marcin-cd35de1d/vouchers.pdf"
+        }
+      ]
+    },
+    "27082026": {
+      "ref": "NR 27/08/2026",
+      "names": [
+        "Karol"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/karol-787c9b44/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/karol-787c9b44/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/karol-787c9b44/vouchers.pdf"
+        }
+      ]
+    },
+    "28082026": {
+      "ref": "NR 28/08/2026",
+      "names": [
+        "Artur"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/artur-edadde4f/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/artur-edadde4f/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/artur-edadde4f/vouchers.pdf"
+        }
+      ]
+    }
+  },
+  "flightSets": {
+    "std": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Pekinu",
+          "en": "Outbound — Warsaw to Beijing"
+        },
+        "airline": "Air China",
+        "number": "CA 738",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-12-06 19:30",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "PEK",
+          "city": {
+            "pl": "Pekin Capital",
+            "en": "Beijing Capital"
+          },
+          "time": "2026-12-07 11:30",
+          "tz": "Asia/Shanghai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Do potwierdzenia w dniu rezerwacji",
+          "en": "To be confirmed on booking"
+        },
+        "seatNote": {
+          "pl": "9 h 00 min. Przesiadka w Pekinie 3 h 55 min. Zasady tranzytu dla obywateli RP potwierdzi Michał przed wylotem.",
+          "en": "9 h 00 min. Connection in Beijing 3 h 55 min. Michał will confirm transit rules for Polish passport holders before departure."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Wylot — Pekin do Tokio",
+          "en": "Outbound — Beijing to Tokyo"
+        },
+        "airline": "Air China",
+        "number": "CA 421",
+        "dep": {
+          "iata": "PEK",
+          "city": {
+            "pl": "Pekin Capital",
+            "en": "Beijing Capital"
+          },
+          "time": "2026-12-07 15:25",
+          "tz": "Asia/Shanghai"
+        },
+        "arr": {
+          "iata": "HND",
+          "city": {
+            "pl": "Tokio Haneda",
+            "en": "Tokyo Haneda"
+          },
+          "time": "2026-12-07 19:50",
+          "tz": "Asia/Tokyo"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Do potwierdzenia w dniu rezerwacji",
+          "en": "To be confirmed on booking"
+        },
+        "seatNote": {
+          "pl": "3 h 25 min. Lądowanie o 19:50 — po odprawie transfer na Odaibę, w hotelu około 21:30. Pierwszy wieczór jest krótki: kolacja w okolicy i sen.",
+          "en": "3 h 25 min. Landing at 19:50 — after formalities, transfer to Odaiba, at the hotel around 21:30. The first evening is short: dinner nearby and sleep."
+        }
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Powrót — Osaka do Pekinu",
+          "en": "Return — Osaka to Beijing"
+        },
+        "airline": "Air China",
+        "number": "CA 162",
+        "dep": {
+          "iata": "KIX",
+          "city": {
+            "pl": "Osaka Kansai",
+            "en": "Osaka Kansai"
+          },
+          "time": "2026-12-18 09:00",
+          "tz": "Asia/Tokyo"
+        },
+        "arr": {
+          "iata": "PEK",
+          "city": {
+            "pl": "Pekin Capital",
+            "en": "Beijing Capital"
+          },
+          "time": "2026-12-18 11:25",
+          "tz": "Asia/Shanghai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Do potwierdzenia w dniu rezerwacji",
+          "en": "To be confirmed on booking"
+        },
+        "seatNote": {
+          "pl": "3 h 25 min. Wylot o 09:00 oznacza wymeldowanie około 06:00 — spakujcie się poprzedniego wieczoru.",
+          "en": "3 h 25 min. A 09:00 departure means checking out around 06:00 — pack the night before."
+        }
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Pekin do Warszawy",
+          "en": "Return — Beijing to Warsaw"
+        },
+        "airline": "Air China",
+        "number": "CA 737",
+        "dep": {
+          "iata": "PEK",
+          "city": {
+            "pl": "Pekin Capital",
+            "en": "Beijing Capital"
+          },
+          "time": "2026-12-18 14:15",
+          "tz": "Asia/Shanghai"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-12-18 17:20",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Do potwierdzenia w dniu rezerwacji",
+          "en": "To be confirmed on booking"
+        },
+        "seatNote": {
+          "pl": "10 h 05 min. Przesiadka w Pekinie 2 h 50 min. Lądowanie w Warszawie tego samego dnia o 17:20. Załóżcie kurtkę.",
+          "en": "10 h 05 min. Connection in Beijing 2 h 50 min. Landing in Warsaw the same day at 17:20. Put a jacket on."
+        }
+      }
+    ]
+  },
+  "flights": [],
+  "hotels": [
+    {
+      "name": "Grand Nikko Tokyo Daiba",
+      "place": {
+        "pl": "Tokio — Odaiba",
+        "en": "Tokyo — Odaiba"
+      },
+      "coords": [
+        35.6251435,
+        139.7715694
+      ],
+      "photo": "img/stay-tokyo.jpg",
+      "checkIn": "2026-12-07",
+      "checkOut": "2026-12-10",
+      "ref": "Malakay Travels",
+      "phone": "+81 3-5500-6711",
+      "room": {
+        "pl": "Pokój dwuosobowy, ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "2-6-1 Daiba, Minato City, Tokyo 135-8701",
+      "placeId": "ChIJq0s44BuMGGAR15wOlfVd2tE",
+      "notes": {
+        "pl": "Nad Zatoką Tokijską. Linia Yurikamome spod hotelu — dwie stacje do teamLab Planets. Nocna trasa JDM przebiega przez Rainbow Bridge tuż obok. Recepcja czynna całą dobę.",
+        "en": "On Tokyo Bay. The Yurikamome line runs from the hotel — two stops to teamLab Planets. The JDM night route crosses Rainbow Bridge alongside. Reception open 24 hours."
+      }
+    },
+    {
+      "name": "Hakone Yutowa",
+      "place": {
+        "pl": "Hakone — Gora",
+        "en": "Hakone — Gōra"
+      },
+      "coords": [
+        35.2479935,
+        139.0480475
+      ],
+      "photo": "img/stay-hakone.jpg",
+      "checkIn": "2026-12-10",
+      "checkOut": "2026-12-13",
+      "ref": "Malakay Travels",
+      "phone": "+81 460-82-0321",
+      "room": {
+        "pl": "Pokój dwuosobowy, ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "1300-27 Gōra, Hakone, Ashigarashimo District, Kanagawa 250-0408",
+      "placeId": "ChIJH9058vihGWARYQCCcFUqmyM",
+      "notes": {
+        "pl": "Ryokan z onsenem. Lounge z przekąskami, napojami bezalkoholowymi i wybranymi alkoholami w cenie, dostępny o określonych porach. Tatami i futony. Kąpiel w onsenie bez stroju, w osobnych strefach.",
+        "en": "Ryokan with onsen. Lounge with snacks, soft drinks and selected alcohol included, at set hours. Tatami and futons. Onsen bathing is unclothed, in separate areas."
+      }
+    },
+    {
+      "name": "Kyoto Tokyu Hotel",
+      "place": {
+        "pl": "Kioto — Shimogyo",
+        "en": "Kyoto — Shimogyō"
+      },
+      "coords": [
+        34.9951315,
+        135.7516374
+      ],
+      "photo": "img/stay-kyoto.jpg",
+      "checkIn": "2026-12-13",
+      "checkOut": "2026-12-16",
+      "ref": "Malakay Travels",
+      "phone": "+81 75-341-2411",
+      "room": {
+        "pl": "Pokój dwuosobowy, ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "580 Kakimotochō, Shimogyō Ward, Kyoto 600-8357",
+      "placeId": "ChIJNVg1AyAGAWARce4JCgb-RyE",
+      "notes": {
+        "pl": "Kilka minut od historycznego centrum. Nishiki Market i Pontocho w zasięgu spaceru. Recepcja czynna całą dobę.",
+        "en": "Minutes from the historic centre. Nishiki Market and Pontochō within walking distance. Reception open 24 hours."
+      }
+    },
+    {
+      "name": "Canopy by Hilton Osaka Umeda",
+      "place": {
+        "pl": "Osaka — Umeda",
+        "en": "Osaka — Umeda"
+      },
+      "coords": [
+        34.7057149,
+        135.4933388
+      ],
+      "photo": "img/stay-osaka.jpg",
+      "checkIn": "2026-12-16",
+      "checkOut": "2026-12-18",
+      "ref": "Malakay Travels",
+      "phone": "+81 6-7658-5300",
+      "room": {
+        "pl": "Pokój dwuosobowy, ze śniadaniem",
+        "en": "Twin room, breakfast included"
+      },
+      "address": "6-38 Ōfukachō, Kita Ward, Osaka 530-0011",
+      "placeId": "ChIJeXrkr7znAGARuBJTD1TEhdo",
+      "notes": {
+        "pl": "Kompleks Grand Green Osaka, tuż przy dworcu JR Osaka i parku Umekita. Bezpośredni dojazd na lotnisko Kansai w dniu wylotu. Bar !JaJa!Bar z tarasem i widokiem na nocną Osakę.",
+        "en": "Grand Green Osaka complex, beside JR Osaka station and Umekita Park. Direct connection to Kansai airport on departure day. !JaJa!Bar has a terrace looking over Osaka at night."
+      }
+    }
+  ],
+  "places": [
+    {
+      "name": "Tokio Haneda",
+      "type": "air",
+      "coords": [
+        35.5494,
+        139.7798
+      ],
+      "note": {
+        "pl": "Przylot do Japonii",
+        "en": "Arrival into Japan"
+      }
+    },
+    {
+      "name": "Odaiba",
+      "type": "town",
+      "coords": [
+        35.6251,
+        139.7716
+      ],
+      "note": {
+        "pl": "Baza — 3 noce",
+        "en": "Base — 3 nights"
+      }
+    },
+    {
+      "name": "Shibuya",
+      "type": "town",
+      "coords": [
+        35.6595,
+        139.7005
+      ],
+      "note": {
+        "pl": "Najbardziej ruchliwe przejście świata",
+        "en": "The busiest crossing in the world"
+      }
+    },
+    {
+      "name": "Tsukiji Outer Market",
+      "type": "town",
+      "coords": [
+        35.6654,
+        139.7707
+      ],
+      "note": {
+        "pl": "Sushi, sashimi, grillowane owoce morza",
+        "en": "Sushi, sashimi, grilled seafood"
+      }
+    },
+    {
+      "name": "teamLab Planets",
+      "type": "town",
+      "coords": [
+        35.6497,
+        139.7906
+      ],
+      "note": {
+        "pl": "Cyfrowa sztuka w Toyosu",
+        "en": "Digital art in Toyosu"
+      }
+    },
+    {
+      "name": "Daikoku Parking Area",
+      "type": "town",
+      "coords": [
+        35.4544,
+        139.6739
+      ],
+      "note": {
+        "pl": "Miejsce spotkań miłośników JDM",
+        "en": "The JDM meeting place"
+      }
+    },
+    {
+      "name": "Hakone Gora",
+      "type": "town",
+      "coords": [
+        35.248,
+        139.048
+      ],
+      "note": {
+        "pl": "Baza — 3 noce, onseny",
+        "en": "Base — 3 nights, onsen"
+      }
+    },
+    {
+      "name": "Jezioro Ashi",
+      "type": "town",
+      "coords": [
+        35.2044,
+        139.0247
+      ],
+      "note": {
+        "pl": "Rejs i czerwona brama torii",
+        "en": "Cruise and the red torii gate"
+      }
+    },
+    {
+      "name": "Owakudani",
+      "type": "town",
+      "coords": [
+        35.2447,
+        139.0197
+      ],
+      "note": {
+        "pl": "Wulkaniczna dolina, czarne jajka",
+        "en": "Volcanic valley, black eggs"
+      }
+    },
+    {
+      "name": "Kioto",
+      "type": "town",
+      "coords": [
+        34.9951,
+        135.7516
+      ],
+      "note": {
+        "pl": "Baza — 3 noce",
+        "en": "Base — 3 nights"
+      }
+    },
+    {
+      "name": "Arashiyama",
+      "type": "town",
+      "coords": [
+        35.0094,
+        135.6669
+      ],
+      "note": {
+        "pl": "Las bambusowy",
+        "en": "The bamboo grove"
+      }
+    },
+    {
+      "name": "Kinkaku-ji",
+      "type": "town",
+      "coords": [
+        35.0394,
+        135.7292
+      ],
+      "note": {
+        "pl": "Złoty Pawilon",
+        "en": "The Golden Pavilion"
+      }
+    },
+    {
+      "name": "Nishiki Market",
+      "type": "town",
+      "coords": [
+        35.005,
+        135.7649
+      ],
+      "note": {
+        "pl": "Kuchnia Kioto",
+        "en": "Kyoto's kitchen"
+      }
+    },
+    {
+      "name": "Osaka Umeda",
+      "type": "town",
+      "coords": [
+        34.7057,
+        135.4933
+      ],
+      "note": {
+        "pl": "Baza — 2 noce",
+        "en": "Base — 2 nights"
+      }
+    },
+    {
+      "name": "Dotonbori",
+      "type": "town",
+      "coords": [
+        34.6687,
+        135.5013
+      ],
+      "note": {
+        "pl": "Neony, Glico Man, takoyaki",
+        "en": "Neon, the Glico Man, takoyaki"
+      }
+    },
+    {
+      "name": "Osaka Kansai",
+      "type": "air",
+      "coords": [
+        34.4342,
+        135.2328
+      ],
+      "note": {
+        "pl": "Wylot do Warszawy",
+        "en": "Departure to Warsaw"
+      }
+    }
+  ],
+  "days": [
+    {
+      "n": 1,
+      "date": "2026-12-06",
+      "title": {
+        "pl": "Start wyprawy | Wylot do Japonii",
+        "en": "Departure | Flying to Japan"
+      },
+      "base": {
+        "pl": "W drodze",
+        "en": "In transit"
+      },
+      "coords": [
+        52.1657,
+        20.9671
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Spotkanie na lotnisku Chopina — godzina do potwierdzenia",
+            "en": "Meet at Chopin airport — time to be confirmed"
+          }
+        ],
+        [
+          "19:30",
+          {
+            "pl": "CA 738 do Pekinu",
+            "en": "CA 738 to Beijing"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Noc spędzamy w podróży. Ładowarka, adapter i leki do bagażu podręcznego.",
+        "en": "The night is spent travelling. Charger, adapter and any medication in hand luggage."
+      }
+    },
+    {
+      "n": 2,
+      "date": "2026-12-07",
+      "title": {
+        "pl": "Przylot do Tokio",
+        "en": "Arriving in Tokyo"
+      },
+      "base": {
+        "pl": "Tokio — Odaiba",
+        "en": "Tokyo — Odaiba"
+      },
+      "coords": [
+        35.6251,
+        139.7716
+      ],
+      "items": [
+        [
+          "11:30",
+          {
+            "pl": "Lądowanie w Pekinie, przesiadka 3 h 55 min",
+            "en": "Landing in Beijing, 3 h 55 min connection"
+          }
+        ],
+        [
+          "19:50",
+          {
+            "pl": "Lądowanie na Haneda",
+            "en": "Landing at Haneda"
+          }
+        ],
+        [
+          "~21:30",
+          {
+            "pl": "Transfer na Odaibę i zameldowanie",
+            "en": "Transfer to Odaiba and check-in"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Późna kolacja w okolicy hotelu",
+            "en": "Late dinner near the hotel"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Pierwszy wieczór jest krótki — lądujemy po zmroku. Dla tych, którym starczy sił, Shibuya po 22:00 wygląda najlepiej, ale bez presji.",
+        "en": "The first evening is short — we land after dark. For anyone still standing, Shibuya after 22:00 is at its best, but there is no pressure."
+      }
+    },
+    {
+      "n": 3,
+      "date": "2026-12-08",
+      "title": {
+        "pl": "Tokio | Shibuya i food tour z Manabu",
+        "en": "Tokyo | Shibuya and a food tour with Manabu"
+      },
+      "base": {
+        "pl": "Tokio — Odaiba",
+        "en": "Tokyo — Odaiba"
+      },
+      "coords": [
+        35.6595,
+        139.7005
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Shibuya Crossing i pomnik psa Hachiko",
+            "en": "Shibuya Crossing and the Hachikō statue"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Spotkanie z Manabu — food tour przygotowany dla naszej czwórki",
+            "en": "Meeting Manabu — a food tour built for the four of us"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Rodzinne restauracje, bary ramen, yakitori",
+            "en": "Family restaurants, ramen counters, yakitori"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorem izakaye, sake i japońska whisky",
+            "en": "Izakaya, sake and Japanese whisky in the evening"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Manabu pomaga w wyborze dań i składaniu zamówień, opowiada o zasadach zachowania w izakayi. Dzień bez sztywnego harmonogramu.",
+        "en": "Manabu helps with choosing and ordering, and explains how an izakaya works. A day with nothing timed."
+      }
+    },
+    {
+      "n": 4,
+      "date": "2026-12-09",
+      "title": {
+        "pl": "Tokio | Tsukiji, teamLab i nocna jazda JDM",
+        "en": "Tokyo | Tsukiji, teamLab and the JDM night drive"
+      },
+      "base": {
+        "pl": "Tokio — Odaiba",
+        "en": "Tokyo — Odaiba"
+      },
+      "coords": [
+        35.6654,
+        139.7707
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Tsukiji Outer Market — sushi, sashimi, tamagoyaki, grillowane owoce morza",
+            "en": "Tsukiji Outer Market — sushi, sashimi, tamagoyaki, grilled seafood"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "teamLab Planets w Toyosu",
+            "en": "teamLab Planets in Toyosu"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Spacer nad Zatoką Tokijską i odpoczynek",
+            "en": "A walk on Tokyo Bay and some rest"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Instruktaż i przygoda JDM",
+            "en": "Briefing, then the JDM drive"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Daikoku Parking Area",
+            "en": "Daikoku Parking Area"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Późna kolacja — ramen, yakiniku lub izakaya",
+            "en": "Late dinner — ramen, yakiniku or izakaya"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Samochody: Nissan GT-R, Skyline, Toyota Supra, Mazda RX-7 lub model Liberty Walk, zależnie od pakietu i dostępności. Trasa w okolice Tokyo Tower, przez Rainbow Bridge i nad Zatoką Tokijską. Prawo jazdy i międzynarodowe prawo jazdy — obowiązkowo.",
+        "en": "Cars: Nissan GT-R, Skyline, Toyota Supra, Mazda RX-7 or a Liberty Walk build, depending on package and availability. The route runs past Tokyo Tower, over Rainbow Bridge and along Tokyo Bay. Driving licence and international permit are required."
+      }
+    },
+    {
+      "n": 5,
+      "date": "2026-12-10",
+      "title": {
+        "pl": "40. urodziny Marcina | Przejazd do Hakone",
+        "en": "Marcin's 40th | On to Hakone"
+      },
+      "base": {
+        "pl": "Hakone — Gora",
+        "en": "Hakone — Gōra"
+      },
+      "coords": [
+        35.248,
+        139.048
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Późne, spokojne śniadanie",
+            "en": "A late, slow breakfast"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pożegnanie Tokio, przejazd w góry do Hakone Gora",
+            "en": "Goodbye to Tokyo, into the mountains to Hakone Gōra"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zameldowanie, onsen, lounge",
+            "en": "Check-in, onsen, lounge"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Urodzinowa kolacja — wołowina Kobe, gyoza i toast",
+            "en": "Birthday dinner — Kobe beef, gyoza and a toast"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzisiaj wielki dzień — 40. urodziny Marcina. Po wieczornej imprezie nie spieszymy się z porannym wstawaniem.",
+        "en": "The big one — Marcin turns 40. After last night there is no rush to be up early."
+      }
+    },
+    {
+      "n": 6,
+      "date": "2026-12-11",
+      "title": {
+        "pl": "Hakone | Fuji, jezioro Ashi i onseny",
+        "en": "Hakone | Fuji, Lake Ashi and onsen"
+      },
+      "base": {
+        "pl": "Hakone — Gora",
+        "en": "Hakone — Gōra"
+      },
+      "coords": [
+        35.2044,
+        139.0247
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Rejs po jeziorze Ashi statkiem stylizowanym na galeon",
+            "en": "Cruise on Lake Ashi aboard a mock galleon"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Czerwona brama torii sanktuarium Hakone od strony wody",
+            "en": "The shrine's red torii seen from the water"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Kolejka linowa nad doliną Owakudani — zależnie od pogody",
+            "en": "Ropeway over Ōwakudani — weather permitting"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Onsen — lokalny, prywatny albo hotelowy",
+            "en": "Onsen — local, private or back at the hotel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "ITOH DINING by NOBU w Gora — jeśli uda się rezerwacja",
+            "en": "ITOH DINING by NOBU in Gōra — if a table can be had"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Grudniowe powietrze daje najlepszą widoczność na Fuji w całym roku. Aparaty i telefony w gotowości. Czarne jajka z Owakudani gotowane są w wodach geotermalnych.",
+        "en": "December air gives the clearest Fuji views of the year. Cameras and phones ready. The black eggs at Ōwakudani are boiled in the geothermal springs."
+      }
+    },
+    {
+      "n": 7,
+      "date": "2026-12-12",
+      "title": {
+        "pl": "Hakone | Ryuguden Honkan i smaki Gora",
+        "en": "Hakone | Ryuguden Honkan and the tastes of Gōra"
+      },
+      "base": {
+        "pl": "Hakone — Gora",
+        "en": "Hakone — Gōra"
+      },
+      "coords": [
+        35.21,
+        139.03
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Ryuguden Honkan — publiczny onsen z panoramą jeziora Ashi",
+            "en": "Ryuguden Honkan — public onsen looking over Lake Ashi"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Herbata i spacer nad brzegiem jeziora",
+            "en": "Tea and a walk along the lakeshore"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Tamura Ginkatsu-tei — tofu katsu-ni",
+            "en": "Tamura Ginkatsu-tei — tofu katsu-ni"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Publiczny onsen to nie basen ani spa. Przed wejściem do gorącej wody myjemy się dokładnie pod prysznicem, na siedząco. Kąpiel bez stroju, w osobnych strefach. Ręcznika nie zanurzamy. Część obiektów nie wpuszcza osób z tatuażami — powiedzcie Michałowi wcześniej, znajdziemy prywatną kąpiel.",
+        "en": "A public onsen is neither a pool nor a spa. Wash thoroughly at the seated showers before entering. Bathe unclothed, in separate areas. The towel does not go in the water. Some places do not admit guests with tattoos — tell Michał in advance and we will arrange a private bath."
+      }
+    },
+    {
+      "n": 8,
+      "date": "2026-12-13",
+      "title": {
+        "pl": "Shinkansenem do Kioto",
+        "en": "Shinkansen to Kyoto"
+      },
+      "base": {
+        "pl": "Kioto",
+        "en": "Kyoto"
+      },
+      "coords": [
+        34.9951,
+        135.7516
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Pożegnanie Hakone, przejazd na stację",
+            "en": "Goodbye to Hakone, transfer to the station"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Shinkansen do Kioto",
+            "en": "Shinkansen to Kyoto"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zameldowanie w Kyoto Tokyu Hotel",
+            "en": "Check-in at the Kyoto Tokyu Hotel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Gion i brukowana Hanamikoji",
+            "en": "Gion and cobbled Hanamikoji"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Yasaka Shrine i Higashiyama",
+            "en": "Yasaka Shrine and Higashiyama"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Kolacja — kaiseki, tofu z Kioto, desery z matchy",
+            "en": "Dinner — kaiseki, Kyoto tofu, matcha desserts"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "W Gion wieczorami wciąż można spotkać gejsze i maiko spieszące na spotkania. Zdjęcia bez zaczepiania — to ich droga do pracy.",
+        "en": "In Gion you can still see geiko and maiko hurrying to appointments in the evening. Photograph without approaching — this is their commute."
+      }
+    },
+    {
+      "n": 9,
+      "date": "2026-12-14",
+      "title": {
+        "pl": "Kioto | Świątynie, bambusowy las i smaki dawnej Japonii",
+        "en": "Kyoto | Temples, bamboo and old Japan"
+      },
+      "base": {
+        "pl": "Kioto",
+        "en": "Kyoto"
+      },
+      "coords": [
+        35.0094,
+        135.6669
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Las Bambusowy Arashiyama",
+            "en": "Arashiyama bamboo grove"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Most Togetsukyo i rzeka Katsura",
+            "en": "Togetsukyo bridge and the Katsura river"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Lunch — delikatna kuchnia Kioto, tofu, kaiseki",
+            "en": "Lunch — Kyoto's delicate cooking, tofu, kaiseki"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Kinkaku-ji, Złoty Pawilon",
+            "en": "Kinkaku-ji, the Golden Pavilion"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Nishiki Market",
+            "en": "Nishiki Market"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pontocho nad rzeką Kamo — dla chętnych",
+            "en": "Pontochō above the Kamo river — optional"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Arashiyama najlepiej wygląda rano, zanim przyjdą grupy. Kinkaku-ji odbija się w stawie — warto obejść go dookoła, nie tylko sfotografować z pierwszego punktu.",
+        "en": "Arashiyama is best early, before the groups arrive. Kinkaku-ji is mirrored in its pond — walk the full circuit rather than shooting from the first viewpoint."
+      }
+    },
+    {
+      "n": 10,
+      "date": "2026-12-15",
+      "title": {
+        "pl": "Kioto dla smakoszy | Targi, rzemiosło, zakupy",
+        "en": "Kyoto for the appetite | Market, craft, shopping"
+      },
+      "base": {
+        "pl": "Kioto",
+        "en": "Kyoto"
+      },
+      "coords": [
+        35.005,
+        135.7649
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Nishiki Market bez pośpiechu — degustacje",
+            "en": "Nishiki Market, slowly — tasting"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Ceramika, noże kuchenne, herbaty, sake, kadzidła",
+            "en": "Ceramics, kitchen knives, teas, sake, incense"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Shijo-dori — domy handlowe i butiki",
+            "en": "Shijō-dōri — department stores and boutiques"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Ceremonia herbaciana lub matcha w historycznej herbaciarni",
+            "en": "Tea ceremony or matcha in a historic tea house"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pożegnalna kolacja w stylu izakaya",
+            "en": "Farewell izakaya dinner"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Ostatni spacer po Pontocho — dla chętnych",
+            "en": "A last walk through Pontochō — optional"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Na Nishiki warto spróbować: sushi i sashimi, grillowanych przegrzebków i ostryg, tamagoyaki, wagyu, tofu z Kioto, słodyczy z matchy, mochi i taiyaki.",
+        "en": "Worth trying at Nishiki: sushi and sashimi, grilled scallops and oysters, tamagoyaki, wagyu, Kyoto tofu, matcha sweets, mochi and taiyaki."
+      }
+    },
+    {
+      "n": 11,
+      "date": "2026-12-16",
+      "title": {
+        "pl": "Przejazd do Osaki | Umeda i yakiniku",
+        "en": "On to Osaka | Umeda and yakiniku"
+      },
+      "base": {
+        "pl": "Osaka — Umeda",
+        "en": "Osaka — Umeda"
+      },
+      "coords": [
+        34.7057,
+        135.4933
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Pociąg JR do Osaki",
+            "en": "JR train to Osaka"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zameldowanie w Canopy by Hilton Osaka Umeda",
+            "en": "Check-in at Canopy by Hilton Osaka Umeda"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Time Out Market Osaka — pierwsze degustacje",
+            "en": "Time Out Market Osaka — first tastes"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Umekita Park i dzielnica Umeda",
+            "en": "Umekita Park and the Umeda district"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Umeda Sky Building przed zachodem słońca — dla chętnych",
+            "en": "Umeda Sky Building before sunset — optional"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Gyujiro Ohatsu Tenjin — yakiniku, wołowina A5 Kuroge Wagyu",
+            "en": "Gyūjirō Ohatsu Tenjin — yakiniku, A5 Kuroge Wagyu"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Yakiniku to wspólne grillowanie kawałków mięsa na ruszcie pośrodku stołu — sami decydujemy o stopniu wysmażenia. Restauracja prowadzona bezpośrednio przez hurtownika mięsa: bardzo dobra jakość, rozsądniejsze ceny niż w teppanyaki.",
+        "en": "Yakiniku means grilling your own cuts on a grate set into the table — you decide how far each piece goes. The restaurant is run directly by a meat wholesaler: very good quality at more sensible prices than teppanyaki."
+      }
+    },
+    {
+      "n": 12,
+      "date": "2026-12-17",
+      "title": {
+        "pl": "Osaka od kuchni | Kuromon, Shinsekai, Dotonbori",
+        "en": "Osaka from the kitchen | Kuromon, Shinsekai, Dōtonbori"
+      },
+      "base": {
+        "pl": "Osaka — Umeda",
+        "en": "Osaka — Umeda"
+      },
+      "coords": [
+        34.6687,
+        135.5013
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Kuromon Ichiba Market — tuńczyk, przegrzebki, ostrygi, węgorz",
+            "en": "Kuromon Ichiba Market — tuna, scallops, oysters, eel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Sennichimae Doguyasuji — noże, ceramika, naczynia do sake",
+            "en": "Sennichimae Doguyasuji — knives, ceramics, sake ware"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Shinsekai i wieża Tsutenkaku — kushikatsu",
+            "en": "Shinsekai and the Tsūtenkaku tower — kushikatsu"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Nipponbashi, Shinsaibashi, Amerikamura",
+            "en": "Nipponbashi, Shinsaibashi, Amerikamura"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dotonbori po zachodzie słońca — neony i Glico Man",
+            "en": "Dōtonbori after dark — neon and the Glico Man"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Hozenji Yokocho i Ura-Namba — kulinarna wędrówka",
+            "en": "Hōzenji Yokochō and Ura-Namba — a crawl, not a dinner"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Zamiast jednej formalnej kolacji: przekąski w jednym miejscu, okonomiyaki w kolejnym, sake albo whisky w następnym. Wieczór kończymy pożegnalnym toastem. Jutro wcześnie wstajemy.",
+        "en": "Instead of one formal dinner: snacks in one place, okonomiyaki in the next, sake or whisky after that. The evening ends with a farewell toast. Tomorrow starts early."
+      }
+    },
+    {
+      "n": 13,
+      "date": "2026-12-18",
+      "title": {
+        "pl": "Pożegnanie z Japonią",
+        "en": "Leaving Japan"
+      },
+      "base": {
+        "pl": "W drodze",
+        "en": "In transit"
+      },
+      "coords": [
+        34.4342,
+        135.2328
+      ],
+      "items": [
+        [
+          "~06:00",
+          {
+            "pl": "Wymeldowanie i przejazd na lotnisko Kansai",
+            "en": "Check-out and transfer to Kansai airport"
+          }
+        ],
+        [
+          "09:00",
+          {
+            "pl": "CA 162 do Pekinu",
+            "en": "CA 162 to Beijing"
+          }
+        ],
+        [
+          "14:15",
+          {
+            "pl": "CA 737 do Warszawy",
+            "en": "CA 737 to Warsaw"
+          }
+        ],
+        [
+          "17:20",
+          {
+            "pl": "Lądowanie w Warszawie",
+            "en": "Landing in Warsaw"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Spakujcie się poprzedniego wieczoru — wyjazd z hotelu jest wcześnie.",
+        "en": "Pack the night before — the departure from the hotel is early."
+      }
+    }
+  ],
+  "facts": [
+    {
+      "group": {
+        "pl": "Japonia na co dzień",
+        "en": "Everyday Japan"
+      },
+      "items": [
+        {
+          "pl": "Napiwków się nie zostawia. Zostawiony na stole bilon bywa odbierany jako pomyłka i personel może za Wami wybiec, żeby go oddać.",
+          "en": "Tipping is not done. Coins left on the table are read as a mistake, and staff may run after you to return them."
+        },
+        {
+          "pl": "Japonia jest dużo bardziej gotówkowa, niż sugeruje jej reputacja technologiczna. Małe izakaye, stoiska targowe i bary na kilka osób często nie przyjmują kart. Bankomaty w 7-Eleven działają z kartami zagranicznymi całą dobę.",
+          "en": "Japan runs on cash far more than its technological reputation suggests. Small izakaya, market stalls and bars seating a handful of people often take no cards. ATMs in 7-Eleven work with foreign cards around the clock."
+        },
+        {
+          "pl": "W pociągach i metrze nie rozmawia się przez telefon. Telefony przełącza się w tryb cichy, nazywany manner mode.",
+          "en": "You do not take phone calls on trains or the metro. Phones go to silent — what the Japanese call manner mode."
+        },
+        {
+          "pl": "Śmietników na ulicach prawie nie ma, a mimo to jest czysto. Śmieci nosi się ze sobą do hotelu albo do konbini.",
+          "en": "There are almost no street bins, and the streets are clean anyway. You carry rubbish back to the hotel or to a convenience store."
+        },
+        {
+          "pl": "Gniazdka są typu A, napięcie 100 V — niższe niż europejskie 230 V. Większość ładowarek do telefonów i laptopów działa bez problemu, ale urządzenia grzewcze mogą pracować wolniej.",
+          "en": "Sockets are type A at 100 V — lower than Europe's 230 V. Most phone and laptop chargers cope fine, but anything that heats will work more slowly."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Onsen i ryokan",
+        "en": "Onsen and ryokan"
+      },
+      "items": [
+        {
+          "pl": "Onsen to kąpielisko na naturalnej wodzie termalnej, nie basen. Przed wejściem do gorącej wody myjemy się dokładnie pod prysznicem, na siedząco. Kąpiel odbywa się bez stroju, w osobnych strefach dla kobiet i mężczyzn.",
+          "en": "An onsen is a natural thermal bath, not a swimming pool. Wash thoroughly at the seated showers before entering. Bathing is unclothed, in separate areas for men and women."
+        },
+        {
+          "pl": "Mały ręcznik, który dostajecie, nie wchodzi do wody. Kładzie się go na głowie albo na brzegu.",
+          "en": "The small towel you are given does not go in the water. It rests on your head or on the edge."
+        },
+        {
+          "pl": "Część obiektów nie wpuszcza osób z tatuażami — to pozostałość po skojarzeniu tatuaży z yakuzą. Jeśli to Was dotyczy, powiedzcie Michałowi wcześniej: prywatna kąpiel rozwiązuje sprawę.",
+          "en": "Some places do not admit guests with tattoos — a leftover from their association with the yakuza. If this affects you, tell Michał in advance: a private bath solves it."
+        },
+        {
+          "pl": "W ryokanie chodzi się w kapciach, a na tatami wchodzi się boso lub w skarpetkach. Kapcie zostawia się przed progiem pokoju.",
+          "en": "In a ryokan you wear slippers, and step onto tatami barefoot or in socks. Slippers stay outside the room."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Grudzień w Japonii",
+        "en": "December in Japan"
+      },
+      "items": [
+        {
+          "pl": "Tokio, Kioto i Osaka w grudniu: dni zwykle 8–12 °C, noce blisko zera, sucho i słonecznie. To jedna z najbardziej stabilnych pogodowo pór roku.",
+          "en": "Tokyo, Kyoto and Osaka in December: typically 8–12 °C by day, near freezing at night, dry and bright. One of the most settled weather periods of the year."
+        },
+        {
+          "pl": "Hakone leży w górach — kilka stopni chłodniej niż w miastach, rano możliwy mróz. Warstwy zamiast jednej grubej kurtki.",
+          "en": "Hakone is in the mountains — a few degrees colder than the cities, with morning frost possible. Layers rather than one thick coat."
+        },
+        {
+          "pl": "Grudniowe, przejrzyste powietrze daje najlepsze w całym roku szanse na zobaczenie Fuji. Latem góra jest widoczna znacznie rzadziej.",
+          "en": "Clear December air gives the best odds of seeing Fuji all year. In summer the mountain is visible far less often."
+        }
+      ]
+    }
+  ],
+  "gear": [
+    {
+      "group": {
+        "pl": "Dokumenty",
+        "en": "Documents"
+      },
+      "items": [
+        {
+          "id": "g01",
+          "label": {
+            "pl": "Paszport ważny min. 6 miesięcy po powrocie",
+            "en": "Passport valid at least 6 months beyond return"
+          },
+          "note": {
+            "pl": "Sprawdź datę ważności teraz, nie w listopadzie.",
+            "en": "Check the expiry date now, not in November."
+          }
+        },
+        {
+          "id": "g02",
+          "label": {
+            "pl": "Prawo jazdy + międzynarodowe prawo jazdy",
+            "en": "Driving licence + international permit"
+          },
+          "note": {
+            "pl": "Obowiązkowe na dzień JDM. Międzynarodowe prawo jazdy wyrabia się w wydziale komunikacji — zrób to z wyprzedzeniem.",
+            "en": "Required for the JDM day. The international permit is issued by your local licensing office — apply well in advance."
+          }
+        },
+        {
+          "id": "g03",
+          "label": {
+            "pl": "Potwierdzenie ubezpieczenia",
+            "en": "Insurance confirmation"
+          },
+          "note": {
+            "pl": "KL 40 000 EUR, NNW 2 500 EUR, bagaż 250 EUR, OC 25 000 EUR.",
+            "en": "Medical EUR 40,000, accident EUR 2,500, baggage EUR 250, liability EUR 25,000."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Pieniądze",
+        "en": "Money"
+      },
+      "items": [
+        {
+          "id": "g04",
+          "label": {
+            "pl": "Karta z aktywnymi płatnościami zagranicznymi",
+            "en": "Card enabled for international use"
+          },
+          "note": {
+            "pl": "Zgłoś bankowi wyjazd, żeby nie zablokował transakcji.",
+            "en": "Tell your bank you are travelling so transactions are not blocked."
+          }
+        },
+        {
+          "id": "g05",
+          "label": {
+            "pl": "Karta do bankomatu",
+            "en": "ATM card"
+          },
+          "note": {
+            "pl": "Bankomaty w 7-Eleven i na poczcie przyjmują karty zagraniczne. Wiele lokali przyjmuje wyłącznie gotówkę.",
+            "en": "ATMs in 7-Eleven and post offices take foreign cards. Many places are cash only."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Ubranie",
+        "en": "Clothing"
+      },
+      "items": [
+        {
+          "id": "g06",
+          "label": {
+            "pl": "Ciepła kurtka i warstwy",
+            "en": "Warm jacket and layers"
+          },
+          "note": {
+            "pl": "8–12 °C w dzień, blisko zera w nocy. W Hakone chłodniej.",
+            "en": "8–12 °C by day, near freezing at night. Colder in Hakone."
+          }
+        },
+        {
+          "id": "g07",
+          "label": {
+            "pl": "Wygodne buty do chodzenia",
+            "en": "Comfortable walking shoes"
+          },
+          "note": {
+            "pl": "Dużo chodzenia po mieście i po targowiskach. Buty łatwe do zdjęcia ułatwiają życie w ryokanie i świątyniach.",
+            "en": "A lot of walking, in cities and markets. Shoes that come off easily make ryokan and temples simpler."
+          }
+        },
+        {
+          "id": "g08",
+          "label": {
+            "pl": "Skarpetki bez dziur",
+            "en": "Socks without holes"
+          },
+          "note": {
+            "pl": "Bez żartów — buty zdejmuje się w ryokanie, świątyniach i części restauracji.",
+            "en": "Not a joke — shoes come off in ryokan, temples and some restaurants."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Elektronika i drobiazgi",
+        "en": "Electronics and small things"
+      },
+      "items": [
+        {
+          "id": "g09",
+          "label": {
+            "pl": "Adapter wtyczek typ A",
+            "en": "Type A plug adapter"
+          },
+          "note": {
+            "pl": "Japonia ma 100 V i płaskie wtyczki typu A. Weź co najmniej dwa.",
+            "en": "Japan runs 100 V with flat type A pins. Bring at least two."
+          }
+        },
+        {
+          "id": "g10",
+          "label": {
+            "pl": "Powerbank",
+            "en": "Power bank"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego — do luku nie wolno. Dużo zdjęć i nawigacji rozładowuje telefon szybciej, niż się wydaje.",
+            "en": "Hand luggage only — not permitted in the hold. Photos and navigation drain a phone faster than you expect."
+          }
+        },
+        {
+          "id": "g11",
+          "label": {
+            "pl": "Leki na receptę w oryginalnych opakowaniach",
+            "en": "Prescription medication in original packaging"
+          },
+          "note": {
+            "pl": "Japonia ma restrykcyjne przepisy dotyczące niektórych leków. Jeśli bierzesz coś na stałe, powiedz Michałowi przed wylotem.",
+            "en": "Japan has strict rules on certain medicines. If you take anything regularly, tell Michał before departure."
+          }
+        }
+      ]
+    }
+  ],
+  "nextTrips": [
+    {
+      "name": {
+        "pl": "Palawan — Nowy Rok pod wodą",
+        "en": "Palawan — New Year underwater"
+      },
+      "when": {
+        "pl": "grudzień 2026 – styczeń 2027",
+        "en": "December 2026 – January 2027"
+      },
+      "note": {
+        "pl": "Wraki Coron i rafy El Nido, Sylwester na Filipinach.",
+        "en": "The Coron wrecks and El Nido reefs, New Year in the Philippines."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Bali",
+        "en": "Bali"
+      },
+      "when": {
+        "pl": "marzec 2027",
+        "en": "March 2027"
+      },
+      "note": {
+        "pl": "Ubud, Gili i Tulamben — nurkowanie i ląd w jednym.",
+        "en": "Ubud, Gili and Tulamben — diving and land in one trip."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Japonia",
+        "en": "Japan"
+      },
+      "when": {
+        "pl": "kwiecień 2027",
+        "en": "April 2027"
+      },
+      "note": {
+        "pl": "Tokio, Hakone, Kioto i Osaka — wyprawa lądowa.",
+        "en": "Tokyo, Hakone, Kyoto and Osaka — a land expedition."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Egipt — obóz rodzinny",
+        "en": "Egypt — family camp"
+      },
+      "when": {
+        "pl": "lipiec 2027",
+        "en": "July 2027"
+      },
+      "note": {
+        "pl": "Morze Czerwone dla całej rodziny — nurkowanie i wypoczynek.",
+        "en": "The Red Sea for the whole family — diving and time off."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Wyspy Świętego Tomasza i Książęca",
+        "en": "São Tomé & Príncipe"
+      },
+      "when": {
+        "pl": "wrzesień 2027",
+        "en": "September 2027"
+      },
+      "note": {
+        "pl": "Jak Malediwy czterdzieści lat temu — obie wyspy.",
+        "en": "What the Maldives looked like forty years ago — both islands."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Wyspy Salomona",
+        "en": "Solomon Islands"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Wraki, rafy i miejsca, gdzie nurkuje niewielu.",
+        "en": "Wrecks, reefs and places very few divers reach."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Chuuk Lagoon — Ghost Fleet",
+        "en": "Chuuk Lagoon — the Ghost Fleet"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Zatopiona flota z II wojny światowej, przez Seul i Guam.",
+        "en": "The sunken Second World War fleet, via Seoul and Guam."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Raja Ampat — liveaboard",
+        "en": "Raja Ampat — liveaboard"
+      },
+      "when": {
+        "pl": "grudzień 2027",
+        "en": "December 2027"
+      },
+      "note": {
+        "pl": "Najbogatsze rafy świata, tydzień na łodzi.",
+        "en": "The richest reefs on earth, a week aboard."
+      },
+      "url": ""
+    }
+  ],
+  "documents": {
+    "wallet": [
+      {
+        "id": "passport",
+        "label": {
+          "pl": "Paszport",
+          "en": "Passport"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Strona ze zdjęciem. Ważny minimum 6 miesięcy po 18.12.2026.",
+          "en": "Photo page. Valid at least 6 months beyond 18 Dec 2026."
+        }
+      },
+      {
+        "id": "visa",
+        "label": {
+          "pl": "Wiza / zgoda na wjazd",
+          "en": "Visa or entry permit"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Polski paszport — pobyt turystyczny w Japonii bez wizy. Zasady tranzytu przez Pekin potwierdzi Michał przed wylotem.",
+          "en": "Polish passports do not need a tourist visa for Japan. Michał will confirm the Beijing transit rules before departure."
+        }
+      },
+      {
+        "id": "driving",
+        "label": {
+          "pl": "Prawo jazdy + międzynarodowe prawo jazdy",
+          "en": "Driving licence + international permit"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Obowiązkowe na dzień JDM. Międzynarodowe prawo jazdy wyrabia wydział komunikacji — zrób to z wyprzedzeniem, nie w grudniu.",
+          "en": "Required for the JDM day. The international permit comes from your local licensing office — apply early, not in December."
+        }
+      },
+      {
+        "id": "id",
+        "label": {
+          "pl": "Dowód osobisty",
+          "en": "National ID"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Przydatny jako zapasowy dokument, gdy paszport zostaje w sejfie.",
+          "en": "Useful backup ID when your passport is in the hotel safe."
+        }
+      },
+      {
+        "id": "insurance",
+        "label": {
+          "pl": "Polisa ubezpieczeniowa",
+          "en": "Travel insurance policy"
+        },
+        "required": true,
+        "hint": {
+          "pl": "W pakiecie: KL 40 000 EUR, NNW 2500 EUR, bagaż 250 EUR, OC 25 000 EUR, sprzęt sportowy 500 EUR.",
+          "en": "Included: medical EUR 40,000, accident EUR 2,500, baggage EUR 250, liability EUR 25,000, sports equipment EUR 500."
+        }
+      },
+      {
+        "id": "contract",
+        "label": {
+          "pl": "Umowa",
+          "en": "Contract"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Twój egzemplarz — ten sam PDF, który przyszedł mailem po podpisaniu. Dodaj go tutaj, żeby mieć wgląd bez zasięgu. Zostaje na tym telefonie.",
+          "en": "Your own copy — the same PDF we emailed when you signed. Add it here to have it offline. It stays on this phone."
+        }
+      },
+      {
+        "id": "other",
+        "label": {
+          "pl": "Coś jeszcze",
+          "en": "Anything else"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Recepty, zapasowe zdjęcie do paszportu, kontakt alarmowy.",
+          "en": "Prescriptions, a spare passport photo, emergency contact card."
+        }
+      }
+    ],
+    "issued": [
+      {
+        "id": "govpl",
+        "label": {
+          "pl": "Informacje MSZ o Japonii",
+          "en": "Polish MFA advice — Japan"
+        },
+        "note": {
+          "pl": "Oficjalne zalecenia dla podróżnych — gov.pl",
+          "en": "Official travel advice — gov.pl"
+        },
+        "url": "https://www.gov.pl/web/dyplomacja/japonia"
+      }
+    ]
+  }
+}

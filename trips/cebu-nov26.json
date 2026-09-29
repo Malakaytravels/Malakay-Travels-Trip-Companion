@@ -1,0 +1,3251 @@
+{
+  "meta": {
+    "name": {
+      "pl": "Filipiny — ekspedycja dla prawdziwych podróżników",
+      "en": "Philippines — an expedition for real travellers"
+    },
+    "code": "AY22XPES9J",
+    "operator": "Malakay Travels Sp. z o.o.",
+    "guide": {
+      "name": "Michał Sieczkowski",
+      "phone": "+48 509 905 507",
+      "photo": "img/michal.jpg",
+      "role": {
+        "pl": "Prowadzi wyprawę",
+        "en": "Trip leader"
+      },
+      "intro": {
+        "pl": "Michał prowadzi tę wyprawę na miejscu. Spotyka grupę na lotnisku w Warszawie 7 listopada i jest z Wami aż do ostatniego nurkowania. Jeśli coś się posypie — zagubiony bagaż, spóźniony transfer, pytanie o nurkowisko — to jego szukajcie.",
+        "en": "Michał runs this expedition on the ground. He meets the group at Warsaw airport on 7 November and stays with you through to the last dive. If something goes sideways — a bag that didn't arrive, a transfer that didn't show, a question about a site — he is the one to find."
+      }
+    },
+    "website": "https://www.malakaytravels.com",
+    "email": "michal@malakaytravels.com",
+    "start": "2026-11-07",
+    "end": "2026-11-20",
+    "dives": 12,
+    "tz": "Asia/Manila",
+    "country": {
+      "pl": "Filipiny",
+      "en": "Philippines"
+    },
+    "currency": {
+      "pl": "PHP — peso filipińskie",
+      "en": "PHP — Philippine peso"
+    },
+    "noFly": {
+      "lastDive": "2026-11-15 13:00",
+      "firstFlight": "2026-11-19 16:20",
+      "firstFlightLabel": {
+        "pl": "Dumaguete → Manila",
+        "en": "Dumaguete → Manila"
+      },
+      "minHours": 18
+    },
+    "emergency": [
+      {
+        "label": {
+          "pl": "Michał — prowadzi wyprawę",
+          "en": "Michał — trip leader"
+        },
+        "value": "+48 509 905 507"
+      },
+      {
+        "label": {
+          "pl": "E-mail",
+          "en": "Email"
+        },
+        "value": "michal@malakaytravels.com"
+      },
+      {
+        "label": {
+          "pl": "DAN Asia-Pacific — wypadki nurkowe",
+          "en": "DAN Asia-Pacific — diving emergencies"
+        },
+        "value": "+61 8 8212 9242"
+      },
+      {
+        "label": {
+          "pl": "Filipiny — numer alarmowy",
+          "en": "Philippines — emergency number"
+        },
+        "value": "911"
+      },
+      {
+        "label": {
+          "pl": "Komora dekompresyjna",
+          "en": "Recompression chamber"
+        },
+        "value": {
+          "pl": "Do potwierdzenia na miejscu w dniu 1",
+          "en": "To be confirmed on the ground on day 1"
+        }
+      },
+      {
+        "label": {
+          "pl": "Gotówka na miejscu",
+          "en": "Cash you will need"
+        },
+        "value": {
+          "pl": "Opłaty za rezerwaty morskie (sanctuary fees) nie są wliczone — płatne gotówką w bazie nurkowej po ostatnim nurkowaniu w każdej lokalizacji",
+          "en": "Marine sanctuary fees are not included — pay in cash at the dive shop after your last dive at each location"
+        }
+      }
+    ],
+    "hero": [
+      "img/hero-thresher.jpg",
+      "img/hero-bangkas.jpg",
+      "img/hero-valley.jpg"
+    ],
+    "route": {
+      "pl": "Warszawa → Cebu",
+      "en": "Warsaw → Cebu"
+    },
+    "transfers": {
+      "pl": "Wszystkie transfery z lotniska, między hotelami i na lotnisko są wliczone w cenę wyprawy.",
+      "en": "All transfers from the airport, between hotels and back to the airport are included in the trip price."
+    },
+    "divePackage": {
+      "pl": "12 nurkowań: 10 na Malapascua, 2 w Moalboal. W Dauin nie nurkujemy — to dni na odpoczynek.",
+      "en": "12 dives: 10 at Malapascua, 2 at Moalboal. No diving in Dauin — those are rest days."
+    }
+  },
+  "travellers": {
+    "22062026": {
+      "ref": "NR 22/06/2026",
+      "names": [
+        "Grzegorz",
+        "Anna"
+      ],
+      "flights": "dolny",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/grzegorz-b48b857f/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/grzegorz-b48b857f/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/grzegorz-b48b857f/vouchers.pdf"
+        }
+      ]
+    },
+    "26072026": {
+      "ref": "NR 26/07/2026",
+      "names": [
+        "Jacek"
+      ],
+      "flights": "ext",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/jacek-56afffe7/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/jacek-56afffe7/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/jacek-56afffe7/vouchers.pdf"
+        }
+      ]
+    },
+    "04042026": {
+      "ref": "NR 04/04/2026",
+      "names": [
+        "Monika",
+        "Wojciech"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/monika-32721360/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/monika-32721360/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/monika-32721360/vouchers.pdf"
+        }
+      ]
+    },
+    "05042026": {
+      "ref": "NR 05/04/2026",
+      "names": [
+        "Elżbieta",
+        "Jacek"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/elzbieta-d8a851cc/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/elzbieta-d8a851cc/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/elzbieta-d8a851cc/vouchers.pdf"
+        }
+      ]
+    },
+    "06042026": {
+      "ref": "NR 06/04/2026",
+      "names": [
+        "Tomasz",
+        "Dorota"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/tomasz-346d53bd/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/tomasz-346d53bd/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/tomasz-346d53bd/vouchers.pdf"
+        }
+      ]
+    },
+    "07042026": {
+      "ref": "NR 07/04/2026",
+      "names": [
+        "Szymon",
+        "Magdalena"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/szymon-2402fb6b/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/szymon-2402fb6b/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/szymon-2402fb6b/vouchers.pdf"
+        }
+      ]
+    },
+    "08052026": {
+      "ref": "NR 08/05/2026",
+      "names": [
+        "Marek",
+        "Monika"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/marek-6c03e13d/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/marek-6c03e13d/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/marek-6c03e13d/vouchers.pdf"
+        }
+      ]
+    },
+    "09052026": {
+      "ref": "NR 09/05/2026",
+      "names": [
+        "Monika",
+        "Krzysztof"
+      ],
+      "flights": "std",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/monika-7898f9e4/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/monika-7898f9e4/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/monika-7898f9e4/vouchers.pdf"
+        }
+      ]
+    },
+    "03042026": {
+      "ref": "NR 03/04/2026",
+      "names": [
+        "Anna",
+        "Maciej"
+      ],
+      "flights": "ext",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/anna-8ed20aed/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/anna-8ed20aed/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/anna-8ed20aed/vouchers.pdf"
+        }
+      ]
+    },
+    "02042026": {
+      "ref": "NR 02/04/2026",
+      "names": [
+        "Joanna",
+        "Grzegorz"
+      ],
+      "flights": "setcki",
+      "docs": [
+        {
+          "id": "ins",
+          "label": {
+            "pl": "Polisa Compensa",
+            "en": "Compensa policy"
+          },
+          "note": {
+            "pl": "Twoja polisa ubezpieczeniowa",
+            "en": "Your insurance policy"
+          },
+          "url": "docs/joanna-da86fba3/insurance.pdf"
+        },
+        {
+          "id": "etk",
+          "label": {
+            "pl": "Bilety lotnicze",
+            "en": "E-tickets"
+          },
+          "note": {
+            "pl": "Wszystkie odcinki",
+            "en": "All sectors"
+          },
+          "url": "docs/joanna-da86fba3/tickets.pdf"
+        },
+        {
+          "id": "vch",
+          "label": {
+            "pl": "Vouchery hotelowe",
+            "en": "Hotel vouchers"
+          },
+          "note": {
+            "pl": "Wszystkie obiekty",
+            "en": "All properties"
+          },
+          "url": "docs/joanna-da86fba3/vouchers.pdf"
+        }
+      ]
+    }
+  },
+  "flightSets": {
+    "std": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Dubaju",
+          "en": "Outbound — Warsaw to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 180",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-07 13:40",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-07 22:20",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Przesiadka w Dubaju 4 h 30 min. Boeing 777-300ER.",
+          "en": "4 h 30 min connection in Dubai. Boeing 777-300ER."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Wylot — Dubaj do Cebu",
+          "en": "Outbound — Dubai to Cebu"
+        },
+        "airline": "Emirates",
+        "number": "EK 338",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-08 02:50",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "CEB",
+          "city": {
+            "pl": "Cebu Mactan (T2)",
+            "en": "Cebu Mactan (T2)"
+          },
+          "time": "2026-11-08 15:35",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "8 h 45 min. Michał czeka na lotnisku w Cebu.",
+          "en": "8 h 45 min. Michał will be waiting at Cebu airport."
+        }
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — Dumaguete do Manili",
+          "en": "Domestic — Dumaguete to Manila"
+        },
+        "airline": "Philippine Airlines",
+        "number": "PR 2544",
+        "dep": {
+          "iata": "DGT",
+          "city": {
+            "pl": "Dumaguete–Sibulan",
+            "en": "Dumaguete–Sibulan"
+          },
+          "time": "2026-11-19 16:20",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA (T2)",
+            "en": "Manila NAIA (T2)"
+          },
+          "time": "2026-11-19 17:45",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "X5FXJB",
+        "baggage": {
+          "pl": "Limit krajowy niższy niż międzynarodowy — sprawdź przed pakowaniem. Bagaż odbieramy w Manili; to osobny bilet, więc nie jedzie dalej sam.",
+          "en": "The domestic limit is lower than the international one — check before packing. Bags are collected in Manila; this is a separate ticket, so they are not checked through."
+        },
+        "seatNote": {
+          "pl": "Cała grupa leci tym samym rejsem. Linia przesunęła godzinę: było 13:20, jest 16:20. Ostatnie nurkowanie mamy 15 listopada, więc do lotu zostaje duży zapas czasu.",
+          "en": "The whole group is on this flight. The airline moved it: it was 13:20, now 16:20. Our last dive is on 15 November, so the surface interval before flying is comfortably long."
+        }
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Dubaju",
+          "en": "Return — Manila to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 335",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA",
+            "en": "Manila NAIA"
+          },
+          "time": "2026-11-19 23:30",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-20 04:45",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "W Manili macie 5 h 45 min i zmianę terminala: lot krajowy ląduje w T2, Emirates odlatuje z T1. Bagaż trzeba odebrać i nadać ponownie — to osobne bilety. Potem 9 h 15 min do Dubaju i 3 h 20 min przesiadki.",
+          "en": "In Manila you have 5 h 45 min and a terminal change: the domestic flight lands at T2, Emirates leaves from T1. Bags must be collected and checked in again — these are separate tickets. Then 9 h 15 min to Dubai and a 3 h 20 min connection."
+        }
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Dubaj do Warszawy",
+          "en": "Return — Dubai to Warsaw"
+        },
+        "airline": "Emirates",
+        "number": "EK 179",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-20 08:05",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-20 11:20",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Lądowanie w Warszawie 11:20. Załóżcie kurtkę.",
+          "en": "Landing in Warsaw at 11:20. Put a jacket on."
+        }
+      }
+    ],
+    "ext": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Dubaju",
+          "en": "Outbound — Warsaw to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 180",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-07 13:40",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-07 22:20",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Przesiadka w Dubaju 4 h 30 min. Boeing 777-300ER.",
+          "en": "4 h 30 min connection in Dubai. Boeing 777-300ER."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Wylot — Dubaj do Cebu",
+          "en": "Outbound — Dubai to Cebu"
+        },
+        "airline": "Emirates",
+        "number": "EK 338",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-08 02:50",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "CEB",
+          "city": {
+            "pl": "Cebu Mactan (T2)",
+            "en": "Cebu Mactan (T2)"
+          },
+          "time": "2026-11-08 15:35",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "8 h 45 min. Michał czeka na lotnisku w Cebu.",
+          "en": "8 h 45 min. Michał will be waiting at Cebu airport."
+        }
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Przelot krajowy — Dumaguete do Manili",
+          "en": "Domestic — Dumaguete to Manila"
+        },
+        "airline": "Philippine Airlines",
+        "number": "PR 2544",
+        "dep": {
+          "iata": "DGT",
+          "city": {
+            "pl": "Dumaguete–Sibulan",
+            "en": "Dumaguete–Sibulan"
+          },
+          "time": "2026-11-19 16:20",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA (T2)",
+            "en": "Manila NAIA (T2)"
+          },
+          "time": "2026-11-19 17:45",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "X5FXJB",
+        "baggage": {
+          "pl": "Limit krajowy niższy niż międzynarodowy — sprawdź przed pakowaniem. Bagaż odbieramy w Manili; to osobny bilet, więc nie jedzie dalej sam.",
+          "en": "The domestic limit is lower than the international one — check before packing. Bags are collected in Manila; this is a separate ticket, so they are not checked through."
+        },
+        "seatNote": {
+          "pl": "Cała grupa leci tym samym rejsem. Linia przesunęła godzinę: było 13:20, jest 16:20. Po nim zostajecie w Manili na przedłużeniu — powrót dopiero 22 listopada.",
+          "en": "The whole group is on this flight. The airline moved it: it was 13:20, now 16:20. After it you stay on in Manila for the extension — you fly home on 22 November."
+        }
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Dubaju",
+          "en": "Return — Manila to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 335",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA",
+            "en": "Manila NAIA"
+          },
+          "time": "2026-11-22 23:30",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-23 04:45",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "W Manili macie 5 h 45 min i zmianę terminala: lot krajowy ląduje w T2, Emirates odlatuje z T1. Bagaż trzeba odebrać i nadać ponownie — to osobne bilety. Potem 9 h 15 min do Dubaju i 3 h 20 min przesiadki.",
+          "en": "In Manila you have 5 h 45 min and a terminal change: the domestic flight lands at T2, Emirates leaves from T1. Bags must be collected and checked in again — these are separate tickets. Then 9 h 15 min to Dubai and a 3 h 20 min connection."
+        }
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Dubaj do Warszawy",
+          "en": "Return — Dubai to Warsaw"
+        },
+        "airline": "Emirates",
+        "number": "EK 179",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-23 08:05",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-23 11:20",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "—",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Lądowanie w Warszawie 11:20. Załóżcie kurtkę.",
+          "en": "Landing in Warsaw at 11:20. Put a jacket on."
+        }
+      }
+    ],
+    "setcki": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Warszawa do Dubaju",
+          "en": "Outbound — Warsaw to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 180",
+        "dep": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-07 13:40",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-07 22:20",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "JCW6VJ",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Przesiadka w Dubaju. Boeing 777-300ER.",
+          "en": "Connection in Dubai. Boeing 777-300ER."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Wylot — Dubaj do Cebu",
+          "en": "Outbound — Dubai to Cebu"
+        },
+        "airline": "Emirates",
+        "number": "EK 338",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-08 02:50",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "CEB",
+          "city": {
+            "pl": "Cebu Mactan (T2)",
+            "en": "Cebu Mactan (T2)"
+          },
+          "time": "2026-11-08 15:35",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "JCW6VJ",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "8 h 45 min. Michał czeka na lotnisku w Cebu.",
+          "en": "8 h 45 min. Michał will be waiting at Cebu airport."
+        }
+      },
+      {
+        "id": "fdom",
+        "label": {
+          "pl": "Przelot krajowy — Dumaguete do Manili",
+          "en": "Domestic — Dumaguete to Manila"
+        },
+        "airline": "Philippine Airlines",
+        "number": "PR 2544",
+        "dep": {
+          "iata": "DGT",
+          "city": {
+            "pl": "Dumaguete–Sibulan",
+            "en": "Dumaguete–Sibulan"
+          },
+          "time": "2026-11-19 16:20",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA (T2)",
+            "en": "Manila NAIA (T2)"
+          },
+          "time": "2026-11-19 17:45",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "X5FXJB",
+        "baggage": {
+          "pl": "Limit krajowy niższy niż międzynarodowy — sprawdź przed pakowaniem. Bagaż odbieramy w Manili; to osobny bilet, więc nie jedzie dalej sam.",
+          "en": "The domestic limit is lower than the international one — check before packing. Bags are collected in Manila; this is a separate ticket, so they are not checked through."
+        },
+        "seatNote": {
+          "pl": "Cała grupa leci tym samym rejsem. Linia przesunęła godzinę: było 13:20, jest 16:20. Nim dolatujecie do Manili razem z grupą. Dalszą drogę do Szanghaju organizujecie sami.",
+          "en": "The whole group is on this flight. The airline moved it: it was 13:20, now 16:20. It brings you to Manila with the group. Your onward travel to Shanghai is your own arrangement."
+        }
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Powrót — Szanghaj do Dubaju",
+          "en": "Return — Shanghai to Dubai"
+        },
+        "airline": "Emirates",
+        "number": "EK 303",
+        "dep": {
+          "iata": "PVG",
+          "city": {
+            "pl": "Szanghaj Pudong (T2)",
+            "en": "Shanghai Pudong (T2)"
+          },
+          "time": "2026-11-28 23:00",
+          "tz": "Asia/Shanghai"
+        },
+        "arr": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-29 05:10",
+          "tz": "Asia/Dubai"
+        },
+        "pnr": "JCW6VJ",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Airbus A380. Dojazd z Filipin do Szanghaju organizujecie we własnym zakresie.",
+          "en": "Airbus A380. Getting from the Philippines to Shanghai is arranged by you."
+        }
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Dubaj do Warszawy",
+          "en": "Return — Dubai to Warsaw"
+        },
+        "airline": "Emirates",
+        "number": "EK 179",
+        "dep": {
+          "iata": "DXB",
+          "city": {
+            "pl": "Dubaj (T3)",
+            "en": "Dubai (T3)"
+          },
+          "time": "2026-11-29 08:05",
+          "tz": "Asia/Dubai"
+        },
+        "arr": {
+          "iata": "WAW",
+          "city": {
+            "pl": "Warszawa Chopina",
+            "en": "Warsaw Chopin"
+          },
+          "time": "2026-11-29 11:20",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "JCW6VJ",
+        "baggage": {
+          "pl": "Bagaż rejestrowany 25 kg · podręczny 7 kg",
+          "en": "Checked 25 kg · carry-on 7 kg"
+        },
+        "seatNote": {
+          "pl": "Lądowanie w Warszawie 11:20.",
+          "en": "Landing in Warsaw at 11:20."
+        }
+      }
+    ],
+    "dolny": [
+      {
+        "id": "f1",
+        "label": {
+          "pl": "Wylot — Gdańsk do Amsterdamu",
+          "en": "Outbound — Gdańsk to Amsterdam"
+        },
+        "airline": "KLM",
+        "number": "KL 1302",
+        "dep": {
+          "iata": "GDN",
+          "city": {
+            "pl": "Gdańsk im. Lecha Wałęsy",
+            "en": "Gdańsk Lech Wałęsa"
+          },
+          "time": "2026-11-04 06:45",
+          "tz": "Europe/Warsaw"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam Schiphol",
+            "en": "Amsterdam Schiphol"
+          },
+          "time": "2026-11-04 08:40",
+          "tz": "Europe/Amsterdam"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "Embraer 195 E2. Przesiadka w Amsterdamie 2 h.",
+          "en": "Embraer 195 E2. 2 h connection in Amsterdam."
+        }
+      },
+      {
+        "id": "f2",
+        "label": {
+          "pl": "Wylot — Amsterdam do Tajpej",
+          "en": "Outbound — Amsterdam to Taipei"
+        },
+        "airline": "China Airlines",
+        "number": "CI 074",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam Schiphol",
+            "en": "Amsterdam Schiphol"
+          },
+          "time": "2026-11-04 10:40",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "TPE",
+          "city": {
+            "pl": "Tajpej Taoyuan (T1)",
+            "en": "Taipei Taoyuan (T1)"
+          },
+          "time": "2026-11-05 06:35",
+          "tz": "Asia/Taipei"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "12 h 55 min. Airbus A350-900.",
+          "en": "12 h 55 min. Airbus A350-900."
+        }
+      },
+      {
+        "id": "f3",
+        "label": {
+          "pl": "Wylot — Tajpej do Cebu",
+          "en": "Outbound — Taipei to Cebu"
+        },
+        "airline": "China Airlines",
+        "number": "CI 705",
+        "dep": {
+          "iata": "TPE",
+          "city": {
+            "pl": "Tajpej Taoyuan (T1)",
+            "en": "Taipei Taoyuan (T1)"
+          },
+          "time": "2026-11-08 08:10",
+          "tz": "Asia/Taipei"
+        },
+        "arr": {
+          "iata": "CEB",
+          "city": {
+            "pl": "Cebu Mactan (T2)",
+            "en": "Cebu Mactan (T2)"
+          },
+          "time": "2026-11-08 11:10",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "Docieracie do Cebu przed resztą grupy — Michał czeka na lotnisku.",
+          "en": "You reach Cebu ahead of the rest of the group — Michał will be at the airport."
+        }
+      },
+      {
+        "id": "fdom",
+        "label": {
+          "pl": "Przelot krajowy — Dumaguete do Manili",
+          "en": "Domestic — Dumaguete to Manila"
+        },
+        "airline": "Philippine Airlines",
+        "number": "PR 2544",
+        "dep": {
+          "iata": "DGT",
+          "city": {
+            "pl": "Dumaguete–Sibulan",
+            "en": "Dumaguete–Sibulan"
+          },
+          "time": "2026-11-19 16:20",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA (T2)",
+            "en": "Manila NAIA (T2)"
+          },
+          "time": "2026-11-19 17:45",
+          "tz": "Asia/Manila"
+        },
+        "pnr": "X5FXJB",
+        "baggage": {
+          "pl": "Limit krajowy niższy niż międzynarodowy — sprawdź przed pakowaniem. Bagaż odbieramy w Manili; to osobny bilet, więc nie jedzie dalej sam.",
+          "en": "The domestic limit is lower than the international one — check before packing. Bags are collected in Manila; this is a separate ticket, so they are not checked through."
+        },
+        "seatNote": {
+          "pl": "Cała grupa leci tym samym rejsem. Linia przesunęła godzinę: było 13:20, jest 16:20. Nim dolatujecie do Manili razem z grupą; stamtąd lecicie dalej 22 listopada.",
+          "en": "The whole group is on this flight. The airline moved it: it was 13:20, now 16:20. It brings you to Manila with the group; you fly onward from there on 22 November."
+        }
+      },
+      {
+        "id": "f4",
+        "label": {
+          "pl": "Powrót — Manila do Tajpej",
+          "en": "Return — Manila to Taipei"
+        },
+        "airline": "China Airlines",
+        "number": "CI 704",
+        "dep": {
+          "iata": "MNL",
+          "city": {
+            "pl": "Manila NAIA (T1)",
+            "en": "Manila NAIA (T1)"
+          },
+          "time": "2026-11-22 16:55",
+          "tz": "Asia/Manila"
+        },
+        "arr": {
+          "iata": "TPE",
+          "city": {
+            "pl": "Tajpej Taoyuan (T1)",
+            "en": "Taipei Taoyuan (T1)"
+          },
+          "time": "2026-11-22 19:05",
+          "tz": "Asia/Taipei"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "Airbus A330-300.",
+          "en": "Airbus A330-300."
+        }
+      },
+      {
+        "id": "f5",
+        "label": {
+          "pl": "Powrót — Tajpej do Amsterdamu",
+          "en": "Return — Taipei to Amsterdam"
+        },
+        "airline": "China Airlines",
+        "number": "CI 073",
+        "dep": {
+          "iata": "TPE",
+          "city": {
+            "pl": "Tajpej Taoyuan (T1)",
+            "en": "Taipei Taoyuan (T1)"
+          },
+          "time": "2026-11-22 23:05",
+          "tz": "Asia/Taipei"
+        },
+        "arr": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam Schiphol",
+            "en": "Amsterdam Schiphol"
+          },
+          "time": "2026-11-23 07:50",
+          "tz": "Europe/Amsterdam"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "15 h 45 min. Airbus A350-900.",
+          "en": "15 h 45 min. Airbus A350-900."
+        }
+      },
+      {
+        "id": "f6",
+        "label": {
+          "pl": "Powrót — Amsterdam do Gdańska",
+          "en": "Return — Amsterdam to Gdańsk"
+        },
+        "airline": "KLM",
+        "number": "KL 1303",
+        "dep": {
+          "iata": "AMS",
+          "city": {
+            "pl": "Amsterdam Schiphol",
+            "en": "Amsterdam Schiphol"
+          },
+          "time": "2026-11-23 09:20",
+          "tz": "Europe/Amsterdam"
+        },
+        "arr": {
+          "iata": "GDN",
+          "city": {
+            "pl": "Gdańsk im. Lecha Wałęsy",
+            "en": "Gdańsk Lech Wałęsa"
+          },
+          "time": "2026-11-23 11:10",
+          "tz": "Europe/Warsaw"
+        },
+        "pnr": "76I86F",
+        "baggage": {
+          "pl": "2 sztuki bagażu rejestrowanego",
+          "en": "2 checked pieces"
+        },
+        "seatNote": {
+          "pl": "Lądowanie w Gdańsku 11:10. Załóżcie kurtkę.",
+          "en": "Landing in Gdańsk at 11:10. Put a jacket on."
+        }
+      }
+    ]
+  },
+  "flights": [],
+  "hotels": [
+    {
+      "name": "Harolds Hotel Cebu City",
+      "place": {
+        "pl": "Cebu City",
+        "en": "Cebu City"
+      },
+      "coords": [
+        10.3196171,
+        123.8991125
+      ],
+      "photo": "img/stay-cebu.jpg",
+      "checkIn": "2026-11-08",
+      "checkOut": "2026-11-09",
+      "ref": "Malakay Group · MK_01-26",
+      "phone": "+63 917 711 8828",
+      "room": {
+        "pl": "Pokój Deluxe, 2 osoby, ze śniadaniem",
+        "en": "Deluxe room, twin share, breakfast included"
+      },
+      "address": "146 Gorordo Ave, cor. C. Rosal St, Cebu City 6000, Cebu",
+      "placeId": "ChIJPTKTpDmZqTMRNBOwcrVHv70",
+      "notes": {
+        "pl": "Jedna noc na regenerację po długim locie. Recepcja czynna całą dobę. Restauracja na dachu z widokiem na miasto.",
+        "en": "One night to recover from the long haul. Reception open 24 hours. Rooftop restaurant with city views."
+      }
+    },
+    {
+      "name": "Ocean Vida Beach & Dive Resort",
+      "place": {
+        "pl": "Malapascua",
+        "en": "Malapascua"
+      },
+      "coords": [
+        11.3269641,
+        124.1171869
+      ],
+      "photo": "img/stay-malapascua.jpg",
+      "checkIn": "2026-11-09",
+      "checkOut": "2026-11-14",
+      "ref": "Malakay Group · MK_01-26",
+      "phone": "+63 917 702 1852",
+      "room": {
+        "pl": "Deluxe Sea View lub Garden View, ze śniadaniem",
+        "en": "Deluxe Sea View or Garden View, breakfast included"
+      },
+      "address": "Bounty Beach, Malapascua Island, Daanbantayan 6013, Cebu",
+      "placeId": "ChIJuUNoDwjfpzMRrfVh7GzSkVg",
+      "notes": {
+        "pl": "Bezpośrednio przy Bounty Beach — leżaki i pufy na piasku przed pokojami. Restauracja 8:00–23:00; na poranne nurkowania przygotowują kanapki na wynos. Wyjazd na kosogony przed wschodem słońca — weź latarkę.",
+        "en": "Right on Bounty Beach — loungers and bean bags on the sand outside the rooms. Restaurant 8:00–23:00; they prepare packed sandwiches for early dives. The thresher trip leaves before sunrise — bring a torch."
+      }
+    },
+    {
+      "name": "Kasai Village Dive Resort",
+      "place": {
+        "pl": "Moalboal",
+        "en": "Moalboal"
+      },
+      "coords": [
+        9.9621009,
+        123.3695219
+      ],
+      "photo": "img/stay-moalboal.jpg",
+      "checkIn": "2026-11-14",
+      "checkOut": "2026-11-16",
+      "ref": "Malakay Group · MK_01-26",
+      "phone": "+63 917 622 0251",
+      "room": {
+        "pl": "Deluxe Sea View lub Pool View, ze śniadaniem",
+        "en": "Deluxe Sea View or Pool View, breakfast included"
+      },
+      "address": "Saavedra, Moalboal 6032, Cebu",
+      "placeId": "ChIJXSXwVWLoqzMRVab24d2VyuU",
+      "notes": {
+        "pl": "Resort z własnym pomostem — żółwie widać przy snorkelingu prosto z pomostu. Obsługa zajmuje się sprzętem nurkowym. Recepcja 9:00–18:00. Zasięg i wi-fi bywają wolne.",
+        "en": "The resort has its own jetty — turtles are often seen snorkelling straight off it. Staff handle your dive gear. Reception 9:00–18:00. Signal and wi-fi can be slow."
+      }
+    },
+    {
+      "name": "Atmosphere Resorts & Spa",
+      "place": {
+        "pl": "Dauin",
+        "en": "Dauin"
+      },
+      "coords": [
+        9.1597781,
+        123.2442837
+      ],
+      "photo": "img/stay-dauin.jpg",
+      "checkIn": "2026-11-16",
+      "checkOut": "2026-11-19",
+      "ref": "Malakay Travels Group · RSSP8244",
+      "phone": "+63 917 722 1042",
+      "room": {
+        "pl": "Deluxe Superior lub Garden Studio, ze śniadaniem",
+        "en": "Deluxe Superior or Garden Studio, breakfast included"
+      },
+      "address": "Maayong Tubig, National Road, Dauin 6217, Negros Oriental",
+      "placeId": "ChIJJbh8SL9cqzMRts_hMp_Mym8",
+      "notes": {
+        "pl": "Czarny, wulkaniczny piasek i rafa tuż przed resortem — żółwie widoczne przy snorkelingu. Spa, basen, restauracja Breeze. Recepcja czynna całą dobę.",
+        "en": "Black volcanic sand with a reef right in front of the resort — turtles are common while snorkelling. Spa, pool, Breeze restaurant. Reception open 24 hours."
+      }
+    },
+    {
+      "name": "1898 Hotel Colonia En Las Filipinas",
+      "place": {
+        "pl": "Manila — przedłużenie",
+        "en": "Manila — extension"
+      },
+      "coords": [
+        14.5639577,
+        121.0305858
+      ],
+      "photo": "img/stay-manila.jpg",
+      "checkIn": "2026-11-19",
+      "checkOut": "2026-11-22",
+      "ref": "Malakay Travels",
+      "phone": "+63 2 8876 3333",
+      "room": {
+        "pl": "Deluxe Queen dla 2 osób, ze śniadaniem",
+        "en": "Deluxe Queen for 2, breakfast included"
+      },
+      "address": "5030 P. Burgos St, cor. Kalayaan Ave, Makati City 1210, Metro Manila",
+      "placeId": "ChIJydDr8EvJlzMRZVNoqzEI-jI",
+      "optional": true,
+      "notes": {
+        "pl": "Tylko dla osób, które wykupiły przedłużenie o 3 noce w Manili. Makati — spokojna okolica, basen na dachu, spa. Transfer lotniskowy busem w obie strony w cenie. Recepcja całą dobę.",
+        "en": "Only for those who booked the 3-night Manila extension. Makati — a quiet area, rooftop pool, spa. Airport transfers by van included both ways. Reception open 24 hours."
+      }
+    }
+  ],
+  "places": [
+    {
+      "name": "Mactan–Cebu",
+      "type": "air",
+      "coords": [
+        10.3075,
+        123.9793
+      ],
+      "note": {
+        "pl": "Przylot na Filipiny",
+        "en": "Arrival into the Philippines"
+      }
+    },
+    {
+      "name": "Maya Port",
+      "type": "town",
+      "coords": [
+        11.2333,
+        124.0333
+      ],
+      "note": {
+        "pl": "Przeprawa łodzią na Malapascua",
+        "en": "Boat crossing to Malapascua"
+      }
+    },
+    {
+      "name": "Malapascua",
+      "type": "town",
+      "coords": [
+        11.3283,
+        124.1194
+      ],
+      "note": {
+        "pl": "Baza — 5 nocy",
+        "en": "Base — 5 nights"
+      }
+    },
+    {
+      "name": "Kimud Shoal",
+      "type": "dive",
+      "coords": [
+        11.3117,
+        124.0964
+      ],
+      "note": {
+        "pl": "Rekiny kosogony przed wschodem słońca",
+        "en": "Thresher sharks before sunrise"
+      }
+    },
+    {
+      "name": "Monad Shoal",
+      "type": "dive",
+      "coords": [
+        11.2833,
+        124.15
+      ],
+      "note": {
+        "pl": "Płaskowyż, stacje czyszczące, gatunki pelagiczne",
+        "en": "Plateau, cleaning stations, pelagic species"
+      }
+    },
+    {
+      "name": "Kalanggaman Island",
+      "type": "dive",
+      "coords": [
+        11.2333,
+        124.4
+      ],
+      "note": {
+        "pl": "„Malediwy Filipin” — piaszczysta łacha i ściany",
+        "en": "The \"Maldives of the Philippines\" — sandbar and walls"
+      }
+    },
+    {
+      "name": "Moalboal",
+      "type": "town",
+      "coords": [
+        9.9494,
+        123.373
+      ],
+      "note": {
+        "pl": "Baza — 2 noce",
+        "en": "Base — 2 nights"
+      }
+    },
+    {
+      "name": "Panagsama Beach",
+      "type": "dive",
+      "coords": [
+        9.947,
+        123.369
+      ],
+      "note": {
+        "pl": "Sardine Run — milionowe ławice tuż przy brzegu",
+        "en": "The sardine run — millions of fish just off the shore"
+      }
+    },
+    {
+      "name": "Kawasan Falls",
+      "type": "town",
+      "coords": [
+        9.8167,
+        123.3833
+      ],
+      "note": {
+        "pl": "Wodospady — przystanek w drodze do Moalboal",
+        "en": "Waterfalls — a stop on the way to Moalboal"
+      }
+    },
+    {
+      "name": "Dauin",
+      "type": "town",
+      "coords": [
+        9.1936,
+        123.265
+      ],
+      "note": {
+        "pl": "Baza — 3 noce, dni bez nurkowania",
+        "en": "Base — 3 nights, no diving"
+      }
+    },
+    {
+      "name": "Pulangbato Falls",
+      "type": "town",
+      "coords": [
+        9.2833,
+        123.2167
+      ],
+      "note": {
+        "pl": "Czerwone skały, turkusowa woda",
+        "en": "Red rocks, turquoise water"
+      }
+    },
+    {
+      "name": "Red Rock Hot Springs",
+      "type": "town",
+      "coords": [
+        9.286,
+        123.22
+      ],
+      "note": {
+        "pl": "Gorące źródła — filipińskie spa",
+        "en": "Hot springs — a Filipino spa"
+      }
+    },
+    {
+      "name": "Dumaguete",
+      "type": "town",
+      "coords": [
+        9.3068,
+        123.3054
+      ],
+      "note": {
+        "pl": "Miasto, lunch, nadmorski bulwar",
+        "en": "Town, lunch, seafront boulevard"
+      }
+    },
+    {
+      "name": "Dumaguete–Sibulan",
+      "type": "air",
+      "coords": [
+        9.3337,
+        123.3005
+      ],
+      "note": {
+        "pl": "Wylot do Manili",
+        "en": "Departure to Manila"
+      }
+    }
+  ],
+  "days": [
+    {
+      "n": 1,
+      "date": "2026-11-07",
+      "title": {
+        "pl": "Start wyprawy | Wylot do Filipin",
+        "en": "Departure | Flying to the Philippines"
+      },
+      "base": {
+        "pl": "W drodze",
+        "en": "In transit"
+      },
+      "coords": [
+        52.1657,
+        20.9671
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Spotkanie na lotnisku w Warszawie",
+            "en": "Meet at Warsaw airport"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Krótki briefing i odprawa",
+            "en": "Short briefing and check-in"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wylot do Cebu z przesiadką na Bliskim Wschodzie",
+            "en": "Fly to Cebu with a Middle East connection"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Komputer nurkowy, maskę i kartę certyfikacyjną trzymaj w bagażu podręcznym.",
+        "en": "Keep your dive computer, mask and certification card in hand luggage."
+      }
+    },
+    {
+      "n": 2,
+      "date": "2026-11-08",
+      "title": {
+        "pl": "Przylot do Cebu",
+        "en": "Arriving in Cebu"
+      },
+      "base": {
+        "pl": "Cebu City",
+        "en": "Cebu City"
+      },
+      "coords": [
+        10.3157,
+        123.8854
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Przylot do Cebu, transfer z lotniska do hotelu",
+            "en": "Land in Cebu, transfer to the hotel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zameldowanie i pierwszy oddech w nowym miejscu",
+            "en": "Check in and take a first breath of the place"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dla chętnych: lekka kolacja w lokalnej restauracji — lechon i owoce morza",
+            "en": "Optional: a light dinner locally — lechon and fresh seafood"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień na regenerację. Dziś bez nurkowania — odpoczywaj i pij dużo wody.",
+        "en": "A recovery day. No diving — rest and drink plenty of water."
+      }
+    },
+    {
+      "n": 3,
+      "date": "2026-11-09",
+      "title": {
+        "pl": "Początek przygody | W drodze do raju",
+        "en": "The adventure begins | On the way to paradise"
+      },
+      "base": {
+        "pl": "Malapascua",
+        "en": "Malapascua"
+      },
+      "coords": [
+        11.3283,
+        124.1194
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Wczesne śniadanie i wyjazd na północ wyspy Cebu",
+            "en": "Early breakfast, then north across Cebu"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przejazd przez lokalne miejscowości i targi",
+            "en": "Through local villages and markets"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Port Maya — przeprawa łodzią na Malapascua",
+            "en": "Maya Port — boat crossing to Malapascua"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zameldowanie w hotelu przy plaży",
+            "en": "Check in at the beachfront resort"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Happy Hour, spacer po plaży, zachód słońca",
+            "en": "Happy hour, a walk on the beach, sunset"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Kilka godzin drogi. Zabierz wodę i coś do przekąszenia.",
+        "en": "Several hours on the road. Bring water and a snack."
+      }
+    },
+    {
+      "n": 4,
+      "date": "2026-11-10",
+      "title": {
+        "pl": "Malapascua | Pierwsze zanurzenie",
+        "en": "Malapascua | First dives"
+      },
+      "base": {
+        "pl": "Malapascua",
+        "en": "Malapascua"
+      },
+      "coords": [
+        11.3283,
+        124.1194
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Spokojny poranek",
+            "en": "An easy morning"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pierwsze nurkowania w okolicach wyspy",
+            "en": "First dives around the island"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Po południu relaks i zachód słońca",
+            "en": "Afternoon off, then sunset"
+          }
+        ]
+      ],
+      "dives": [
+        {
+          "site": {
+            "pl": "Okolice Malapascua",
+            "en": "Around Malapascua"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Sprawdzenie sprzętu, wyważenie, oswojenie się z temperaturą wody i prądami",
+            "en": "Gear check, weighting, getting used to the water temperature and currents"
+          }
+        }
+      ],
+      "note": {
+        "pl": "Spokojne wejście w rytm nurkowy przed kolejnymi dniami.",
+        "en": "An easy way into the diving rhythm before the bigger days."
+      }
+    },
+    {
+      "n": 5,
+      "date": "2026-11-11",
+      "title": {
+        "pl": "Malapascua | Spotkanie z kosogonem",
+        "en": "Malapascua | Meeting the thresher shark"
+      },
+      "base": {
+        "pl": "Kimud Shoal",
+        "en": "Kimud Shoal"
+      },
+      "coords": [
+        11.3117,
+        124.0964
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Wyjazd jeszcze przed wschodem słońca",
+            "en": "Leave before sunrise"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dwa poranne nurkowania na Kimud Shoal",
+            "en": "Two morning dives at Kimud Shoal"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorem kolacja na lokalnym targu — grillowane owoce morza",
+            "en": "Dinner at the local market — grilled seafood"
+          }
+        ]
+      ],
+      "dives": [
+        {
+          "site": {
+            "pl": "Kimud Shoal",
+            "en": "Kimud Shoal"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Rekin kosogon (Alopias pelagicus) na stacjach czyszczących. Kluczem jest spokój, kontrola oddechu i pozycja przy dnie",
+            "en": "Thresher shark (Alopias pelagicus) at the cleaning stations. Stay calm, control your breathing, keep low"
+          }
+        },
+        {
+          "site": {
+            "pl": "Kimud Shoal — drugie nurkowanie",
+            "en": "Kimud Shoal — second dive"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Druga szansa na spotkanie, przy lepszym porannym świetle",
+            "en": "A second chance as the morning light improves"
+          }
+        }
+      ],
+      "note": {
+        "pl": "Jeden z najbardziej wyczekiwanych dni wyprawy. Kosogon jest płochliwy — nie zbliżaj się, poczekaj.",
+        "en": "One of the most anticipated days. Threshers are shy — don't approach, let them come."
+      }
+    },
+    {
+      "n": 6,
+      "date": "2026-11-12",
+      "title": {
+        "pl": "Kalanggaman Island | „Malediwy Filipin”",
+        "en": "Kalanggaman Island | The \"Maldives of the Philippines\""
+      },
+      "base": {
+        "pl": "Kalanggaman Island",
+        "en": "Kalanggaman Island"
+      },
+      "coords": [
+        11.2333,
+        124.4
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Rejs na Kalanggaman Island",
+            "en": "Boat to Kalanggaman Island"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "2 nurkowania w okolicach wyspy",
+            "en": "Two dives around the island"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Spacer po piaszczystej łasze, pływanie, snorkeling",
+            "en": "Walk the sandbar, swim, snorkel"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Powrót na Malapascua",
+            "en": "Back to Malapascua"
+          }
+        ]
+      ],
+      "dives": [
+        {
+          "site": {
+            "pl": "Kalanggaman — ściana",
+            "en": "Kalanggaman — the wall"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Piękne ściany opadające w błękit, bogate życie morskie",
+            "en": "Walls dropping into the blue, rich marine life"
+          }
+        },
+        {
+          "site": {
+            "pl": "Kalanggaman — rafa",
+            "en": "Kalanggaman — the reef"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Spokojna, przejrzysta woda, ławice ryb tropikalnych",
+            "en": "Calm, clear water and shoals of tropical fish"
+          }
+        }
+      ],
+      "note": {
+        "pl": "Dobry dzień także dla tych, którzy nie nurkują.",
+        "en": "A good day for non-divers too."
+      }
+    },
+    {
+      "n": 7,
+      "date": "2026-11-13",
+      "title": {
+        "pl": "Monad Shoal | Głębia i relaks",
+        "en": "Monad Shoal | Depth and rest"
+      },
+      "base": {
+        "pl": "Monad Shoal",
+        "en": "Monad Shoal"
+      },
+      "coords": [
+        11.2833,
+        124.15
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Nurkowania na Monad Shoal",
+            "en": "Dives at Monad Shoal"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wieczorny masaż w tropikalnej atmosferze wyspy",
+            "en": "Evening massage on the island"
+          }
+        ]
+      ],
+      "dives": [
+        {
+          "site": {
+            "pl": "Monad Shoal",
+            "en": "Monad Shoal"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Podwodna góra i rozległy płaskowyż — rekiny rafowe, płaszczki, stacje czyszczące",
+            "en": "A seamount and broad plateau — reef sharks, rays, cleaning stations"
+          }
+        }
+      ],
+      "note": {
+        "pl": "Ostatni dzień nurkowy na Malapascua. Zostają jeszcze nurkowania w Moalboal.",
+        "en": "Last diving day on Malapascua. Moalboal dives still to come."
+      }
+    },
+    {
+      "n": 8,
+      "date": "2026-11-14",
+      "title": {
+        "pl": "Przejazd na Cebu | Kierunek Moalboal",
+        "en": "Back to Cebu | On to Moalboal"
+      },
+      "base": {
+        "pl": "Moalboal",
+        "en": "Moalboal"
+      },
+      "coords": [
+        9.9494,
+        123.373
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Pożegnanie z Malapascua, przeprawa łodzią",
+            "en": "Leave Malapascua by boat"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przejazd przez wyspę Cebu",
+            "en": "Drive across Cebu"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Jeśli czas pozwoli: przystanek przy Kawasan Falls",
+            "en": "If time allows: a stop at Kawasan Falls"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zakwaterowanie w Moalboal i relaks",
+            "en": "Check in at Moalboal and unwind"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień przejazdowy. Kawasan Falls zależy od godziny dotarcia.",
+        "en": "A travel day. Kawasan Falls depends on what time we arrive."
+      }
+    },
+    {
+      "n": 9,
+      "date": "2026-11-15",
+      "title": {
+        "pl": "Moalboal | Sardine Run",
+        "en": "Moalboal | The sardine run"
+      },
+      "base": {
+        "pl": "Moalboal",
+        "en": "Moalboal"
+      },
+      "coords": [
+        9.947,
+        123.369
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Nurkowania przy Panagsama Beach",
+            "en": "Dives at Panagsama Beach"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Po południu relaks, kawa z widokiem na ocean",
+            "en": "Afternoon off, coffee with an ocean view"
+          }
+        ]
+      ],
+      "dives": [
+        {
+          "site": {
+            "pl": "Panagsama Beach — Sardine Run",
+            "en": "Panagsama Beach — the sardine run"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Miliony sardynek tuż przy brzegu, poruszające się jak jeden organizm",
+            "en": "Millions of sardines just off the shore, shifting shape like a single organism"
+          }
+        },
+        {
+          "site": {
+            "pl": "Panagsama — rafa",
+            "en": "Panagsama — the reef"
+          },
+          "depth": {
+            "pl": "do potwierdzenia",
+            "en": "to be confirmed"
+          },
+          "note": {
+            "pl": "Duża szansa na żółwie morskie — stałych mieszkańców tutejszych raf",
+            "en": "A strong chance of sea turtles — permanent residents of these reefs"
+          }
+        }
+      ],
+      "note": {
+        "pl": "Ostatni dzień nurkowy wyprawy. Sardine Run jest tu przez cały rok, kilka metrów od plaży.",
+        "en": "The last diving day. The sardine run is here year round, metres from the beach."
+      }
+    },
+    {
+      "n": 10,
+      "date": "2026-11-16",
+      "title": {
+        "pl": "W stronę Negros | Kierunek Dauin",
+        "en": "Towards Negros | On to Dauin"
+      },
+      "base": {
+        "pl": "Dauin",
+        "en": "Dauin"
+      },
+      "coords": [
+        9.1936,
+        123.265
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Przejazd przez południowe Cebu",
+            "en": "Drive through southern Cebu"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przeprawa promowa na Negros",
+            "en": "Ferry across to Negros"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Krótki transfer z okolic Dumaguete do Dauin — busy w cenie",
+            "en": "Short transfer from Dumaguete to Dauin — vans included"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Zakwaterowanie, basen, masaż, kolacja",
+            "en": "Check in, pool, massage, dinner"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Od tego dnia nie nurkujemy — Dauin to czas na odpoczynek. Pakiet 12 nurkowań realizujemy w całości na Malapascua i w Moalboal.",
+        "en": "No diving from here on — Dauin is for resting. All 12 dives take place at Malapascua and Moalboal."
+      }
+    },
+    {
+      "n": 11,
+      "date": "2026-11-17",
+      "title": {
+        "pl": "Valencia & Dumaguete | Naturalne spa Filipin",
+        "en": "Valencia & Dumaguete | A natural Filipino spa"
+      },
+      "base": {
+        "pl": "Valencia",
+        "en": "Valencia"
+      },
+      "coords": [
+        9.2833,
+        123.25
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Wyjazd w zielone wzgórza Valencii",
+            "en": "Up into the green hills of Valencia"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Pulangbato Falls — wodospady wśród czerwonych skał",
+            "en": "Pulangbato Falls — waterfalls among red rocks"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Red Rock Hot Springs — gorące źródła",
+            "en": "Red Rock Hot Springs"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Lunch w tradycyjnej restauracji w Dumaguete",
+            "en": "Lunch at a traditional restaurant in Dumaguete"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Powrót do resortu w Dauin",
+            "en": "Back to the resort in Dauin"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dzień lądowy, bez nurkowania. Wycieczka dla chętnych.",
+        "en": "A land day, no diving. The excursion is optional."
+      }
+    },
+    {
+      "n": 12,
+      "date": "2026-11-18",
+      "title": {
+        "pl": "Przerwa na kawę",
+        "en": "A break for coffee"
+      },
+      "base": {
+        "pl": "Dauin",
+        "en": "Dauin"
+      },
+      "coords": [
+        9.1936,
+        123.265
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Dla chętnych: wycieczka na lokalną plantację kawy",
+            "en": "Optional: a trip to a local coffee plantation"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Masaże, basen, spacer wzdłuż plaży",
+            "en": "Massages, the pool, a walk along the beach"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Wspólna kolacja w ulubionej restauracji Michała w Dauin",
+            "en": "Group dinner at Michał's favourite restaurant in Dauin"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Ostatni pełny dzień na Filipinach. Bez nurkowania — sprzęt możesz już wypłukać i wysuszyć.",
+        "en": "Last full day in the Philippines. No diving — a good time to rinse and dry your gear."
+      }
+    },
+    {
+      "n": 13,
+      "date": "2026-11-19",
+      "title": {
+        "pl": "Pożegnanie z rajem i powrót do domu",
+        "en": "Goodbye to paradise, heading home"
+      },
+      "base": {
+        "pl": "Dumaguete → Manila",
+        "en": "Dumaguete → Manila"
+      },
+      "coords": [
+        9.3337,
+        123.3005
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Spokojny poranek, płukanie i suszenie sprzętu",
+            "en": "A quiet morning, rinse and dry your gear"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "W okolicach południa transfer na lotnisko Dumaguete–Sibulan — busy w cenie",
+            "en": "Around midday, transfer to Dumaguete–Sibulan airport — vans included"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Przelot do Manili",
+            "en": "Fly to Manila"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Dla chętnych: przedłużenie o 3 noce w Manili",
+            "en": "Optional: a 3-night extension in Manila"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Ostatnie nurkowanie mamy 15 listopada w Moalboal, więc do lotu zostaje z dużym zapasem czasu.",
+        "en": "Our last dive was on 15 November in Moalboal, so the interval before flying is comfortably long."
+      }
+    },
+    {
+      "n": 14,
+      "date": "2026-11-20",
+      "title": {
+        "pl": "Koniec wyprawy",
+        "en": "End of the expedition"
+      },
+      "base": {
+        "pl": "Powrót",
+        "en": "Homeward"
+      },
+      "coords": [
+        52.1657,
+        20.9671
+      ],
+      "items": [
+        [
+          "—",
+          {
+            "pl": "Lądowanie na Lotnisku Chopina w Warszawie",
+            "en": "Land at Warsaw Chopin"
+          }
+        ],
+        [
+          "—",
+          {
+            "pl": "Oficjalne zakończenie wyprawy",
+            "en": "The trip officially ends"
+          }
+        ]
+      ],
+      "note": {
+        "pl": "Dziękujemy za wspólną przygodę — do zobaczenia na kolejnych ekspedycjach Malakay Travels.",
+        "en": "Thank you for the adventure — see you on the next Malakay Travels expedition."
+      }
+    }
+  ],
+  "facts": [
+    {
+      "group": {
+        "pl": "Nurkowanie",
+        "en": "Diving"
+      },
+      "items": [
+        {
+          "pl": "Filipiny leżą w sercu Trójkąta Koralowego — obszaru o największej różnorodności życia morskiego na Ziemi. Rośnie tu ponad 500 gatunków koralowców, więcej niż na całych Karaibach.",
+          "en": "The Philippines sits at the heart of the Coral Triangle — the most biodiverse marine region on Earth. Over 500 coral species grow here, more than in the entire Caribbean."
+        },
+        {
+          "pl": "Antenariusz (frogfish) ma jeden z najszybszych ataków w świecie zwierząt — otwiera pysk i zasysa ofiarę w kilka milisekund. Zbyt szybko, żeby zobaczyć to gołym okiem.",
+          "en": "A frogfish has one of the fastest strikes in the animal kingdom — it opens its mouth and sucks in prey in a few milliseconds. Too fast to see with the naked eye."
+        },
+        {
+          "pl": "Nagoskrzelne (nudibranchs) potrafią zjeść parzydełkowca i przejąć jego komórki parzydełkowe, po czym używać ich do własnej obrony.",
+          "en": "Nudibranchs can eat a stinging animal, take over its stinging cells, and then use them for their own defence."
+        },
+        {
+          "pl": "Żółw morski odpoczywający na dnie potrafi wstrzymać oddech na kilka godzin. Podczas aktywnego pływania wynurza się co kilka–kilkanaście minut.",
+          "en": "A sea turtle resting on the bottom can hold its breath for hours. When actively swimming it surfaces every few minutes."
+        },
+        {
+          "pl": "Ryba mandarynka przystępuje do godów wyłącznie o zmierzchu, przez kilkanaście minut po zachodzie słońca. Dlatego nurkowania na nie zawsze zaczynają się o tej samej porze.",
+          "en": "Mandarin fish spawn only at dusk, for a short window after sunset. That is why mandarin fish dives always start at the same time of day."
+        },
+        {
+          "pl": "Zasada 24 godzin przed lotem nie jest przesądem — azot rozpuszczony w tkankach potrzebuje czasu, żeby się uwolnić, a w kabinie samolotu ciśnienie jest niższe niż na poziomie morza.",
+          "en": "The 24-hour no-fly rule is not superstition — dissolved nitrogen needs time to leave your tissues, and cabin pressure is lower than at sea level."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Cebu",
+        "en": "Cebu"
+      },
+      "items": [
+        {
+          "pl": "Cebu to najstarsze miasto Filipin. Magellan dotarł tu w 1521 roku i zginął kilka tygodni później w bitwie na Mactanie — wyspie, na której dziś lądujemy.",
+          "en": "Cebu is the oldest city in the Philippines. Magellan arrived in 1521 and was killed weeks later in the battle of Mactan — the island where we land today."
+        },
+        {
+          "pl": "Lechon z Cebu uchodzi za najlepszy w kraju. Sekret to przyprawianie od środka — trawa cytrynowa, czosnek, cebula — dzięki czemu nie potrzebuje żadnego sosu.",
+          "en": "Cebu lechon is considered the country's best. The trick is seasoning from the inside — lemongrass, garlic, onion — so it needs no sauce at all."
+        },
+        {
+          "pl": "Cebu nazywane jest „Królową Miast Południa”. To drugie co do znaczenia centrum gospodarcze Filipin po aglomeracji Manili.",
+          "en": "Cebu is known as the \"Queen City of the South\" — the country's second economic centre after Metro Manila."
+        },
+        {
+          "pl": "Styczniowy festiwal Sinulog to jedno z największych świąt Filipin. Miasto zapełnia się wtedy tancerzami, a ulice są nieprzejezdne przez kilka dni.",
+          "en": "January's Sinulog festival is one of the biggest celebrations in the Philippines. The city fills with dancers and the streets are impassable for days."
+        },
+        {
+          "pl": "Drogę na północ, którą jedziemy na Malapascua, pokonuje się kilka godzin — Cebu ma około 200 km długości, ale w najszerszym miejscu tylko około 30 km.",
+          "en": "The drive north to Malapascua takes several hours — Cebu is around 200 km long but only about 30 km across at its widest."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Malapascua",
+        "en": "Malapascua"
+      },
+      "items": [
+        {
+          "pl": "Nazwa „Malapascua” to po hiszpańsku „złe Boże Narodzenie”. Według lokalnej opowieści hiszpańscy żeglarze wylądowali tu w święta i zastali wyspę pustą.",
+          "en": "\"Malapascua\" is Spanish for \"bad Christmas\". Local lore says Spanish sailors landed here at Christmas and found the island empty."
+        },
+        {
+          "pl": "Wyspa ma około 2,5 km długości i niecały kilometr szerokości. Można ją obejść pieszo w kilka godzin i nie ma na niej samochodów.",
+          "en": "The island is about 2.5 km long and under a kilometre wide. You can walk around it in a few hours, and there are no cars."
+        },
+        {
+          "pl": "Kimud Shoal i Monad Shoal to podwodne góry. Rekiny podpływają tam z ponad 200 metrów, żeby małe wargacze oczyściły im skórę z pasożytów — dlatego trzeba być na miejscu przed świtem.",
+          "en": "Kimud Shoal and Monad Shoal are seamounts. Sharks rise from over 200 metres so small wrasse can clean parasites from their skin — which is why you must be there before dawn."
+        },
+        {
+          "pl": "Kosogon (Alopias pelagicus) ma ogon długości nawet połowy własnego ciała. Używa go jak bicza, żeby ogłuszać ławice ryb — jeden z niewielu rekinów polujących w ten sposób.",
+          "en": "A thresher shark's tail can be half its total body length. It uses it like a whip to stun shoals of fish — one of very few sharks that hunt this way."
+        },
+        {
+          "pl": "W 2013 roku tajfun Haiyan zniszczył większość zabudowy wyspy. Odbudowa opierała się głównie na turystyce nurkowej — to ona utrzymuje dziś Malapascua.",
+          "en": "In 2013 Typhoon Haiyan destroyed most of the island's buildings. The rebuild was funded largely by dive tourism — which still sustains Malapascua today."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Kalanggaman",
+        "en": "Kalanggaman"
+      },
+      "items": [
+        {
+          "pl": "Kalanggaman należy administracyjnie nie do Cebu, lecz do Palompon na wyspie Leyte — dlatego rejs trwa dłużej, niż sugeruje mapa.",
+          "en": "Kalanggaman belongs not to Cebu but to Palompon on Leyte — which is why the boat ride takes longer than the map suggests."
+        },
+        {
+          "pl": "Cała wyspa ma zaledwie 753 metry długości, a łachy piasku wychodzące z obu końców zmieniają kształt zależnie od pory roku i pływów. Żadne dwa zdjęcia z tej wyspy nie są takie same.",
+          "en": "The whole island is just 753 metres long, and the sandbars reaching out from each end change shape with the season and the tides. Your photo will never look like anyone else's."
+        },
+        {
+          "pl": "Władze Palompon wpuszczają na wyspę maksymalnie 500 osób dziennie. Limit obowiązuje od otwarcia wyspy dla turystów w 2012 roku i ma chronić plażę oraz rafę.",
+          "en": "Palompon's local government allows a maximum of 500 visitors a day. The cap has been in place since the island opened to tourism in 2012, to protect the beach and the reef."
+        },
+        {
+          "pl": "Wyspa jest niezamieszkana — nie ma tu sklepów ani hoteli, tylko podstawowe wiaty i toalety. Wszystko, co potrzebne, przypływa łodzią razem z turystami.",
+          "en": "The island is uninhabited — no shops or hotels, just basic shelters and toilets. Everything needed arrives by boat with the visitors."
+        },
+        {
+          "pl": "Nazwa pochodzi prawdopodobnie od cebuańskiego „langgam” — ptak. Wyspa była kiedyś miejscem gniazdowania ptactwa morskiego.",
+          "en": "The name likely comes from the Cebuano \"langgam\" — bird. The island was once a seabird nesting site."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Moalboal",
+        "en": "Moalboal"
+      },
+      "items": [
+        {
+          "pl": "Sardine Run w Moalboal trwa cały rok. Słynny południowoafrykański odpowiednik trwa kilka tygodni — tutejsza ławica po prostu tu mieszka, kilkanaście metrów od plaży.",
+          "en": "Moalboal's sardine run lasts all year. South Africa's famous version lasts weeks — here the shoal simply lives offshore, metres from the beach."
+        },
+        {
+          "pl": "Panagsama Beach prawie nie ma piasku — zabrał go tajfun w latach 80. i już nie wrócił. Miejscowi nazywają tę okolicę Basdiot, czyli „mało piasku”. Dlatego do wody wchodzi się ze schodków i pomostów.",
+          "en": "Panagsama Beach has almost no sand — a typhoon took it in the 1980s and it never came back. Locals call the area Basdiot, meaning \"little sand\". That is why you enter the water from steps and jetties."
+        },
+        {
+          "pl": "Wyspa Pescador jest tak mała, że można ją opłynąć — a mimo to opada pionową ścianą w głębinę. W jej wnętrzu kryje się „Katedra”, komin skalny z wpadającymi promieniami światła; najlepiej wygląda przed dziesiątą rano.",
+          "en": "Pescador Island is small enough to swim around — yet it drops away as a sheer wall. Inside is \"The Cathedral\", a rock chimney with shafts of light falling through; it looks best before ten in the morning."
+        },
+        {
+          "pl": "Żółwie z rafy przy Panagsama są tu stałymi mieszkańcami. Nurkowie rozpoznają je po wzorach na skorupie — każdy jest inny, jak odcisk palca.",
+          "en": "The turtles on the Panagsama reef are permanent residents. Divers recognise individuals by their shell patterns — each is unique, like a fingerprint."
+        },
+        {
+          "pl": "Kawasan Falls to trzy kaskady połączone szmaragdowymi rozlewiskami. Turkusowy kolor pochodzi od rozpuszczonego wapienia, nie od glonów.",
+          "en": "Kawasan Falls is three cascades linked by emerald pools. The turquoise comes from dissolved limestone, not algae."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Dauin i Negros",
+        "en": "Dauin and Negros"
+      },
+      "items": [
+        {
+          "pl": "Czarny piasek w Dauin pochodzi z wulkanu Talinis. Ten wulkaniczny muł jest powodem, dla którego makro-nurkowanie jest tu tak bogate — na jałowym z pozoru dnie żyje najwięcej dziwactw.",
+          "en": "Dauin's black sand comes from Mount Talinis. That volcanic silt is exactly why the macro life is so rich — the apparently barren bottom hides the strangest creatures."
+        },
+        {
+          "pl": "Wyspa Apo należy administracyjnie do gminy Dauin. Rezerwat powstał tam w 1982 roku — po trzech latach rozmów dr Angel Alcala z Uniwersytetu Silliman przekonał zaledwie 14 rodzin, żeby przestały łowić na odcinku 450 metrów brzegu. Po trzech latach efekty były tak widoczne, że dołączyła cała wyspa. Dziś to podręcznikowy przykład na całym świecie.",
+          "en": "Apo Island belongs to the municipality of Dauin. Its sanctuary began in 1982 — after three years of talks, Dr Angel Alcala of Silliman University persuaded just 14 families to stop fishing along 450 metres of shore. Within three years the results were so obvious that the whole island joined in. It is now a textbook case worldwide."
+        },
+        {
+          "pl": "Dumaguete nazywane jest „miastem łagodnych ludzi”. Nazwa miasta pochodzi jednak od słowa „dagit” — porywać, bo dawniej najeżdżali je piraci.",
+          "en": "Dumaguete is called the \"City of Gentle People\". The name itself, though, comes from \"dagit\" — to snatch — because pirates once raided it."
+        },
+        {
+          "pl": "Uniwersytet Silliman w Dumaguete założono w 1901 roku. To jedna z najstarszych uczelni założonych przez Amerykanów w Azji, a miasto do dziś ma studencki charakter.",
+          "en": "Silliman University in Dumaguete was founded in 1901 — one of the oldest American-founded universities in Asia. The town still feels like a student city."
+        },
+        {
+          "pl": "Czerwony kolor skał przy Pulangbato Falls bierze się z siarki i minerałów wynoszonych przez wody geotermalne. „Pulang bato” znaczy dosłownie „czerwony kamień”.",
+          "en": "The red rock at Pulangbato Falls comes from sulphur and minerals carried up by geothermal water. \"Pulang bato\" means literally \"red stone\"."
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Manila",
+        "en": "Manila"
+      },
+      "items": [
+        {
+          "pl": "Nazwę Manila najczęściej wywodzi się od „may nilad” — miejsca, gdzie rośnie nilad, krzew z brzegów zatoki. Część językoznawców to kwestionuje, ale wersja przyjęła się na dobre.",
+          "en": "The name Manila is most often traced to \"may nilad\" — the place where nilad grows, a shrub from the bay shore. Some linguists dispute it, but the story has stuck."
+        },
+        {
+          "pl": "Intramuros to otoczone murami hiszpańskie miasto z 1571 roku. Przez trzysta lat to właśnie ono było „Manilą” — wszystko poza murami było przedmieściem.",
+          "en": "Intramuros is the walled Spanish city from 1571. For three hundred years it *was* Manila — everything outside the walls was suburb."
+        },
+        {
+          "pl": "Binondo to najstarsza chińska dzielnica na świecie, założona w 1594 roku dla chińskich katolików.",
+          "en": "Binondo is the oldest Chinatown in the world, established in 1594 for Chinese Catholics."
+        },
+        {
+          "pl": "Jeepneye powstały z amerykańskich jeepów pozostawionych po II wojnie światowej. Filipińczycy wydłużyli je, dodali ławki i pomalowali — i tak zostało.",
+          "en": "Jeepneys began as American jeeps left behind after the Second World War. Filipinos stretched them, added benches and painted them — and it stuck."
+        },
+        {
+          "pl": "José Rizal, filipiński bohater narodowy, został rozstrzelany w 1896 roku w miejscu, gdzie dziś jest park jego imienia — kilka minut od Intramuros.",
+          "en": "José Rizal, the national hero, was executed in 1896 on the ground that is now the park named after him — minutes from Intramuros."
+        }
+      ]
+    }
+  ],
+  "gear": [
+    {
+      "group": {
+        "pl": "Sprzęt nurkowy",
+        "en": "Dive gear"
+      },
+      "items": [
+        {
+          "id": "g01",
+          "label": {
+            "pl": "Komputer nurkowy + zapasowa bateria",
+            "en": "Dive computer + spare battery"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego. Wymiana baterii na wyspach bywa niemożliwa.",
+            "en": "Hand luggage. Getting a battery changed on the islands may be impossible."
+          }
+        },
+        {
+          "id": "g02",
+          "label": {
+            "pl": "Maska (i zapasowa, jeśli masz)",
+            "en": "Mask (and a spare if you have one)"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego. Pęknięta maska pierwszego dnia potrafi zepsuć tydzień.",
+            "en": "Hand luggage. A cracked mask on day one can ruin the week."
+          }
+        },
+        {
+          "id": "g03",
+          "label": {
+            "pl": "Automat i oktopus po przeglądzie",
+            "en": "Regulator and octopus, serviced"
+          },
+          "note": {
+            "pl": "Zrób przegląd przed wyjazdem, nie po przylocie.",
+            "en": "Service it before you leave, not after you land."
+          }
+        },
+        {
+          "id": "g04",
+          "label": {
+            "pl": "Pianka 3 mm lub shorty",
+            "en": "3 mm wetsuit or shorty"
+          },
+          "note": {
+            "pl": "Woda ma zwykle 28–29°C. Gruba pianka jest zbędna, ale przy 4 nurkowaniach dziennie robi się chłodno.",
+            "en": "Water is usually 28–29°C. A thick suit is overkill, but four dives a day gets cold."
+          }
+        },
+        {
+          "id": "g05",
+          "label": {
+            "pl": "Bojka SMB i kołowrotek",
+            "en": "SMB and reel"
+          },
+          "note": {
+            "pl": "Obowiązkowa na Kimud i Monad Shoal — wynurzenia bywają w prądzie, z dala od łodzi.",
+            "en": "Required at Kimud and Monad Shoal — ascents can be in current, away from the boat."
+          }
+        },
+        {
+          "id": "g06",
+          "label": {
+            "pl": "Latarka + zapasowe baterie",
+            "en": "Torch + spare batteries"
+          },
+          "note": {
+            "pl": "Wyjazd na kosogony jest przed świtem. Przyda się też przy makro.",
+            "en": "The thresher trip leaves before dawn. Also useful for macro."
+          }
+        },
+        {
+          "id": "g07",
+          "label": {
+            "pl": "Płetwy i buty",
+            "en": "Fins and boots"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g08",
+          "label": {
+            "pl": "Nóż lub nożyczki nurkowe",
+            "en": "Dive knife or shears"
+          },
+          "note": {
+            "pl": "Do bagażu rejestrowanego, nigdy do podręcznego.",
+            "en": "Checked bag only, never hand luggage."
+          }
+        },
+        {
+          "id": "g09",
+          "label": {
+            "pl": "Logbook i karta certyfikacyjna",
+            "en": "Logbook and certification card"
+          },
+          "note": {
+            "pl": "Baza poprosi pierwszego dnia.",
+            "en": "The dive shop will ask on day one."
+          }
+        },
+        {
+          "id": "g10",
+          "label": {
+            "pl": "Zestaw naprawczy: o-ringi, opaski, taśma",
+            "en": "Save-a-dive kit: o-rings, straps, tape"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Dokumenty i pieniądze",
+        "en": "Documents and money"
+      },
+      "items": [
+        {
+          "id": "g11",
+          "label": {
+            "pl": "Paszport ważny 6 mies. po 20.11.2026",
+            "en": "Passport valid 6 months past 20 Nov 2026"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g12",
+          "label": {
+            "pl": "Ubezpieczenie nurkowe",
+            "en": "Diving insurance"
+          },
+          "note": {
+            "pl": "Obowiązkowe i kupowane osobno — polisa w pakiecie go nie obejmuje.",
+            "en": "Mandatory and bought separately — the package policy does not cover it."
+          }
+        },
+        {
+          "id": "g13",
+          "label": {
+            "pl": "Gotówka w pesos na opłaty rezerwatowe",
+            "en": "Cash in pesos for sanctuary fees"
+          },
+          "note": {
+            "pl": "Płatne gotówką w bazie po ostatnim nurkowaniu w każdej lokalizacji. Na Malapascua nie ma bankomatu.",
+            "en": "Paid in cash at the dive shop after your last dive at each location. There is no ATM on Malapascua."
+          }
+        },
+        {
+          "id": "g14",
+          "label": {
+            "pl": "Karta płatnicza z włączonymi płatnościami zagranicznymi",
+            "en": "Card enabled for use abroad"
+          },
+          "note": {
+            "pl": "Poza dużymi miastami wiele miejsc przyjmuje wyłącznie gotówkę.",
+            "en": "Outside the cities many places take cash only."
+          }
+        },
+        {
+          "id": "g15",
+          "label": {
+            "pl": "Kopie dokumentów w telefonie",
+            "en": "Document copies on your phone"
+          },
+          "note": {
+            "pl": "Zakładka Dokumenty w tej aplikacji — działa bez zasięgu.",
+            "en": "The Docs tab in this app — it works with no signal."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Apteczka",
+        "en": "Medical"
+      },
+      "items": [
+        {
+          "id": "g16",
+          "label": {
+            "pl": "Leki własne w oryginalnych opakowaniach",
+            "en": "Your own medication in original packaging"
+          },
+          "note": {
+            "pl": "Weź zapas na cały wyjazd plus kilka dni. Podręczny, nie rejestrowany.",
+            "en": "Bring enough for the whole trip plus a few days. Hand luggage, not checked."
+          }
+        },
+        {
+          "id": "g17",
+          "label": {
+            "pl": "Krople do uszu / środek na zapalenie ucha zewnętrznego",
+            "en": "Ear drops for swimmer's ear"
+          },
+          "note": {
+            "pl": "Cztery nurkowania dziennie przez tydzień to najprostszy sposób, żeby je złapać.",
+            "en": "Four dives a day for a week is the classic way to get it."
+          }
+        },
+        {
+          "id": "g18",
+          "label": {
+            "pl": "Filtr przeciwsłoneczny bezpieczny dla raf",
+            "en": "Reef-safe sunscreen"
+          },
+          "note": {
+            "pl": "Bez oksybenzonu i oktinoksatu. Na Filipinach trudno o dobry — kup w Polsce.",
+            "en": "No oxybenzone or octinoxate. Hard to find a good one locally — buy at home."
+          }
+        },
+        {
+          "id": "g19",
+          "label": {
+            "pl": "Środek na komary",
+            "en": "Insect repellent"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g20",
+          "label": {
+            "pl": "Coś na żołądek i elektrolity",
+            "en": "Something for your stomach, plus electrolytes"
+          },
+          "note": {
+            "pl": "Zmiana wody i jedzenia plus upał.",
+            "en": "Different water and food, plus the heat."
+          }
+        },
+        {
+          "id": "g21",
+          "label": {
+            "pl": "Plastry, dezynfekcja, opatrunki",
+            "en": "Plasters, antiseptic, dressings"
+          },
+          "note": {
+            "pl": "Otarcia od koralowców goją się wolno w tropikach.",
+            "en": "Coral grazes heal slowly in the tropics."
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Elektronika",
+        "en": "Electronics"
+      },
+      "items": [
+        {
+          "id": "g22",
+          "label": {
+            "pl": "Powerbank",
+            "en": "Power bank"
+          },
+          "note": {
+            "pl": "Do bagażu podręcznego — w rejestrowanym jest zabroniony. Na wyspach zdarzają się przerwy w prądzie.",
+            "en": "Hand luggage only — banned in checked bags. Power cuts happen on the islands."
+          }
+        },
+        {
+          "id": "g23",
+          "label": {
+            "pl": "Przejściówka — gniazda typu A i B, 220 V",
+            "en": "Adapter — type A and B sockets, 220 V"
+          },
+          "note": {
+            "pl": "Filipiny mają wtyczki amerykańskie, ale napięcie europejskie.",
+            "en": "The Philippines uses American plugs but European voltage."
+          }
+        },
+        {
+          "id": "g24",
+          "label": {
+            "pl": "Wodoszczelny worek na telefon i dokumenty",
+            "en": "Dry bag for phone and documents"
+          },
+          "note": {
+            "pl": "Na bangce nie ma suchego miejsca.",
+            "en": "There is no dry place on a bangka."
+          }
+        },
+        {
+          "id": "g25",
+          "label": {
+            "pl": "Aparat podwodny, karty pamięci, ładowarki",
+            "en": "Underwater camera, memory cards, chargers"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        }
+      ]
+    },
+    {
+      "group": {
+        "pl": "Odzież i reszta",
+        "en": "Clothing and the rest"
+      },
+      "items": [
+        {
+          "id": "g26",
+          "label": {
+            "pl": "Lekkie ubrania na 28–32°C",
+            "en": "Light clothing for 28–32°C"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g27",
+          "label": {
+            "pl": "Coś z długim rękawem",
+            "en": "Something long-sleeved"
+          },
+          "note": {
+            "pl": "Na słońce na łodzi, komary wieczorem i klimatyzację w samolocie.",
+            "en": "For sun on the boat, mosquitoes in the evening and aircon on the plane."
+          }
+        },
+        {
+          "id": "g28",
+          "label": {
+            "pl": "Klapki i wygodne buty",
+            "en": "Flip-flops and comfortable shoes"
+          },
+          "note": {
+            "pl": "Buty przydadzą się przy Kawasan i Pulangbato Falls.",
+            "en": "Shoes are useful at Kawasan and Pulangbato Falls."
+          }
+        },
+        {
+          "id": "g29",
+          "label": {
+            "pl": "Ręcznik szybkoschnący",
+            "en": "Quick-dry towel"
+          },
+          "note": {
+            "pl": "",
+            "en": ""
+          }
+        },
+        {
+          "id": "g30",
+          "label": {
+            "pl": "Coś ciepłego na powrót",
+            "en": "Something warm for the journey home"
+          },
+          "note": {
+            "pl": "W Warszawie 20 listopada będzie około 0–5°C.",
+            "en": "Warsaw on 20 November will be around 0–5°C."
+          }
+        }
+      ]
+    }
+  ],
+  "nextTrips": [
+    {
+      "name": {
+        "pl": "Palawan — Nowy Rok pod wodą",
+        "en": "Palawan — New Year underwater"
+      },
+      "when": {
+        "pl": "grudzień 2026 – styczeń 2027",
+        "en": "December 2026 – January 2027"
+      },
+      "note": {
+        "pl": "Wraki Coron i rafy El Nido, Sylwester na Filipinach.",
+        "en": "The Coron wrecks and El Nido reefs, New Year in the Philippines."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Bali",
+        "en": "Bali"
+      },
+      "when": {
+        "pl": "marzec 2027",
+        "en": "March 2027"
+      },
+      "note": {
+        "pl": "Ubud, Gili i Tulamben — nurkowanie i ląd w jednym.",
+        "en": "Ubud, Gili and Tulamben — diving and land in one trip."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Japonia",
+        "en": "Japan"
+      },
+      "when": {
+        "pl": "kwiecień 2027",
+        "en": "April 2027"
+      },
+      "note": {
+        "pl": "Tokio, Hakone, Kioto i Osaka — wyprawa lądowa.",
+        "en": "Tokyo, Hakone, Kyoto and Osaka — a land expedition."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Egipt — obóz rodzinny",
+        "en": "Egypt — family camp"
+      },
+      "when": {
+        "pl": "lipiec 2027",
+        "en": "July 2027"
+      },
+      "note": {
+        "pl": "Morze Czerwone dla całej rodziny — nurkowanie i wypoczynek.",
+        "en": "The Red Sea for the whole family — diving and time off."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Wyspy Świętego Tomasza i Książęca",
+        "en": "São Tomé & Príncipe"
+      },
+      "when": {
+        "pl": "wrzesień 2027",
+        "en": "September 2027"
+      },
+      "note": {
+        "pl": "Jak Malediwy czterdzieści lat temu — obie wyspy.",
+        "en": "What the Maldives looked like forty years ago — both islands."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Wyspy Salomona",
+        "en": "Solomon Islands"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Wraki, rafy i miejsca, gdzie nurkuje niewielu.",
+        "en": "Wrecks, reefs and places very few divers reach."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Chuuk Lagoon — Ghost Fleet",
+        "en": "Chuuk Lagoon — the Ghost Fleet"
+      },
+      "when": {
+        "pl": "listopad 2027",
+        "en": "November 2027"
+      },
+      "note": {
+        "pl": "Zatopiona flota z II wojny światowej, przez Seul i Guam.",
+        "en": "The sunken Second World War fleet, via Seoul and Guam."
+      },
+      "url": ""
+    },
+    {
+      "name": {
+        "pl": "Raja Ampat — liveaboard",
+        "en": "Raja Ampat — liveaboard"
+      },
+      "when": {
+        "pl": "grudzień 2027",
+        "en": "December 2027"
+      },
+      "note": {
+        "pl": "Najbogatsze rafy świata, tydzień na łodzi.",
+        "en": "The richest reefs on earth, a week aboard."
+      },
+      "url": ""
+    }
+  ],
+  "documents": {
+    "wallet": [
+      {
+        "id": "passport",
+        "label": {
+          "pl": "Paszport",
+          "en": "Passport"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Strona ze zdjęciem. Ważny minimum 6 miesięcy po 20.11.2026.",
+          "en": "Photo page. Valid at least 6 months beyond 20 Nov 2026."
+        }
+      },
+      {
+        "id": "visa",
+        "label": {
+          "pl": "Wiza / zgoda na wjazd",
+          "en": "Visa or entry permit"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Polski paszport — 30 dni bez wizy na Filipinach. Zwykle nic tu nie trzeba.",
+          "en": "Polish passports get 30 days visa-free. Usually nothing needed here."
+        }
+      },
+      {
+        "id": "id",
+        "label": {
+          "pl": "Dowód osobisty lub prawo jazdy",
+          "en": "National ID or driving licence"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Przydatny jako zapasowy dokument, gdy paszport zostaje w sejfie.",
+          "en": "Useful backup ID when your passport is in the resort safe."
+        }
+      },
+      {
+        "id": "insurance",
+        "label": {
+          "pl": "Polisa ubezpieczeniowa",
+          "en": "Travel insurance policy"
+        },
+        "required": true,
+        "hint": {
+          "pl": "W pakiecie: KL 40 000 EUR, NNW 2500 EUR, bagaż 250 EUR, OC 25 000 EUR, sprzęt sportowy 500 EUR. Ubezpieczenie nurkowe wykupujesz osobno — jest obowiązkowe.",
+          "en": "Included: medical EUR 40,000, accident EUR 2,500, baggage EUR 250, liability EUR 25,000, sports equipment EUR 500. Diving insurance is bought separately and is mandatory."
+        }
+      },
+      {
+        "id": "divecert",
+        "label": {
+          "pl": "Karta certyfikacyjna nurka",
+          "en": "Dive certification card"
+        },
+        "required": true,
+        "hint": {
+          "pl": "Obie strony. Baza nurkowa poprosi o nią pierwszego dnia.",
+          "en": "Both sides. The dive shop will ask for it on day one."
+        }
+      },
+      {
+        "id": "divelog",
+        "label": {
+          "pl": "Ostatnie wpisy w logbooku",
+          "en": "Recent logbook entries"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Przy głębszych nurkowaniach mogą zapytać o świeże doświadczenie.",
+          "en": "For the deeper dives they may ask about recent experience."
+        }
+      },
+      {
+        "id": "contract",
+        "label": {
+          "pl": "Umowa",
+          "en": "Contract"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Twój egzemplarz — ten sam PDF, który przyszedł mailem po podpisaniu. Dodaj go tutaj, żeby mieć wgląd bez zasięgu. Zostaje na tym telefonie.",
+          "en": "Your own copy — the same PDF we emailed you when you signed. Add it here to have it offline. It stays on this phone."
+        }
+      },
+      {
+        "id": "other",
+        "label": {
+          "pl": "Coś jeszcze",
+          "en": "Anything else"
+        },
+        "required": false,
+        "hint": {
+          "pl": "Recepty, zapasowe zdjęcie do paszportu, kontakt alarmowy.",
+          "en": "Prescriptions, a spare passport photo, emergency contact card."
+        }
+      }
+    ],
+    "issued": [
+      {
+        "id": "govpl",
+        "label": {
+          "pl": "Informacje MSZ o Filipinach",
+          "en": "Polish MFA advice — Philippines"
+        },
+        "note": {
+          "pl": "Oficjalne zalecenia dla podróżnych — gov.pl",
+          "en": "Official travel advice — gov.pl"
+        },
+        "url": "https://www.gov.pl/web/dyplomacja/filipiny"
+      }
+    ]
+  }
+}

@@ -663,6 +663,7 @@ textarea{
 .hero .stage{position:relative;height:340px}
 .hero figure{position:absolute;inset:0;margin:0;opacity:0;animation:heroFade 24s infinite}
 .hero figure img{width:100%;height:100%;object-fit:cover;display:block}
+.hero figure.still{animation:none;opacity:1}
 @keyframes heroFade{0%{opacity:0}4%{opacity:1}30%{opacity:1}37%{opacity:0}100%{opacity:0}}
 .hero .stage::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,
   rgba(7,26,36,.5) 0%,rgba(7,26,36,.1) 30%,rgba(7,26,36,.62) 66%,rgba(7,26,36,.96) 100%)}
@@ -1023,7 +1024,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v74 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v75 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1921,6 +1922,17 @@ function viewNow(){
   const HERO = (trip.meta.hero && trip.meta.hero.length)
     ? trip.meta.hero
     : ["img/hero-thresher.jpg","img/hero-bangkas.jpg","img/hero-valley.jpg"];
+  /* During the trip the hero is today's own photo — the same one its day
+     card carries — so the screen changes as the days pass. Before and
+     after, the trip's rotating heroes. */
+  let still = null;
+  if(p.phase === "during" && p.dayIndex >= 0){
+    const i = p.dayIndex, day = trip.days[i];
+    const src = dayPhotos(trip.days)[i];
+    const fb = Array.isArray(day.photo) ? day.photo[1]
+             : src === HOME_PHOTO ? dayPhotos(trip.days, false)[i] : "";
+    if(src) still = {src, fb};
+  }
   let kicker = "", dayCard = "";
   if(p.phase === "before"){
     kicker = `${U().departsIn} · ${fmtDate(trip.meta.start)}`;
@@ -1949,7 +1961,9 @@ function viewNow(){
        </div>`;
   const head = greet + `<div class="hero">
     <div class="stage">
-      ${HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
+      ${still
+        ? `<figure class="still"><img src="${esc(still.src)}" alt=""${still.fb ? ` onerror="this.onerror=null;this.src='${esc(still.fb)}'"` : ""}></figure>`
+        : HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
       <div class="txt">
         <div class="hk">${kicker}</div>
         <h1>${esc(tr(trip.meta.name))}</h1>

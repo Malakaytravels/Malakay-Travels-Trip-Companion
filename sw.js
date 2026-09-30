@@ -1,13 +1,13 @@
 /* ============================================================
    MALAKAY TRAVELS — service worker
-   Cache key: malakay-v89
+   Cache key: malakay-v90
 
    Bump CACHE on every deploy. If you do not, phones that already
    have the app saved will keep serving the old version from disk
    and never see the change.
    ============================================================ */
 
-const CACHE = "malakay-v89";
+const CACHE = "malakay-v90";
 
 /* The shell: everything that is the same for every trip. */
 const SHELL = [

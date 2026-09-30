@@ -399,6 +399,15 @@ body.deckmode{display:flow-root}
 .pass .pkind{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;line-height:1.2}
 .pass .pkind svg{vertical-align:-3px;margin-right:6px}
 .bppeek .bpnote{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.passwrap,.pass{min-width:0;max-width:100%}
+.ppeek.two .pl{overflow:hidden}
+.hcount{display:flex;align-items:flex-end;gap:8px;margin-bottom:8px;color:#fff;text-shadow:0 2px 14px rgba(7,26,36,.6)}
+.hcount b{font-family:'JetBrains Mono';font-weight:700;font-size:clamp(40px,12vw,58px);line-height:.9;color:var(--gold)}
+.hcount span{display:flex;flex-direction:column;font-family:'Outfit';font-weight:700;font-size:18px;line-height:1.05;padding-bottom:3px}
+.hcount small{font-family:'JetBrains Mono';font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#A6EFEB;margin-top:3px}
+@media (max-height:740px){ .hcount b{font-size:36px} .hcount{margin-bottom:4px} }
+.ppeek.stayp{flex:none;-webkit-mask-image:none;mask-image:none;padding:10px 12px 8px}
+.ppeek.stayp .sdates{margin:0}
 .ppeek.two{flex:none;-webkit-mask-image:none;mask-image:none;padding:10px 14px 8px;display:flex;flex-direction:column;gap:8px}
 .ppeek.two .pl{display:flex;align-items:center;gap:10px;min-width:0;height:30px}
 .ppeek.two .ico{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
@@ -1261,7 +1270,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v89 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v90 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2345,9 +2354,10 @@ function viewNow(){
              : src === HOME_PHOTO ? dayPhotos(trip.days, false)[i] : "";
     if(src) still = {src, fb};
   }
-  let kicker = "", dayCard = "";
+  let kicker = "", dayCard = "", countdown = "";
   if(p.phase === "before"){
-    kicker = `${U().departsIn} · ${fmtDate(trip.meta.start)}`;
+    kicker = `${lang === "pl" ? "Wylot" : "Departure"} · ${fmtDate(trip.meta.start)}`;
+    countdown = `<div class="hcount"><b>${p.days}</b><span>${p.days === 1 ? (lang === "pl" ? "dzień" : "day") : U().days_}<small>${lang === "pl" ? "do wylotu" : "to go"}</small></span></div>`;
   } else if(p.phase === "after"){
     kicker = U().complete;
   } else {
@@ -2380,6 +2390,7 @@ function viewNow(){
         ${wx ? `<button class="hchip" data-wx="1" aria-label="${lang === "pl" ? "Pogoda na 5 dni" : "5-day weather"}"><span class="wi">${(WMO[wx.current.weather_code] || ["·"])[0]}</span>${Math.round(wx.current.temperature_2m)}°C</button>` : ""}
       </div>
       <div class="txt">
+        ${countdown}
         <div class="hk">${kicker}</div>
         <h1>${esc(tr(trip.meta.name))}</h1>
       </div>
@@ -2980,7 +2991,7 @@ function viewStay(){
           <h3 class="pttl">${esc(h.name)}</h3>
           <div class="pmeta"><span class="co">${fmtCoord(h.coords)}</span></div>
         </div>
-        <div class="ppeek">${dates}${facts}</div>
+        <div class="ppeek stayp">${dates}</div>
         ${moreSheet(esc(tr(h.place)), esc(h.name), dates + facts + notes + actions)}
       </article>`};
   });

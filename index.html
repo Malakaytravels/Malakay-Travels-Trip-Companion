@@ -391,6 +391,22 @@ body.deckmode{display:flow-root}
   text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 10px;text-shadow:0 1px 6px rgba(4,32,43,.9)}
 .pmeta .co{text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.72)}
 
+/* DAYS: every card shows the same two one-line items, so the photo gets
+   the same room on every day; the rest is under More info. */
+/* Top pills stay on one line; a long kind label shortens with "…". */
+.pass .prow{flex-wrap:nowrap;gap:8px}
+.pass .pday{flex:none;white-space:nowrap}
+.pass .pkind{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;line-height:1.2}
+.pass .pkind svg{vertical-align:-3px;margin-right:6px}
+.bppeek .bpnote{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ppeek.two{flex:none;-webkit-mask-image:none;mask-image:none;padding:10px 14px 8px;display:flex;flex-direction:column;gap:8px}
+.ppeek.two .pl{display:flex;align-items:center;gap:10px;min-width:0;height:30px}
+.ppeek.two .ico{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.28);background:rgba(4,32,43,.35);color:#fff}
+.ppeek.two .ico svg{width:15px;height:15px}
+.ppeek.two .t{flex:none;font-family:'JetBrains Mono';font-size:11.5px;font-weight:600;color:#A6EFEB}
+.ppeek.two .x{flex:1;min-width:0;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pass.k-day .pttl{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 /* A preview of the plan on frosted glass — as much as fits, fading out —
    and the More info button that opens everything. */
 .ppeek{flex:0 1 auto;min-height:0;overflow:hidden;margin:0 10px;padding:2px 14px 6px;border-radius:20px 20px 0 0;
@@ -501,6 +517,8 @@ body.deckmode{display:flow-root}
 .bpgrid .wide{grid-column:1/-1}
 .bpgrid dt,.bpnote .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .bpgrid dd{margin:3px 0 0;font-size:15px;font-weight:500;color:var(--ink);line-height:1.35}
+.bpgrid .wide dd{color:#0A1A21;font-weight:600;opacity:1}
+.bpgrid .wide dt{color:#3D4F57}
 .bpgrid dd.mono{font-size:17px;font-weight:600;letter-spacing:.04em}
 .bpnote{font-size:14.5px;line-height:1.5;color:#2E424A}
 .psheet .bpnote{margin-top:12px}
@@ -1221,7 +1239,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v87 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v88 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2727,7 +2745,9 @@ function viewDays(){
           <h3 class="pttl">${esc(tr(d.title))}</h3>
           <div class="pmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</div>
         </div>
-        <div class="ppeek">${tonight}${sched}</div>
+        <div class="ppeek two">${(d.items||[]).slice(0, 2).map(([tm,x], k)=>`<div class="pl">
+          <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
+          ${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}<span class="x">${esc(tr(x))}</span></div>`).join("")}</div>
         ${moreSheet(date, esc(tr(d.title)), full)}
       </article>`};
   });
@@ -2841,7 +2861,7 @@ function viewFlights(){
       ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${d0 ? "#" + d0 : ""}">${U().checkStatus}</a>
          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
-            href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
+            href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.dep.iata + " airport terminal " + (tr(f.dep.city) || ""))}">${svg("map", 1.9)}${lang === "pl" ? "Mapa terminalu" : "Terminal map"}</a>`
       : `<span class="pill">${U().numberPending}</span>`;
     const details = `<dl class="bpgrid">
         <div><dt>${K.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>

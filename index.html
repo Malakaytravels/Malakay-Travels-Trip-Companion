@@ -939,7 +939,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v68 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v69 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2040,8 +2040,9 @@ function dayPhotoCands(d, home){
   const pool = PHOTO_RULES.filter(r => r.water === dive && (!r.where || r.where.test(all)));
   const specific = pool.filter(r => !r.head);
   const stays = trip.hotels.filter(h => !h.optional && h.photo);
-  const hotel = stays.find(h => daysBetween(h.checkIn, d.date) >= 0 && daysBetween(d.date, h.checkOut) > 0)
-             || stays.find(h => h.checkOut === d.date);
+  /* Only tonight's hotel: on a check-out day the card shows the destination,
+     not the hotel the group is leaving. */
+  const hotel = stays.find(h => daysBetween(h.checkIn, d.date) >= 0 && daysBetween(d.date, h.checkOut) > 0);
   const t1 = specific.filter(r => r.rx.test(head)).flatMap(r => r.img);
   const t2 = [...specific.filter(r => r.rx.test(body)).flatMap(r => r.img),
               ...pool.filter(r => r.head && r.rx.test(head)).flatMap(r => r.img)];

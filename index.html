@@ -784,6 +784,28 @@ button.hchip .wi{font-size:16px;line-height:1}
   border:1px solid var(--slate-2);border-radius:8px;padding:9px 10px;background:#fff;width:100%;
 }
 .dvform input:focus,.dvform textarea:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.seg{display:flex;flex:none;border:1px solid var(--slate-2);border-radius:99px;overflow:hidden;background:var(--slate)}
+.seg button{min-height:40px;padding:0 14px;border:0;background:none;color:var(--muted);font-family:'JetBrains Mono';font-weight:600;font-size:12px;letter-spacing:.06em}
+.seg button[aria-selected="true"]{background:var(--reef-dim);color:#fff}
+.fxrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;gap:8px;margin-top:14px}
+.fxrow label{display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
+.fxrow label span{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.fxrow input{width:100%;min-width:0;height:56px;border:1px solid var(--slate-2);border-radius:14px;background:#fff;padding:0 34px 0 12px;
+  font-family:'JetBrains Mono';font-size:22px;font-weight:600;color:var(--ink)}
+.fxrow input:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.fxrow label b{position:absolute;right:12px;bottom:16px;font-family:'JetBrains Mono';color:var(--muted);font-size:15px}
+.fxeq{font-family:'JetBrains Mono';font-size:20px;color:var(--muted);padding-bottom:16px}
+.fxtips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.fxtips button{min-height:62px;border-radius:14px;border:1px solid rgba(184,144,28,.45);background:#FBF4E3;color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.fxtips b{font-family:'JetBrains Mono';font-size:17px}
+.fxtips span{font-size:12px;color:#6A5314}
+.phgrp{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--reef-dim);margin:16px 0 4px}
+.phlist{list-style:none;margin:0;padding:0}
+.phlist li{padding:10px 0;border-top:1px solid var(--slate-2);display:flex;flex-direction:column;gap:2px}
+.phlist li b{font-family:'Outfit';font-weight:700;font-size:18px;color:#08151B;line-height:1.25}
+.phlist li span{font-size:14.5px;color:#2E3F46}
+.fxcard .hd,.phcard .hd{align-items:center}
 .dvsec{grid-column:1/-1;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .chips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--slate-2);background:var(--slate);color:var(--ink);
@@ -1271,7 +1293,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v92 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v93 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -3574,6 +3596,130 @@ function refreshOfflineUI(){
   else render();
 }
 
+/* ---------------- Useful tools: currency and phrases ----------------
+   The converter works offline: it carries a built-in rate, and whenever
+   the phone is online it quietly fetches today's rate and keeps it, so the
+   last known rate travels with the client onto the boat. */
+const FX_DEFAULT = {   // units of local currency per 1 PLN / 1 EUR (approximate)
+  PHP: {PLN: 15.5, EUR: 66, sym: "₱", tips: [100, 500, 1000]},
+  JPY: {PLN: 38.5, EUR: 165, sym: "¥", tips: []}
+};
+let fxBase = "PLN", fxLocal = "", fxForeign = "", fxLast = "local", phraseLang = "ceb";
+function fxCode(){
+  const c = String(tr(trip.meta.currency) || "").slice(0, 3).toUpperCase();
+  return FX_DEFAULT[c] ? c : null;
+}
+function fxRates(){
+  const code = fxCode(); if(!code) return null;
+  const d = FX_DEFAULT[code];
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem("malakay:fx:" + code) || "null"); }catch(e){}
+  return {code, sym: d.sym, tips: d.tips,
+    PLN: saved?.PLN || d.PLN, EUR: saved?.EUR || d.EUR, at: saved?.at || 0};
+}
+let fxTried = false;
+async function fxRefresh(){
+  const code = fxCode(); if(!code || fxTried || !navigator.onLine) return;
+  fxTried = true;
+  try{
+    const r = await fetch("https://open.er-api.com/v6/latest/" + code, {cache: "no-store"});
+    const j = await r.json();
+    if(j && j.rates && j.rates.PLN && j.rates.EUR){
+      const v = {PLN: 1 / j.rates.PLN, EUR: 1 / j.rates.EUR, at: Date.now()};
+      try{ localStorage.setItem("malakay:fx:" + code, JSON.stringify(v)); }catch(e){}
+      const box = document.getElementById("fxcard"); if(box) box.outerHTML = fxCardHTML();
+    }
+  }catch(e){}
+}
+const fmtNum = (n, d) => (isFinite(n) ? n : 0).toLocaleString(lang === "pl" ? "pl-PL" : "en-GB", {maximumFractionDigits: d, minimumFractionDigits: 0});
+function fxCardHTML(){
+  const R = fxRates(); if(!R) return "";
+  const pl = lang === "pl";
+  const rate = R[fxBase];
+  const when = R.at ? new Date(R.at).toLocaleDateString(pl ? "pl-PL" : "en-GB", {day:"numeric", month:"short"}) : "";
+  return `<div class="card fxcard" id="fxcard">
+    <div class="hd"><div><div class="eyebrow">${pl ? "Przelicznik walut" : "Currency converter"}</div>
+      <h3 style="margin-top:4px">${fxBase} ⇄ ${R.code}</h3></div>
+      <div class="seg" role="tablist">${["PLN","EUR"].map(c => `<button role="tab" data-fxbase="${c}" aria-selected="${fxBase===c}">${c}</button>`).join("")}</div></div>
+    <div class="fxrow">
+      <label><span>${R.code}</span><input id="fx-local" type="number" inputmode="decimal" placeholder="0" value="${esc(fxLocal)}"><b>${R.sym}</b></label>
+      <span class="fxeq">=</span>
+      <label><span>${fxBase}</span><input id="fx-foreign" type="number" inputmode="decimal" placeholder="0" value="${esc(fxForeign)}"><b>${fxBase === "EUR" ? "€" : "zł"}</b></label>
+    </div>
+    ${R.tips.length ? `<div class="eyebrow" style="margin-top:14px">${pl ? "Napiwki" : "Tips"}</div>
+      <div class="fxtips">${R.tips.map(t => `<button data-fxtip="${t}"><b>${R.sym}${fmtNum(t,0)}</b><span>≈ ${fmtNum(t / rate, 2)} ${fxBase === "EUR" ? "€" : "zł"}</span></button>`).join("")}</div>` : ""}
+    <p class="note" style="margin:12px 0 0">1 ${fxBase} = ${fmtNum(rate, 2)} ${R.sym} · ${R.at
+      ? (pl ? `kurs z ${when}, działa bez internetu` : `rate from ${when}, works offline`)
+      : (pl ? "kurs orientacyjny — odświeży się, gdy będzie internet" : "approximate rate — updates when you are online")}</p>
+  </div>`;
+}
+function fxSync(from){
+  const R = fxRates(); if(!R) return;
+  const rate = R[fxBase], L = document.getElementById("fx-local"), F = document.getElementById("fx-foreign");
+  if(!L || !F) return;
+  fxLast = from;
+  if(from === "local"){ fxLocal = L.value; const v = parseFloat(L.value); fxForeign = F.value = isFinite(v) ? (v / rate).toFixed(2) : ""; }
+  else { fxForeign = F.value; const v = parseFloat(F.value); fxLocal = L.value = isFinite(v) ? String(Math.round(v * rate)) : ""; }
+}
+/* Phrases: [local, Polish, English]. Checked against common usage in
+   Cebu, Bohol, Negros (Bisaya/Cebuano) and Manila, Palawan (Tagalog). */
+const PHRASES = {
+  ceb: {name: "Bisaya", where: {pl: "Cebu, Malapascua, Moalboal, Bohol, Negros", en: "Cebu, Malapascua, Moalboal, Bohol, Negros"}, groups: [
+    [{pl:"Na co dzień", en:"Everyday"}, [
+      ["Maayong buntag", "Dzień dobry (rano)", "Good morning"],
+      ["Maayong gabii", "Dobry wieczór", "Good evening"],
+      ["Salamat / Daghang salamat", "Dziękuję / Bardzo dziękuję", "Thank you / Thank you very much"],
+      ["Oo / Dili", "Tak / Nie", "Yes / No"],
+      ["Pila?", "Ile kosztuje?", "How much?"],
+      ["Asa ang CR?", "Gdzie jest toaleta?", "Where is the toilet?"],
+      ["Lami kaayo!", "Bardzo smaczne!", "Very tasty!"],
+      ["Dili halang", "Nie ostre", "Not spicy"],
+      ["Pasayloa ko", "Przepraszam", "Sorry / excuse me"],
+      ["Tagay!", "Na zdrowie!", "Cheers!"]]],
+    [{pl:"Nurkowanie i łódź", en:"Diving and the boat"}, [
+      ["Nindot kaayo!", "Pięknie!", "Beautiful!"],
+      ["Hinay-hinay lang", "Powoli, spokojnie", "Slowly, take it easy"],
+      ["Kadiyot lang", "Chwileczkę", "Just a moment"],
+      ["Gibugnaw ko", "Zimno mi", "I am cold"],
+      ["Nalipong ko", "Kręci mi się w głowie / mam chorobę morską", "I feel dizzy / seasick"],
+      ["Tabang!", "Pomocy!", "Help!"],
+      ["Isda · Pawikan · Tuki", "Ryba · Żółw · Rekin wielorybi", "Fish · Turtle · Whale shark"],
+      ["Baroto · Dagat", "Łódź · Morze", "Boat · Sea"]]]]},
+  tl: {name: "Tagalog", where: {pl: "Manila, Palawan, Coron, El Nido", en: "Manila, Palawan, Coron, El Nido"}, groups: [
+    [{pl:"Na co dzień", en:"Everyday"}, [
+      ["Magandang umaga po", "Dzień dobry (rano)", "Good morning"],
+      ["Magandang gabi po", "Dobry wieczór", "Good evening"],
+      ["Salamat po / Maraming salamat po", "Dziękuję / Bardzo dziękuję", "Thank you / Thank you very much"],
+      ["Oo / Hindi", "Tak / Nie", "Yes / No"],
+      ["Magkano po?", "Ile kosztuje?", "How much?"],
+      ["Nasaan ang CR?", "Gdzie jest toaleta?", "Where is the toilet?"],
+      ["Ang sarap!", "Pyszne!", "Delicious!"],
+      ["Hindi maanghang", "Nie ostre", "Not spicy"],
+      ["Paumanhin po", "Przepraszam", "Sorry / excuse me"],
+      ["Tagay!", "Na zdrowie!", "Cheers!"]]],
+    [{pl:"Nurkowanie i łódź", en:"Diving and the boat"}, [
+      ["Ang ganda!", "Pięknie!", "Beautiful!"],
+      ["Dahan-dahan lang", "Powoli, spokojnie", "Slowly, take it easy"],
+      ["Sandali lang po", "Chwileczkę", "Just a moment"],
+      ["Nilalamig ako", "Zimno mi", "I am cold"],
+      ["Nahihilo ako", "Kręci mi się w głowie / mam chorobę morską", "I feel dizzy / seasick"],
+      ["Tulong!", "Pomocy!", "Help!"],
+      ["Isda · Pawikan · Butanding", "Ryba · Żółw · Rekin wielorybi", "Fish · Turtle · Whale shark"],
+      ["Bangka · Dagat", "Łódź · Morze", "Boat · Sea"]]]]}
+};
+function phraseCardHTML(){
+  if(fxCode() !== "PHP") return "";
+  const pl = lang === "pl", P = PHRASES[phraseLang];
+  return `<div class="card phcard" id="phcard">
+    <div class="hd"><div><div class="eyebrow">${pl ? "Lokalne zwroty" : "Local phrases"}</div>
+      <h3 style="margin-top:4px">${P.name}</h3></div>
+      <div class="seg" role="tablist">${Object.entries(PHRASES).map(([k,v]) => `<button role="tab" data-phlang="${k}" aria-selected="${phraseLang===k}">${v.name}</button>`).join("")}</div></div>
+    <p class="note" style="margin:6px 0 0">${pl ? "Gdzie" : "Where"}: ${esc(tr(P.where))}${phraseLang === "tl" ? (pl ? ". „Po” na końcu dodaje grzeczności." : ". Adding “po” makes it polite.") : ""}</p>
+    ${P.groups.map(([g, rows]) => `<div class="phgrp">${esc(tr(g))}</div>
+      <ul class="phlist">${rows.map(r => `<li><b lang="${phraseLang}">${esc(r[0])}</b><span>${esc(pl ? r[1] : r[2])}</span></li>`).join("")}</ul>`).join("")}
+  </div>`;
+}
+
 function viewGuide(){
   const m = trip.meta;
   const groups = trip.facts || [];
@@ -3618,6 +3764,9 @@ function viewGuide(){
       ${divePkgV ? `<dt>${T.divePkg}</dt><dd>${esc(divePkgV)}</dd>` : ""}
     </dl>
   </div>
+
+  ${fxCode() ? `<div class="sectitle"><h2>${lang === "pl" ? "Przydatne narzędzia" : "Useful tools"}</h2><div class="rule"></div></div>
+  ${fxCardHTML()}${phraseCardHTML()}` : ""}
 
   <div class="sectitle"><h2>${U().funFacts}</h2><div class="rule"></div>
       <span class="pill">${groups.reduce((a,g)=>a+g.items.length,0)}</span></div>
@@ -3682,6 +3831,7 @@ function render(){
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);
   if(tab === "log") paintDivePhotos();
+  if(tab === "guide") fxRefresh();
   if(DECK_TABS.includes(tab)) initDecks();
   if(tab === "now" || tab === "days"){
     const w = weatherPlace();
@@ -4261,9 +4411,12 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-mapsave],[data-nexttrips],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-fxbase],[data-fxtip],[data-phlang],[data-nsclose],[data-mapsave],[data-nexttrips],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
+  if(t.dataset.fxbase){ fxBase = t.dataset.fxbase; if(fxLast === "local") fxForeign = ""; else fxLocal = ""; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync(fxLast); return; }
+  if(t.dataset.fxtip){ fxLocal = t.dataset.fxtip; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync("local"); return; }
+  if(t.dataset.phlang){ phraseLang = t.dataset.phlang; const b = document.getElementById("phcard"); if(b) b.outerHTML = phraseCardHTML(); return; }
   if(t.dataset.wx){ wxSheet(); return; }
   if(t.dataset.mapsave){ nowSheet(U().off.mapTitle, "", mapCardHTML()); return; }
   if(t.dataset.nexttrips){ nowSheet(U().whatsNext, U().whatsNextNote, nextTripsHTML()); return; }
@@ -4385,6 +4538,8 @@ document.addEventListener("click", async (e) => {
 });
 
 document.addEventListener("input", (e) => {
+  if(e.target && e.target.id === "fx-local"){ fxSync("local"); return; }
+  if(e.target && e.target.id === "fx-foreign"){ fxSync("foreign"); return; }
   if(!e.target || e.target.id !== "pp-q") return;
   ppQuery = e.target.value;
   const box = document.getElementById("pp-results");

@@ -197,6 +197,8 @@ body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 /* ---------- transfers: the car button in the top bar ----------
    Who meets you, where and when, the car, and a name sign to hold up. */
 .tripcode{white-space:nowrap}
+/* On narrow phones the logo and PL/EN need the whole row. */
+@media (max-width:400px){.tripcode{display:none}}
 .brandrow:has(.carbtn:not(.hidden)) .tripcode{display:none}
 .carbtn{width:40px;height:40px;border-radius:12px;border:1px solid #24485A;background:#0E2A35;color:var(--gold);
   display:flex;align-items:center;justify-content:center;flex:none}
@@ -446,7 +448,8 @@ body.deckmode{display:flow-root}
 .bpair .mono{font-weight:600;color:#A6EFEB;font-size:20px}
 .bplabel{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
 .bproute{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-top:16px}
-.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(40px,min(14vw,7.2svh),60px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute > div{min-width:0}
+.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(34px,min(12.6vw,7.2svh),58px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
 .bproute .iata.stn{font-size:clamp(18px,min(5.6vw,3.2svh),25px);line-height:1.1;letter-spacing:-.01em;hyphens:none}
 .bproute .city{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.3}
 .bproute .r{text-align:right}
@@ -545,7 +548,7 @@ button.hchip .wi{font-size:16px;line-height:1}
 .tile .gv{font-size:14.5px}
 .tile .gchip{position:absolute;top:7px;right:8px;padding:2px 7px;font-size:9px}
 .tile:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
-/* Colour code: red = not ready / not safe, amber = in progress, green = done / clear. */
+/* Colour code: red = not done / not safe, green = done / clear. */
 .tile.t-red{background:#FBECE8;border-color:rgba(196,85,58,.5)}
 .tile.t-red .gico{background:var(--coral);color:#fff}
 .tile.t-red .gv{color:#A6402A}
@@ -641,7 +644,8 @@ button.hchip .wi{font-size:16px;line-height:1}
 .dashed{border-top:1px dashed var(--slate-2);position:relative;width:100%;min-width:40px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:14px;margin-top:14px}
 .kv dt{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
-.kv dd{margin:0;font-weight:500;color:var(--ink)}
+.kv dd{margin:0;font-weight:500;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.kv dt{min-width:0;max-width:42vw;overflow-wrap:break-word}
 
 /* ---------- weather ---------- */
 .wxrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px;margin-top:10px}
@@ -691,13 +695,15 @@ button.hchip .wi{font-size:16px;line-height:1}
 .dvnum span{display:block;font-size:14px}
 .nextcard{background:linear-gradient(180deg,var(--deep),var(--abyss));color:var(--slate);border-radius:var(--r);padding:18px;margin:14px 0;box-shadow:var(--shadow-2)}
 .nextcard .eyebrow{color:var(--reef)}
-.nexttrip{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
+/* Date on its own line above the name, so a long "December – January"
+   never squeezes the trip name into a narrow column. */
+.nexttrip{display:flex;flex-direction:column-reverse;gap:4px;padding:12px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
 .nexttrip .nm,.nexttrip .nn{display:block}
 .nexttrip .arr{color:#5E7C89;margin-left:2px}
 .nexttrip:last-child{border-bottom:none}
 .nexttrip .nm{font-family:'Outfit';font-weight:700;font-size:14.5px}
 .nexttrip .nn{font-size:12.5px;color:#9DB3BD;margin-top:2px}
-.nexttrip .nw{font-family:'JetBrains Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;white-space:nowrap;text-align:right}
+.nexttrip .nw{font-family:'JetBrains Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;text-align:left}
 .gear{
   width:100%;background:none;border:none;border-bottom:1px solid var(--slate-2);
   padding:11px 0;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;text-align:left;
@@ -1151,7 +1157,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v80 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v81 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2254,14 +2260,14 @@ function viewNow(){
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
   if(req.length) rows.push({icon:"doc", k:U().yourDocs, v:`${ready} / ${req.length} ${U().ready}`, goto:"docs",
-    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : "", t: ready===req.length ? "green" : "amber"});
+    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : "", t: ready===req.length ? "green" : "red"});
   const gc = gearCount();
   if(p.phase === "before" && gc.total) rows.push({icon:"bag", k:U().packList, v:`${gc.done} / ${gc.total} ${U().packReady}`, goto:"gear",
-    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : "", t: gc.done===gc.total ? "green" : "amber"});
+    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : "", t: gc.done===gc.total ? "green" : "red"});
   if(p.phase !== "after"){
     const oc = offlineChecklist();
     rows.push({id:"offline", icon:"save", k:U().off.eyebrow, v:`${oc.n} / ${oc.total} ${U().ready}`, open: nowOpen === "offline", more: oc.html,
-      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : "", t: oc.n===oc.total ? "green" : "amber"});
+      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : "", t: oc.n===oc.total ? "green" : "red"});
   }
   const nf = noFlyState();
   /* Red until the minimum time after the last dive has passed, then green.

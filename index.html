@@ -79,6 +79,19 @@ a{color:var(--reef-dim)}
 body{padding-top:var(--topH,150px)}
 /* Nothing in the app should bounce or pan sideways under the two bars. */
 html{overscroll-behavior:none}
+html.locked,html.locked body{overflow:hidden;height:100%;overscroll-behavior:none}
+html.locked body{padding-bottom:0}
+/* Short phones: the greeting steps aside and the tiles tighten so NOW
+   still fits one screen. */
+@media (max-height:740px){
+  .now .greetrow{display:none}
+  body .now .hero h1{font-size:clamp(19px,5.4vw,24px);margin-top:4px}
+  body .now .hero .txt{bottom:10px}
+  body .today .tt > span:last-child{display:none}
+  .tile{min-height:58px;padding-top:7px;padding-bottom:7px}
+  .today{padding-top:6px;padding-bottom:6px}
+  .now .hero .facts{display:none}
+}
 /* The page scrolls up and down only. Cards swipe sideways inside their own
    track; the page itself never pans left or right (iPhone included). */
 html{overflow-x:hidden}
@@ -108,7 +121,9 @@ body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));backgro
 .cell .v{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
 .cell .v small{font-size:11px;color:#8FA9B4;font-weight:400;margin-left:2px}
 .cell.wide{grid-column:auto}
-.cell .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cell .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.cell.wide .v small{font-size:10px}
+@media (max-width:400px){ .cell:not(.wide) .v small{display:none} }
 .cell.wide .v{font-size:16px;color:var(--slate);letter-spacing:-.01em}
 
 .langsw{display:flex;border:1px solid #24485A;border-radius:99px;overflow:hidden}
@@ -527,9 +542,9 @@ body.deckmode{display:flow-root}
 body.slimtop .instrument .readout{display:none}
 /* The page is exactly one screen: the photo takes all the height the rest
    does not need, so there is no empty band under the tiles. */
-.now{display:flex;flex-direction:column;min-height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
-.now .hero{flex:1 1 auto;display:flex;flex-direction:column}
-.now .hero .stage{flex:1 1 auto;height:auto!important;min-height:clamp(150px,25svh,240px)}
+.now{display:flex;flex-direction:column;height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
+.now .hero{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+.now .hero .stage{flex:1 1 0;height:auto!important;min-height:150px}
 .now .tiles{margin-bottom:6px}
 .now .greetrow{margin:2px 0 10px}
 .now .greetrow .gr-txt{font-size:clamp(19px,5.2vw,24px)}
@@ -697,6 +712,17 @@ button.hchip .wi{font-size:16px;line-height:1}
 .mk.air{background:var(--abyss)}
 .mk.town{background:var(--coral)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.maptab{display:flex;flex-direction:column;height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
+.maptab .sectitle{flex:none;margin-top:4px;padding-top:0}
+.mapbox{position:relative;flex:1 1 auto;min-height:220px;margin-top:10px}
+.mapbox #map{position:absolute;inset:0;height:auto;margin:0}
+.mapchip{position:absolute;z-index:500;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;
+  border-radius:99px;border:1px solid rgba(4,32,43,.12);background:rgba(251,248,243,.95);color:var(--ink);
+  font-family:'Outfit';font-weight:600;font-size:13.5px;box-shadow:var(--shadow-1)}
+.mapchip svg{width:17px;height:17px;color:var(--reef-dim)}
+.mapchip.ok{color:var(--teal-ink)}
+.mapbox .legend{position:absolute;z-index:500;left:10px;bottom:22px;margin:0;gap:10px;padding:7px 12px;border-radius:14px;
+  background:rgba(251,248,243,.94);box-shadow:var(--shadow-1);max-width:calc(100% - 20px);color:var(--ink)}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
 
 /* ---------- misc ---------- */
@@ -1195,7 +1221,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v85 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v87 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2372,7 +2398,15 @@ function viewNow(){
               : `${pl ? "od" : "from"} ${String(nf.clearAt.getDate()).padStart(2,"0")}.${String(nf.clearAt.getMonth()+1).padStart(2,"0")} ${String(nf.clearAt.getHours()).padStart(2,"0")}:${String(nf.clearAt.getMinutes()).padStart(2,"0")}`,
       t: ok ? "green" : "red", open: nowOpen === "nofly", more: noFlyCard()});
   }
-  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}${o.t ? " t-" + o.t : ""}" ${o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
+  // Near the end of the trip and afterwards: a tile that opens what is coming next.
+  const nearEnd = p.phase === "after" ||
+    (p.phase === "during" && daysBetween(todayISO(), trip.meta.end) <= 2) ||
+    setupUnlocked;   // staff preview — clients only see it at the end of the trip
+  if(nearEnd && (trip.nextTrips||[]).length && trip.meta.website){
+    rows.push({icon:"route", k:U().whatsNext, v:`${trip.nextTrips.length} ${lang === "pl" ? "wypraw" : "trips"}`,
+      sub:esc(tr(trip.nextTrips[0].name)), nexttrips:true});
+  }
+  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}${o.t ? " t-" + o.t : ""}" ${o.nexttrips ? `data-nexttrips="1"` : o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
       <span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
       ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
       <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
@@ -2382,15 +2416,13 @@ function viewNow(){
   const open = rows.find(o => o.open);
   if(open) setTimeout(() => nowSheet(open.k, "", open.more), 0);
 
-  // Near the end of the trip and afterwards, show what is coming next.
-  const nearEnd = p.phase === "after" ||
-    (p.phase === "during" && daysBetween(todayISO(), trip.meta.end) <= 2) ||
-    setupUnlocked;   // staff preview — clients only see it at the end of the trip
-  const site = trip.meta.website || "";
-  const mail = trip.meta.email || "";
-  const nextBlock = (nearEnd && (trip.nextTrips||[]).length && site) ? `<div class="nextcard">
-    <div class="eyebrow">${U().whatsNext}${(setupUnlocked && !(p.phase==="after" || (p.phase==="during" && daysBetween(todayISO(), trip.meta.end) <= 2))) ? ` · ${U().staffPreview}` : ""}</div>
-    <p style="margin:6px 0 10px;font-size:13.5px;color:#C6D3D8">${U().whatsNextNote}</p>
+  return `<div class="now">${head}${glance}</div>`;
+}
+
+/* What is coming next — opened from its NOW tile. */
+function nextTripsHTML(){
+  const site = trip.meta.website || "", mail = trip.meta.email || "";
+  return `<div class="nextcard" style="margin:0">
     ${trip.nextTrips.map(t=>`<a class="nexttrip" href="${esc(t.url || site)}" target="_blank" rel="noopener">
       <span><span class="nm">${esc(tr(t.name))}</span><span class="nn">${esc(tr(t.note))}</span></span>
       <span class="nw">${esc(tr(t.when))} <span class="arr">→</span></span></a>`).join("")}
@@ -2400,9 +2432,7 @@ function viewNow(){
       <a class="btn ghost" style="color:var(--slate);border-color:#2A4C5C;text-decoration:none"
          href="mailto:${esc(mail)}?subject=${encodeURIComponent(U().nextSubject)}">${U().nextEmail}</a>
     </div>
-  </div>` : "";
-
-  return `<div class="now">${head}${glance}${nextBlock}</div>`;
+  </div>`;
 }
 
 /* A dive day either lists its dives, or is flagged diveDay in the trip
@@ -2601,6 +2631,20 @@ function dayPhotos(days, home){
    whatever does not fit opens in a "More info" sheet inside the card, so
    the page itself never scrolls on these tabs. */
 const DECK_TABS = ["days","flights","stay"];
+const LOCK_TABS = ["now","days","flights","stay","map"];
+/* On locked tabs a vertical drag outside a scrolling sheet does nothing —
+   this is what stops the iPhone from nudging the page up and down. */
+(function(){
+  let x0 = 0, y0 = 0;
+  const FREE = ".psh-body,.nsheet,.moresheet,.tcard,.drv,.leaflet-container,.namegate,.modal";
+  document.addEventListener("touchstart", e => { const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; }, {passive:true});
+  document.addEventListener("touchmove", e => {
+    if(!document.documentElement.classList.contains("locked") || e.touches.length > 1) return;
+    if(e.target.closest && e.target.closest(FREE)) return;
+    const t = e.touches[0];
+    if(Math.abs(t.clientY - y0) > Math.abs(t.clientX - x0)) e.preventDefault();
+  }, {passive:false});
+})();
 function deckWords(){
   return lang === "pl"
     ? {of:"z", prev:"Poprzednia karta", next:"Następna karta", swipe:"Przesuń w bok", more:"Więcej", less:"Zamknij"}
@@ -2709,7 +2753,7 @@ function sizeDecks(){
   const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
   const bar = document.querySelector(".tabsbar");
   const barSpace = bar ? vh - bar.getBoundingClientRect().top : 0;   // the floating bar and its margin
-  document.documentElement.style.setProperty("--deckH", Math.max(380, Math.floor(vh - top - 10 - barSpace)) + "px");
+  document.documentElement.style.setProperty("--deckH", Math.max(300, Math.floor(vh - top - 12 - barSpace)) + "px");
 }
 function initDecks(){
   sizeDecks();
@@ -3400,17 +3444,23 @@ function viewGear(){
     <p class="note">${U().packPrivacy}</p>`;
 }
 
+/* MAP fills the screen between the bars; the legend and the offline-map
+   button sit on the map, and the offline options open in a sheet. */
 function viewMap(){
-  return `<div class="sectitle"><h2>${U().tripMap}</h2><div class="rule"></div>
+  const m = mapSaveRow();
+  return `<div class="maptab">
+    <div class="sectitle"><h2>${U().tripMap}</h2><div class="rule"></div>
       <button class="btn ghost" id="showall">${U().wholeRoute}</button></div>
-    <p class="note" style="margin:8px 0 0">${U().mapNote}</p>
-    <div id="map"></div>
-    <div class="legend">
-      <span><i style="background:var(--reef-dim)"></i>${U().legDive}</span>
-      <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
-      <span><i style="background:var(--coral)"></i>${U().legTown}</span>
-      <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
-    </div>` + mapCardHTML();
+    <div class="mapbox">
+      <div id="map"></div>
+      <button class="mapchip ${m.done ? "ok" : ""}" data-mapsave="1">${svg("save", 2)}${lang === "pl" ? "Mapa offline" : "Offline map"}${m.done ? " ✓" : ""}</button>
+      <div class="legend">
+        <span><i style="background:var(--reef-dim)"></i>${U().legDive}</span>
+        <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
+        <span><i style="background:var(--coral)"></i>${U().legTown}</span>
+        <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
+      </div>
+    </div></div>`;
 }
 
 function mapCardHTML(){
@@ -3425,10 +3475,15 @@ function mapCardHTML(){
       </div>`;
 }
 
-/* Re-render without redrawing the map: on MAP only its card changes. */
+/* Re-render without redrawing the map: on MAP only its card and chip change. */
 function refreshOfflineUI(){
   const card = document.getElementById("mapsavecard");
-  if(tab === "map" && card) card.outerHTML = mapCardHTML();
+  if(tab === "map"){
+    if(card) card.outerHTML = mapCardHTML();
+    const chip = document.querySelector(".mapchip"), m = mapSaveRow();
+    if(chip){ chip.classList.toggle("ok", !!m.done); chip.innerHTML = `${svg("save", 2)}${lang === "pl" ? "Mapa offline" : "Offline map"}${m.done ? " ✓" : ""}`; }
+  }
+  else if(card) card.outerHTML = mapCardHTML();
   else render();
 }
 
@@ -3528,7 +3583,13 @@ function render(){
   if(tab === "setup" && !setupUnlocked) tab = "now";
   /* Card tabs get the whole screen under the tabs: the status band steps aside. */
   document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
-  document.body.classList.toggle("slimtop", DECK_TABS.includes(tab) || tab === "now");
+  document.body.classList.toggle("slimtop", DECK_TABS.includes(tab) || tab === "now" || tab === "map");
+  /* NOW, DAYS, FLIGHTS, STAY and MAP are one fixed screen: the page does
+     not move up or down. Cards still swipe, the map still pans and sheets
+     still scroll inside themselves. */
+  const lock = LOCK_TABS.includes(tab);
+  document.documentElement.classList.toggle("locked", lock);
+  if(lock) window.scrollTo(0, 0);
   sizeTop();
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
@@ -4113,10 +4174,12 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-mapsave],[data-nexttrips],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.wx){ wxSheet(); return; }
+  if(t.dataset.mapsave){ nowSheet(U().off.mapTitle, "", mapCardHTML()); return; }
+  if(t.dataset.nexttrips){ nowSheet(U().whatsNext, U().whatsNextNote, nextTripsHTML()); return; }
   if(t.dataset.time){ timeSheet(); return; }
   if(t.dataset.nsclose){ if(t.id !== "nsbg" || e.target === t) closeNowSheet(); return; }
   if(t.dataset.transfer){ transferCard(); return; }

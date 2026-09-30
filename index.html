@@ -316,6 +316,7 @@ body.deckmode{padding-bottom:0}
 .bplabel{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
 .bproute{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-top:16px}
 .bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(40px,min(14vw,7.2svh),60px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute .iata.stn{font-size:clamp(18px,min(5.6vw,3.2svh),25px);line-height:1.1;letter-spacing:-.01em;hyphens:none}
 .bproute .city{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.3}
 .bproute .r{text-align:right}
 .bpmid{display:flex;align-items:center;gap:6px;color:#A6EFEB;padding-bottom:26px}
@@ -888,7 +889,7 @@ textarea{
    ============================================================ */
 
 const DEFAULT_TRIP = "cebu-nov26";
-const KNOWN_TRIPS  = ["cebu-nov26", "palawan-nov26", "japan-dec26", "palawan-nye"];
+const KNOWN_TRIPS  = ["cebu-nov26", "palawan-nov26", "japan-dec26", "palawan-nye", "japan-nov26"];
 
 /* Reads a parameter from either the fragment or the query string.
    The fragment wins; the query string is the fallback for old links. */
@@ -939,7 +940,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v70 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v71 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -980,7 +981,7 @@ function tr(v){
 
 const UI = {
   pl:{
-    tabs:{now:"Teraz",days:"Dni",flights:"Loty",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
+    tabs:{now:"Teraz",days:"Dni",flights:"Loty",travel:"Przejazdy",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
     passport:{
       title:"Paszport", sub:"Twoje wyprawy z Malakay",
       hero:"Paszport wypraw", since:"od",
@@ -1028,7 +1029,7 @@ const UI = {
     condHint:"Otwórz tę zakładkę raz z zasięgiem, a prognoza będzie dostępna offline.",
     forecastFrom:"Prognoza Open-Meteo dla", seaNote:"Dane morskie bywają puste tuż przy brzegu.",
     lastReading:"Ostatni odczyt", willRefresh:"Odświeży się samo, gdy złapiesz zasięg.",
-    nextFlight:"Najbliższy lot", open:"Otwórz", tonight:"Dziś w nocy", firstBase:"Pierwsza baza",
+    nextFlight:"Najbliższy lot", nextJourney:"Najbliższy przejazd", open:"Otwórz", tonight:"Dziś w nocy", firstBase:"Pierwsza baza",
     yourDocs:"Twoje dokumenty", ready:"gotowe", docsAllSaved:"Wszystko zapisane na tym telefonie.",
     docsAdd:"Dodaj je przed wylotem — działają bez zasięgu.", add:"Dodaj",
     installTitle:"Dodaj do ekranu głównego", installBody:"żeby otwierało się jak aplikacja i działało bez zasięgu.",
@@ -1116,7 +1117,7 @@ const UI = {
     goodMorning:"Dzień dobry", goodEvening:"Dobry wieczór", welcomeBack:"Witaj ponownie"
   },
   en:{
-    tabs:{now:"Now",days:"Days",flights:"Flights",stay:"Stay",docs:"Docs",gear:"Packing",log:"Log",passport:"Passport",map:"Map",guide:"Guide",setup:"Setup"},
+    tabs:{now:"Now",days:"Days",flights:"Flights",travel:"Travel",stay:"Stay",docs:"Docs",gear:"Packing",log:"Log",passport:"Passport",map:"Map",guide:"Guide",setup:"Setup"},
     passport:{
       title:"Passport", sub:"Your trips with Malakay",
       hero:"Trip passport", since:"since",
@@ -1164,7 +1165,7 @@ const UI = {
     condHint:"Open this tab once with signal and the forecast will be here next time you are offline.",
     forecastFrom:"Forecast from Open-Meteo for", seaNote:"Sea data can be blank very close to shore.",
     lastReading:"Last reading", willRefresh:"It will refresh by itself when you have signal.",
-    nextFlight:"Next flight", open:"Open", tonight:"Tonight", firstBase:"First base",
+    nextFlight:"Next flight", nextJourney:"Next journey", open:"Open", tonight:"Tonight", firstBase:"First base",
     yourDocs:"Your documents", ready:"ready", docsAllSaved:"Everything saved to this phone.",
     docsAdd:"Add them before you fly — they work offline.", add:"Add",
     installTitle:"Add this to your home screen", installBody:"so it opens like an app and works without signal.",
@@ -1593,6 +1594,11 @@ function nextFlight(){
   const now = new Date();
   return trip.flights.find(f => parseLocal(f.dep.time) > now) || null;
 }
+/* A leg may be a train or a helicopter ("mode" in the trip file). When a
+   trip has any, the FLIGHTS tab becomes TRAVEL and holds every ticket. */
+function hasGround(){
+  return (trip.flights || []).some(f => f.mode && f.mode !== "flight");
+}
 
 /* ---------------- weather ---------------- */
 let wxAt = null;          // when the current reading was taken
@@ -1766,7 +1772,7 @@ const TABS = () => setupUnlocked ? [...CLIENT_TABS, "setup"] : CLIENT_TABS;
 
 function renderTabs(){
   $("#tabs").innerHTML = TABS().map(k =>
-    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${U().tabs[k]}</button>`).join("");
+    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${k === "flights" && hasGround() ? U().tabs.travel : U().tabs[k]}</button>`).join("");
 }
 
 function viewNow(){
@@ -1813,7 +1819,9 @@ function viewNow(){
     <div class="facts">
       <div class="hfact"><span class="fk">${U().tripLength}</span><span class="fv">${trip.days.length}<small>${U().days_}</small></span></div>
       <div class="hfact"><span class="fk">${U().bases}</span><span class="fv">${bases}</span></div>
-      <div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>
+      ${trip.meta.dives != null || trip.days.some(isDiveDay)
+        ? `<div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>`
+        : `<div class="hfact"><span class="fk">${lang === "pl" ? "Noce" : "Nights"}</span><span class="fv">${trip.hotels.filter(h => !h.optional).reduce((n, h) => n + daysBetween(h.checkIn, h.checkOut), 0)}</span></div>`}
     </div>
   </div>` + dayCard;
 
@@ -1862,7 +1870,8 @@ function viewNow(){
     return `<li><button class="grow" data-goto="${o.goto}">${inner}</button></li>`;
   };
   const rows = [];
-  if(f) rows.push({icon:"travel", k:U().nextFlight, v:`${esc(f.number)} · ${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
+  if(f) rows.push({icon:f.mode === "train" ? "train" : "travel", k:f.mode ? U().nextJourney : U().nextFlight,
+    v:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
     sub:`${fmtDate(f.dep.time.split(" ")[0])} · ${fmtTime(f.dep.time)}`, goto:"flights"});
   if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
@@ -1931,6 +1940,7 @@ const ICON = {
   chev:   '<path d="m6 9 6 6 6-6"/>',
   doc:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
   bag:    '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  train:  '<path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/>',
   save:   '<path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M4.4 15.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.4 8.3"/>'
 };
 const svg = (k, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -2030,7 +2040,9 @@ const HOME_PHOTO = "img/day-warsaw.jpg";
 const isHomecoming = d => d === trip.days[trip.days.length - 1] && d.coords
   && Math.abs(d.coords[0] - 52.17) < 0.3 && Math.abs(d.coords[1] - 20.97) < 0.3;
 function dayPhotoCands(d, home){
-  if(d.photo) return {list:[d.photo], strength:9};
+  /* "photo" may be a list: the first file is the one we want, the rest
+     show underneath until it has been uploaded. */
+  if(d.photo) return {list:[[].concat(d.photo)[0]], strength:9};
   if(home !== false && isHomecoming(d)) return {list:[HOME_PHOTO], strength:9};
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
@@ -2145,7 +2157,8 @@ function viewDays(){
     const dt = dateOnly(d.date);
     /* Two layers for the homecoming day: Warsaw on top, the day's next photo
        underneath, shown if the Warsaw file has not been added yet. */
-    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}` : photos[i];
+    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}`
+              : Array.isArray(d.photo) ? d.photo.join("'),url('") : photos[i];
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
     const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));
@@ -2250,40 +2263,57 @@ function viewFlights(){
   const KF = lang === "pl"
     ? {flight:"Lot", deck:"Loty", pass:"Karta pokładowa", from:"Wylot", to:"Przylot", ref:"Rezerwacja", bag:"Bagaż", note:"Uwagi", date:"Data", num:"Lot"}
     : {flight:"Flight", deck:"Flights", pass:"Boarding pass", from:"Departs", to:"Arrives", ref:"Booking", bag:"Baggage", note:"Note", date:"Date", num:"Flight"};
+  const KM = lang === "pl"
+    ? {train:{flight:"Pociąg", pass:"Bilet kolejowy", from:"Odjazd", to:"Przyjazd", num:"Pociąg", bag:"Miejsca",
+              pending:"Pociąg i miejsca potwierdzimy przed wyjazdem", disc:"Godziny z planu podróży. Na miejscu zawsze sprawdź tablicę odjazdów na stacji."},
+       heli:{flight:"Helikopter", pass:"Lot helikopterem", from:"Start", to:"Lądowanie", num:"Lot", bag:"Bagaż",
+              pending:"Godzinę startu potwierdzimy przed wyjazdem", disc:"Lot zależy od pogody. Godzinę i miejsce startu potwierdza operator dzień wcześniej."},
+       deck:"Przejazdy"}
+    : {train:{flight:"Train", pass:"Train ticket", from:"Departs", to:"Arrives", num:"Train", bag:"Seats",
+              pending:"Train and seats confirmed before departure", disc:"Times from the travel plan. On the day, always check the departure board at the station."},
+       heli:{flight:"Helicopter", pass:"Helicopter flight", from:"Take-off", to:"Landing", num:"Flight", bag:"Baggage",
+              pending:"Take-off time confirmed before departure", disc:"The flight depends on the weather. The operator confirms time and take-off point the day before."},
+       deck:"Travel"};
   const now = Date.now();
   const cards = trip.flights.map((f, i) => {
+    const M = f.mode && KM[f.mode];
+    const K = M ? {...KF, ...M} : KF;
+    const icon = f.mode === "train" ? "train" : "travel";
     const hasNumber = f.number && f.number !== "—";
     const q = hasNumber ? f.number.replace(/\s/g,"") : "";
     const d0 = (f.dep.time || "").slice(0,10);
-    const actions = hasNumber
+    const actions = M
+      ? (f.status ? `<span class="pill">${esc(tr(f.status))}</span>` : hasNumber ? "" : `<span class="pill">${M.pending}</span>`)
+      : hasNumber
       ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${d0 ? "#" + d0 : ""}">${U().checkStatus}</a>
          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
       : `<span class="pill">${U().numberPending}</span>`;
     const details = `<dl class="bpgrid">
-        <div><dt>${KF.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
-        <div><dt>${KF.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
-        <div class="wide"><dt>${KF.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
+        <div><dt>${K.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${K.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
+        <div class="wide"><dt>${K.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
       </dl>`;
-    const note = f.seatNote ? `<div class="bpnote"><span class="k">${KF.note}</span>${esc(tr(f.seatNote))}</div>` : "";
-    return {label: `${KF.flight} ${i + 1}`, dot: "",
-      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${KF.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
+    const note = f.seatNote ? `<div class="bpnote"><span class="k">${K.note}</span>${esc(tr(f.seatNote))}</div>` : "";
+    const stn = f.dep.iata.length > 4 || f.arr.iata.length > 4 ? " stn" : "";
+    return {label: `${K.flight} ${i + 1}`, dot: "",
+      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${K.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
         <div class="bptop">
           <div class="prow" style="padding:0">
-            <span class="pday">${KF.pass}</span>
-            <span class="pkind">${svg("travel")}${fmtDate(d0)}</span>
+            <span class="pday">${K.pass}</span>
+            <span class="pkind">${svg(icon)}${fmtDate(d0)}</span>
           </div>
-          <div class="bpair">${esc(tr(f.airline))}<span class="mono"> ${esc(f.number)}</span></div>
+          <div class="bpair">${esc(tr(f.airline))}${hasNumber ? `<span class="mono"> ${esc(f.number)}</span>` : ""}</div>
           <div class="bplabel">${esc(tr(f.label))}</div>
           <div class="bproute">
-            <div><div class="bpk">${KF.from}</div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
-            <div class="bpmid"><span class="bpline"></span>${svg("travel", 1.6)}<span class="bpline"></span></div>
-            <div class="r"><div class="bpk">${KF.to}</div><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
+            <div><div class="bpk">${K.from}</div><div class="iata${stn}">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
+            <div class="bpmid"><span class="bpline"></span>${svg(icon, 1.6)}<span class="bpline"></span></div>
+            <div class="r"><div class="bpk">${K.to}</div><div class="iata${stn}">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
           </div>
           <div class="bptimes">
-            <div><span class="bpk">${KF.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
-            <div class="r"><span class="bpk">${KF.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
+            <div><span class="bpk">${K.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
+            <div class="r"><span class="bpk">${K.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
           </div>
         </div>
         <div class="bpperf" aria-hidden="true"></div>
@@ -2293,12 +2323,12 @@ function viewFlights(){
           <div class="row bpact">${actions}</div>
         </div>
         ${moreSheet(`${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(d0)}`, `${esc(tr(f.airline))} ${esc(f.number)}`,
-          details + note + `<p class="bpdisc">${U().flightNote}</p><div class="row">${actions}</div>`)}
+          details + note + `<p class="bpdisc">${M ? M.disc : U().flightNote}</p><div class="row">${actions}</div>`)}
       </article>`};
   });
   /* Open on the next flight that has not left yet. */
   const next = trip.flights.findIndex(f => new Date((f.dep.time || "").replace(" ", "T")).getTime() > now);
-  return deckHTML("flights", cards, next >= 0 ? next : 0, KF.deck);
+  return deckHTML("flights", cards, next >= 0 ? next : 0, hasGround() ? KM.deck : KF.deck);
 }
 
 function viewStay(){

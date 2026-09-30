@@ -98,15 +98,17 @@ body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));backgro
 .tripcode{font-family:'JetBrains Mono';font-size:11px;color:#7F98A3;letter-spacing:.08em}
 
 .readout{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1.2fr) minmax(0,1fr);
   margin-top:12px;border-top:1px solid #1B3A48;
 }
-.cell{padding:10px 0 12px;border-right:1px solid #1B3A48}
+.cell{padding:10px 8px 12px 10px;border-right:1px solid #1B3A48;min-width:0}
+.cell:first-child{padding-left:0}
 .cell:last-child{border-right:none}
-.cell .k{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.12em;color:#6E8794;text-transform:uppercase}
+.cell .k{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.08em;color:#6E8794;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cell .v{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
 .cell .v small{font-size:11px;color:#8FA9B4;font-weight:400;margin-left:2px}
-.cell.wide{grid-column:span 2}
+.cell.wide{grid-column:auto}
+.cell .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cell.wide .v{font-size:16px;color:var(--slate);letter-spacing:-.01em}
 
 .langsw{display:flex;border:1px solid #24485A;border-radius:99px;overflow:hidden}
@@ -139,6 +141,14 @@ body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));backgro
   padding:8px 2px 7px;min-height:56px;font-size:10.5px;letter-spacing:.08em;
   border:none;border-radius:17px;transition:background .18s var(--ease),color .18s var(--ease)}
 .tab svg{width:22px;height:22px}
+/* Very narrow phones: smaller labels so nothing is cut off. */
+@media (max-width:360px){
+  .tab{font-size:9px;letter-spacing:.02em}
+  .cell .v{font-size:16px}
+  .cell .k{font-size:8.5px;letter-spacing:.04em}
+  .cell{padding-left:7px;padding-right:5px}
+  .cell .v small{display:none}
+}
 .tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
 .tab[aria-selected="true"]{background:rgba(56,195,192,.14)}
 .tab[aria-selected="true"] svg{color:var(--reef)}
@@ -512,6 +522,12 @@ body.deckmode{display:flow-root}
 /* NOW fits one screen: slim top bar, a shorter hero, a grid of tiles.
    Anything longer (weather, offline checklist, no-fly) opens in a sheet. */
 body.slimtop .instrument .readout{display:none}
+/* The page is exactly one screen: the photo takes all the height the rest
+   does not need, so there is no empty band under the tiles. */
+.now{display:flex;flex-direction:column;min-height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
+.now .hero{flex:1 1 auto;display:flex;flex-direction:column}
+.now .hero .stage{flex:1 1 auto;height:auto!important;min-height:clamp(150px,25svh,240px)}
+.now .tiles{margin-bottom:6px}
 .now .greetrow{margin:2px 0 10px}
 .now .greetrow .gr-txt{font-size:clamp(19px,5.2vw,24px)}
 .now .hero{margin:0 0 12px}
@@ -681,14 +697,33 @@ button.hchip .wi{font-size:16px;line-height:1}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
 
 /* ---------- misc ---------- */
-.dvform{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px}
-.dvform label{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.dvform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 12px;margin-top:12px}
+.dvform .dvl,.dvform label{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
 .dvform label.wide{grid-column:1/-1}
 .dvform input,.dvform textarea{
   font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0;
   border:1px solid var(--slate-2);border-radius:8px;padding:9px 10px;background:#fff;width:100%;
 }
 .dvform input:focus,.dvform textarea:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.dvsec{grid-column:1/-1;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.chips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--slate-2);background:var(--slate);color:var(--ink);
+  font-family:'Outfit';font-weight:500;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--reef-dim);border-color:var(--reef-dim);color:#fff}
+.dvform .dvl{grid-column:1/-1}
+.stepper{min-width:0;display:flex;align-items:center;gap:0;border:1px solid var(--slate-2);border-radius:14px;overflow:hidden;background:#fff}
+.stepper button{flex:none;width:64px;height:52px;border:0;background:var(--slate);color:var(--reef-dim);font-size:24px;font-weight:600}
+.stepper input{flex:1;min-width:0;border:0!important;text-align:center;font-family:'JetBrains Mono'!important;font-size:22px!important;font-weight:600;padding:0!important;height:52px;background:#fff;outline:none}
+.stepper small{flex:none;padding-right:10px;font-family:'JetBrains Mono';color:var(--muted);font-size:12px}
+.dvphotos{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.dvphotos .ph{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--slate-2)}
+.dvphotos .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.dvphotos .ph button{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(4,32,43,.7);color:#fff;font-size:17px;line-height:1}
+.dvadd{aspect-ratio:1;border-radius:14px;border:2px dashed rgba(14,124,134,.45);background:var(--tint);color:var(--reef-dim);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:'Outfit';font-weight:600;font-size:12px;cursor:pointer;text-align:center;padding:4px}
+.dvadd svg{width:24px;height:24px}
+.dvthumbs{display:flex;gap:6px;margin-top:10px}
+.dvthumbs img{width:58px;height:58px;border-radius:10px;object-fit:cover;display:block;background:var(--slate-2)}
 .dvrow{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;font-size:inherit}
 .dvnum{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef-dim);text-align:right;line-height:1.15}
 .dvnum small{font-size:11px;color:var(--muted);font-weight:400;margin-left:1px}
@@ -1157,7 +1192,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v82 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v84 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1711,10 +1746,60 @@ async function saveLog(){
   /* Keep the archive in step with the log the moment a dive is written. */
   try{ if(typeof recordPassport === "function") await recordPassport(); }catch(e){}
 }
+/* Marine life to tap instead of type: [Polish, English]. */
+const SEALIFE = [["Żółw","Turtle"],["Rekin kosogon","Thresher shark"],["Ławica sardynek","Sardine run"],["Rekin rafowy","Reef shark"],
+  ["Rekin wielorybi","Whale shark"],["Manta","Manta"],["Płaszczka","Stingray"],["Ośmiornica","Octopus"],["Mątwa","Cuttlefish"],
+  ["Nagoskrzelne","Nudibranch"],["Żabnica","Frogfish"],["Konik morski","Seahorse"],["Murena","Moray eel"],["Barakuda","Barracuda"],
+  ["Karanksy","Jacks"],["Skrzydlica","Lionfish"],["Błazenek","Clownfish"],["Mandaryn","Mandarinfish"]];
+/* Keep what is typed when a chip or stepper re-draws the form. */
+function syncDive(){
+  if(!editingDive) return;
+  const f = id => { const el = document.getElementById(id); return el ? el.value.trim() : undefined; };
+  for(const [k, id] of [["date","dv-date"],["site","dv-site"],["depth","dv-depth"],["time","dv-time"],["buddy","dv-buddy"],["saw","dv-saw"],["notes","dv-notes"]]){
+    const v = f(id); if(v !== undefined) editingDive[k] = v;
+  }
+}
+/* Photos: shrunk on the phone to at most 1600 px and kept in its own
+   storage next to the log — never uploaded anywhere. */
+function shrinkPhoto(file){
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg", 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("image")); };
+    img.src = url;
+  });
+}
+async function addDivePhotos(files){
+  if(!editingDive) return;
+  syncDive();
+  editingDive.photos = editingDive.photos || [];
+  for(const file of files){
+    try{
+      const data = await shrinkPhoto(file);
+      const pid = "p" + Date.now() + Math.random().toString(36).slice(2, 6);
+      await window.storage.set(K("dvphoto:" + pid), data);
+      editingDive.photos.push(pid);
+    }catch(e){}
+  }
+  render();
+}
+async function paintDivePhotos(){
+  for(const img of document.querySelectorAll("img[data-dvimg]")){
+    if(img.src) continue;
+    try{ const r = await window.storage.get(K("dvphoto:" + img.dataset.dvimg)); if(r?.value) img.src = r.value; }catch(e){}
+  }
+}
 function newDive(){
   const d = currentDay();
   editingDive = { id:"d"+Date.now(), date: d ? d.date : todayISO(),
-                  site:"", depth:"", time:"", buddy:"", saw:"", notes:"" };
+                  site:"", depth:"", time:"", buddy:"", saw:"", notes:"", photos:[] };
   render();
 }
 function saveDive(){
@@ -1729,7 +1814,11 @@ function saveDive(){
   saveLog(); render();
 }
 function editDive(id){ editingDive = {...diveLog.find(d=>d.id===id)}; render(); }
-function deleteDive(id){ diveLog = diveLog.filter(d=>d.id!==id); saveLog(); editingDive = null; render(); }
+function deleteDive(id){
+  const d = diveLog.find(x=>x.id===id);
+  (d?.photos || []).forEach(pid => { try{ window.storage.delete(K("dvphoto:" + pid)); }catch(e){} });
+  diveLog = diveLog.filter(d=>d.id!==id); saveLog(); editingDive = null; render();
+}
 
 /* Suggest sites from the itinerary so people do not have to type. */
 function knownSites(){
@@ -2255,7 +2344,7 @@ function viewNow(){
   const rows = [];
   if(f) rows.push({icon:f.mode === "train" ? "train" : "travel", k:f.mode ? U().nextJourney : U().nextFlight,
     v:`${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
-    sub:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${f.dep.time.slice(8,10)}.${f.dep.time.slice(5,7)} ${fmtTime(f.dep.time)}`, goto:"flights"});
+    sub:`${f.dep.time.slice(8,10)}.${f.dep.time.slice(5,7)} · ${fmtTime(f.dep.time)}`, goto:"flights"});
   if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
@@ -2277,7 +2366,7 @@ function viewNow(){
     rows.push({id:"nofly", icon:"mask", k:G.nofly,
       v: ok ? (pl ? "Możesz lecieć" : "Clear to fly") : (pl ? "Jeszcze nie lataj" : "Not clear to fly"),
       sub: ok ? `${pl ? "odstęp" : "gap"} ${nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`}`
-              : `${pl ? "od" : "from"} ${fmtWhen(nf.clearAt)}`,
+              : `${pl ? "od" : "from"} ${String(nf.clearAt.getDate()).padStart(2,"0")}.${String(nf.clearAt.getMonth()+1).padStart(2,"0")} ${String(nf.clearAt.getHours()).padStart(2,"0")}:${String(nf.clearAt.getMinutes()).padStart(2,"0")}`,
       t: ok ? "green" : "red", open: nowOpen === "nofly", more: noFlyCard()});
   }
   const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}${o.t ? " t-" + o.t : ""}" ${o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
@@ -2342,6 +2431,7 @@ const ICON = {
   map:    '<path d="M14.1 5.9 9.9 4.1a2 2 0 0 0-1.6 0L3.6 6.2A1 1 0 0 0 3 7.1v12.4a1 1 0 0 0 1.4.9l4-1.8a2 2 0 0 1 1.6 0l4.2 1.8a2 2 0 0 0 1.6 0l4.6-2a1 1 0 0 0 .6-.9V5.1a1 1 0 0 0-1.4-.9l-4 1.8a2 2 0 0 1-1.6 0Z"/><path d="M15 6v14"/><path d="M9 4v14"/>',
   gear:   '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',
   car:    '<path d="M19 17h2v-4.2a2 2 0 0 0-.6-1.4L17 8H7l-3.4 3.4a2 2 0 0 0-.6 1.4V17h2"/><path d="M7 8l1.5-3.2A1.5 1.5 0 0 1 9.9 4h4.2a1.5 1.5 0 0 1 1.4.8L17 8"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M9.5 17h5"/>',
+  camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/>',
   phone:  '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',
   passport:'<rect x="4.5" y="2.5" width="15" height="19" rx="2"/><circle cx="12" cy="10" r="3.6"/><path d="M8.4 10h7.2"/><path d="M12 6.4c1 1 1.4 2.3 1.4 3.6s-.4 2.6-1.4 3.6c-1-1-1.4-2.3-1.4-3.6s.4-2.6 1.4-3.6"/><path d="M9 17.5h6"/>',
   train:  '<path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/>',
@@ -3207,22 +3297,42 @@ function viewLog(){
   const total = diveLog.length;
   const deepest = diveLog.reduce((a,d)=>Math.max(a, parseFloat(d.depth)||0), 0);
 
+  const pl = lang === "pl";
+  const E = editingDive || {};
+  const sawSet = new Set(String(E.saw || "").split(",").map(x=>x.trim()).filter(Boolean));
+  const buddies = [...new Set(diveLog.map(d=>(d.buddy||"").trim()).filter(Boolean))].slice(0, 6);
+  const todaySites = (currentDay()?.dives || []).map(v=>tr(v.site));
+  const siteChips = [...new Set([...todaySites, ...sites])].slice(0, 10);
+  const stepper = (id, val, unit, step) => `<div class="stepper">
+      <button type="button" data-dvstep="${id}:-${step}" aria-label="−${step}">−</button>
+      <input id="${id}" type="number" inputmode="decimal" value="${esc(val)}" placeholder="—" aria-label="${unit}">
+      <button type="button" data-dvstep="${id}:${step}" aria-label="+${step}">+</button></div>`;
   const form = editingDive ? `<div class="card">
-    <div class="eyebrow">${editingDive.site ? U().editDive : U().newDive}</div>
+    <div class="eyebrow">${diveLog.some(d=>d.id===E.id) ? U().editDive : U().newDive}</div>
     <div class="dvform">
-      <label>${U().dvDate}<input type="date" id="dv-date" value="${esc(editingDive.date)}"></label>
-      <label>${U().dvSite}<input list="dvsites" id="dv-site" value="${esc(editingDive.site)}" placeholder="${esc(sites[0]||"")}"></label>
-      <label>${U().dvDepth}<input type="number" inputmode="decimal" id="dv-depth" value="${esc(editingDive.depth)}" placeholder="18"></label>
-      <label>${U().dvTime}<input type="number" inputmode="numeric" id="dv-time" value="${esc(editingDive.time)}" placeholder="45"></label>
-      <label class="wide">${U().dvBuddy}<input id="dv-buddy" value="${esc(editingDive.buddy)}"></label>
-      <label class="wide">${U().dvSaw}<input id="dv-saw" value="${esc(editingDive.saw)}" placeholder="${U().dvSawEg}"></label>
-      <label class="wide">${U().dvNotes}<textarea id="dv-notes" style="min-height:70px">${esc(editingDive.notes)}</textarea></label>
+      <div class="dvsec">${pl ? "Zdjęcia" : "Photos"}</div>
+      <div class="dvphotos" id="dv-photos">
+        ${(E.photos||[]).map(pid=>`<div class="ph"><img data-dvimg="${pid}" alt=""><button type="button" data-dvphdel="${pid}" aria-label="${pl?"Usuń zdjęcie":"Remove photo"}">×</button></div>`).join("")}
+        <label class="dvadd">${svg("camera")}${pl ? "Dodaj zdjęcie" : "Add photo"}<input type="file" id="dv-photo" accept="image/*" multiple class="hidden"></label>
+      </div>
+      <label>${U().dvDate}<input type="date" id="dv-date" value="${esc(E.date)}"></label>
+      <div></div>
+      <label class="wide">${U().dvSite}<input list="dvsites" id="dv-site" value="${esc(E.site)}" placeholder="${pl?"Wybierz poniżej albo wpisz":"Pick below or type"}"></label>
+      ${siteChips.length ? `<div class="chips">${siteChips.map(x=>`<button type="button" class="chip" data-dvsite="${esc(x)}" aria-pressed="${E.site===x}">${esc(x)}</button>`).join("")}</div>` : ""}
+      <div class="dvl">${U().dvDepth}${stepper("dv-depth", E.depth, "m", 1)}</div>
+      <div class="dvl">${U().dvTime}${stepper("dv-time", E.time, "min", 5)}</div>
+      <label class="wide">${U().dvBuddy}<input id="dv-buddy" value="${esc(E.buddy)}"></label>
+      ${buddies.length ? `<div class="chips">${buddies.map(x=>`<button type="button" class="chip" data-dvbuddy="${esc(x)}" aria-pressed="${E.buddy===x}">${esc(x)}</button>`).join("")}</div>` : ""}
+      <div class="dvsec">${U().dvSaw}</div>
+      <div class="chips">${SEALIFE.map(x=>{ const t = pl ? x[0] : x[1]; return `<button type="button" class="chip" data-dvsaw="${esc(t)}" aria-pressed="${sawSet.has(t)}">${esc(t)}</button>`; }).join("")}</div>
+      <label class="wide"><input id="dv-saw" value="${esc(E.saw)}" placeholder="${U().dvSawEg}"></label>
+      <label class="wide">${U().dvNotes}<textarea id="dv-notes" style="min-height:70px">${esc(E.notes)}</textarea></label>
     </div>
     <datalist id="dvsites">${sites.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>
     <div class="row">
-      <button class="btn" id="dv-save">${U().save}</button>
+      <button class="btn" id="dv-save">${pl ? "Zapisz nurkowanie" : "Save dive"}</button>
       <button class="btn ghost" id="dv-cancel">${U().cancel}</button>
-      ${diveLog.some(d=>d.id===editingDive.id)?`<button class="btn ghost" data-dvdel="${editingDive.id}">${U().remove}</button>`:""}
+      ${diveLog.some(d=>d.id===E.id)?`<button class="btn ghost" data-dvdel="${E.id}">${U().remove}</button>`:""}
     </div></div>` : "";
 
   const list = total ? diveLog.map((d,i)=>`
@@ -3235,6 +3345,7 @@ function viewLog(){
       ${d.saw?`<p class="sub" style="margin:8px 0 0">${esc(d.saw)}</p>`:""}
       ${d.notes?`<p class="note" style="margin:6px 0 0">${esc(d.notes)}</p>`:""}
       ${d.buddy?`<p class="note" style="margin:6px 0 0">${U().dvBuddy}: ${esc(d.buddy)}</p>`:""}
+      ${(d.photos||[]).length ? `<div class="dvthumbs">${d.photos.slice(0,4).map(pid=>`<img data-dvimg="${pid}" alt="">`).join("")}</div>` : ""}
     </button>`).join("")
   : `<div class="card"><h3>${U().logEmpty}</h3><p class="sub" style="margin-top:6px">${U().logEmptyNote}</p></div>`;
 
@@ -3419,6 +3530,7 @@ function render(){
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);
+  if(tab === "log") paintDivePhotos();
   if(DECK_TABS.includes(tab)) initDecks();
   if(tab === "now" || tab === "days"){
     const w = weatherPlace();
@@ -3998,7 +4110,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.wx){ wxSheet(); return; }
@@ -4063,6 +4175,28 @@ document.addEventListener("click", async (e) => {
     return;
   }
   if(t.id === "dv-new"){ newDive(); return; }
+  if(t.dataset.dvsite != null){ syncDive(); editingDive.site = t.dataset.dvsite; render(); return; }
+  if(t.dataset.dvbuddy != null){ syncDive(); editingDive.buddy = editingDive.buddy === t.dataset.dvbuddy ? "" : t.dataset.dvbuddy; render(); return; }
+  if(t.dataset.dvsaw != null){
+    syncDive();
+    const set = String(editingDive.saw || "").split(",").map(x=>x.trim()).filter(Boolean);
+    const i = set.indexOf(t.dataset.dvsaw);
+    if(i >= 0) set.splice(i, 1); else set.push(t.dataset.dvsaw);
+    editingDive.saw = set.join(", "); render(); return;
+  }
+  if(t.dataset.dvstep){
+    syncDive();
+    const [id, d] = t.dataset.dvstep.split(":");
+    const k = id === "dv-depth" ? "depth" : "time";
+    const v = Math.max(0, (parseFloat(editingDive[k]) || (k === "depth" ? 17 : 40)) + Number(d));
+    editingDive[k] = String(v); render(); return;
+  }
+  if(t.dataset.dvphdel){
+    syncDive();
+    editingDive.photos = (editingDive.photos || []).filter(x => x !== t.dataset.dvphdel);
+    try{ window.storage.delete(K("dvphoto:" + t.dataset.dvphdel)); }catch(e){}
+    render(); return;
+  }
   if(t.id === "dv-save"){ saveDive(); return; }
   if(t.id === "dv-cancel"){ editingDive = null; render(); return; }
   if(t.dataset.dvedit){ editDive(t.dataset.dvedit); return; }
@@ -4108,6 +4242,7 @@ document.addEventListener("change", (e) => {
   if(e.target && e.target.id === "pp-file" && e.target.files && e.target.files[0]){
     ppImport(e.target.files[0]); e.target.value = ""; return;
   }
+  if(e.target.id === "dv-photo" && e.target.files?.length){ addDivePhotos([...e.target.files]); return; }
   if(e.target.id !== "picker") return;
   const file = e.target.files?.[0];
   if(file) storeDoc(e.target.dataset.slot, file);

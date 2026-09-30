@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Malakay Travels — Trip Companion</title>
@@ -67,9 +68,38 @@ a{color:var(--reef-dim)}
 /* ---------- instrument band (the signature) ---------- */
 .instrument{
   background:var(--abyss);color:var(--slate);
-  border-bottom:2px solid var(--reef-dim);
-  padding:14px 0 0;
+  padding:12px 0 0;
+  /* Fixed and floating: it stays put on every tab and through every swipe. */
+  position:fixed;z-index:600;top:calc(8px + env(safe-area-inset-top,0px));left:10px;right:10px;
+  max-width:740px;margin:0 auto;border-radius:22px;border:1px solid #1B3A48;
+  box-shadow:0 10px 28px -12px rgba(4,32,43,.55);
 }
+.instrument .brandrow{padding-bottom:12px}
+.instrument .readout{margin-top:0;margin-bottom:0}
+body{padding-top:var(--topH,150px)}
+/* Nothing in the app should bounce or pan sideways under the two bars. */
+html{overscroll-behavior:none}
+html.locked,html.locked body{overflow:hidden;height:100%;overscroll-behavior:none}
+html.locked body{padding-bottom:0}
+/* Short phones: the greeting steps aside and the tiles tighten so NOW
+   still fits one screen. */
+@media (max-height:740px){
+  .now .greetrow{display:none}
+  body .now .hero h1{font-size:clamp(19px,5.4vw,24px);margin-top:4px}
+  body .now .hero .txt{bottom:10px}
+  body .today .tt > span:last-child{display:none}
+  .tile{min-height:58px;padding-top:7px;padding-bottom:7px}
+  .today{padding-top:6px;padding-bottom:6px}
+  .now .hero .facts{display:none}
+}
+/* The page scrolls up and down only. Cards swipe sideways inside their own
+   track; the page itself never pans left or right (iPhone included). */
+html{overflow-x:hidden}
+body{overflow-x:clip;position:relative}
+/* The gaps around the floating bars show sand, not the page sliding past. */
+body::before,body::after{content:"";position:fixed;left:0;right:0;z-index:499;pointer-events:none}
+body::before{top:0;height:calc(12px + env(safe-area-inset-top,0px));background:#F4EEE5}
+body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));background:#DCE6E3}
 .brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .brand{font-family:'Outfit';font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .brand .mark{height:22px;width:auto;display:block}
@@ -81,15 +111,19 @@ a{color:var(--reef-dim)}
 .tripcode{font-family:'JetBrains Mono';font-size:11px;color:#7F98A3;letter-spacing:.08em}
 
 .readout{
-  display:grid;grid-template-columns:repeat(4,1fr);
+  display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1.2fr) minmax(0,1fr);
   margin-top:12px;border-top:1px solid #1B3A48;
 }
-.cell{padding:10px 0 12px;border-right:1px solid #1B3A48}
+.cell{padding:10px 8px 12px 10px;border-right:1px solid #1B3A48;min-width:0}
+.cell:first-child{padding-left:0}
 .cell:last-child{border-right:none}
-.cell .k{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.12em;color:#6E8794;text-transform:uppercase}
+.cell .k{font-family:'JetBrains Mono';font-size:9.5px;letter-spacing:.08em;color:#6E8794;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cell .v{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef);margin-top:3px;line-height:1;font-variant-numeric:tabular-nums}
 .cell .v small{font-size:11px;color:#8FA9B4;font-weight:400;margin-left:2px}
-.cell.wide{grid-column:span 2}
+.cell.wide{grid-column:auto}
+.cell .v{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.cell.wide .v small{font-size:10px}
+@media (max-width:400px){ .cell:not(.wide) .v small{display:none} }
 .cell.wide .v{font-size:16px;color:var(--slate);letter-spacing:-.01em}
 
 .langsw{display:flex;border:1px solid #24485A;border-radius:99px;overflow:hidden}
@@ -110,6 +144,129 @@ a{color:var(--reef-dim)}
 .tab:hover{color:#C9D6DB}
 .tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--reef)}
 .tab:focus-visible{outline:2px solid var(--reef);outline-offset:-2px}
+
+/* ---------- bottom tab bar ----------
+   The four tabs used on the move sit under the thumb; everything else lives
+   behind MORE. Fixed to the bottom, above the home indicator. */
+.tabsbar{position:fixed;top:auto;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));
+  max-width:520px;margin:0 auto;border:1px solid #1B3A48;border-radius:22px;padding:5px;
+  box-shadow:0 14px 34px -10px rgba(4,32,43,.6)}
+.tabs{justify-content:space-around;gap:2px;padding:0;overflow:visible}
+.tab{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:8px 2px 7px;min-height:56px;font-size:10.5px;letter-spacing:.08em;
+  border:none;border-radius:17px;transition:background .18s var(--ease),color .18s var(--ease)}
+.tab svg{width:22px;height:22px}
+/* Very narrow phones: smaller labels so nothing is cut off. */
+@media (max-width:360px){
+  .tab{font-size:9px;letter-spacing:.02em}
+  .cell .v{font-size:16px}
+  .cell .k{font-size:8.5px;letter-spacing:.04em}
+  .cell{padding-left:7px;padding-right:5px}
+  .cell .v small{display:none}
+}
+.tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+/* The selected tab is unmistakable: a bright lagoon pill with dark ink. */
+.tabsbar .tab[aria-selected="true"]{background:linear-gradient(180deg,#5ADAD5 0%,#2BB3B0 100%);color:var(--abyss);
+  box-shadow:0 6px 18px -6px rgba(56,195,192,.75),inset 0 1px 0 rgba(255,255,255,.35);font-weight:700}
+.tabsbar .tab[aria-selected="true"] svg{color:var(--abyss)}
+.tab[aria-selected="true"] svg{color:var(--reef)}
+body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
+.morebg{position:fixed;inset:0;background:rgba(4,32,43,.55);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
+.morebg.on{opacity:1;pointer-events:auto}
+.moresheet{position:fixed;left:0;right:0;bottom:0;z-index:901;max-width:520px;margin:0 auto;
+  background:linear-gradient(180deg,#0B2C38 0%,var(--abyss) 60%);color:var(--slate);
+  border:1px solid rgba(56,195,192,.28);border-bottom:none;border-radius:30px 30px 0 0;
+  padding:12px 20px calc(22px + env(safe-area-inset-bottom,0px));
+  transform:translateY(105%);transition:transform .28s var(--ease);box-shadow:0 -24px 50px -16px rgba(0,0,0,.6)}
+.moresheet.on{transform:none}
+.moresheet .grip{width:48px;height:4px;border-radius:4px;background:#2C4B57;margin:0 auto 18px}
+.moresheet .mhd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
+.moresheet .mhd b{display:block;font-family:'Outfit';font-weight:700;font-size:21px;color:#fff;letter-spacing:-.01em}
+.moresheet .mhd small{display:block;font-size:13.5px;color:#8AA3AD;margin-top:3px}
+.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.moregrid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:104px;
+  background:#0E2A35;border:1px solid #1B3A48;border-radius:20px;color:#E6EEF0;
+  font-family:'Outfit';font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
+  transition:background .18s var(--ease),border-color .18s var(--ease)}
+.moregrid button .mi{width:44px;height:44px;border-radius:14px;background:rgba(56,195,192,.14);display:flex;align-items:center;justify-content:center}
+.moregrid button svg{width:23px;height:23px;color:var(--reef)}
+.moregrid button:hover,.moregrid button[aria-current="true"]{border-color:rgba(56,195,192,.5);background:#103440}
+.xbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--slate);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1;flex:none}
+.moresheet .xbtn{background:#0E2A35;border-color:#1B3A48;color:#C9D6DB}
+.callband{display:flex;align-items:center;gap:14px;margin-top:18px;padding:14px 14px 14px 16px;border-radius:20px;
+  background:linear-gradient(100deg,rgba(14,124,134,.35),rgba(11,52,66,.6));border:1px solid rgba(56,195,192,.35)}
+.callband .ci{flex:none;width:46px;height:46px;border-radius:50%;background:rgba(56,195,192,.18);display:flex;align-items:center;justify-content:center}
+.callband .ci svg{width:22px;height:22px;color:var(--reef)}
+.callband .ci img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid rgba(56,195,192,.5)}
+.callband .ct{flex:1;min-width:0}
+.callband .ct b{display:block;font-family:'Outfit';font-weight:700;font-size:15.5px;color:#fff}
+.callband .ct small{display:block;font-size:12.5px;color:#9FB6BF;margin-top:2px}
+.callband a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:14px;
+  background:var(--reef);color:var(--abyss);font-family:'Outfit';font-weight:700;font-size:15px;text-decoration:none}
+@media (prefers-reduced-motion: reduce){.moresheet,.morebg{transition:none}}
+
+/* ---------- show the driver ----------
+   Held up to a taxi window in bright sun: dark ink on cream, as large as
+   the screen allows, the local-language name and address first. */
+.drv{position:fixed;inset:0;z-index:950;background:var(--card);color:var(--ink);display:flex;flex-direction:column;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 20px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+.drv .dtop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.drv .dk{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--reef-dim)}
+.drv .dbody{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:18px 0}
+.drv .dphrase{font-size:clamp(22px,6.4vw,30px);font-weight:700;line-height:1.3;color:var(--teal-ink)}
+.drv .dname{font-family:'Outfit';font-weight:800;font-size:clamp(30px,9vw,44px);line-height:1.08;letter-spacing:-.02em}
+.drv .daddr{font-size:clamp(20px,5.8vw,26px);line-height:1.35;font-weight:600}
+.drv .dsub{font-size:15px;color:var(--muted);line-height:1.4}
+.drv .dfoot{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.drv .dfoot .mono{font-size:13px;color:var(--muted)}
+.drv .dfoot a{color:var(--reef-dim);font-weight:700;font-size:18px}
+
+/* ---------- transfers: the car button in the top bar ----------
+   Who meets you, where and when, the car, and a name sign to hold up. */
+.tripcode{white-space:nowrap}
+/* On narrow phones the logo and PL/EN need the whole row. */
+@media (max-width:400px){.tripcode{display:none}}
+.brandrow:has(.carbtn:not(.hidden)) .tripcode{display:none}
+.carbtn{width:40px;height:40px;border-radius:12px;border:1px solid #24485A;background:#0E2A35;color:var(--gold);
+  display:flex;align-items:center;justify-content:center;flex:none}
+.carbtn svg{width:21px;height:21px}
+.tbg{position:fixed;inset:0;z-index:940;background:rgba(2,14,20,.72);display:flex;align-items:center;justify-content:center;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px))}
+.tcard{width:100%;max-width:440px;max-height:100%;overflow-y:auto;overscroll-behavior:contain;
+  background:linear-gradient(180deg,#0B2C38,var(--abyss) 70%);color:var(--slate);
+  border:1px solid rgba(201,162,39,.45);border-radius:28px;padding:18px 18px 20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+.tcard .th{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid #1B3A48}
+.tcard .th svg{width:22px;height:22px;color:var(--gold)}
+.tcard .th b{flex:1;font-family:'Outfit';font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.tcard .th .xbtn{background:#0E2A35;border-color:#1B3A48;color:#C9D6DB;width:40px;height:40px}
+.tcard .twhen{margin-top:16px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--reef)}
+.tcard .ttime{font-family:'Outfit';font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em;color:#fff;margin-top:6px}
+.tcard .troute{font-size:16px;color:#DCE6E8;margin-top:8px;line-height:1.4}
+.tcard .tbox{margin-top:14px;padding:14px;border-radius:18px;background:#0E2A35;border:1px solid #1B3A48}
+.tcard .tbox .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8AA3AD}
+.tcard .tbox .v{font-size:16px;color:#fff;margin-top:4px;line-height:1.4}
+.tcard .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.tcard .tgrid .tbox{margin-top:0}
+.tcard .tbox .v.mono{font-family:'JetBrains Mono';color:var(--gold);font-weight:600}
+.tcard .tsign{margin-top:14px;padding:16px;border-radius:18px;border:2px dashed rgba(201,162,39,.55);text-align:center}
+.tcard .tsign .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9FB6BF}
+.tcard .tsign .nm{font-family:'Outfit';font-weight:800;font-size:clamp(24px,7vw,32px);letter-spacing:.04em;color:var(--gold);margin-top:6px;line-height:1.1;text-transform:uppercase}
+.tcard .tsign .sb{font-size:14px;color:#DCE6E8;margin-top:4px}
+.tcard .tact{display:flex;gap:10px;margin-top:16px}
+.tcard .tact a,.tcard .tact button{flex:1;min-height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Outfit';font-weight:700;font-size:15.5px;text-decoration:none}
+.tcard .tact a{background:var(--gold);color:var(--abyss)}
+.tcard .tact a svg{width:19px;height:19px}
+.tcard .tact button{flex:0 0 auto;padding:0 18px;background:#0E2A35;border:1px solid #1B3A48;color:#DCE6E8}
+.tcard .tlist{margin-top:18px;border-top:1px solid #1B3A48;padding-top:12px}
+.tcard .tlist .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8AA3AD;margin-bottom:6px}
+.tcard .tlist button{display:flex;width:100%;gap:12px;align-items:baseline;text-align:left;padding:10px 4px;background:none;border:none;
+  border-bottom:1px solid rgba(27,58,72,.7);color:#DCE6E8;font-size:14.5px;line-height:1.35}
+.tcard .tlist button:last-child{border-bottom:none}
+.tcard .tlist button .d{flex:none;width:74px;font-family:'JetBrains Mono';font-size:12px;color:var(--reef)}
+.tcard .tlist button[aria-current="true"]{color:#fff}
+.tcard .tlist button[aria-current="true"] .d{color:var(--gold)}
 
 /* ---------- cards ---------- */
 .card{
@@ -167,10 +324,14 @@ section{padding-top:6px}
    than the track's side margin, so the next card never peeks in: you see
    it only when you swipe. Every card has the same height (--deckH, set
    from the screen), and the page itself does not scroll on these tabs. */
-body.deckmode .instrument{display:none}
+body.deckmode .instrument .readout{display:none}
 body.deckmode{padding-bottom:0}
+/* With the tab bar at the bottom, nothing sits above the deck in the page
+   flow, so its top margin would escape the body and make the page scroll. */
+body.deckmode{display:flow-root}
 .deck{max-width:520px;margin:0 auto}
 .passtrack{
+  overscroll-behavior-x:contain;
   position:relative;   /* the cards measure their offsets from the track */
   display:flex;gap:28px;align-items:flex-start;
   overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
@@ -230,6 +391,31 @@ body.deckmode{padding-bottom:0}
   text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 10px;text-shadow:0 1px 6px rgba(4,32,43,.9)}
 .pmeta .co{text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.72)}
 
+/* DAYS: every card shows the same two one-line items, so the photo gets
+   the same room on every day; the rest is under More info. */
+/* Top pills stay on one line; a long kind label shortens with "…". */
+.pass .prow{flex-wrap:nowrap;gap:8px}
+.pass .pday{flex:none;white-space:nowrap}
+.pass .pkind{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;line-height:1.2}
+.pass .pkind svg{vertical-align:-3px;margin-right:6px}
+.bppeek .bpnote{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.passwrap,.pass{min-width:0;max-width:100%}
+.ppeek.two .pl{overflow:hidden}
+.hcount{display:flex;align-items:flex-end;gap:8px;margin-bottom:8px;color:#fff;text-shadow:0 2px 14px rgba(7,26,36,.6)}
+.hcount b{font-family:'JetBrains Mono';font-weight:700;font-size:clamp(40px,12vw,58px);line-height:.9;color:var(--gold)}
+.hcount span{display:flex;flex-direction:column;font-family:'Outfit';font-weight:700;font-size:18px;line-height:1.05;padding-bottom:3px}
+.hcount small{font-family:'JetBrains Mono';font-weight:600;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#A6EFEB;margin-top:3px}
+@media (max-height:740px){ .hcount b{font-size:36px} .hcount{margin-bottom:4px} }
+.ppeek.stayp{flex:none;-webkit-mask-image:none;mask-image:none;padding:10px 12px 8px}
+.ppeek.stayp .sdates{margin:0}
+.ppeek.two{flex:none;-webkit-mask-image:none;mask-image:none;padding:10px 14px 8px;display:flex;flex-direction:column;gap:8px}
+.ppeek.two .pl{display:flex;align-items:center;gap:10px;min-width:0;height:30px}
+.ppeek.two .ico{flex:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  border:1px solid rgba(255,255,255,.28);background:rgba(4,32,43,.35);color:#fff}
+.ppeek.two .ico svg{width:15px;height:15px}
+.ppeek.two .t{flex:none;font-family:'JetBrains Mono';font-size:11.5px;font-weight:600;color:#A6EFEB}
+.ppeek.two .x{flex:1;min-width:0;font-size:15px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pass.k-day .pttl{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 /* A preview of the plan on frosted glass — as much as fits, fading out —
    and the More info button that opens everything. */
 .ppeek{flex:0 1 auto;min-height:0;overflow:hidden;margin:0 10px;padding:2px 14px 6px;border-radius:20px 20px 0 0;
@@ -315,7 +501,9 @@ body.deckmode{padding-bottom:0}
 .bpair .mono{font-weight:600;color:#A6EFEB;font-size:20px}
 .bplabel{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
 .bproute{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-top:16px}
-.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(40px,min(14vw,7.2svh),60px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute > div{min-width:0}
+.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(30px,min(11.2vw,7svh),56px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute .iata.stn{font-size:clamp(18px,min(5.6vw,3.2svh),25px);line-height:1.1;letter-spacing:-.01em;hyphens:none}
 .bproute .city{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.3}
 .bproute .r{text-align:right}
 .bpmid{display:flex;align-items:center;gap:6px;color:#A6EFEB;padding-bottom:26px}
@@ -330,14 +518,38 @@ body.deckmode{padding-bottom:0}
 .bpperf::before{left:-30px}.bpperf::after{right:-30px}
 .bpbody{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 20px 0}
 .bppeek{flex:1 1 auto;min-height:0;overflow:hidden}
+/* The stub shows booking, flight and baggage in full; notes live under More info. */
+.bppeek .bpgrid{gap:10px 16px}
+.bppeek .bpgrid .wide dd{-webkit-line-clamp:3}
 .bpfade{height:0;position:relative}
 .bpfade::before{content:"";position:absolute;left:0;right:0;bottom:0;height:28px;background:linear-gradient(transparent,var(--card));pointer-events:none}
 .bppeek .bpgrid .wide dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .bppeek .bpnote{margin-top:12px}
+.bpgrid.stub{grid-template-columns:auto minmax(0,1fr);gap:0 18px}
+.bpgrid.stub dd{color:#0A1A21;font-weight:600}
+.bpgrid.stub > div + div dd{font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bpgrid.stub > div + div dt{color:#3D4F57}
+/* Short phones: a tighter ticket top so booking and baggage always show. */
+@media (max-height:760px){
+  .bptop{padding:12px 18px 12px}
+  .bplabel{display:none}
+  .bpair{margin-top:10px;font-size:20px}
+  .bpair .mono{font-size:17px}
+  .bproute{margin-top:8px}
+  .bproute .iata{font-size:clamp(28px,9.5vw,40px);margin-top:3px}
+  .bproute .city{margin-top:3px;font-size:11.5px}
+  .bpmid{padding-bottom:18px}
+  .bptimes{margin-top:8px;padding-top:8px}
+  .bptimes b{font-size:20px;margin-top:1px}
+  .bptimes span.mono{margin-top:1px}
+  .bpbody{padding-top:10px}
+}
 .bpgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:0}
 .bpgrid .wide{grid-column:1/-1}
 .bpgrid dt,.bpnote .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .bpgrid dd{margin:3px 0 0;font-size:15px;font-weight:500;color:var(--ink);line-height:1.35}
+.bpgrid .wide dd{color:#0A1A21;font-weight:600;opacity:1}
+.bpgrid .wide dt{color:#3D4F57}
 .bpgrid dd.mono{font-size:17px;font-weight:600;letter-spacing:.04em}
 .bpnote{font-size:14.5px;line-height:1.5;color:#2E424A}
 .psheet .bpnote{margin-top:12px}
@@ -374,6 +586,91 @@ body.deckmode{padding-bottom:0}
   .dots button,.parrow{transition:none}
   .passtrack{scroll-behavior:auto}
 }
+/* NOW fits one screen: slim top bar, a shorter hero, a grid of tiles.
+   Anything longer (weather, offline checklist, no-fly) opens in a sheet. */
+body.slimtop .instrument .readout{display:none}
+/* The page is exactly one screen: the photo takes all the height the rest
+   does not need, so there is no empty band under the tiles. */
+.now{display:flex;flex-direction:column;height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
+.now .hero{flex:1 1 0;min-height:0;display:flex;flex-direction:column}
+.now .hero .stage{flex:1 1 0;height:auto!important;min-height:150px}
+.now .tiles{margin-bottom:6px}
+.now .greetrow{margin:2px 0 10px}
+.now .greetrow .gr-txt{font-size:clamp(19px,5.2vw,24px)}
+.now .hero{margin:0 0 12px}
+.now .hero .stage{height:clamp(150px,25svh,240px)}
+.now .hero h1{font-size:clamp(24px,6.8vw,36px);margin-top:8px}
+.now .hero .txt{bottom:14px}
+.hchips{position:absolute;z-index:4;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px}
+.hchip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:99px;
+  background:rgba(4,32,43,.62);border:1px solid rgba(255,255,255,.18);color:#fff;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:'JetBrains Mono';font-size:12.5px;font-weight:600}
+.hchip .fl,.tzt .fl{font-size:1.05em;margin-right:6px;font-family:system-ui,sans-serif}
+.hchip small{font-weight:400;color:#A6C4CC;font-size:10.5px;letter-spacing:.08em}
+button.hchip{cursor:pointer}
+button.hchip .wi{font-size:16px;line-height:1}
+.now .hfact{padding:7px 4px 8px}
+.now .hfact .fk{min-height:0;margin-bottom:3px}
+.now .hfact .fv{font-size:17px}
+.today{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow-1);padding:10px 12px;margin:0 0 10px;width:100%;text-align:left;color:var(--ink)}
+.today .tt{flex:1;min-width:0}
+.today .tt b{display:block;font-family:'Outfit';font-weight:700;font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.today .tt .gk{display:block}
+.today .tt span{display:block;font-size:13px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.today .tt span .mono{color:var(--ochre);font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px}
+.tile{display:flex;flex-direction:row;align-items:center;gap:10px;min-height:66px;padding:10px 10px 10px 10px;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-1);color:var(--ink);position:relative;min-width:0}
+.tile.wide{grid-column:span 2}
+.tile .gico{width:34px;height:34px;border-radius:10px}
+.tile .gico svg{width:18px;height:18px}
+.tile .gk{font-size:9.5px}
+.tile .gv{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tile .gs{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tile .gtx{flex:1;min-width:0}
+.tile .gv{font-size:14.5px}
+.tile .gchip{position:absolute;top:7px;right:8px;padding:2px 7px;font-size:9px}
+.tile:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+/* Colour code: red = not done / not safe, green = done / clear. */
+.tile.t-red{background:#FBECE8;border-color:rgba(196,85,58,.5)}
+.tile.t-red .gico{background:var(--coral);color:#fff}
+.tile.t-red .gv{color:#A6402A}
+.tile.t-amber{background:#FBF4E3;border-color:rgba(184,144,28,.45)}
+.tile.t-amber .gico{background:rgba(184,144,28,.18);color:#8A6A12}
+.tile.t-green{background:#E7F4F1;border-color:rgba(14,124,134,.45)}
+.tile.t-green .gico{background:var(--reef-dim);color:#fff}
+.tile.t-green .gv{color:var(--teal-ink)}
+.nfband{border-radius:16px;padding:12px 14px;margin:0 0 14px;display:flex;flex-direction:column;gap:3px}
+.nfband b{font-family:'Outfit';font-weight:700;font-size:18px}
+.nfband span{font-size:13.5px}
+.nfband.no{background:#FBECE8;color:#A6402A;border:1px solid rgba(196,85,58,.5)}
+.nfband.ok{background:#E7F4F1;color:var(--teal-ink);border:1px solid rgba(14,124,134,.45)}
+.tzrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--slate-2)}
+.tzrow:first-of-type{border-top:0}
+.tzd{font-size:14px;color:var(--muted);margin-top:4px}
+.tzt{font-family:'JetBrains Mono';font-weight:600;font-size:34px;color:var(--ink);line-height:1}
+.tzt small{font-size:12px;color:var(--muted);margin-left:6px;font-weight:400}
+.nsbg{position:fixed;inset:0;z-index:920;background:rgba(4,32,43,.55);display:flex;align-items:flex-end;justify-content:center}
+.nsheet{width:100%;max-width:520px;max-height:86svh;overflow-y:auto;overscroll-behavior:contain;background:var(--card);color:var(--ink);
+  border-radius:26px 26px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 40px -14px rgba(4,32,43,.4)}
+.nsheet .grip{width:44px;height:4px;border-radius:4px;background:var(--slate-2);margin:0 auto 14px}
+.nsheet .nsh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.nsheet .nsh b{font-family:'Outfit';font-weight:700;font-size:20px;display:block}
+.nsheet .nsh small{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.nsheet .card{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.nsheet .nofly{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.nsheet .offlist li:first-child{border-top:0}
+.wx5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px}
+.wx5 .wx{background:var(--slate);border-radius:14px;padding:10px 2px;text-align:center}
+.wx5 .d{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.wx5 .i{font-size:22px;margin:6px 0}
+.wx5 .t{font-family:'JetBrains Mono';font-weight:600;font-size:14px;color:var(--ink)}
+.nsheet .sea{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.nsheet .sea .v{color:var(--reef-dim)}
+.nsheet .sea div{min-width:0}
+.wx5 .wx{color:var(--ink)}
+.wx5 .t small{color:var(--muted);font-weight:400}
 /* NOW: one At-a-glance list instead of a stack of cards. */
 .glance{margin:18px 0 14px}
 .glance ul{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -431,7 +728,8 @@ body.deckmode{padding-bottom:0}
 .dashed{border-top:1px dashed var(--slate-2);position:relative;width:100%;min-width:40px}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:9px 16px;font-size:14px;margin-top:14px}
 .kv dt{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-top:3px}
-.kv dd{margin:0;font-weight:500;color:var(--ink)}
+.kv dd{margin:0;font-weight:500;color:var(--ink);min-width:0;overflow-wrap:anywhere}
+.kv dt{min-width:0;max-width:42vw;overflow-wrap:break-word}
 
 /* ---------- weather ---------- */
 .wxrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(74px,1fr));gap:8px;margin-top:10px}
@@ -464,30 +762,84 @@ body.deckmode{padding-bottom:0}
 .mk.air{background:var(--abyss)}
 .mk.town{background:var(--coral)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:var(--muted)}
+.maptab{display:flex;flex-direction:column;height:calc(100svh - var(--topH,90px) - 92px - env(safe-area-inset-bottom,0px))}
+.maptab .sectitle{flex:none;margin-top:4px;padding-top:0}
+.mapbox{position:relative;flex:1 1 auto;min-height:220px;margin-top:10px}
+.mapbox #map{position:absolute;inset:0;height:auto;margin:0}
+.mapchip{position:absolute;z-index:500;top:10px;right:10px;display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 14px;
+  border-radius:99px;border:1px solid rgba(4,32,43,.12);background:rgba(251,248,243,.95);color:var(--ink);
+  font-family:'Outfit';font-weight:600;font-size:13.5px;box-shadow:var(--shadow-1)}
+.mapchip svg{width:17px;height:17px;color:var(--reef-dim)}
+.mapchip.ok{color:var(--teal-ink)}
+.mapbox .legend{position:absolute;z-index:500;left:10px;bottom:22px;margin:0;gap:10px;padding:7px 12px;border-radius:14px;
+  background:rgba(251,248,243,.94);box-shadow:var(--shadow-1);max-width:calc(100% - 20px);color:var(--ink)}
 .legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}
 
 /* ---------- misc ---------- */
-.dvform{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px;margin-top:12px}
-.dvform label{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
+.dvform{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 12px;margin-top:12px}
+.dvform .dvl,.dvform label{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:flex;flex-direction:column;gap:5px}
 .dvform label.wide{grid-column:1/-1}
 .dvform input,.dvform textarea{
   font-family:'Outfit',sans-serif;font-size:15px;color:var(--ink);text-transform:none;letter-spacing:0;
   border:1px solid var(--slate-2);border-radius:8px;padding:9px 10px;background:#fff;width:100%;
 }
 .dvform input:focus,.dvform textarea:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.seg{display:flex;flex:none;border:1px solid var(--slate-2);border-radius:99px;overflow:hidden;background:var(--slate)}
+.seg button{min-height:40px;padding:0 14px;border:0;background:none;color:var(--muted);font-family:'JetBrains Mono';font-weight:600;font-size:12px;letter-spacing:.06em}
+.seg button[aria-selected="true"]{background:var(--reef-dim);color:#fff}
+.fxrow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:end;gap:8px;margin-top:14px}
+.fxrow label{display:flex;flex-direction:column;gap:6px;min-width:0;position:relative}
+.fxrow label span{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;color:var(--muted)}
+.fxrow input{width:100%;min-width:0;height:56px;border:1px solid var(--slate-2);border-radius:14px;background:#fff;padding:0 34px 0 12px;
+  font-family:'JetBrains Mono';font-size:22px;font-weight:600;color:var(--ink)}
+.fxrow input:focus{outline:2px solid var(--reef-dim);outline-offset:-1px}
+.fxrow label b{position:absolute;right:12px;bottom:16px;font-family:'JetBrains Mono';color:var(--muted);font-size:15px}
+.fxeq{font-family:'JetBrains Mono';font-size:20px;color:var(--muted);padding-bottom:16px}
+.fxtips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.fxtips button{min-height:62px;border-radius:14px;border:1px solid rgba(184,144,28,.45);background:#FBF4E3;color:var(--ink);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.fxtips b{font-family:'JetBrains Mono';font-size:17px}
+.fxtips span{font-size:12px;color:#6A5314}
+.phgrp{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--reef-dim);margin:16px 0 4px}
+.phlist{list-style:none;margin:0;padding:0}
+.phlist li{padding:10px 0;border-top:1px solid var(--slate-2);display:flex;flex-direction:column;gap:2px}
+.phlist li b{font-family:'Outfit';font-weight:700;font-size:18px;color:#08151B;line-height:1.25}
+.phlist li span{font-size:14.5px;color:#2E3F46}
+.fxcard .hd,.phcard .hd{align-items:center}
+.dvsec{grid-column:1/-1;font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.chips{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px}
+.chip{min-height:40px;padding:0 14px;border-radius:99px;border:1px solid var(--slate-2);background:var(--slate);color:var(--ink);
+  font-family:'Outfit';font-weight:500;font-size:14px;display:inline-flex;align-items:center;gap:6px}
+.chip[aria-pressed="true"]{background:var(--reef-dim);border-color:var(--reef-dim);color:#fff}
+.dvform .dvl{grid-column:1/-1}
+.stepper{min-width:0;display:flex;align-items:center;gap:0;border:1px solid var(--slate-2);border-radius:14px;overflow:hidden;background:#fff}
+.stepper button{flex:none;width:64px;height:52px;border:0;background:var(--slate);color:var(--reef-dim);font-size:24px;font-weight:600}
+.stepper input{flex:1;min-width:0;border:0!important;text-align:center;font-family:'JetBrains Mono'!important;font-size:22px!important;font-weight:600;padding:0!important;height:52px;background:#fff;outline:none}
+.stepper small{flex:none;padding-right:10px;font-family:'JetBrains Mono';color:var(--muted);font-size:12px}
+.dvphotos{grid-column:1/-1;display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px}
+.dvphotos .ph{position:relative;aspect-ratio:1;border-radius:14px;overflow:hidden;background:var(--slate-2)}
+.dvphotos .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.dvphotos .ph button{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(4,32,43,.7);color:#fff;font-size:17px;line-height:1}
+.dvadd{aspect-ratio:1;border-radius:14px;border:2px dashed rgba(14,124,134,.45);background:var(--tint);color:var(--reef-dim);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:'Outfit';font-weight:600;font-size:12px;cursor:pointer;text-align:center;padding:4px}
+.dvadd svg{width:24px;height:24px}
+.dvthumbs{display:flex;gap:6px;margin-top:10px}
+.dvthumbs img{width:58px;height:58px;border-radius:10px;object-fit:cover;display:block;background:var(--slate-2)}
 .dvrow{display:block;width:100%;text-align:left;cursor:pointer;font-family:inherit;font-size:inherit}
 .dvnum{font-family:'JetBrains Mono';font-size:19px;font-weight:600;color:var(--reef-dim);text-align:right;line-height:1.15}
 .dvnum small{font-size:11px;color:var(--muted);font-weight:400;margin-left:1px}
 .dvnum span{display:block;font-size:14px}
 .nextcard{background:linear-gradient(180deg,var(--deep),var(--abyss));color:var(--slate);border-radius:var(--r);padding:18px;margin:14px 0;box-shadow:var(--shadow-2)}
 .nextcard .eyebrow{color:var(--reef)}
-.nexttrip{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
+/* Date on its own line above the name, so a long "December – January"
+   never squeezes the trip name into a narrow column. */
+.nexttrip{display:flex;flex-direction:column-reverse;gap:4px;padding:12px 0;border-bottom:1px solid #1B3A48;text-decoration:none;color:inherit}
 .nexttrip .nm,.nexttrip .nn{display:block}
 .nexttrip .arr{color:#5E7C89;margin-left:2px}
 .nexttrip:last-child{border-bottom:none}
 .nexttrip .nm{font-family:'Outfit';font-weight:700;font-size:14.5px}
 .nexttrip .nn{font-size:12.5px;color:#9DB3BD;margin-top:2px}
-.nexttrip .nw{font-family:'JetBrains Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;white-space:nowrap;text-align:right}
+.nexttrip .nw{font-family:'JetBrains Mono';font-size:10.5px;color:var(--reef);letter-spacing:.06em;text-align:left}
 .gear{
   width:100%;background:none;border:none;border-bottom:1px solid var(--slate-2);
   padding:11px 0;display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;text-align:left;
@@ -579,6 +931,7 @@ textarea{
 .hero .stage{position:relative;height:340px}
 .hero figure{position:absolute;inset:0;margin:0;opacity:0;animation:heroFade 24s infinite}
 .hero figure img{width:100%;height:100%;object-fit:cover;display:block}
+.hero figure.still{animation:none;opacity:1}
 @keyframes heroFade{0%{opacity:0}4%{opacity:1}30%{opacity:1}37%{opacity:0}100%{opacity:0}}
 .hero .stage::after{content:"";position:absolute;inset:0;z-index:2;background:linear-gradient(180deg,
   rgba(7,26,36,.5) 0%,rgba(7,26,36,.1) 30%,rgba(7,26,36,.62) 66%,rgba(7,26,36,.96) 100%)}
@@ -822,6 +1175,7 @@ textarea{
       <a class="brand" href="https://www.malakaytravels.com" target="_blank" rel="noopener" aria-label="Malakay Travels"><img src="coral.png" alt="" class="mark">Malakay <span>Travels</span></a>
       <div style="display:flex;align-items:center;gap:10px">
         <div class="tripcode mono" id="tripcode">—</div>
+        <button class="carbtn hidden" id="carbtn" data-transfer="1"></button>
         <div class="langsw" id="langsw"></div>
       </div>
     </div>
@@ -939,7 +1293,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v70 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v93 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -980,7 +1334,7 @@ function tr(v){
 
 const UI = {
   pl:{
-    tabs:{now:"Teraz",days:"Dni",flights:"Loty",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
+    tabs:{now:"Teraz",days:"Dni",flights:"Loty",travel:"Przejazdy",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
     passport:{
       title:"Paszport", sub:"Twoje wyprawy z Malakay",
       hero:"Paszport wypraw", since:"od",
@@ -1028,7 +1382,7 @@ const UI = {
     condHint:"Otwórz tę zakładkę raz z zasięgiem, a prognoza będzie dostępna offline.",
     forecastFrom:"Prognoza Open-Meteo dla", seaNote:"Dane morskie bywają puste tuż przy brzegu.",
     lastReading:"Ostatni odczyt", willRefresh:"Odświeży się samo, gdy złapiesz zasięg.",
-    nextFlight:"Najbliższy lot", open:"Otwórz", tonight:"Dziś w nocy", firstBase:"Pierwsza baza",
+    nextFlight:"Najbliższy lot", nextJourney:"Najbliższy przejazd", open:"Otwórz", tonight:"Dziś w nocy", firstBase:"Pierwsza baza",
     yourDocs:"Twoje dokumenty", ready:"gotowe", docsAllSaved:"Wszystko zapisane na tym telefonie.",
     docsAdd:"Dodaj je przed wylotem — działają bez zasięgu.", add:"Dodaj",
     installTitle:"Dodaj do ekranu głównego", installBody:"żeby otwierało się jak aplikacja i działało bez zasięgu.",
@@ -1116,7 +1470,7 @@ const UI = {
     goodMorning:"Dzień dobry", goodEvening:"Dobry wieczór", welcomeBack:"Witaj ponownie"
   },
   en:{
-    tabs:{now:"Now",days:"Days",flights:"Flights",stay:"Stay",docs:"Docs",gear:"Packing",log:"Log",passport:"Passport",map:"Map",guide:"Guide",setup:"Setup"},
+    tabs:{now:"Now",days:"Days",flights:"Flights",travel:"Travel",stay:"Stay",docs:"Docs",gear:"Packing",log:"Log",passport:"Passport",map:"Map",guide:"Guide",setup:"Setup"},
     passport:{
       title:"Passport", sub:"Your trips with Malakay",
       hero:"Trip passport", since:"since",
@@ -1164,7 +1518,7 @@ const UI = {
     condHint:"Open this tab once with signal and the forecast will be here next time you are offline.",
     forecastFrom:"Forecast from Open-Meteo for", seaNote:"Sea data can be blank very close to shore.",
     lastReading:"Last reading", willRefresh:"It will refresh by itself when you have signal.",
-    nextFlight:"Next flight", open:"Open", tonight:"Tonight", firstBase:"First base",
+    nextFlight:"Next flight", nextJourney:"Next journey", open:"Open", tonight:"Tonight", firstBase:"First base",
     yourDocs:"Your documents", ready:"ready", docsAllSaved:"Everything saved to this phone.",
     docsAdd:"Add them before you fly — they work offline.", add:"Add",
     installTitle:"Add this to your home screen", installBody:"so it opens like an app and works without signal.",
@@ -1493,10 +1847,60 @@ async function saveLog(){
   /* Keep the archive in step with the log the moment a dive is written. */
   try{ if(typeof recordPassport === "function") await recordPassport(); }catch(e){}
 }
+/* Marine life to tap instead of type: [Polish, English]. */
+const SEALIFE = [["Żółw","Turtle"],["Rekin kosogon","Thresher shark"],["Ławica sardynek","Sardine run"],["Rekin rafowy","Reef shark"],
+  ["Rekin wielorybi","Whale shark"],["Manta","Manta"],["Płaszczka","Stingray"],["Ośmiornica","Octopus"],["Mątwa","Cuttlefish"],
+  ["Nagoskrzelne","Nudibranch"],["Żabnica","Frogfish"],["Konik morski","Seahorse"],["Murena","Moray eel"],["Barakuda","Barracuda"],
+  ["Karanksy","Jacks"],["Skrzydlica","Lionfish"],["Błazenek","Clownfish"],["Mandaryn","Mandarinfish"]];
+/* Keep what is typed when a chip or stepper re-draws the form. */
+function syncDive(){
+  if(!editingDive) return;
+  const f = id => { const el = document.getElementById(id); return el ? el.value.trim() : undefined; };
+  for(const [k, id] of [["date","dv-date"],["site","dv-site"],["depth","dv-depth"],["time","dv-time"],["buddy","dv-buddy"],["saw","dv-saw"],["notes","dv-notes"]]){
+    const v = f(id); if(v !== undefined) editingDive[k] = v;
+  }
+}
+/* Photos: shrunk on the phone to at most 1600 px and kept in its own
+   storage next to the log — never uploaded anywhere. */
+function shrinkPhoto(file){
+  return new Promise((res, rej) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 1600 / Math.max(img.width, img.height));
+      const c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      res(c.toDataURL("image/jpeg", 0.82));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(new Error("image")); };
+    img.src = url;
+  });
+}
+async function addDivePhotos(files){
+  if(!editingDive) return;
+  syncDive();
+  editingDive.photos = editingDive.photos || [];
+  for(const file of files){
+    try{
+      const data = await shrinkPhoto(file);
+      const pid = "p" + Date.now() + Math.random().toString(36).slice(2, 6);
+      await window.storage.set(K("dvphoto:" + pid), data);
+      editingDive.photos.push(pid);
+    }catch(e){}
+  }
+  render();
+}
+async function paintDivePhotos(){
+  for(const img of document.querySelectorAll("img[data-dvimg]")){
+    if(img.src) continue;
+    try{ const r = await window.storage.get(K("dvphoto:" + img.dataset.dvimg)); if(r?.value) img.src = r.value; }catch(e){}
+  }
+}
 function newDive(){
   const d = currentDay();
   editingDive = { id:"d"+Date.now(), date: d ? d.date : todayISO(),
-                  site:"", depth:"", time:"", buddy:"", saw:"", notes:"" };
+                  site:"", depth:"", time:"", buddy:"", saw:"", notes:"", photos:[] };
   render();
 }
 function saveDive(){
@@ -1511,7 +1915,11 @@ function saveDive(){
   saveLog(); render();
 }
 function editDive(id){ editingDive = {...diveLog.find(d=>d.id===id)}; render(); }
-function deleteDive(id){ diveLog = diveLog.filter(d=>d.id!==id); saveLog(); editingDive = null; render(); }
+function deleteDive(id){
+  const d = diveLog.find(x=>x.id===id);
+  (d?.photos || []).forEach(pid => { try{ window.storage.delete(K("dvphoto:" + pid)); }catch(e){} });
+  diveLog = diveLog.filter(d=>d.id!==id); saveLog(); editingDive = null; render();
+}
 
 /* Suggest sites from the itinerary so people do not have to type. */
 function knownSites(){
@@ -1545,7 +1953,7 @@ function gearCount(){
 const parseLocal = s => { const [d,t] = s.split(" "); const [Y,M,D]=d.split("-").map(Number); const [h,m]=(t||"00:00").split(":").map(Number); return new Date(Y,M-1,D,h,m); };
 const dateOnly = s => parseLocal(s + " 00:00");
 const todayISO = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; };
-const fmtDate = s => dateOnly(s).toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+const fmtDate = s => dateOnly(s).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{weekday:"short",day:"numeric",month:"short"});
 const fmtTime = s => s.split(" ")[1] || "";
 function daysBetween(a,b){ return Math.round((dateOnly(b)-dateOnly(a))/86400000); }
 function tzNow(tz){
@@ -1592,6 +2000,11 @@ function currentHotel(){
 function nextFlight(){
   const now = new Date();
   return trip.flights.find(f => parseLocal(f.dep.time) > now) || null;
+}
+/* A leg may be a train or a helicopter ("mode" in the trip file). When a
+   trip has any, the FLIGHTS tab becomes TRAVEL and holds every ticket. */
+function hasGround(){
+  return (trip.flights || []).some(f => f.mode && f.mode !== "flight");
 }
 
 /* ---------------- weather ---------------- */
@@ -1674,6 +2087,12 @@ const TZ_LABEL = {
   "Africa/Cairo":"EG", "Europe/Warsaw":"PL", "Pacific/Guadalcanal":"SB",
   "Pacific/Chuuk":"FM", "Africa/Sao_Tome":"ST"
 };
+/* A flag next to a time: "PH" beside 05:19 reads as "PM". */
+function tzFlag(tz){
+  const cc = TZ_LABEL[tz];
+  if(!cc || cc.length !== 2) return "";
+  return String.fromCodePoint(...[...cc].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+}
 function tzLabel(tz){
   return TZ_LABEL[tz] || String(tz || "").split("/").pop().replace(/_/g," ").slice(0,3).toUpperCase();
 }
@@ -1702,6 +2121,12 @@ function band(){
   const m = trip.meta, p = tripPhase();
   $("#tripcode").textContent = m.code;
 
+  const cb = $("#carbtn");
+  if(cb){
+    const has = (trip.transfers || []).length > 0;
+    cb.classList.toggle("hidden", !has);
+    if(has){ cb.innerHTML = svg("car", 1.9); cb.setAttribute("aria-label", lang === "pl" ? "Twoje transfery" : "Your transfers"); }
+  }
   $("#langsw").innerHTML = LANGS.map(l =>
     `<button data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join("");
 
@@ -1718,7 +2143,15 @@ function band(){
   $("#k2") && ($("#k2").textContent = U().localTime);
   $("#k3") && ($("#k3").textContent = U().water);
   $("#k3") && ($("#k3").textContent = U().water);
-  $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${esc(tzLabel(m.tz))}</small>`;
+  $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${tzFlag(m.tz) || esc(tzLabel(m.tz))}</small>`;
+  /* The no-fly tile turns from red to green on its own at the clear time. */
+  if(tab === "now" && !document.getElementById("nsbg")){
+    const nfs = noFlyState(), c = nfs ? nfs.clearNow : null;
+    if(band.clear !== undefined && c !== band.clear){ band.clear = c; render(); return; }
+    band.clear = c;
+  }
+  const tc = document.querySelector(".hero [data-time]");
+  if(tc) tc.innerHTML = `<span class="fl">${tzFlag(m.tz)}</span>${tzNow(m.tz)}`;
   /* Sea temperature belongs to a diving trip. On a land trip show how
      far in we are instead — the slot is too prominent to leave blank. */
   if(isDiveTrip()){
@@ -1764,9 +2197,172 @@ async function loadSetupFlag(){
 }
 const TABS = () => setupUnlocked ? [...CLIENT_TABS, "setup"] : CLIENT_TABS;
 
+/* The bar holds the tabs used on the move; the rest open from MORE. */
+const MAIN_TABS = ["now","days","flights","stay"];
+const TAB_ICON = {now:"land", days:"cal", flights:"travel", stay:"bed", docs:"doc", gear:"bag", log:"book", passport:"passport", map:"map", guide:"info", setup:"gear"};
+const tabName = k => k === "flights" && hasGround() ? U().tabs.travel : U().tabs[k];
 function renderTabs(){
-  $("#tabs").innerHTML = TABS().map(k =>
-    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${U().tabs[k]}</button>`).join("");
+  const extra = TABS().filter(k => !MAIN_TABS.includes(k));
+  const inMore = extra.includes(tab);
+  const moreLabel = lang === "pl" ? "Więcej" : "More";
+  $("#tabs").innerHTML = MAIN_TABS.map(k =>
+    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${svg(k === "flights" && trip.flights.length && trip.flights.every(f => f.mode === "train") ? "train" : TAB_ICON[k], 1.8)}<span>${tabName(k)}</span></button>`).join("")
+    + `<button class="tab" aria-selected="${inMore}" aria-haspopup="dialog" data-moreopen="1">${svg(inMore ? TAB_ICON[tab] : "grid", 1.8)}<span>${inMore ? tabName(tab) : moreLabel}</span></button>`;
+  let sheet = document.getElementById("moresheet");
+  if(!sheet){
+    document.body.insertAdjacentHTML("beforeend", `<div class="morebg" id="morebg" data-moreclose="1"></div><div class="moresheet" id="moresheet" role="dialog" aria-modal="true"></div>`);
+    sheet = document.getElementById("moresheet");
+  }
+  sheet.setAttribute("aria-label", moreLabel);
+  const pl = lang === "pl", g = trip.meta.guide || {};
+  const call = g.phone ? `<div class="callband">
+      <span class="ci">${g.photo ? `<img src="${esc(g.photo)}" alt="">` : svg("phone", 1.8)}</span>
+      <span class="ct"><b>${esc(g.name || "Malakay Travels")}</b><small>Malakay Travels${g.role ? " · " + esc(tr(g.role)) : ""}</small></span>
+      <a href="tel:${esc(g.phone).replace(/\s/g,"")}">${pl ? "Zadzwoń" : "Call"}</a>
+    </div>` : "";
+  sheet.innerHTML = `<div class="grip"></div>
+    <div class="mhd"><div><b>${pl ? "Centrum wyprawy" : "Trip hub"}</b><small>${pl ? "Wszystko o podróży w jednym miejscu" : "Everything for your trip in one place"}</small></div>
+      <button class="xbtn" data-moreclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    <div class="moregrid">${extra.map(k => `<button data-tab="${k}" aria-current="${k===tab}"><span class="mi">${svg(TAB_ICON[k], 1.8)}</span>${tabName(k)}</button>`).join("")}</div>
+    ${call}`;
+}
+/* Transfers: the next one opens first; the list below switches between
+   them. Driver, car and plate are filled in as the supplier confirms. */
+function transferCard(pick){
+  const T = trip.transfers || [];
+  if(!T.length) return;
+  const pl = lang === "pl";
+  const at = x => new Date(`${x.date}T${(x.time || "00:00").replace(/[^0-9:]/g, "") || "00:00"}:00`);
+  let i = pick;
+  if(i == null){
+    const now = Date.now() - 2 * 3600e3;   // a pickup stays "next" for two hours after its time
+    i = T.findIndex(x => at(x).getTime() >= now);
+    if(i < 0) i = T.length - 1;
+  }
+  const x = T[i];
+  const TBC = pl ? "Do potwierdzenia" : "To be confirmed";
+  const names = (traveller && traveller.names || []).join(" & ");
+  const sign = x.sign || trip.meta.sign || names;
+  const box = (k, v, mono) => `<div class="tbox"><div class="k">${k}</div><div class="v${mono ? " mono" : ""}">${v ? esc(v) : `<span style="color:#8AA3AD">${TBC}</span>`}</div></div>`;
+  document.getElementById("tbg")?.remove();
+  const el = document.createElement("div");
+  el.className = "tbg"; el.id = "tbg"; el.dataset.tclose = "1";
+  el.innerHTML = `<div class="tcard" role="dialog" aria-modal="true" aria-label="${pl ? "Transfer" : "Transfer"}">
+    <div class="th">${svg("car", 1.9)}<b>${pl ? "Twój transfer" : "Your transfer"}</b>
+      <button class="xbtn" data-tclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    <div class="twhen">${fmtDate(x.date)}${x.label ? " · " + esc(tr(x.label)) : ""}</div>
+    <div class="ttime">${esc(x.time || "")}</div>
+    <div class="troute">${esc(tr(x.from) || "")}${x.to ? " → " + esc(tr(x.to)) : ""}</div>
+    ${box(pl ? "Miejsce spotkania" : "Meeting point", tr(x.meet))}
+    ${box(pl ? "Kto na Was czeka" : "Who meets you", [x.driver, tr(x.who)].filter(Boolean).join(" · "))}
+    <div class="tgrid">${box(pl ? "Pojazd" : "Vehicle", tr(x.vehicle))}${box(pl ? "Tablica" : "Plate", x.plate, true)}</div>
+    ${x.note ? `<div class="tbox"><div class="v" style="margin-top:0;font-size:14.5px;color:#DCE6E8">${esc(tr(x.note))}</div></div>` : ""}
+    ${sign ? `<div class="tsign"><div class="k">${pl ? "Pokaż kierowcy przy spotkaniu" : "Show your driver on arrival"}</div>
+      <div class="nm">${esc(sign)}</div><div class="sb">Malakay Travels</div></div>` : ""}
+    <div class="tact">
+      ${x.phone ? `<a href="tel:${esc(x.phone).replace(/\s/g,"")}">${svg("phone", 2)}${pl ? "Zadzwoń do kierowcy" : "Call driver"}</a>`
+        : trip.meta.guide?.phone ? `<a href="tel:${esc(trip.meta.guide.phone).replace(/\s/g,"")}">${svg("phone", 2)}${pl ? "Zadzwoń do Michała" : "Call Michał"}</a>` : ""}
+      <button data-tclose="1">${pl ? "Zamknij" : "Close"}</button>
+    </div>
+    <div class="tlist"><div class="k">${pl ? "Wszystkie transfery" : "All transfers"}</div>
+      ${T.map((y, j) => `<button data-tpick="${j}" aria-current="${j === i}"><span class="d">${fmtDate(y.date).replace(/^[^,]*,\s*/, "")} ${esc(y.time || "")}</span><span>${esc(tr(y.from) || "")}${y.to ? " → " + esc(tr(y.to)) : ""}</span></button>`).join("")}
+    </div>
+  </div>`;
+  document.body.appendChild(el);
+  el.querySelector(".xbtn").focus();
+}
+function moreSheetOpen(on){
+  const s = document.getElementById("moresheet"), b = document.getElementById("morebg");
+  if(!s) return;
+  s.classList.toggle("on", on); b.classList.toggle("on", on);
+}
+
+/* A card to hold up to a taxi window: the hotel in the local script first,
+   in large dark type on cream, readable in full sun. */
+function driverCard(i){
+  const h = trip.hotels[i];
+  if(!h) return;
+  const pl = lang === "pl";
+  const names = (traveller && traveller.names || []).join(" & ");
+  const el = document.createElement("div");
+  el.className = "drv"; el.id = "drv"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true");
+  el.innerHTML = `<div class="dtop"><span class="dk">${pl ? "Pokaż kierowcy" : "Show the driver"}</span>
+      <button class="xbtn" data-drvclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    <div class="dbody">
+      ${trip.meta.driverPhrase ? `<div class="dphrase" lang="${esc(trip.meta.driverLang || "")}">${esc(trip.meta.driverPhrase)}</div>` : ""}
+      <div class="dname"${h.nameLocal ? ` lang="${esc(trip.meta.driverLang || "")}"` : ""}>${esc(h.nameLocal || h.name)}</div>
+      ${h.nameLocal ? `<div class="dsub">${esc(h.name)}</div>` : ""}
+      <div class="daddr"${h.addressLocal ? ` lang="${esc(trip.meta.driverLang || "")}"` : ""}>${esc(h.addressLocal || h.address || "")}</div>
+      ${h.addressLocal && h.address ? `<div class="dsub">${esc(h.address)}</div>` : ""}
+    </div>
+    <div class="dfoot">
+      ${h.phone ? `<a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a>` : ""}
+      ${names ? `<span class="mono">${esc(names)} · Malakay Travels</span>` : ""}
+    </div>`;
+  document.body.appendChild(el);
+  el.querySelector(".xbtn").focus();
+}
+
+/* A sheet over NOW for the longer items, so the screen itself stays put. */
+function nowSheet(title, sub, html){
+  document.getElementById("nsbg")?.remove();
+  const pl = lang === "pl";
+  const el = document.createElement("div");
+  el.className = "nsbg"; el.id = "nsbg"; el.dataset.nsclose = "1";
+  el.innerHTML = `<div class="nsheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <div class="grip"></div>
+    <div class="nsh"><div><b>${title}</b>${sub ? `<small>${sub}</small>` : ""}</div>
+      <button class="xbtn" data-nsclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    ${html}</div>`;
+  document.body.appendChild(el);
+}
+function closeNowSheet(){
+  document.getElementById("nsbg")?.remove();
+  if(nowOpen){ nowOpen = null; }
+}
+/* Weather: current air, sea and swell, and five days ahead. */
+function wxSheet(){
+  if(!wx) return;
+  const wp = weatherPlace(), c = wx.current, code = WMO[c.weather_code] || ["·","—"];
+  const n = Math.min(5, wx.daily.time.length);
+  const days = wx.daily.time.slice(0, n).map((t,i)=>{
+    const w = WMO[wx.daily.weather_code[i]] || ["·",""];
+    const lbl = i===0 ? U().today : dateOnly(t).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{weekday:"short"});
+    return `<div class="wx"><div class="d">${lbl}</div><div class="i">${w[0]}</div>
+      <div class="t">${Math.round(wx.daily.temperature_2m_max[i])}°<small>/${Math.round(wx.daily.temperature_2m_min[i])}°</small></div></div>`;
+  }).join("");
+  const sst = marine?.current?.sea_surface_temperature, wave = marine?.current?.wave_height;
+  const html = `<div class="sea">
+      <div><div class="eyebrow">${U().air}</div><div class="v">${Math.round(c.temperature_2m)}°C</div><div class="note">${code[1]}</div></div>
+      <div><div class="eyebrow">${U().seaTemp}</div><div class="v">${sst!=null?Math.round(sst)+"°C":"—"}</div><div class="note">${sst!=null?U().shorty:U().noMarine}</div></div>
+      <div><div class="eyebrow">${U().swell}</div><div class="v">${wave!=null?wave.toFixed(1)+" m":"—"}</div><div class="note">${wave!=null?(wave<0.7?U().comfortable:U().expectMovement):"—"}</div></div>
+    </div>
+    <div class="wx5" style="grid-template-columns:repeat(${n},1fr)">${days}</div>
+    <p class="note" style="margin:12px 0 0">${wxStale
+      ? `${U().lastReading}: ${wxAt ? wxAt.toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "—"}. ${U().willRefresh}`
+      : wp.preview ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}` : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>`;
+  nowSheet(esc(tr(wp.base) || tr(trip.meta.country)),
+    `${wxStale ? U().saved : (wp.preview ? U().atDestination : U().live)} · ${lang === "pl" ? "pogoda na 5 dni" : "5-day weather"}`, html);
+}
+
+/* Local time and home time side by side, with the difference. */
+function timeSheet(){
+  const pl = lang === "pl", tz = trip.meta.tz, home = "Europe/Warsaw";
+  const off = z => {  // minutes east of UTC for a zone, now
+    const d = new Date(), f = new Intl.DateTimeFormat("en-US",{timeZone:z,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).formatToParts(d);
+    const g = t => +f.find(x => x.type === t).value;
+    return (Date.UTC(g("year"), g("month") - 1, g("day"), g("hour"), g("minute")) - Math.floor(d.getTime() / 60000) * 60000) / 60000;
+  };
+  const diff = Math.round((off(tz) - off(home)) / 60 * 10) / 10;
+  const day = z => { const t = new Intl.DateTimeFormat(pl ? "pl-PL" : "en-GB",{timeZone:z,weekday:"long",day:"numeric",month:"long"}).format(new Date());
+    return t.charAt(0).toUpperCase() + t.slice(1); };
+  const place = tr(trip.meta.country) || tzLabel(tz);
+  const row = (k, z, lbl) => `<div class="tzrow"><div><div class="eyebrow">${k}</div><div class="tzd">${day(z)}</div></div>
+    <div class="tzt"><span class="fl">${tzFlag(z)}</span>${tzNow(z)}</div></div>`;
+  const dtxt = diff === 0 ? (pl ? "Ten sam czas co w Polsce" : "Same time as Poland")
+    : pl ? `${place}: ${diff > 0 ? "+" : "−"}${Math.abs(diff)} h względem Polski` : `${place} is ${Math.abs(diff)} h ${diff > 0 ? "ahead of" : "behind"} Poland`;
+  nowSheet(pl ? "Czas" : "Time", dtxt,
+    row(pl ? "Tutaj — " + place : "Here — " + place, tz, tzLabel(tz)) + row(pl ? "W Polsce" : "In Poland", home, "PL"));
 }
 
 function viewNow(){
@@ -1776,21 +2372,32 @@ function viewNow(){
   const HERO = (trip.meta.hero && trip.meta.hero.length)
     ? trip.meta.hero
     : ["img/hero-thresher.jpg","img/hero-bangkas.jpg","img/hero-valley.jpg"];
-  let kicker = "", dayCard = "";
+  /* During the trip the hero is today's own photo — the same one its day
+     card carries — so the screen changes as the days pass. Before and
+     after, the trip's rotating heroes. */
+  let still = null;
+  if(p.phase === "during" && p.dayIndex >= 0){
+    const i = p.dayIndex, day = trip.days[i];
+    const src = dayPhotos(trip.days)[i];
+    const fb = Array.isArray(day.photo) ? day.photo[1]
+             : src === HOME_PHOTO ? dayPhotos(trip.days, false)[i] : "";
+    if(src) still = {src, fb};
+  }
+  let kicker = "", dayCard = "", countdown = "";
   if(p.phase === "before"){
-    kicker = `${U().departsIn} · ${fmtDate(trip.meta.start)}`;
+    kicker = `${lang === "pl" ? "Wylot" : "Departure"} · ${fmtDate(trip.meta.start)}`;
+    countdown = `<div class="hcount"><b>${p.days}</b><span>${p.days === 1 ? (lang === "pl" ? "dzień" : "day") : U().days_}<small>${lang === "pl" ? "do wylotu" : "to go"}</small></span></div>`;
   } else if(p.phase === "after"){
     kicker = U().complete;
   } else {
     kicker = `${U().day} ${d.n} ${U().of} ${trip.days.length} · ${fmtDate(d.date)}`;
-    const next = (d?.items || []).find(([t]) => t > tzNow(trip.meta.tz));
-    dayCard = `<div class="card">
-      <div class="eyebrow">${U().today}</div>
-      <div class="big" style="font-size:clamp(22px,6vw,30px);margin:8px 0 10px">${esc(tr(d.title))}</div>
-      ${next ? `<div class="hair"></div><div class="eyebrow">${U().nextUp}</div>
-        <p style="margin:6px 0 0"><span class="mono" style="color:var(--ochre);font-weight:600">${next[0]}</span> &nbsp;${esc(tr(next[1]))}</p>`
-      : `<p class="sub" style="margin:0">${U().nothingElse}</p>`}
-    </div>`;
+    const next = (d?.items || []).find(([t]) => /\d/.test(t) && t.replace(/[^0-9:]/g, "") > tzNow(trip.meta.tz));
+    dayCard = `<button class="today" data-goto="days">
+      <span class="gico">${svg("cal")}</span>
+      <span class="tt"><span class="gk" style="margin:0">${U().today}</span><b>${esc(tr(d.title))}</b>
+        <span>${next ? `<span class="mono">${next[0]}</span> ${esc(tr(next[1]))}` : U().nothingElse}</span></span>
+      <span class="gchev">${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</span>
+    </button>`;
   }
   const bases = trip.hotels.filter(x=>!x.optional).length;
   const greet = travellerName
@@ -1804,8 +2411,15 @@ function viewNow(){
        </div>`;
   const head = greet + `<div class="hero">
     <div class="stage">
-      ${HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
+      ${still
+        ? `<figure class="still"><img src="${esc(still.src)}" alt=""${still.fb ? ` onerror="this.onerror=null;this.src='${esc(still.fb)}'"` : ""}></figure>`
+        : HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
+      <div class="hchips">
+        <button class="hchip" data-time="1" aria-label="${lang === "pl" ? "Czas lokalny i w Polsce" : "Local and Polish time"}"><span class="fl">${tzFlag(trip.meta.tz)}</span>${tzNow(trip.meta.tz)}</button>
+        ${wx ? `<button class="hchip" data-wx="1" aria-label="${lang === "pl" ? "Pogoda na 5 dni" : "5-day weather"}"><span class="wi">${(WMO[wx.current.weather_code] || ["·"])[0]}</span>${Math.round(wx.current.temperature_2m)}°C</button>` : ""}
+      </div>
       <div class="txt">
+        ${countdown}
         <div class="hk">${kicker}</div>
         <h1>${esc(tr(trip.meta.name))}</h1>
       </div>
@@ -1813,37 +2427,12 @@ function viewNow(){
     <div class="facts">
       <div class="hfact"><span class="fk">${U().tripLength}</span><span class="fv">${trip.days.length}<small>${U().days_}</small></span></div>
       <div class="hfact"><span class="fk">${U().bases}</span><span class="fv">${bases}</span></div>
-      <div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>
+      ${trip.meta.dives != null || trip.days.some(isDiveDay)
+        ? `<div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>`
+        : `<div class="hfact"><span class="fk">${lang === "pl" ? "Noce" : "Nights"}</span><span class="fv">${trip.hotels.filter(h => !h.optional).reduce((n, h) => n + daysBetween(h.checkIn, h.checkOut), 0)}</span></div>`}
     </div>
   </div>` + dayCard;
 
-  const wp = weatherPlace();
-  const wxBlock = wx ? (() => {
-    const c = wx.current, code = WMO[c.weather_code] || ["·","—"];
-    const days = wx.daily.time.map((t,i)=>{
-      const w = WMO[wx.daily.weather_code[i]] || ["·",""];
-      const lbl = i===0 ? "Today" : dateOnly(t).toLocaleDateString(undefined,{weekday:"short"});
-      return `<div class="wx"><div class="d">${lbl}</div><div class="i">${w[0]}</div>
-        <div class="t">${Math.round(wx.daily.temperature_2m_max[i])}°<small>/${Math.round(wx.daily.temperature_2m_min[i])}°</small></div></div>`;
-    }).join("");
-    const sst = marine?.current?.sea_surface_temperature, wave = marine?.current?.wave_height;
-    return `<div class="card">
-      <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
-        <h3 style="margin-top:4px">${esc(tr(wp.base) || tr(trip.meta.country))}</h3></div>
-        <span class="pill ${wxStale?"warn":"live"}">${wxStale?U().saved:(wp.preview?U().atDestination:U().live)}</span></div>
-      <div class="sea">
-        <div><div class="eyebrow">${U().air}</div><div class="v">${Math.round(c.temperature_2m)}°C</div><div class="note">${code[1]}</div></div>
-        <div><div class="eyebrow">${U().seaTemp}</div><div class="v">${sst!=null?Math.round(sst)+"°C":"—"}</div><div class="note">${sst!=null?U().shorty:U().noMarine}</div></div>
-        <div><div class="eyebrow">${U().swell}</div><div class="v">${wave!=null?wave.toFixed(1)+" m":"—"}</div><div class="note">${wave!=null?(wave<0.7?U().comfortable:U().expectMovement):"—"}</div></div>
-      </div>
-      <div class="wxrow">${days}</div>
-      <p class="note" style="margin:10px 0 0">${wxStale
-        ? `${U().lastReading}: ${wxAt ? wxAt.toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "—"}. ${U().willRefresh}`
-        : wp.preview
-          ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
-          : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
-    </div>`;
-  })() : "";
 
   /* ---- At a glance: one list instead of a stack of cards ----
      Each row is one thing to know, with its state at the right. Rows that
@@ -1862,38 +2451,58 @@ function viewNow(){
     return `<li><button class="grow" data-goto="${o.goto}">${inner}</button></li>`;
   };
   const rows = [];
-  if(f) rows.push({icon:"travel", k:U().nextFlight, v:`${esc(f.number)} · ${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
-    sub:`${fmtDate(f.dep.time.split(" ")[0])} · ${fmtTime(f.dep.time)}`, goto:"flights"});
+  if(f) rows.push({icon:f.mode === "train" ? "train" : "travel", k:f.mode ? U().nextJourney : U().nextFlight,
+    v:`${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
+    sub:`${f.dep.time.slice(8,10)}.${f.dep.time.slice(5,7)} · ${fmtTime(f.dep.time)}`, goto:"flights"});
   if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
   if(req.length) rows.push({icon:"doc", k:U().yourDocs, v:`${ready} / ${req.length} ${U().ready}`, goto:"docs",
-    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : ""});
+    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : "", t: ready===req.length ? "green" : "red"});
   const gc = gearCount();
   if(p.phase === "before" && gc.total) rows.push({icon:"bag", k:U().packList, v:`${gc.done} / ${gc.total} ${U().packReady}`, goto:"gear",
-    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : ""});
+    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : "", t: gc.done===gc.total ? "green" : "red"});
   if(p.phase !== "after"){
     const oc = offlineChecklist();
     rows.push({id:"offline", icon:"save", k:U().off.eyebrow, v:`${oc.n} / ${oc.total} ${U().ready}`, open: nowOpen === "offline", more: oc.html,
-      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : ""});
+      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : "", t: oc.n===oc.total ? "green" : "red"});
   }
   const nf = noFlyState();
-  if(nf) rows.push({id:"nofly", icon:"mask", k:G.nofly, v: nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`,
-    chip: nf.level === "under" ? G.under : nf.level === "tight" ? G.tight : G.clear, chipTone: nf.level === "under" ? "warn" : nf.level === "tight" ? "tight" : "ok",
-    open: nowOpen === "nofly", more: noFlyCard()});
-  const glance = rows.length ? `<div class="glance">
-    <div class="eyebrow" style="padding:0 4px 8px">${G.title}</div>
-    <ul>${rows.map(row).join("")}</ul></div>` : "";
-
-  // Near the end of the trip and afterwards, show what is coming next.
+  /* Red until the minimum time after the last dive has passed, then green.
+     A plan that leaves too short a gap stays red. */
+  if(nf){
+    const pl = lang === "pl", ok = nf.clearNow && nf.level !== "under";
+    rows.push({id:"nofly", icon:"mask", k:G.nofly,
+      v: ok ? (pl ? "Możesz lecieć" : "Clear to fly") : (pl ? "Jeszcze nie lataj" : "Not clear to fly"),
+      sub: ok ? `${pl ? "odstęp" : "gap"} ${nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`}`
+              : `${pl ? "od" : "from"} ${String(nf.clearAt.getDate()).padStart(2,"0")}.${String(nf.clearAt.getMonth()+1).padStart(2,"0")} ${String(nf.clearAt.getHours()).padStart(2,"0")}:${String(nf.clearAt.getMinutes()).padStart(2,"0")}`,
+      t: ok ? "green" : "red", open: nowOpen === "nofly", more: noFlyCard()});
+  }
+  // Near the end of the trip and afterwards: a tile that opens what is coming next.
   const nearEnd = p.phase === "after" ||
     (p.phase === "during" && daysBetween(todayISO(), trip.meta.end) <= 2) ||
     setupUnlocked;   // staff preview — clients only see it at the end of the trip
-  const site = trip.meta.website || "";
-  const mail = trip.meta.email || "";
-  const nextBlock = (nearEnd && (trip.nextTrips||[]).length && site) ? `<div class="nextcard">
-    <div class="eyebrow">${U().whatsNext}${(setupUnlocked && !(p.phase==="after" || (p.phase==="during" && daysBetween(todayISO(), trip.meta.end) <= 2))) ? ` · ${U().staffPreview}` : ""}</div>
-    <p style="margin:6px 0 10px;font-size:13.5px;color:#C6D3D8">${U().whatsNextNote}</p>
+  if(nearEnd && (trip.nextTrips||[]).length && trip.meta.website){
+    rows.push({icon:"route", k:U().whatsNext, v:`${trip.nextTrips.length} ${lang === "pl" ? "wypraw" : "trips"}`,
+      sub:esc(tr(trip.nextTrips[0].name)), nexttrips:true});
+  }
+  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}${o.t ? " t-" + o.t : ""}" ${o.nexttrips ? `data-nexttrips="1"` : o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
+      <span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
+      ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
+      <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
+    </button>`;
+  const glance = rows.length ? `<div class="tiles">${rows.map((o, i) => tile(o, i === rows.length - 1 && rows.length % 2 === 1)).join("")}</div>` : "";
+  /* The longer rows open in a sheet over the screen instead of pushing it down. */
+  const open = rows.find(o => o.open);
+  if(open) setTimeout(() => nowSheet(open.k, "", open.more), 0);
+
+  return `<div class="now">${head}${glance}</div>`;
+}
+
+/* What is coming next — opened from its NOW tile. */
+function nextTripsHTML(){
+  const site = trip.meta.website || "", mail = trip.meta.email || "";
+  return `<div class="nextcard" style="margin:0">
     ${trip.nextTrips.map(t=>`<a class="nexttrip" href="${esc(t.url || site)}" target="_blank" rel="noopener">
       <span><span class="nm">${esc(tr(t.name))}</span><span class="nn">${esc(tr(t.note))}</span></span>
       <span class="nw">${esc(tr(t.when))} <span class="arr">→</span></span></a>`).join("")}
@@ -1903,9 +2512,7 @@ function viewNow(){
       <a class="btn ghost" style="color:var(--slate);border-color:#2A4C5C;text-decoration:none"
          href="mailto:${esc(mail)}?subject=${encodeURIComponent(U().nextSubject)}">${U().nextEmail}</a>
     </div>
-  </div>` : "";
-
-  return head + nextBlock + glance + wxBlock;
+  </div>`;
 }
 
 /* A dive day either lists its dives, or is flagged diveDay in the trip
@@ -1931,6 +2538,16 @@ const ICON = {
   chev:   '<path d="m6 9 6 6 6-6"/>',
   doc:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
   bag:    '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  cal:    '<rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M16 2.5v4"/><path d="M8 2.5v4"/><path d="M3 10h18"/>',
+  grid:   '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+  book:   '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  map:    '<path d="M14.1 5.9 9.9 4.1a2 2 0 0 0-1.6 0L3.6 6.2A1 1 0 0 0 3 7.1v12.4a1 1 0 0 0 1.4.9l4-1.8a2 2 0 0 1 1.6 0l4.2 1.8a2 2 0 0 0 1.6 0l4.6-2a1 1 0 0 0 .6-.9V5.1a1 1 0 0 0-1.4-.9l-4 1.8a2 2 0 0 1-1.6 0Z"/><path d="M15 6v14"/><path d="M9 4v14"/>',
+  gear:   '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',
+  car:    '<path d="M19 17h2v-4.2a2 2 0 0 0-.6-1.4L17 8H7l-3.4 3.4a2 2 0 0 0-.6 1.4V17h2"/><path d="M7 8l1.5-3.2A1.5 1.5 0 0 1 9.9 4h4.2a1.5 1.5 0 0 1 1.4.8L17 8"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M9.5 17h5"/>',
+  camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3.5"/>',
+  phone:  '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"/>',
+  passport:'<rect x="4.5" y="2.5" width="15" height="19" rx="2"/><circle cx="12" cy="10" r="3.6"/><path d="M8.4 10h7.2"/><path d="M12 6.4c1 1 1.4 2.3 1.4 3.6s-.4 2.6-1.4 3.6c-1-1-1.4-2.3-1.4-3.6s.4-2.6 1.4-3.6"/><path d="M9 17.5h6"/>',
+  train:  '<path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/>',
   save:   '<path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M4.4 15.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.4 8.3"/>'
 };
 const svg = (k, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
@@ -1960,6 +2577,18 @@ function fmtCoord(c){
   return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
 }
 let deckPos = {};        // which card each deck (days, flights, stay) is showing
+/* Coming back to the app (from the home screen, another app, or the next
+   morning): every deck opens on today again — today's day, the next
+   flight, tonight's hotel — and NOW picks up today's photo and plan. */
+let hiddenAt = 0;
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "hidden"){ hiddenAt = Date.now(); return; }
+  if(!hiddenAt || typeof trip === "undefined" || !trip) return;
+  hiddenAt = 0;
+  deckPos = {};
+  try{ render(); }catch(e){}
+});
+window.addEventListener("pageshow", e => { if(e.persisted){ deckPos = {}; try{ render(); }catch(err){} } });
 let nowOpen = null;      // NOW: which At-a-glance row is open (offline, nofly)
 
 /* ---- Day photos -------------------------------------------------------------
@@ -2030,7 +2659,9 @@ const HOME_PHOTO = "img/day-warsaw.jpg";
 const isHomecoming = d => d === trip.days[trip.days.length - 1] && d.coords
   && Math.abs(d.coords[0] - 52.17) < 0.3 && Math.abs(d.coords[1] - 20.97) < 0.3;
 function dayPhotoCands(d, home){
-  if(d.photo) return {list:[d.photo], strength:9};
+  /* "photo" may be a list: the first file is the one we want, the rest
+     show underneath until it has been uploaded. */
+  if(d.photo) return {list:[[].concat(d.photo)[0]], strength:9};
   if(home !== false && isHomecoming(d)) return {list:[HOME_PHOTO], strength:9};
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
@@ -2092,6 +2723,20 @@ function dayPhotos(days, home){
    whatever does not fit opens in a "More info" sheet inside the card, so
    the page itself never scrolls on these tabs. */
 const DECK_TABS = ["days","flights","stay"];
+const LOCK_TABS = ["now","days","flights","stay","map"];
+/* On locked tabs a vertical drag outside a scrolling sheet does nothing —
+   this is what stops the iPhone from nudging the page up and down. */
+(function(){
+  let x0 = 0, y0 = 0;
+  const FREE = ".psh-body,.nsheet,.moresheet,.tcard,.drv,.leaflet-container,.namegate,.modal";
+  document.addEventListener("touchstart", e => { const t = e.touches[0]; x0 = t.clientX; y0 = t.clientY; }, {passive:true});
+  document.addEventListener("touchmove", e => {
+    if(!document.documentElement.classList.contains("locked") || e.touches.length > 1) return;
+    if(e.target.closest && e.target.closest(FREE)) return;
+    const t = e.touches[0];
+    if(Math.abs(t.clientY - y0) > Math.abs(t.clientX - x0)) e.preventDefault();
+  }, {passive:false});
+})();
 function deckWords(){
   return lang === "pl"
     ? {of:"z", prev:"Poprzednia karta", next:"Następna karta", swipe:"Przesuń w bok", more:"Więcej", less:"Zamknij"}
@@ -2145,7 +2790,8 @@ function viewDays(){
     const dt = dateOnly(d.date);
     /* Two layers for the homecoming day: Warsaw on top, the day's next photo
        underneath, shown if the Warsaw file has not been added yet. */
-    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}` : photos[i];
+    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}`
+              : Array.isArray(d.photo) ? d.photo.join("'),url('") : photos[i];
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
     const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));
@@ -2173,22 +2819,37 @@ function viewDays(){
           <h3 class="pttl">${esc(tr(d.title))}</h3>
           <div class="pmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</div>
         </div>
-        <div class="ppeek">${tonight}${sched}</div>
+        <div class="ppeek two">${(d.items||[]).slice(0, 2).map(([tm,x], k)=>`<div class="pl">
+          <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
+          ${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}<span class="x">${esc(tr(x))}</span></div>`).join("")}</div>
         ${moreSheet(date, esc(tr(d.title)), full)}
       </article>`};
   });
-  const todayIdx = trip.days.findIndex(d => d.date === t);
+  /* Opens on today; before the trip on day 1, after it on the last day. */
+  let todayIdx = trip.days.findIndex(d => d.date === t);
+  if(todayIdx < 0 && trip.days.length && daysBetween(trip.days[trip.days.length - 1].date, t) > 0) todayIdx = trip.days.length - 1;
   return deckHTML("days", cards, todayIdx, KD.deck);
 }
 
 /* After a deck tab is drawn: size the cards to the screen, put the track on
    the remembered card without animation, then follow swipes. */
+/* The floating top bar is fixed, so the page starts below it. Its height
+   changes with the tab (the readout steps aside on card tabs) and with the
+   language, so it is measured rather than assumed. */
+function sizeTop(){
+  const t = document.querySelector(".instrument");
+  if(!t) return;
+  document.documentElement.style.setProperty("--topH", Math.ceil(t.getBoundingClientRect().bottom + 10) + "px");
+}
 function sizeDecks(){
+  sizeTop();
   const track = document.querySelector(".deck .passtrack");
   if(!track) return;
   const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
-  document.documentElement.style.setProperty("--deckH", Math.max(440, Math.floor(vh - top - 14)) + "px");
+  const bar = document.querySelector(".tabsbar");
+  const barSpace = bar ? vh - bar.getBoundingClientRect().top : 0;   // the floating bar and its margin
+  document.documentElement.style.setProperty("--deckH", Math.max(300, Math.floor(vh - top - 12 - barSpace)) + "px");
 }
 function initDecks(){
   sizeDecks();
@@ -2238,6 +2899,7 @@ function closeSheet(card){
 }
 let deckResize = 0;
 window.addEventListener("resize", () => {
+  sizeTop();
   if(!DECK_TABS.includes(tab)) return;
   clearTimeout(deckResize);
   deckResize = setTimeout(() => {
@@ -2246,59 +2908,89 @@ window.addEventListener("resize", () => {
   }, 120);
 });
 
+/* A long baggage line is advice rather than an allowance: the card shows
+   its first clause, and the whole text is under More info. */
+function bagShort(t){
+  t = String(t || "");
+  if(t.length <= 64) return t;
+  const cut = t.split(/\s[—–-]\s|\.\s|;\s/)[0];
+  return (cut && cut.length < t.length ? cut : t.slice(0, 60)) + " …";
+}
 function viewFlights(){
   const KF = lang === "pl"
     ? {flight:"Lot", deck:"Loty", pass:"Karta pokładowa", from:"Wylot", to:"Przylot", ref:"Rezerwacja", bag:"Bagaż", note:"Uwagi", date:"Data", num:"Lot"}
     : {flight:"Flight", deck:"Flights", pass:"Boarding pass", from:"Departs", to:"Arrives", ref:"Booking", bag:"Baggage", note:"Note", date:"Date", num:"Flight"};
+  const KM = lang === "pl"
+    ? {train:{flight:"Pociąg", pass:"Bilet kolejowy", from:"Odjazd", to:"Przyjazd", num:"Pociąg", bag:"Miejsca",
+              pending:"Pociąg i miejsca potwierdzimy przed wyjazdem", disc:"Godziny z planu podróży. Na miejscu zawsze sprawdź tablicę odjazdów na stacji."},
+       heli:{flight:"Helikopter", pass:"Lot helikopterem", from:"Start", to:"Lądowanie", num:"Lot", bag:"Bagaż",
+              pending:"Godzinę startu potwierdzimy przed wyjazdem", disc:"Lot zależy od pogody. Godzinę i miejsce startu potwierdza operator dzień wcześniej."},
+       deck:"Przejazdy"}
+    : {train:{flight:"Train", pass:"Train ticket", from:"Departs", to:"Arrives", num:"Train", bag:"Seats",
+              pending:"Train and seats confirmed before departure", disc:"Times from the travel plan. On the day, always check the departure board at the station."},
+       heli:{flight:"Helicopter", pass:"Helicopter flight", from:"Take-off", to:"Landing", num:"Flight", bag:"Baggage",
+              pending:"Take-off time confirmed before departure", disc:"The flight depends on the weather. The operator confirms time and take-off point the day before."},
+       deck:"Travel"};
   const now = Date.now();
   const cards = trip.flights.map((f, i) => {
+    const M = f.mode && KM[f.mode];
+    const K = M ? {...KF, ...M} : KF;
+    const icon = f.mode === "train" ? "train" : "travel";
     const hasNumber = f.number && f.number !== "—";
     const q = hasNumber ? f.number.replace(/\s/g,"") : "";
     const d0 = (f.dep.time || "").slice(0,10);
-    const actions = hasNumber
+    const actions = M
+      ? (f.status ? `<span class="pill">${esc(tr(f.status))}</span>` : hasNumber ? "" : `<span class="pill">${M.pending}</span>`)
+      : hasNumber
       ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${d0 ? "#" + d0 : ""}">${U().checkStatus}</a>
          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
-            href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
+            href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(f.dep.iata + " airport terminal " + (tr(f.dep.city) || ""))}">${svg("map", 1.9)}${lang === "pl" ? "Mapa terminalu" : "Terminal map"}</a>`
       : `<span class="pill">${U().numberPending}</span>`;
     const details = `<dl class="bpgrid">
-        <div><dt>${KF.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
-        <div><dt>${KF.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
-        <div class="wide"><dt>${KF.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
+        <div><dt>${K.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${K.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
+        <div class="wide"><dt>${K.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
       </dl>`;
-    const note = f.seatNote ? `<div class="bpnote"><span class="k">${KF.note}</span>${esc(tr(f.seatNote))}</div>` : "";
-    return {label: `${KF.flight} ${i + 1}`, dot: "",
-      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${KF.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
+    /* The stub on the card: booking and baggage side by side — the flight
+       number is already at the top. Everything is repeated under More info. */
+    const stub = `<dl class="bpgrid stub">
+        <div><dt>${K.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${K.bag}</dt><dd>${esc(bagShort(tr(f.baggage)))}</dd></div>
+      </dl>`;
+    const note = f.seatNote ? `<div class="bpnote"><span class="k">${K.note}</span>${esc(tr(f.seatNote))}</div>` : "";
+    const stn = f.dep.iata.length > 4 || f.arr.iata.length > 4 ? " stn" : "";
+    return {label: `${K.flight} ${i + 1}`, dot: "",
+      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${K.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
         <div class="bptop">
           <div class="prow" style="padding:0">
-            <span class="pday">${KF.pass}</span>
-            <span class="pkind">${svg("travel")}${fmtDate(d0)}</span>
+            <span class="pday">${K.pass}</span>
+            <span class="pkind">${svg(icon)}${fmtDate(d0)}</span>
           </div>
-          <div class="bpair">${esc(tr(f.airline))}<span class="mono"> ${esc(f.number)}</span></div>
+          <div class="bpair">${esc(tr(f.airline))}${hasNumber ? `<span class="mono"> ${esc(f.number)}</span>` : ""}</div>
           <div class="bplabel">${esc(tr(f.label))}</div>
           <div class="bproute">
-            <div><div class="bpk">${KF.from}</div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
-            <div class="bpmid"><span class="bpline"></span>${svg("travel", 1.6)}<span class="bpline"></span></div>
-            <div class="r"><div class="bpk">${KF.to}</div><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
+            <div><div class="bpk">${K.from}</div><div class="iata${stn}">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
+            <div class="bpmid"><span class="bpline"></span>${svg(icon, 1.6)}<span class="bpline"></span></div>
+            <div class="r"><div class="bpk">${K.to}</div><div class="iata${stn}">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
           </div>
           <div class="bptimes">
-            <div><span class="bpk">${KF.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
-            <div class="r"><span class="bpk">${KF.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
+            <div><span class="bpk">${K.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
+            <div class="r"><span class="bpk">${K.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
           </div>
         </div>
         <div class="bpperf" aria-hidden="true"></div>
         <div class="bpbody">
-          <div class="bppeek">${details}${note}</div>
-          <div class="bpfade"></div>
+          <div class="bppeek">${stub}</div>
           <div class="row bpact">${actions}</div>
         </div>
         ${moreSheet(`${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(d0)}`, `${esc(tr(f.airline))} ${esc(f.number)}`,
-          details + note + `<p class="bpdisc">${U().flightNote}</p><div class="row">${actions}</div>`)}
+          details + note + `<p class="bpdisc">${M ? M.disc : U().flightNote}</p><div class="row">${actions}</div>`)}
       </article>`};
   });
   /* Open on the next flight that has not left yet. */
   const next = trip.flights.findIndex(f => new Date((f.dep.time || "").replace(" ", "T")).getTime() > now);
-  return deckHTML("flights", cards, next >= 0 ? next : 0, KF.deck);
+  return deckHTML("flights", cards, next >= 0 ? next : 0, hasGround() ? KM.deck : KF.deck);
 }
 
 function viewStay(){
@@ -2326,6 +3018,7 @@ function viewStay(){
         <a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
            href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${svg("pin")}${U().directions}</a>
         <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
+        <button class="btn ghost" data-drv="${i}">${svg("car")}${lang === "pl" ? "Pokaż kierowcy" : "Show the driver"}</button>
       </div>`;
     const notes = h.notes ? `<div class="dnote">${svg("info")}<span>${esc(tr(h.notes))}</span></div>` : "";
     return {label: `${KS.stay} ${i + 1}`, dot: now ? "today" : "",
@@ -2341,7 +3034,7 @@ function viewStay(){
           <h3 class="pttl">${esc(h.name)}</h3>
           <div class="pmeta"><span class="co">${fmtCoord(h.coords)}</span></div>
         </div>
-        <div class="ppeek">${dates}${facts}</div>
+        <div class="ppeek stayp">${dates}</div>
         ${moreSheet(esc(tr(h.place)), esc(h.name), dates + facts + notes + actions)}
       </article>`};
   });
@@ -2360,7 +3053,7 @@ function viewDocs(){
     const thumb = rec
       ? (rec.mime==="application/pdf" ? `<div class="thumb done">PDF</div>` : `<div class="thumb done"><img src="${rec.data}" alt=""></div>`)
       : `<div class="thumb">+</div>`;
-    const added = rec ? new Date(rec.added).toLocaleDateString(undefined,{day:"numeric",month:"short"}) : "";
+    const added = rec ? new Date(rec.added).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{day:"numeric",month:"short"}) : "";
     return `<div class="doc">
       ${thumb}
       <div>
@@ -2760,22 +3453,42 @@ function viewLog(){
   const total = diveLog.length;
   const deepest = diveLog.reduce((a,d)=>Math.max(a, parseFloat(d.depth)||0), 0);
 
+  const pl = lang === "pl";
+  const E = editingDive || {};
+  const sawSet = new Set(String(E.saw || "").split(",").map(x=>x.trim()).filter(Boolean));
+  const buddies = [...new Set(diveLog.map(d=>(d.buddy||"").trim()).filter(Boolean))].slice(0, 6);
+  const todaySites = (currentDay()?.dives || []).map(v=>tr(v.site));
+  const siteChips = [...new Set([...todaySites, ...sites])].slice(0, 10);
+  const stepper = (id, val, unit, step) => `<div class="stepper">
+      <button type="button" data-dvstep="${id}:-${step}" aria-label="−${step}">−</button>
+      <input id="${id}" type="number" inputmode="decimal" value="${esc(val)}" placeholder="—" aria-label="${unit}">
+      <button type="button" data-dvstep="${id}:${step}" aria-label="+${step}">+</button></div>`;
   const form = editingDive ? `<div class="card">
-    <div class="eyebrow">${editingDive.site ? U().editDive : U().newDive}</div>
+    <div class="eyebrow">${diveLog.some(d=>d.id===E.id) ? U().editDive : U().newDive}</div>
     <div class="dvform">
-      <label>${U().dvDate}<input type="date" id="dv-date" value="${esc(editingDive.date)}"></label>
-      <label>${U().dvSite}<input list="dvsites" id="dv-site" value="${esc(editingDive.site)}" placeholder="${esc(sites[0]||"")}"></label>
-      <label>${U().dvDepth}<input type="number" inputmode="decimal" id="dv-depth" value="${esc(editingDive.depth)}" placeholder="18"></label>
-      <label>${U().dvTime}<input type="number" inputmode="numeric" id="dv-time" value="${esc(editingDive.time)}" placeholder="45"></label>
-      <label class="wide">${U().dvBuddy}<input id="dv-buddy" value="${esc(editingDive.buddy)}"></label>
-      <label class="wide">${U().dvSaw}<input id="dv-saw" value="${esc(editingDive.saw)}" placeholder="${U().dvSawEg}"></label>
-      <label class="wide">${U().dvNotes}<textarea id="dv-notes" style="min-height:70px">${esc(editingDive.notes)}</textarea></label>
+      <div class="dvsec">${pl ? "Zdjęcia" : "Photos"}</div>
+      <div class="dvphotos" id="dv-photos">
+        ${(E.photos||[]).map(pid=>`<div class="ph"><img data-dvimg="${pid}" alt=""><button type="button" data-dvphdel="${pid}" aria-label="${pl?"Usuń zdjęcie":"Remove photo"}">×</button></div>`).join("")}
+        <label class="dvadd">${svg("camera")}${pl ? "Dodaj zdjęcie" : "Add photo"}<input type="file" id="dv-photo" accept="image/*" multiple class="hidden"></label>
+      </div>
+      <label>${U().dvDate}<input type="date" id="dv-date" value="${esc(E.date)}"></label>
+      <div></div>
+      <label class="wide">${U().dvSite}<input list="dvsites" id="dv-site" value="${esc(E.site)}" placeholder="${pl?"Wybierz poniżej albo wpisz":"Pick below or type"}"></label>
+      ${siteChips.length ? `<div class="chips">${siteChips.map(x=>`<button type="button" class="chip" data-dvsite="${esc(x)}" aria-pressed="${E.site===x}">${esc(x)}</button>`).join("")}</div>` : ""}
+      <div class="dvl">${U().dvDepth}${stepper("dv-depth", E.depth, "m", 1)}</div>
+      <div class="dvl">${U().dvTime}${stepper("dv-time", E.time, "min", 5)}</div>
+      <label class="wide">${U().dvBuddy}<input id="dv-buddy" value="${esc(E.buddy)}"></label>
+      ${buddies.length ? `<div class="chips">${buddies.map(x=>`<button type="button" class="chip" data-dvbuddy="${esc(x)}" aria-pressed="${E.buddy===x}">${esc(x)}</button>`).join("")}</div>` : ""}
+      <div class="dvsec">${U().dvSaw}</div>
+      <div class="chips">${SEALIFE.map(x=>{ const t = pl ? x[0] : x[1]; return `<button type="button" class="chip" data-dvsaw="${esc(t)}" aria-pressed="${sawSet.has(t)}">${esc(t)}</button>`; }).join("")}</div>
+      <label class="wide"><input id="dv-saw" value="${esc(E.saw)}" placeholder="${U().dvSawEg}"></label>
+      <label class="wide">${U().dvNotes}<textarea id="dv-notes" style="min-height:70px">${esc(E.notes)}</textarea></label>
     </div>
     <datalist id="dvsites">${sites.map(x=>`<option value="${esc(x)}">`).join("")}</datalist>
     <div class="row">
-      <button class="btn" id="dv-save">${U().save}</button>
+      <button class="btn" id="dv-save">${pl ? "Zapisz nurkowanie" : "Save dive"}</button>
       <button class="btn ghost" id="dv-cancel">${U().cancel}</button>
-      ${diveLog.some(d=>d.id===editingDive.id)?`<button class="btn ghost" data-dvdel="${editingDive.id}">${U().remove}</button>`:""}
+      ${diveLog.some(d=>d.id===E.id)?`<button class="btn ghost" data-dvdel="${E.id}">${U().remove}</button>`:""}
     </div></div>` : "";
 
   const list = total ? diveLog.map((d,i)=>`
@@ -2788,6 +3501,7 @@ function viewLog(){
       ${d.saw?`<p class="sub" style="margin:8px 0 0">${esc(d.saw)}</p>`:""}
       ${d.notes?`<p class="note" style="margin:6px 0 0">${esc(d.notes)}</p>`:""}
       ${d.buddy?`<p class="note" style="margin:6px 0 0">${U().dvBuddy}: ${esc(d.buddy)}</p>`:""}
+      ${(d.photos||[]).length ? `<div class="dvthumbs">${d.photos.slice(0,4).map(pid=>`<img data-dvimg="${pid}" alt="">`).join("")}</div>` : ""}
     </button>`).join("")
   : `<div class="card"><h3>${U().logEmpty}</h3><p class="sub" style="margin-top:6px">${U().logEmptyNote}</p></div>`;
 
@@ -2839,17 +3553,23 @@ function viewGear(){
     <p class="note">${U().packPrivacy}</p>`;
 }
 
+/* MAP fills the screen between the bars; the legend and the offline-map
+   button sit on the map, and the offline options open in a sheet. */
 function viewMap(){
-  return `<div class="sectitle"><h2>${U().tripMap}</h2><div class="rule"></div>
+  const m = mapSaveRow();
+  return `<div class="maptab">
+    <div class="sectitle"><h2>${U().tripMap}</h2><div class="rule"></div>
       <button class="btn ghost" id="showall">${U().wholeRoute}</button></div>
-    <p class="note" style="margin:8px 0 0">${U().mapNote}</p>
-    <div id="map"></div>
-    <div class="legend">
-      <span><i style="background:var(--reef-dim)"></i>${U().legDive}</span>
-      <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
-      <span><i style="background:var(--coral)"></i>${U().legTown}</span>
-      <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
-    </div>` + mapCardHTML();
+    <div class="mapbox">
+      <div id="map"></div>
+      <button class="mapchip ${m.done ? "ok" : ""}" data-mapsave="1">${svg("save", 2)}${lang === "pl" ? "Mapa offline" : "Offline map"}${m.done ? " ✓" : ""}</button>
+      <div class="legend">
+        <span><i style="background:var(--reef-dim)"></i>${U().legDive}</span>
+        <span><i style="background:var(--ochre)"></i>${U().legHotel}</span>
+        <span><i style="background:var(--coral)"></i>${U().legTown}</span>
+        <span><i style="background:var(--abyss)"></i>${U().legAir}</span>
+      </div>
+    </div></div>`;
 }
 
 function mapCardHTML(){
@@ -2864,11 +3584,140 @@ function mapCardHTML(){
       </div>`;
 }
 
-/* Re-render without redrawing the map: on MAP only its card changes. */
+/* Re-render without redrawing the map: on MAP only its card and chip change. */
 function refreshOfflineUI(){
   const card = document.getElementById("mapsavecard");
-  if(tab === "map" && card) card.outerHTML = mapCardHTML();
+  if(tab === "map"){
+    if(card) card.outerHTML = mapCardHTML();
+    const chip = document.querySelector(".mapchip"), m = mapSaveRow();
+    if(chip){ chip.classList.toggle("ok", !!m.done); chip.innerHTML = `${svg("save", 2)}${lang === "pl" ? "Mapa offline" : "Offline map"}${m.done ? " ✓" : ""}`; }
+  }
+  else if(card) card.outerHTML = mapCardHTML();
   else render();
+}
+
+/* ---------------- Useful tools: currency and phrases ----------------
+   The converter works offline: it carries a built-in rate, and whenever
+   the phone is online it quietly fetches today's rate and keeps it, so the
+   last known rate travels with the client onto the boat. */
+const FX_DEFAULT = {   // units of local currency per 1 PLN / 1 EUR (approximate)
+  PHP: {PLN: 15.5, EUR: 66, sym: "₱", tips: [100, 500, 1000]},
+  JPY: {PLN: 38.5, EUR: 165, sym: "¥", tips: []}
+};
+let fxBase = "PLN", fxLocal = "", fxForeign = "", fxLast = "local", phraseLang = "ceb";
+function fxCode(){
+  const c = String(tr(trip.meta.currency) || "").slice(0, 3).toUpperCase();
+  return FX_DEFAULT[c] ? c : null;
+}
+function fxRates(){
+  const code = fxCode(); if(!code) return null;
+  const d = FX_DEFAULT[code];
+  let saved = null;
+  try{ saved = JSON.parse(localStorage.getItem("malakay:fx:" + code) || "null"); }catch(e){}
+  return {code, sym: d.sym, tips: d.tips,
+    PLN: saved?.PLN || d.PLN, EUR: saved?.EUR || d.EUR, at: saved?.at || 0};
+}
+let fxTried = false;
+async function fxRefresh(){
+  const code = fxCode(); if(!code || fxTried || !navigator.onLine) return;
+  fxTried = true;
+  try{
+    const r = await fetch("https://open.er-api.com/v6/latest/" + code, {cache: "no-store"});
+    const j = await r.json();
+    if(j && j.rates && j.rates.PLN && j.rates.EUR){
+      const v = {PLN: 1 / j.rates.PLN, EUR: 1 / j.rates.EUR, at: Date.now()};
+      try{ localStorage.setItem("malakay:fx:" + code, JSON.stringify(v)); }catch(e){}
+      const box = document.getElementById("fxcard"); if(box) box.outerHTML = fxCardHTML();
+    }
+  }catch(e){}
+}
+const fmtNum = (n, d) => (isFinite(n) ? n : 0).toLocaleString(lang === "pl" ? "pl-PL" : "en-GB", {maximumFractionDigits: d, minimumFractionDigits: 0});
+function fxCardHTML(){
+  const R = fxRates(); if(!R) return "";
+  const pl = lang === "pl";
+  const rate = R[fxBase];
+  const when = R.at ? new Date(R.at).toLocaleDateString(pl ? "pl-PL" : "en-GB", {day:"numeric", month:"short"}) : "";
+  return `<div class="card fxcard" id="fxcard">
+    <div class="hd"><div><div class="eyebrow">${pl ? "Przelicznik walut" : "Currency converter"}</div>
+      <h3 style="margin-top:4px">${fxBase} ⇄ ${R.code}</h3></div>
+      <div class="seg" role="tablist">${["PLN","EUR"].map(c => `<button role="tab" data-fxbase="${c}" aria-selected="${fxBase===c}">${c}</button>`).join("")}</div></div>
+    <div class="fxrow">
+      <label><span>${R.code}</span><input id="fx-local" type="number" inputmode="decimal" placeholder="0" value="${esc(fxLocal)}"><b>${R.sym}</b></label>
+      <span class="fxeq">=</span>
+      <label><span>${fxBase}</span><input id="fx-foreign" type="number" inputmode="decimal" placeholder="0" value="${esc(fxForeign)}"><b>${fxBase === "EUR" ? "€" : "zł"}</b></label>
+    </div>
+    ${R.tips.length ? `<div class="eyebrow" style="margin-top:14px">${pl ? "Napiwki" : "Tips"}</div>
+      <div class="fxtips">${R.tips.map(t => `<button data-fxtip="${t}"><b>${R.sym}${fmtNum(t,0)}</b><span>≈ ${fmtNum(t / rate, 2)} ${fxBase === "EUR" ? "€" : "zł"}</span></button>`).join("")}</div>` : ""}
+    <p class="note" style="margin:12px 0 0">1 ${fxBase} = ${fmtNum(rate, 2)} ${R.sym} · ${R.at
+      ? (pl ? `kurs z ${when}, działa bez internetu` : `rate from ${when}, works offline`)
+      : (pl ? "kurs orientacyjny — odświeży się, gdy będzie internet" : "approximate rate — updates when you are online")}</p>
+  </div>`;
+}
+function fxSync(from){
+  const R = fxRates(); if(!R) return;
+  const rate = R[fxBase], L = document.getElementById("fx-local"), F = document.getElementById("fx-foreign");
+  if(!L || !F) return;
+  fxLast = from;
+  if(from === "local"){ fxLocal = L.value; const v = parseFloat(L.value); fxForeign = F.value = isFinite(v) ? (v / rate).toFixed(2) : ""; }
+  else { fxForeign = F.value; const v = parseFloat(F.value); fxLocal = L.value = isFinite(v) ? String(Math.round(v * rate)) : ""; }
+}
+/* Phrases: [local, Polish, English]. Checked against common usage in
+   Cebu, Bohol, Negros (Bisaya/Cebuano) and Manila, Palawan (Tagalog). */
+const PHRASES = {
+  ceb: {name: "Bisaya", where: {pl: "Cebu, Malapascua, Moalboal, Bohol, Negros", en: "Cebu, Malapascua, Moalboal, Bohol, Negros"}, groups: [
+    [{pl:"Na co dzień", en:"Everyday"}, [
+      ["Maayong buntag", "Dzień dobry (rano)", "Good morning"],
+      ["Maayong gabii", "Dobry wieczór", "Good evening"],
+      ["Salamat / Daghang salamat", "Dziękuję / Bardzo dziękuję", "Thank you / Thank you very much"],
+      ["Oo / Dili", "Tak / Nie", "Yes / No"],
+      ["Pila?", "Ile kosztuje?", "How much?"],
+      ["Asa ang CR?", "Gdzie jest toaleta?", "Where is the toilet?"],
+      ["Lami kaayo!", "Bardzo smaczne!", "Very tasty!"],
+      ["Dili halang", "Nie ostre", "Not spicy"],
+      ["Pasayloa ko", "Przepraszam", "Sorry / excuse me"],
+      ["Tagay!", "Na zdrowie!", "Cheers!"]]],
+    [{pl:"Nurkowanie i łódź", en:"Diving and the boat"}, [
+      ["Nindot kaayo!", "Pięknie!", "Beautiful!"],
+      ["Hinay-hinay lang", "Powoli, spokojnie", "Slowly, take it easy"],
+      ["Kadiyot lang", "Chwileczkę", "Just a moment"],
+      ["Gibugnaw ko", "Zimno mi", "I am cold"],
+      ["Nalipong ko", "Kręci mi się w głowie / mam chorobę morską", "I feel dizzy / seasick"],
+      ["Tabang!", "Pomocy!", "Help!"],
+      ["Isda · Pawikan · Tuki", "Ryba · Żółw · Rekin wielorybi", "Fish · Turtle · Whale shark"],
+      ["Baroto · Dagat", "Łódź · Morze", "Boat · Sea"]]]]},
+  tl: {name: "Tagalog", where: {pl: "Manila, Palawan, Coron, El Nido", en: "Manila, Palawan, Coron, El Nido"}, groups: [
+    [{pl:"Na co dzień", en:"Everyday"}, [
+      ["Magandang umaga po", "Dzień dobry (rano)", "Good morning"],
+      ["Magandang gabi po", "Dobry wieczór", "Good evening"],
+      ["Salamat po / Maraming salamat po", "Dziękuję / Bardzo dziękuję", "Thank you / Thank you very much"],
+      ["Oo / Hindi", "Tak / Nie", "Yes / No"],
+      ["Magkano po?", "Ile kosztuje?", "How much?"],
+      ["Nasaan ang CR?", "Gdzie jest toaleta?", "Where is the toilet?"],
+      ["Ang sarap!", "Pyszne!", "Delicious!"],
+      ["Hindi maanghang", "Nie ostre", "Not spicy"],
+      ["Paumanhin po", "Przepraszam", "Sorry / excuse me"],
+      ["Tagay!", "Na zdrowie!", "Cheers!"]]],
+    [{pl:"Nurkowanie i łódź", en:"Diving and the boat"}, [
+      ["Ang ganda!", "Pięknie!", "Beautiful!"],
+      ["Dahan-dahan lang", "Powoli, spokojnie", "Slowly, take it easy"],
+      ["Sandali lang po", "Chwileczkę", "Just a moment"],
+      ["Nilalamig ako", "Zimno mi", "I am cold"],
+      ["Nahihilo ako", "Kręci mi się w głowie / mam chorobę morską", "I feel dizzy / seasick"],
+      ["Tulong!", "Pomocy!", "Help!"],
+      ["Isda · Pawikan · Butanding", "Ryba · Żółw · Rekin wielorybi", "Fish · Turtle · Whale shark"],
+      ["Bangka · Dagat", "Łódź · Morze", "Boat · Sea"]]]]}
+};
+function phraseCardHTML(){
+  if(fxCode() !== "PHP") return "";
+  const pl = lang === "pl", P = PHRASES[phraseLang];
+  return `<div class="card phcard" id="phcard">
+    <div class="hd"><div><div class="eyebrow">${pl ? "Lokalne zwroty" : "Local phrases"}</div>
+      <h3 style="margin-top:4px">${P.name}</h3></div>
+      <div class="seg" role="tablist">${Object.entries(PHRASES).map(([k,v]) => `<button role="tab" data-phlang="${k}" aria-selected="${phraseLang===k}">${v.name}</button>`).join("")}</div></div>
+    <p class="note" style="margin:6px 0 0">${pl ? "Gdzie" : "Where"}: ${esc(tr(P.where))}${phraseLang === "tl" ? (pl ? ". „Po” na końcu dodaje grzeczności." : ". Adding “po” makes it polite.") : ""}</p>
+    ${P.groups.map(([g, rows]) => `<div class="phgrp">${esc(tr(g))}</div>
+      <ul class="phlist">${rows.map(r => `<li><b lang="${phraseLang}">${esc(r[0])}</b><span>${esc(pl ? r[1] : r[2])}</span></li>`).join("")}</ul>`).join("")}
+  </div>`;
 }
 
 function viewGuide(){
@@ -2915,6 +3764,9 @@ function viewGuide(){
       ${divePkgV ? `<dt>${T.divePkg}</dt><dd>${esc(divePkgV)}</dd>` : ""}
     </dl>
   </div>
+
+  ${fxCode() ? `<div class="sectitle"><h2>${lang === "pl" ? "Przydatne narzędzia" : "Useful tools"}</h2><div class="rule"></div></div>
+  ${fxCardHTML()}${phraseCardHTML()}` : ""}
 
   <div class="sectitle"><h2>${U().funFacts}</h2><div class="rule"></div>
       <span class="pill">${groups.reduce((a,g)=>a+g.items.length,0)}</span></div>
@@ -2967,9 +3819,19 @@ function render(){
   if(tab === "setup" && !setupUnlocked) tab = "now";
   /* Card tabs get the whole screen under the tabs: the status band steps aside. */
   document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
+  document.body.classList.toggle("slimtop", DECK_TABS.includes(tab) || tab === "now" || tab === "map");
+  /* NOW, DAYS, FLIGHTS, STAY and MAP are one fixed screen: the page does
+     not move up or down. Cards still swipe, the map still pans and sheets
+     still scroll inside themselves. */
+  const lock = LOCK_TABS.includes(tab);
+  document.documentElement.classList.toggle("locked", lock);
+  if(lock) window.scrollTo(0, 0);
+  sizeTop();
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);
+  if(tab === "log") paintDivePhotos();
+  if(tab === "guide") fxRefresh();
   if(DECK_TABS.includes(tab)) initDecks();
   if(tab === "now" || tab === "days"){
     const w = weatherPlace();
@@ -3549,13 +4411,29 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-fxbase],[data-fxtip],[data-phlang],[data-nsclose],[data-mapsave],[data-nexttrips],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],[data-dvsite],[data-dvbuddy],[data-dvsaw],[data-dvstep],[data-dvphdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
+  if(t.dataset.fxbase){ fxBase = t.dataset.fxbase; if(fxLast === "local") fxForeign = ""; else fxLocal = ""; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync(fxLast); return; }
+  if(t.dataset.fxtip){ fxLocal = t.dataset.fxtip; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync("local"); return; }
+  if(t.dataset.phlang){ phraseLang = t.dataset.phlang; const b = document.getElementById("phcard"); if(b) b.outerHTML = phraseCardHTML(); return; }
+  if(t.dataset.wx){ wxSheet(); return; }
+  if(t.dataset.mapsave){ nowSheet(U().off.mapTitle, "", mapCardHTML()); return; }
+  if(t.dataset.nexttrips){ nowSheet(U().whatsNext, U().whatsNextNote, nextTripsHTML()); return; }
+  if(t.dataset.time){ timeSheet(); return; }
+  if(t.dataset.nsclose){ if(t.id !== "nsbg" || e.target === t) closeNowSheet(); return; }
+  if(t.dataset.transfer){ transferCard(); return; }
+  if(t.dataset.tpick){ transferCard(+t.dataset.tpick); return; }
+  if(t.dataset.tclose){ if(t.dataset.tclose && (t.id !== "tbg" || e.target === t)) document.getElementById("tbg")?.remove(); return; }
+  if(t.dataset.moreopen){ moreSheetOpen(true); return; }
+  if(t.dataset.moreclose){ moreSheetOpen(false); return; }
+  if(t.dataset.drv){ driverCard(+t.dataset.drv); return; }
+  if(t.dataset.drvclose){ document.getElementById("drv")?.remove(); return; }
   if(t.dataset.rename){ openGate(); return; }
   if(t.dataset.lang){ setLang(t.dataset.lang); return; }
 
   if(t.dataset.tab || t.dataset.goto){
+    moreSheetOpen(false);
     if(t.dataset.focus) focusPoint = t.dataset.focus.split(",").map(Number);
     tab = t.dataset.tab || t.dataset.goto; window.scrollTo(0,0); render(); return;
   }
@@ -3589,8 +4467,8 @@ document.addEventListener("click", async (e) => {
     return;
   }
   if(t.dataset.nowopen){
-    nowOpen = nowOpen === t.dataset.nowopen ? null : t.dataset.nowopen;
-    render(); return;
+    nowOpen = t.dataset.nowopen;
+    render(); return;   // viewNow opens the sheet for the chosen tile
   }
   if(t.hasAttribute("data-more")){
     const card = t.closest(".pass");
@@ -3603,6 +4481,28 @@ document.addEventListener("click", async (e) => {
     return;
   }
   if(t.id === "dv-new"){ newDive(); return; }
+  if(t.dataset.dvsite != null){ syncDive(); editingDive.site = t.dataset.dvsite; render(); return; }
+  if(t.dataset.dvbuddy != null){ syncDive(); editingDive.buddy = editingDive.buddy === t.dataset.dvbuddy ? "" : t.dataset.dvbuddy; render(); return; }
+  if(t.dataset.dvsaw != null){
+    syncDive();
+    const set = String(editingDive.saw || "").split(",").map(x=>x.trim()).filter(Boolean);
+    const i = set.indexOf(t.dataset.dvsaw);
+    if(i >= 0) set.splice(i, 1); else set.push(t.dataset.dvsaw);
+    editingDive.saw = set.join(", "); render(); return;
+  }
+  if(t.dataset.dvstep){
+    syncDive();
+    const [id, d] = t.dataset.dvstep.split(":");
+    const k = id === "dv-depth" ? "depth" : "time";
+    const v = Math.max(0, (parseFloat(editingDive[k]) || (k === "depth" ? 17 : 40)) + Number(d));
+    editingDive[k] = String(v); render(); return;
+  }
+  if(t.dataset.dvphdel){
+    syncDive();
+    editingDive.photos = (editingDive.photos || []).filter(x => x !== t.dataset.dvphdel);
+    try{ window.storage.delete(K("dvphoto:" + t.dataset.dvphdel)); }catch(e){}
+    render(); return;
+  }
   if(t.id === "dv-save"){ saveDive(); return; }
   if(t.id === "dv-cancel"){ editingDive = null; render(); return; }
   if(t.dataset.dvedit){ editDive(t.dataset.dvedit); return; }
@@ -3638,6 +4538,8 @@ document.addEventListener("click", async (e) => {
 });
 
 document.addEventListener("input", (e) => {
+  if(e.target && e.target.id === "fx-local"){ fxSync("local"); return; }
+  if(e.target && e.target.id === "fx-foreign"){ fxSync("foreign"); return; }
   if(!e.target || e.target.id !== "pp-q") return;
   ppQuery = e.target.value;
   const box = document.getElementById("pp-results");
@@ -3648,6 +4550,7 @@ document.addEventListener("change", (e) => {
   if(e.target && e.target.id === "pp-file" && e.target.files && e.target.files[0]){
     ppImport(e.target.files[0]); e.target.value = ""; return;
   }
+  if(e.target.id === "dv-photo" && e.target.files?.length){ addDivePhotos([...e.target.files]); return; }
   if(e.target.id !== "picker") return;
   const file = e.target.files?.[0];
   if(file) storeDoc(e.target.dataset.slot, file);
@@ -3770,6 +4673,9 @@ function noFlyState(){
     rem: Math.round(hours % 24),
     min,
     dive, flight,
+    /* Live: not clear until the minimum surface interval has passed. */
+    clearAt: new Date(dive.getTime() + min * 3600e3),
+    clearNow: Date.now() >= dive.getTime() + min * 3600e3,
     label: c.firstFlightLabel,
     level: hours < min ? "under" : (hours < min + 3 ? "tight" : "ok")
   };
@@ -3789,7 +4695,12 @@ function noFlyCard(){
   const verdict = n.level === "under" ? U_.nfUnder
                 : n.level === "tight" ? U_.nfTight
                 : U_.nfOk;
+  const pl = lang === "pl";
+  const band = n.clearNow
+    ? `<div class="nfband ok"><b>${pl ? "Możesz lecieć" : "Clear to fly"}</b><span>${pl ? "Minął minimalny czas po ostatnim nurkowaniu" : "The minimum time since your last dive has passed"}</span></div>`
+    : `<div class="nfband no"><b>${pl ? "Jeszcze nie lataj" : "Not clear to fly yet"}</b><span>${pl ? "Bezpiecznie od" : "Clear from"} ${fmtWhen(n.clearAt)}</span></div>`;
   return `<div class="nofly ${n.level}">
+    ${band}
     <h4>${U_.nfTitle}</h4>
     <div class="nofly-row"><span>${U_.nfLast}</span><span>${fmtWhen(n.dive)}</span></div>
     <div class="nofly-row"><span>${U_.nfFlight}${n.label ? " · " + esc(tr(n.label)) : ""}</span><span>${fmtWhen(n.flight)}</span></div>

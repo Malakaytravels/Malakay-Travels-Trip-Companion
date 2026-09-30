@@ -150,7 +150,10 @@ body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));backgro
   .cell .v small{display:none}
 }
 .tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.tab[aria-selected="true"]{background:rgba(56,195,192,.14)}
+/* The selected tab is unmistakable: a bright lagoon pill with dark ink. */
+.tabsbar .tab[aria-selected="true"]{background:linear-gradient(180deg,#5ADAD5 0%,#2BB3B0 100%);color:var(--abyss);
+  box-shadow:0 6px 18px -6px rgba(56,195,192,.75),inset 0 1px 0 rgba(255,255,255,.35);font-weight:700}
+.tabsbar .tab[aria-selected="true"] svg{color:var(--abyss)}
 .tab[aria-selected="true"] svg{color:var(--reef)}
 body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 .morebg{position:fixed;inset:0;background:rgba(4,32,43,.55);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
@@ -1192,7 +1195,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v84 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v85 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });

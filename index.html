@@ -545,6 +545,25 @@ button.hchip .wi{font-size:16px;line-height:1}
 .tile .gv{font-size:14.5px}
 .tile .gchip{position:absolute;top:7px;right:8px;padding:2px 7px;font-size:9px}
 .tile:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+/* Colour code: red = not ready / not safe, amber = in progress, green = done / clear. */
+.tile.t-red{background:#FBECE8;border-color:rgba(196,85,58,.5)}
+.tile.t-red .gico{background:var(--coral);color:#fff}
+.tile.t-red .gv{color:#A6402A}
+.tile.t-amber{background:#FBF4E3;border-color:rgba(184,144,28,.45)}
+.tile.t-amber .gico{background:rgba(184,144,28,.18);color:#8A6A12}
+.tile.t-green{background:#E7F4F1;border-color:rgba(14,124,134,.45)}
+.tile.t-green .gico{background:var(--reef-dim);color:#fff}
+.tile.t-green .gv{color:var(--teal-ink)}
+.nfband{border-radius:16px;padding:12px 14px;margin:0 0 14px;display:flex;flex-direction:column;gap:3px}
+.nfband b{font-family:'Outfit';font-weight:700;font-size:18px}
+.nfband span{font-size:13.5px}
+.nfband.no{background:#FBECE8;color:#A6402A;border:1px solid rgba(196,85,58,.5)}
+.nfband.ok{background:#E7F4F1;color:var(--teal-ink);border:1px solid rgba(14,124,134,.45)}
+.tzrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-top:1px solid var(--slate-2)}
+.tzrow:first-of-type{border-top:0}
+.tzd{font-size:14px;color:var(--muted);margin-top:4px}
+.tzt{font-family:'JetBrains Mono';font-weight:600;font-size:34px;color:var(--ink);line-height:1}
+.tzt small{font-size:12px;color:var(--muted);margin-left:6px;font-weight:400}
 .nsbg{position:fixed;inset:0;z-index:920;background:rgba(4,32,43,.55);display:flex;align-items:flex-end;justify-content:center}
 .nsheet{width:100%;max-width:520px;max-height:86svh;overflow-y:auto;overscroll-behavior:contain;background:var(--card);color:var(--ink);
   border-radius:26px 26px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 40px -14px rgba(4,32,43,.4)}
@@ -1132,7 +1151,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v78 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v80 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1923,6 +1942,14 @@ function band(){
   $("#k3") && ($("#k3").textContent = U().water);
   $("#k3") && ($("#k3").textContent = U().water);
   $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${esc(tzLabel(m.tz))}</small>`;
+  /* The no-fly tile turns from red to green on its own at the clear time. */
+  if(tab === "now" && !document.getElementById("nsbg")){
+    const nfs = noFlyState(), c = nfs ? nfs.clearNow : null;
+    if(band.clear !== undefined && c !== band.clear){ band.clear = c; render(); return; }
+    band.clear = c;
+  }
+  const tc = document.querySelector(".hero [data-time]");
+  if(tc) tc.innerHTML = `${tzNow(m.tz)} <small>${esc(tzLabel(m.tz))}</small>`;
   /* Sea temperature belongs to a diving trip. On a land trip show how
      far in we are instead — the slot is too prominent to leave blank. */
   if(isDiveTrip()){
@@ -2116,6 +2143,26 @@ function wxSheet(){
     `${wxStale ? U().saved : (wp.preview ? U().atDestination : U().live)} · ${lang === "pl" ? "pogoda na 5 dni" : "5-day weather"}`, html);
 }
 
+/* Local time and home time side by side, with the difference. */
+function timeSheet(){
+  const pl = lang === "pl", tz = trip.meta.tz, home = "Europe/Warsaw";
+  const off = z => {  // minutes east of UTC for a zone, now
+    const d = new Date(), f = new Intl.DateTimeFormat("en-US",{timeZone:z,hourCycle:"h23",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit"}).formatToParts(d);
+    const g = t => +f.find(x => x.type === t).value;
+    return (Date.UTC(g("year"), g("month") - 1, g("day"), g("hour"), g("minute")) - Math.floor(d.getTime() / 60000) * 60000) / 60000;
+  };
+  const diff = Math.round((off(tz) - off(home)) / 60 * 10) / 10;
+  const day = z => { const t = new Intl.DateTimeFormat(pl ? "pl-PL" : "en-GB",{timeZone:z,weekday:"long",day:"numeric",month:"long"}).format(new Date());
+    return t.charAt(0).toUpperCase() + t.slice(1); };
+  const place = tr(trip.meta.country) || tzLabel(tz);
+  const row = (k, z, lbl) => `<div class="tzrow"><div><div class="eyebrow">${k}</div><div class="tzd">${day(z)}</div></div>
+    <div class="tzt">${tzNow(z)}<small>${esc(lbl)}</small></div></div>`;
+  const dtxt = diff === 0 ? (pl ? "Ten sam czas co w Polsce" : "Same time as Poland")
+    : pl ? `${place}: ${diff > 0 ? "+" : "−"}${Math.abs(diff)} h względem Polski` : `${place} is ${Math.abs(diff)} h ${diff > 0 ? "ahead of" : "behind"} Poland`;
+  nowSheet(pl ? "Czas" : "Time", dtxt,
+    row(pl ? "Tutaj — " + place : "Here — " + place, tz, tzLabel(tz)) + row(pl ? "W Polsce" : "In Poland", home, "PL"));
+}
+
 function viewNow(){
   const p = tripPhase(), d = currentDay(), h = currentHotel(), f = nextFlight();
   /* Hero images come from the trip file. A thresher shark on the Japan
@@ -2165,7 +2212,7 @@ function viewNow(){
         ? `<figure class="still"><img src="${esc(still.src)}" alt=""${still.fb ? ` onerror="this.onerror=null;this.src='${esc(still.fb)}'"` : ""}></figure>`
         : HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
       <div class="hchips">
-        <span class="hchip">${tzNow(trip.meta.tz)} <small>${esc(tzLabel(trip.meta.tz))}</small></span>
+        <button class="hchip" data-time="1" aria-label="${lang === "pl" ? "Czas lokalny i w Polsce" : "Local and Polish time"}">${tzNow(trip.meta.tz)} <small>${esc(tzLabel(trip.meta.tz))}</small></button>
         ${wx ? `<button class="hchip" data-wx="1" aria-label="${lang === "pl" ? "Pogoda na 5 dni" : "5-day weather"}"><span class="wi">${(WMO[wx.current.weather_code] || ["·"])[0]}</span>${Math.round(wx.current.temperature_2m)}°C</button>` : ""}
       </div>
       <div class="txt">
@@ -2202,25 +2249,32 @@ function viewNow(){
   const rows = [];
   if(f) rows.push({icon:f.mode === "train" ? "train" : "travel", k:f.mode ? U().nextJourney : U().nextFlight,
     v:`${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
-    sub:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${fmtDate(f.dep.time.split(" ")[0]).replace(/^[^,]*,\s*/, "")} ${fmtTime(f.dep.time)}`, goto:"flights"});
+    sub:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${f.dep.time.slice(8,10)}.${f.dep.time.slice(5,7)} ${fmtTime(f.dep.time)}`, goto:"flights"});
   if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
   if(req.length) rows.push({icon:"doc", k:U().yourDocs, v:`${ready} / ${req.length} ${U().ready}`, goto:"docs",
-    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : ""});
+    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : "", t: ready===req.length ? "green" : "amber"});
   const gc = gearCount();
   if(p.phase === "before" && gc.total) rows.push({icon:"bag", k:U().packList, v:`${gc.done} / ${gc.total} ${U().packReady}`, goto:"gear",
-    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : ""});
+    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : "", t: gc.done===gc.total ? "green" : "amber"});
   if(p.phase !== "after"){
     const oc = offlineChecklist();
     rows.push({id:"offline", icon:"save", k:U().off.eyebrow, v:`${oc.n} / ${oc.total} ${U().ready}`, open: nowOpen === "offline", more: oc.html,
-      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : ""});
+      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : "", t: oc.n===oc.total ? "green" : "amber"});
   }
   const nf = noFlyState();
-  if(nf) rows.push({id:"nofly", icon:"mask", k:G.nofly, v: nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`,
-    chip: nf.level === "under" ? G.under : nf.level === "tight" ? G.tight : G.clear, chipTone: nf.level === "under" ? "warn" : nf.level === "tight" ? "tight" : "ok",
-    open: nowOpen === "nofly", more: noFlyCard()});
-  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}" ${o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
+  /* Red until the minimum time after the last dive has passed, then green.
+     A plan that leaves too short a gap stays red. */
+  if(nf){
+    const pl = lang === "pl", ok = nf.clearNow && nf.level !== "under";
+    rows.push({id:"nofly", icon:"mask", k:G.nofly,
+      v: ok ? (pl ? "Możesz lecieć" : "Clear to fly") : (pl ? "Jeszcze nie lataj" : "Not clear to fly"),
+      sub: ok ? `${pl ? "odstęp" : "gap"} ${nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`}`
+              : `${pl ? "od" : "from"} ${fmtWhen(nf.clearAt)}`,
+      t: ok ? "green" : "red", open: nowOpen === "nofly", more: noFlyCard()});
+  }
+  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}${o.t ? " t-" + o.t : ""}" ${o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
       <span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
       ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
       <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
@@ -3938,10 +3992,11 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-time],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.wx){ wxSheet(); return; }
+  if(t.dataset.time){ timeSheet(); return; }
   if(t.dataset.nsclose){ if(t.id !== "nsbg" || e.target === t) closeNowSheet(); return; }
   if(t.dataset.transfer){ transferCard(); return; }
   if(t.dataset.tpick){ transferCard(+t.dataset.tpick); return; }
@@ -4169,6 +4224,9 @@ function noFlyState(){
     rem: Math.round(hours % 24),
     min,
     dive, flight,
+    /* Live: not clear until the minimum surface interval has passed. */
+    clearAt: new Date(dive.getTime() + min * 3600e3),
+    clearNow: Date.now() >= dive.getTime() + min * 3600e3,
     label: c.firstFlightLabel,
     level: hours < min ? "under" : (hours < min + 3 ? "tight" : "ok")
   };
@@ -4188,7 +4246,12 @@ function noFlyCard(){
   const verdict = n.level === "under" ? U_.nfUnder
                 : n.level === "tight" ? U_.nfTight
                 : U_.nfOk;
+  const pl = lang === "pl";
+  const band = n.clearNow
+    ? `<div class="nfband ok"><b>${pl ? "Możesz lecieć" : "Clear to fly"}</b><span>${pl ? "Minął minimalny czas po ostatnim nurkowaniu" : "The minimum time since your last dive has passed"}</span></div>`
+    : `<div class="nfband no"><b>${pl ? "Jeszcze nie lataj" : "Not clear to fly yet"}</b><span>${pl ? "Bezpiecznie od" : "Clear from"} ${fmtWhen(n.clearAt)}</span></div>`;
   return `<div class="nofly ${n.level}">
+    ${band}
     <h4>${U_.nfTitle}</h4>
     <div class="nofly-row"><span>${U_.nfLast}</span><span>${fmtWhen(n.dive)}</span></div>
     <div class="nofly-row"><span>${U_.nfFlight}${n.label ? " · " + esc(tr(n.label)) : ""}</span><span>${fmtWhen(n.flight)}</span></div>

@@ -303,8 +303,8 @@
           "en": "To be confirmed on booking"
         },
         "seatNote": {
-          "pl": "3 h 25 min. Lądowanie o 19:50 — po odprawie transfer na Odaibę, w hotelu około 21:30. Pierwszy wieczór jest krótki: kolacja w okolicy i sen.",
-          "en": "3 h 25 min. Landing at 19:50 — after formalities, transfer to Odaiba, at the hotel around 21:30. The first evening is short: dinner nearby and sleep."
+          "pl": "3 h 25 min. Lądowanie o 19:50 — po odprawie transfer do Akasaki, w hotelu około 21:30. Pierwszy wieczór jest krótki: kolacja w okolicy i sen.",
+          "en": "3 h 25 min. Landing at 19:50 — after formalities, transfer to Akasaka, at the hotel around 21:30. The first evening is short: dinner nearby and sleep."
         }
       },
       {
@@ -384,29 +384,28 @@
   "flights": [],
   "hotels": [
     {
-      "name": "Grand Nikko Tokyo Daiba",
+      "name": "Hotel MyStays Premier Akasaka",
       "place": {
-        "pl": "Tokio — Odaiba",
-        "en": "Tokyo — Odaiba"
+        "pl": "Tokio — Akasaka",
+        "en": "Tokyo — Akasaka"
       },
       "coords": [
-        35.6251435,
-        139.7715694
+        35.670246,
+        139.738375
       ],
       "photo": "img/stay-tokyo.jpg",
       "checkIn": "2026-12-07",
       "checkOut": "2026-12-10",
       "ref": "Malakay Travels",
-      "phone": "+81 3-5500-6711",
+      "phone": "+81 3-6229-3280",
       "room": {
-        "pl": "Pokój dwuosobowy, ze śniadaniem",
-        "en": "Twin room, breakfast included"
+        "pl": "Pokój Superior Twin, ze śniadaniem",
+        "en": "Superior Twin room, breakfast included"
       },
-      "address": "2-6-1 Daiba, Minato City, Tokyo 135-8701",
-      "placeId": "ChIJq0s44BuMGGAR15wOlfVd2tE",
+      "address": "2-17-54 Akasaka, Minato City, Tokyo 107-0052",
       "notes": {
-        "pl": "Nad Zatoką Tokijską. Linia Yurikamome spod hotelu — dwie stacje do teamLab Planets. Nocna trasa JDM przebiega przez Rainbow Bridge tuż obok. Recepcja czynna całą dobę.",
-        "en": "On Tokyo Bay. The Yurikamome line runs from the hotel — two stops to teamLab Planets. The JDM night route crosses Rainbow Bridge alongside. Reception open 24 hours."
+        "pl": "W centrum Tokio, 5 minut pieszo od stacji Akasaka (linia Chiyoda, wyjście 2 lub 3a). Roppongi i Shibuya kilka stacji metrem. Recepcja czynna całą dobę.",
+        "en": "Central Tokyo, a 5-minute walk from Akasaka station (Chiyoda line, exit 2 or 3a). Roppongi and Shibuya are a few metro stops away. Reception open 24 hours."
       }
     },
     {
@@ -436,29 +435,28 @@
       }
     },
     {
-      "name": "Kyoto Tokyu Hotel",
+      "name": "Hilton Garden Inn Kyoto Shijo Karasuma",
       "place": {
-        "pl": "Kioto — Shimogyo",
-        "en": "Kyoto — Shimogyō"
+        "pl": "Kioto — Shijo Karasuma",
+        "en": "Kyoto — Shijō Karasuma"
       },
       "coords": [
-        34.9951315,
-        135.7516374
+        34.9988,
+        135.7593
       ],
       "photo": "img/stay-kyoto.jpg",
       "checkIn": "2026-12-13",
       "checkOut": "2026-12-16",
       "ref": "Malakay Travels",
-      "phone": "+81 75-341-2411",
+      "phone": "+81 75-320-5111",
       "room": {
-        "pl": "Pokój dwuosobowy, ze śniadaniem",
-        "en": "Twin room, breakfast included"
+        "pl": "Pokój Superior Twin, ze śniadaniem",
+        "en": "Superior Twin room, breakfast included"
       },
-      "address": "580 Kakimotochō, Shimogyō Ward, Kyoto 600-8357",
-      "placeId": "ChIJNVg1AyAGAWARce4JCgb-RyE",
+      "address": "397 Gojōkarasumachō, Shimogyō Ward, Kyoto 600-8418",
       "notes": {
-        "pl": "Kilka minut od historycznego centrum. Nishiki Market i Pontocho w zasięgu spaceru. Recepcja czynna całą dobę.",
-        "en": "Minutes from the historic centre. Nishiki Market and Pontochō within walking distance. Reception open 24 hours."
+        "pl": "Na ulicy Karasuma, 5 minut pieszo od stacji metra Shijo i Gojo — trzy minuty metrem do dworca Kyoto. Nishiki Market w zasięgu spaceru. Recepcja czynna całą dobę.",
+        "en": "On Karasuma street, a 5-minute walk from Shijō and Gojō subway stations — three minutes by subway to Kyoto Station. Nishiki Market within walking distance. Reception open 24 hours."
       }
     },
     {
@@ -502,11 +500,11 @@
       }
     },
     {
-      "name": "Odaiba",
+      "name": "Akasaka",
       "type": "town",
       "coords": [
-        35.6251,
-        139.7716
+        35.6702,
+        139.7384
       ],
       "note": {
         "pl": "Baza — 3 noce",
@@ -601,8 +599,8 @@
       "name": "Kioto",
       "type": "town",
       "coords": [
-        34.9951,
-        135.7516
+        34.9988,
+        135.7593
       ],
       "note": {
         "pl": "Baza — 3 noce",
@@ -727,12 +725,12 @@
         "en": "Arriving in Tokyo"
       },
       "base": {
-        "pl": "Tokio — Odaiba",
-        "en": "Tokyo — Odaiba"
+        "pl": "Tokio — Akasaka",
+        "en": "Tokyo — Akasaka"
       },
       "coords": [
-        35.6251,
-        139.7716
+        35.6702,
+        139.7384
       ],
       "items": [
         [
@@ -752,8 +750,8 @@
         [
           "~21:30",
           {
-            "pl": "Transfer na Odaibę i zameldowanie",
-            "en": "Transfer to Odaiba and check-in"
+            "pl": "Transfer do Akasaki i zameldowanie",
+            "en": "Transfer to Akasaka and check-in"
           }
         ],
         [
@@ -777,8 +775,8 @@
         "en": "Tokyo | Shibuya and a food tour with Manabu"
       },
       "base": {
-        "pl": "Tokio — Odaiba",
-        "en": "Tokyo — Odaiba"
+        "pl": "Tokio — Akasaka",
+        "en": "Tokyo — Akasaka"
       },
       "coords": [
         35.6595,
@@ -827,8 +825,8 @@
         "en": "Tokyo | Tsukiji, teamLab and the JDM night drive"
       },
       "base": {
-        "pl": "Tokio — Odaiba",
-        "en": "Tokyo — Odaiba"
+        "pl": "Tokio — Akasaka",
+        "en": "Tokyo — Akasaka"
       },
       "coords": [
         35.6654,
@@ -1045,8 +1043,8 @@
         "en": "Kyoto"
       },
       "coords": [
-        34.9951,
-        135.7516
+        34.9988,
+        135.7593
       ],
       "items": [
         [
@@ -1066,8 +1064,8 @@
         [
           "—",
           {
-            "pl": "Zameldowanie w Kyoto Tokyu Hotel",
-            "en": "Check-in at the Kyoto Tokyu Hotel"
+            "pl": "Zameldowanie w Hilton Garden Inn Kyoto Shijo Karasuma",
+            "en": "Check-in at the Hilton Garden Inn Kyoto Shijo Karasuma"
           }
         ],
         [

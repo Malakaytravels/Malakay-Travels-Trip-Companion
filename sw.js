@@ -1,13 +1,13 @@
 /* ============================================================
    MALAKAY TRAVELS — service worker
-   Cache key: malakay-v58
+   Cache key: malakay-v67
 
    Bump CACHE on every deploy. If you do not, phones that already
    have the app saved will keep serving the old version from disk
    and never see the change.
    ============================================================ */
 
-const CACHE = "malakay-v58";
+const CACHE = "malakay-v67";
 
 /* The shell: everything that is the same for every trip. */
 const SHELL = [
@@ -32,26 +32,22 @@ const SHELL = [
   "./vendor/images/marker-icon.png",
   "./vendor/images/marker-shadow.png",
 
-  "./vendor/fonts/archivo-latin-500-normal.woff2",
-  "./vendor/fonts/archivo-latin-700-normal.woff2",
-  "./vendor/fonts/archivo-latin-800-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-500-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-700-normal.woff2",
-  "./vendor/fonts/archivo-latin-ext-800-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-400-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-500-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-600-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-400-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-500-normal.woff2",
-  "./vendor/fonts/ibm-plex-mono-latin-ext-600-normal.woff2",
-  "./vendor/fonts/karla-latin-400-italic.woff2",
-  "./vendor/fonts/karla-latin-400-normal.woff2",
-  "./vendor/fonts/karla-latin-500-normal.woff2",
-  "./vendor/fonts/karla-latin-700-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-400-italic.woff2",
-  "./vendor/fonts/karla-latin-ext-400-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-500-normal.woff2",
-  "./vendor/fonts/karla-latin-ext-700-normal.woff2"
+  "./vendor/fonts/outfit-latin-ext-400-normal.woff2",
+  "./vendor/fonts/outfit-latin-400-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-500-normal.woff2",
+  "./vendor/fonts/outfit-latin-500-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-600-normal.woff2",
+  "./vendor/fonts/outfit-latin-600-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-700-normal.woff2",
+  "./vendor/fonts/outfit-latin-700-normal.woff2",
+  "./vendor/fonts/outfit-latin-ext-800-normal.woff2",
+  "./vendor/fonts/outfit-latin-800-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-400-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-400-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-500-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-500-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-ext-600-normal.woff2",
+  "./vendor/fonts/jetbrains-mono-latin-600-normal.woff2"
 ];
 
 /* Trip photos. Hotel and hero images are part of what the traveller
@@ -64,6 +60,7 @@ const EXTRAS = [
 ];
 
 const PHOTOS = [
+  "./img/day-warsaw.jpg",
   "./img/hero-bangkas.jpg",
   "./img/hero-coron.jpg",
   "./img/hero-elnido.jpg",
@@ -84,7 +81,41 @@ const PHOTOS = [
   "./img/stay-manila.jpg",
   "./img/stay-moalboal.jpg",
   "./img/stay-osaka.jpg",
-  "./img/stay-tokyo.jpg"
+  "./img/stay-tokyo.jpg",
+  "./img/day-cebu-coast.jpg",
+  "./img/day-cebu-hills.jpg",
+  "./img/day-cebu-kawasan.jpg",
+  "./img/day-coron-lagoons.jpg",
+  "./img/day-coron-tapyas.jpg",
+  "./img/day-coron-twinlagoon.jpg",
+  "./img/day-dauin-beach.jpg",
+  "./img/day-dauin-coast.jpg",
+  "./img/day-elnido-lagoon.jpg",
+  "./img/day-elnido-nacpan.jpg",
+  "./img/day-elnido-reef.jpg",
+  "./img/day-ferry.jpg",
+  "./img/day-flight.jpg",
+  "./img/day-hakone-lakeashi.jpg",
+  "./img/day-hakone-onsen.jpg",
+  "./img/day-kalanggaman-sandbar.jpg",
+  "./img/day-kalanggaman-snorkel.jpg",
+  "./img/day-kyoto-gion.jpg",
+  "./img/day-kyoto-kinkakuji.jpg",
+  "./img/day-malapascua-beach.jpg",
+  "./img/day-malapascua-sunset.jpg",
+  "./img/day-manila-bgc.jpg",
+  "./img/day-manila-city.jpg",
+  "./img/day-manila-intramuros.jpg",
+  "./img/day-moalboal-coast.jpg",
+  "./img/day-moalboal-sardines.jpg",
+  "./img/day-moalboal-turtle.jpg",
+  "./img/day-negros-coffee.jpg",
+  "./img/day-negros-falls.jpg",
+  "./img/day-osaka-castle.jpg",
+  "./img/day-osaka-dotonbori.jpg",
+  "./img/day-tokyo-bay.jpg",
+  "./img/day-tokyo-food.jpg",
+  "./img/day-tokyo-shibuya.jpg"
 ];
 
 /* Trip content. Precached so a traveller who opens their own link

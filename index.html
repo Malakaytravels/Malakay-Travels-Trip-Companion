@@ -506,6 +506,65 @@ body.deckmode{display:flow-root}
   .dots button,.parrow{transition:none}
   .passtrack{scroll-behavior:auto}
 }
+/* NOW fits one screen: slim top bar, a shorter hero, a grid of tiles.
+   Anything longer (weather, offline checklist, no-fly) opens in a sheet. */
+body.slimtop .instrument .readout{display:none}
+.now .greetrow{margin:2px 0 10px}
+.now .greetrow .gr-txt{font-size:clamp(19px,5.2vw,24px)}
+.now .hero{margin:0 0 12px}
+.now .hero .stage{height:clamp(150px,25svh,240px)}
+.now .hero h1{font-size:clamp(24px,6.8vw,36px);margin-top:8px}
+.now .hero .txt{bottom:14px}
+.hchips{position:absolute;z-index:4;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px}
+.hchip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:99px;
+  background:rgba(4,32,43,.62);border:1px solid rgba(255,255,255,.18);color:#fff;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:'JetBrains Mono';font-size:12.5px;font-weight:600}
+.hchip small{font-weight:400;color:#A6C4CC;font-size:10.5px;letter-spacing:.08em}
+button.hchip{cursor:pointer}
+button.hchip .wi{font-size:16px;line-height:1}
+.now .hfact{padding:7px 4px 8px}
+.now .hfact .fk{min-height:0;margin-bottom:3px}
+.now .hfact .fv{font-size:17px}
+.today{display:flex;gap:12px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:18px;
+  box-shadow:var(--shadow-1);padding:10px 12px;margin:0 0 10px;width:100%;text-align:left;color:var(--ink)}
+.today .tt{flex:1;min-width:0}
+.today .tt b{display:block;font-family:'Outfit';font-weight:700;font-size:16px;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.today .tt .gk{display:block}
+.today .tt span{display:block;font-size:13px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.today .tt span .mono{color:var(--ochre);font-weight:600}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 12px}
+.tile{display:flex;flex-direction:row;align-items:center;gap:10px;min-height:66px;padding:10px 10px 10px 10px;text-align:left;
+  background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-1);color:var(--ink);position:relative;min-width:0}
+.tile.wide{grid-column:span 2}
+.tile .gico{width:34px;height:34px;border-radius:10px}
+.tile .gico svg{width:18px;height:18px}
+.tile .gk{font-size:9.5px}
+.tile .gv{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tile .gs{font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.tile .gtx{flex:1;min-width:0}
+.tile .gv{font-size:14.5px}
+.tile .gchip{position:absolute;top:7px;right:8px;padding:2px 7px;font-size:9px}
+.tile:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+.nsbg{position:fixed;inset:0;z-index:920;background:rgba(4,32,43,.55);display:flex;align-items:flex-end;justify-content:center}
+.nsheet{width:100%;max-width:520px;max-height:86svh;overflow-y:auto;overscroll-behavior:contain;background:var(--card);color:var(--ink);
+  border-radius:26px 26px 0 0;padding:10px 18px calc(20px + env(safe-area-inset-bottom,0px));box-shadow:0 -18px 40px -14px rgba(4,32,43,.4)}
+.nsheet .grip{width:44px;height:4px;border-radius:4px;background:var(--slate-2);margin:0 auto 14px}
+.nsheet .nsh{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.nsheet .nsh b{font-family:'Outfit';font-weight:700;font-size:20px;display:block}
+.nsheet .nsh small{display:block;font-size:13px;color:var(--muted);margin-top:3px}
+.nsheet .card{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.nsheet .nofly{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.nsheet .offlist li:first-child{border-top:0}
+.wx5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:14px}
+.wx5 .wx{background:var(--slate);border-radius:14px;padding:10px 2px;text-align:center}
+.wx5 .d{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.wx5 .i{font-size:22px;margin:6px 0}
+.wx5 .t{font-family:'JetBrains Mono';font-weight:600;font-size:14px;color:var(--ink)}
+.nsheet .sea{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.nsheet .sea .v{color:var(--reef-dim)}
+.nsheet .sea div{min-width:0}
+.wx5 .wx{color:var(--ink)}
+.wx5 .t small{color:var(--muted);font-weight:400}
 /* NOW: one At-a-glance list instead of a stack of cards. */
 .glance{margin:18px 0 14px}
 .glance ul{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -1073,7 +1132,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v77 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v78 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2015,6 +2074,48 @@ function driverCard(i){
   el.querySelector(".xbtn").focus();
 }
 
+/* A sheet over NOW for the longer items, so the screen itself stays put. */
+function nowSheet(title, sub, html){
+  document.getElementById("nsbg")?.remove();
+  const pl = lang === "pl";
+  const el = document.createElement("div");
+  el.className = "nsbg"; el.id = "nsbg"; el.dataset.nsclose = "1";
+  el.innerHTML = `<div class="nsheet" role="dialog" aria-modal="true" aria-label="${esc(title)}">
+    <div class="grip"></div>
+    <div class="nsh"><div><b>${title}</b>${sub ? `<small>${sub}</small>` : ""}</div>
+      <button class="xbtn" data-nsclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    ${html}</div>`;
+  document.body.appendChild(el);
+}
+function closeNowSheet(){
+  document.getElementById("nsbg")?.remove();
+  if(nowOpen){ nowOpen = null; }
+}
+/* Weather: current air, sea and swell, and five days ahead. */
+function wxSheet(){
+  if(!wx) return;
+  const wp = weatherPlace(), c = wx.current, code = WMO[c.weather_code] || ["·","—"];
+  const n = Math.min(5, wx.daily.time.length);
+  const days = wx.daily.time.slice(0, n).map((t,i)=>{
+    const w = WMO[wx.daily.weather_code[i]] || ["·",""];
+    const lbl = i===0 ? U().today : dateOnly(t).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{weekday:"short"});
+    return `<div class="wx"><div class="d">${lbl}</div><div class="i">${w[0]}</div>
+      <div class="t">${Math.round(wx.daily.temperature_2m_max[i])}°<small>/${Math.round(wx.daily.temperature_2m_min[i])}°</small></div></div>`;
+  }).join("");
+  const sst = marine?.current?.sea_surface_temperature, wave = marine?.current?.wave_height;
+  const html = `<div class="sea">
+      <div><div class="eyebrow">${U().air}</div><div class="v">${Math.round(c.temperature_2m)}°C</div><div class="note">${code[1]}</div></div>
+      <div><div class="eyebrow">${U().seaTemp}</div><div class="v">${sst!=null?Math.round(sst)+"°C":"—"}</div><div class="note">${sst!=null?U().shorty:U().noMarine}</div></div>
+      <div><div class="eyebrow">${U().swell}</div><div class="v">${wave!=null?wave.toFixed(1)+" m":"—"}</div><div class="note">${wave!=null?(wave<0.7?U().comfortable:U().expectMovement):"—"}</div></div>
+    </div>
+    <div class="wx5" style="grid-template-columns:repeat(${n},1fr)">${days}</div>
+    <p class="note" style="margin:12px 0 0">${wxStale
+      ? `${U().lastReading}: ${wxAt ? wxAt.toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "—"}. ${U().willRefresh}`
+      : wp.preview ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}` : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>`;
+  nowSheet(esc(tr(wp.base) || tr(trip.meta.country)),
+    `${wxStale ? U().saved : (wp.preview ? U().atDestination : U().live)} · ${lang === "pl" ? "pogoda na 5 dni" : "5-day weather"}`, html);
+}
+
 function viewNow(){
   const p = tripPhase(), d = currentDay(), h = currentHotel(), f = nextFlight();
   /* Hero images come from the trip file. A thresher shark on the Japan
@@ -2040,14 +2141,13 @@ function viewNow(){
     kicker = U().complete;
   } else {
     kicker = `${U().day} ${d.n} ${U().of} ${trip.days.length} · ${fmtDate(d.date)}`;
-    const next = (d?.items || []).find(([t]) => t > tzNow(trip.meta.tz));
-    dayCard = `<div class="card">
-      <div class="eyebrow">${U().today}</div>
-      <div class="big" style="font-size:clamp(22px,6vw,30px);margin:8px 0 10px">${esc(tr(d.title))}</div>
-      ${next ? `<div class="hair"></div><div class="eyebrow">${U().nextUp}</div>
-        <p style="margin:6px 0 0"><span class="mono" style="color:var(--ochre);font-weight:600">${next[0]}</span> &nbsp;${esc(tr(next[1]))}</p>`
-      : `<p class="sub" style="margin:0">${U().nothingElse}</p>`}
-    </div>`;
+    const next = (d?.items || []).find(([t]) => /\d/.test(t) && t.replace(/[^0-9:]/g, "") > tzNow(trip.meta.tz));
+    dayCard = `<button class="today" data-goto="days">
+      <span class="gico">${svg("cal")}</span>
+      <span class="tt"><span class="gk" style="margin:0">${U().today}</span><b>${esc(tr(d.title))}</b>
+        <span>${next ? `<span class="mono">${next[0]}</span> ${esc(tr(next[1]))}` : U().nothingElse}</span></span>
+      <span class="gchev">${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</span>
+    </button>`;
   }
   const bases = trip.hotels.filter(x=>!x.optional).length;
   const greet = travellerName
@@ -2064,6 +2164,10 @@ function viewNow(){
       ${still
         ? `<figure class="still"><img src="${esc(still.src)}" alt=""${still.fb ? ` onerror="this.onerror=null;this.src='${esc(still.fb)}'"` : ""}></figure>`
         : HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
+      <div class="hchips">
+        <span class="hchip">${tzNow(trip.meta.tz)} <small>${esc(tzLabel(trip.meta.tz))}</small></span>
+        ${wx ? `<button class="hchip" data-wx="1" aria-label="${lang === "pl" ? "Pogoda na 5 dni" : "5-day weather"}"><span class="wi">${(WMO[wx.current.weather_code] || ["·"])[0]}</span>${Math.round(wx.current.temperature_2m)}°C</button>` : ""}
+      </div>
       <div class="txt">
         <div class="hk">${kicker}</div>
         <h1>${esc(tr(trip.meta.name))}</h1>
@@ -2078,33 +2182,6 @@ function viewNow(){
     </div>
   </div>` + dayCard;
 
-  const wp = weatherPlace();
-  const wxBlock = wx ? (() => {
-    const c = wx.current, code = WMO[c.weather_code] || ["·","—"];
-    const days = wx.daily.time.map((t,i)=>{
-      const w = WMO[wx.daily.weather_code[i]] || ["·",""];
-      const lbl = i===0 ? "Today" : dateOnly(t).toLocaleDateString(undefined,{weekday:"short"});
-      return `<div class="wx"><div class="d">${lbl}</div><div class="i">${w[0]}</div>
-        <div class="t">${Math.round(wx.daily.temperature_2m_max[i])}°<small>/${Math.round(wx.daily.temperature_2m_min[i])}°</small></div></div>`;
-    }).join("");
-    const sst = marine?.current?.sea_surface_temperature, wave = marine?.current?.wave_height;
-    return `<div class="card">
-      <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
-        <h3 style="margin-top:4px">${esc(tr(wp.base) || tr(trip.meta.country))}</h3></div>
-        <span class="pill ${wxStale?"warn":"live"}">${wxStale?U().saved:(wp.preview?U().atDestination:U().live)}</span></div>
-      <div class="sea">
-        <div><div class="eyebrow">${U().air}</div><div class="v">${Math.round(c.temperature_2m)}°C</div><div class="note">${code[1]}</div></div>
-        <div><div class="eyebrow">${U().seaTemp}</div><div class="v">${sst!=null?Math.round(sst)+"°C":"—"}</div><div class="note">${sst!=null?U().shorty:U().noMarine}</div></div>
-        <div><div class="eyebrow">${U().swell}</div><div class="v">${wave!=null?wave.toFixed(1)+" m":"—"}</div><div class="note">${wave!=null?(wave<0.7?U().comfortable:U().expectMovement):"—"}</div></div>
-      </div>
-      <div class="wxrow">${days}</div>
-      <p class="note" style="margin:10px 0 0">${wxStale
-        ? `${U().lastReading}: ${wxAt ? wxAt.toLocaleString(undefined,{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}) : "—"}. ${U().willRefresh}`
-        : wp.preview
-          ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
-          : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
-    </div>`;
-  })() : "";
 
   /* ---- At a glance: one list instead of a stack of cards ----
      Each row is one thing to know, with its state at the right. Rows that
@@ -2124,8 +2201,8 @@ function viewNow(){
   };
   const rows = [];
   if(f) rows.push({icon:f.mode === "train" ? "train" : "travel", k:f.mode ? U().nextJourney : U().nextFlight,
-    v:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
-    sub:`${fmtDate(f.dep.time.split(" ")[0])} · ${fmtTime(f.dep.time)}`, goto:"flights"});
+    v:`${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
+    sub:`${f.number && f.number !== "—" ? esc(f.number) + " · " : ""}${fmtDate(f.dep.time.split(" ")[0]).replace(/^[^,]*,\s*/, "")} ${fmtTime(f.dep.time)}`, goto:"flights"});
   if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
@@ -2143,9 +2220,15 @@ function viewNow(){
   if(nf) rows.push({id:"nofly", icon:"mask", k:G.nofly, v: nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`,
     chip: nf.level === "under" ? G.under : nf.level === "tight" ? G.tight : G.clear, chipTone: nf.level === "under" ? "warn" : nf.level === "tight" ? "tight" : "ok",
     open: nowOpen === "nofly", more: noFlyCard()});
-  const glance = rows.length ? `<div class="glance">
-    <div class="eyebrow" style="padding:0 4px 8px">${G.title}</div>
-    <ul>${rows.map(row).join("")}</ul></div>` : "";
+  const tile = (o, wide) => `<button class="tile${wide ? " wide" : ""}" ${o.open != null ? `data-nowopen="${o.id}"` : `data-goto="${o.goto}"`}>
+      <span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
+      ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
+      <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
+    </button>`;
+  const glance = rows.length ? `<div class="tiles">${rows.map((o, i) => tile(o, i === rows.length - 1 && rows.length % 2 === 1)).join("")}</div>` : "";
+  /* The longer rows open in a sheet over the screen instead of pushing it down. */
+  const open = rows.find(o => o.open);
+  if(open) setTimeout(() => nowSheet(open.k, "", open.more), 0);
 
   // Near the end of the trip and afterwards, show what is coming next.
   const nearEnd = p.phase === "after" ||
@@ -2167,7 +2250,7 @@ function viewNow(){
     </div>
   </div>` : "";
 
-  return head + nextBlock + glance + wxBlock;
+  return `<div class="now">${head}${glance}${nextBlock}</div>`;
 }
 
 /* A dive day either lists its dives, or is flagged diveDay in the trip
@@ -3271,6 +3354,7 @@ function render(){
   if(tab === "setup" && !setupUnlocked) tab = "now";
   /* Card tabs get the whole screen under the tabs: the status band steps aside. */
   document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
+  document.body.classList.toggle("slimtop", DECK_TABS.includes(tab) || tab === "now");
   sizeTop();
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
@@ -3854,9 +3938,11 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-wx],[data-nsclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
+  if(t.dataset.wx){ wxSheet(); return; }
+  if(t.dataset.nsclose){ if(t.id !== "nsbg" || e.target === t) closeNowSheet(); return; }
   if(t.dataset.transfer){ transferCard(); return; }
   if(t.dataset.tpick){ transferCard(+t.dataset.tpick); return; }
   if(t.dataset.tclose){ if(t.dataset.tclose && (t.id !== "tbg" || e.target === t)) document.getElementById("tbg")?.remove(); return; }
@@ -3902,8 +3988,8 @@ document.addEventListener("click", async (e) => {
     return;
   }
   if(t.dataset.nowopen){
-    nowOpen = nowOpen === t.dataset.nowopen ? null : t.dataset.nowopen;
-    render(); return;
+    nowOpen = t.dataset.nowopen;
+    render(); return;   // viewNow opens the sheet for the chosen tile
   }
   if(t.hasAttribute("data-more")){
     const card = t.closest(".pass");

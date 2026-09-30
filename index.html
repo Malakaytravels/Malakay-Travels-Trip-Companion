@@ -509,10 +509,32 @@ body.deckmode{display:flow-root}
 .bpperf::before{left:-30px}.bpperf::after{right:-30px}
 .bpbody{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 20px 0}
 .bppeek{flex:1 1 auto;min-height:0;overflow:hidden}
+/* The stub shows booking, flight and baggage in full; notes live under More info. */
+.bppeek .bpgrid{gap:10px 16px}
+.bppeek .bpgrid .wide dd{-webkit-line-clamp:3}
 .bpfade{height:0;position:relative}
 .bpfade::before{content:"";position:absolute;left:0;right:0;bottom:0;height:28px;background:linear-gradient(transparent,var(--card));pointer-events:none}
 .bppeek .bpgrid .wide dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .bppeek .bpnote{margin-top:12px}
+.bpgrid.stub{grid-template-columns:auto minmax(0,1fr);gap:0 18px}
+.bpgrid.stub dd{color:#0A1A21;font-weight:600}
+.bpgrid.stub > div + div dd{font-size:14px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bpgrid.stub > div + div dt{color:#3D4F57}
+/* Short phones: a tighter ticket top so booking and baggage always show. */
+@media (max-height:760px){
+  .bptop{padding:12px 18px 12px}
+  .bplabel{display:none}
+  .bpair{margin-top:10px;font-size:20px}
+  .bpair .mono{font-size:17px}
+  .bproute{margin-top:8px}
+  .bproute .iata{font-size:clamp(28px,9.5vw,40px);margin-top:3px}
+  .bproute .city{margin-top:3px;font-size:11.5px}
+  .bpmid{padding-bottom:18px}
+  .bptimes{margin-top:8px;padding-top:8px}
+  .bptimes b{font-size:20px;margin-top:1px}
+  .bptimes span.mono{margin-top:1px}
+  .bpbody{padding-top:10px}
+}
 .bpgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:0}
 .bpgrid .wide{grid-column:1/-1}
 .bpgrid dt,.bpnote .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
@@ -1239,7 +1261,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v88 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v89 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2832,6 +2854,14 @@ window.addEventListener("resize", () => {
   }, 120);
 });
 
+/* A long baggage line is advice rather than an allowance: the card shows
+   its first clause, and the whole text is under More info. */
+function bagShort(t){
+  t = String(t || "");
+  if(t.length <= 64) return t;
+  const cut = t.split(/\s[—–-]\s|\.\s|;\s/)[0];
+  return (cut && cut.length < t.length ? cut : t.slice(0, 60)) + " …";
+}
 function viewFlights(){
   const KF = lang === "pl"
     ? {flight:"Lot", deck:"Loty", pass:"Karta pokładowa", from:"Wylot", to:"Przylot", ref:"Rezerwacja", bag:"Bagaż", note:"Uwagi", date:"Data", num:"Lot"}
@@ -2868,6 +2898,12 @@ function viewFlights(){
         <div><dt>${K.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
         <div class="wide"><dt>${K.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
       </dl>`;
+    /* The stub on the card: booking and baggage side by side — the flight
+       number is already at the top. Everything is repeated under More info. */
+    const stub = `<dl class="bpgrid stub">
+        <div><dt>${K.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${K.bag}</dt><dd>${esc(bagShort(tr(f.baggage)))}</dd></div>
+      </dl>`;
     const note = f.seatNote ? `<div class="bpnote"><span class="k">${K.note}</span>${esc(tr(f.seatNote))}</div>` : "";
     const stn = f.dep.iata.length > 4 || f.arr.iata.length > 4 ? " stn" : "";
     return {label: `${K.flight} ${i + 1}`, dot: "",
@@ -2891,8 +2927,7 @@ function viewFlights(){
         </div>
         <div class="bpperf" aria-hidden="true"></div>
         <div class="bpbody">
-          <div class="bppeek">${details}${note}</div>
-          <div class="bpfade"></div>
+          <div class="bppeek">${stub}</div>
           <div class="row bpact">${actions}</div>
         </div>
         ${moreSheet(`${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(d0)}`, `${esc(tr(f.airline))} ${esc(f.number)}`,

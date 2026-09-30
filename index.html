@@ -162,70 +162,199 @@ section{padding-top:6px}
    Photo above, information below. A photo band appears on the day you
    arrive somewhere new — the hotel you sleep in that night — so the list
    has a rhythm of places instead of fourteen identical boxes. */
-/* ---------- days: Wallet-style passes ----------
-   One pass per day, side by side. Swipe with a thumb; each swipe lands on
-   exactly one pass (scroll-snap, snap-stop always) and the next pass peeks
-   in from the right so it is obvious there is more. The photo fills the top
-   of the pass; the day's plan sits on paper below the perforation, because
-   times and places over a photograph are unreadable in boat-deck sun. */
+/* ---------- full-screen card decks: DAYS, FLIGHTS, STAY ----------
+   One card fills the screen under the tabs. The gap between cards is wider
+   than the track's side margin, so the next card never peeks in: you see
+   it only when you swipe. Every card has the same height (--deckH, set
+   from the screen), and the page itself does not scroll on these tabs. */
+body.deckmode .instrument{display:none}
+body.deckmode{padding-bottom:0}
+.deck{max-width:520px;margin:0 auto}
 .passtrack{
-  position:relative;   /* the passes measure their offsets from the track */
-  display:flex;gap:14px;align-items:flex-start;
+  position:relative;   /* the cards measure their offsets from the track */
+  display:flex;gap:28px;align-items:flex-start;
   overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
-  scroll-snap-type:x mandatory;scroll-padding-inline:var(--pad);
+  scroll-snap-type:x mandatory;scroll-padding-inline:12px;
   -webkit-overflow-scrolling:touch;scrollbar-width:none;
-  margin:4px calc(-1 * var(--pad)) 0;padding:8px var(--pad) 26px;
+  margin:0 calc(-1 * var(--pad));padding:8px 12px 14px;
 }
+@media (min-width:560px){.passtrack{margin:0}}
 .passtrack::-webkit-scrollbar{display:none}
 .passtrack:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-2px;border-radius:var(--r)}
-/* The shadow lives on the wrapper: the pass itself is masked for its notches,
-   and a mask would cut a box-shadow off. */
-.passwrap{flex:0 0 min(86%,380px);scroll-snap-align:start;scroll-snap-stop:always;
-  filter:drop-shadow(0 2px 3px rgba(4,32,43,.08)) drop-shadow(0 16px 22px rgba(4,32,43,.14))}
-.pass{--notch:236px;position:relative;background:var(--card);border-radius:22px;overflow:hidden;
-  -webkit-mask:radial-gradient(circle 11px at 0 var(--notch),#0000 97%,#000) left/51% 100% no-repeat,
-               radial-gradient(circle 11px at 100% var(--notch),#0000 97%,#000) right/51% 100% no-repeat;
-          mask:radial-gradient(circle 11px at 0 var(--notch),#0000 97%,#000) left/51% 100% no-repeat,
-               radial-gradient(circle 11px at 100% var(--notch),#0000 97%,#000) right/51% 100% no-repeat}
-.pass.today{outline:3px solid rgba(56,195,192,.55);outline-offset:-3px}
+.passwrap{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;display:flex;border-radius:28px;
+  box-shadow:0 2px 4px rgba(4,32,43,.12),0 22px 44px -18px rgba(4,32,43,.55)}
+.passwrap.today{box-shadow:0 0 0 3px rgba(56,195,192,.75),0 22px 44px -18px rgba(4,32,43,.55)}
+.pass{
+  position:relative;flex:1;display:flex;flex-direction:column;overflow:hidden;color:#fff;isolation:isolate;
+  height:var(--deckH,640px);border-radius:28px;background:var(--abyss);
+  /* overflow:hidden alone does not clip a blurred layer to rounded corners
+     on every phone (Safari); clip-path does, on all of them. */
+  clip-path:inset(0 round 28px);
+}
+/* Day cards: the photo covers the whole card, darkening from the title down. */
+.pass.k-day::after{content:"";position:absolute;inset:0;z-index:-1;
+  background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 15%,rgba(4,32,43,0) 36%,rgba(4,32,43,.55) 56%,rgba(4,32,43,.9) 78%,rgba(4,32,43,.96) 100%),var(--img);
+  background-size:cover;background-position:center;background-repeat:no-repeat}
+/* Hotel photos are wide and small: shown sharp at their own shape along the
+   top, the card continuing in a blurred copy so it is photograph throughout. */
+.pass.k-stay::before{content:"";position:absolute;inset:-40px;z-index:-2;
+  background:var(--img,none) center/cover no-repeat;filter:blur(26px) saturate(125%) brightness(.5)}
+.pass.k-stay::after{content:"";position:absolute;left:0;right:0;top:0;height:62%;z-index:-1;
+  background-image:linear-gradient(180deg,rgba(4,32,43,.45) 0%,rgba(4,32,43,0) 22%,rgba(4,32,43,0) 55%,rgba(4,32,43,.6) 100%),var(--img,none);
+  background-size:cover;background-position:center;background-repeat:no-repeat;
+  -webkit-mask-image:linear-gradient(180deg,#000 75%,transparent 100%);mask-image:linear-gradient(180deg,#000 75%,transparent 100%)}
 
-/* Top of the pass: the day's photo under a dark gradient, text in white. */
-.ptop{position:relative;height:236px;padding:16px 18px 18px;display:flex;flex-direction:column;
-  color:#fff;background-color:var(--abyss);background-size:cover;background-position:center;background-repeat:no-repeat}
-.prow{display:flex;justify-content:space-between;align-items:center;gap:10px}
+/* Chips at the top, over the sky. */
+.prow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:16px 16px 0}
+.pday,.pkind{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 .pday{font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  background:rgba(4,32,43,.55);border:1px solid rgba(255,255,255,.22);border-radius:99px;padding:5px 11px;
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  background:rgba(4,32,43,.5);border:1px solid rgba(255,255,255,.24);border-radius:99px;padding:6px 12px;color:#fff}
 .pday b{font-weight:700;color:#fff}
 .pkind{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono';font-size:10px;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:5px 10px 5px 8px;
-  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.28);color:#fff;
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  letter-spacing:.1em;text-transform:uppercase;border-radius:99px;padding:6px 11px 6px 9px;
+  background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.3);color:#fff}
 .pkind svg{width:14px;height:14px}
-.pass.k-dive .pkind{background:rgba(14,124,134,.78);border-color:rgba(56,195,192,.6)}
-.pass.today .pkind .live{margin:0 0 0 2px;background:var(--reef)}
-.pmain{margin-top:auto}
-.pdate{font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
-  color:#9BEAE6;text-shadow:0 1px 3px rgba(4,32,43,.9),0 1px 12px rgba(4,32,43,.8)}
-.pttl{font-family:'Outfit';font-weight:700;font-size:25px;line-height:1.08;letter-spacing:-.025em;color:#fff;
-  margin:7px 0 7px;text-shadow:0 2px 14px rgba(4,32,43,.6);
+.pkind.opt{background:rgba(184,144,28,.85);border-color:rgba(201,162,39,.9)}
+.pass.k-dive .pkind{background:rgba(14,124,134,.8);border-color:rgba(56,195,192,.65)}
+.pkind .live{margin:0 0 0 2px;background:var(--reef)}
+
+/* Photo in the middle, the story low down. */
+.pspace{flex:1 1 60px;min-height:40px}
+.pmain{padding:0 20px 12px;flex:none}
+.pdate{font-family:'JetBrains Mono';font-size:11.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:#A6EFEB;text-shadow:0 1px 3px rgba(4,32,43,.9),0 1px 14px rgba(4,32,43,.8)}
+.pttl{font-family:'Outfit';font-weight:700;font-size:clamp(27px,7.6vw,34px);line-height:1.04;letter-spacing:-.03em;color:#fff;
+  margin:8px 0 8px;text-shadow:0 2px 18px rgba(4,32,43,.7);
   display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-.pmeta{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.82);
-  text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 10px}
-.pmeta .co{text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.7)}
+.pmeta{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.88);
+  text-transform:uppercase;display:flex;flex-wrap:wrap;gap:2px 10px;text-shadow:0 1px 6px rgba(4,32,43,.9)}
+.pmeta .co{text-transform:none;letter-spacing:.02em;color:rgba(255,255,255,.72)}
 
-/* The perforation between photo and paper. */
-.pperf{position:relative;height:0;margin:0 16px;border-top:2px dashed rgba(4,32,43,.12)}
-.pbody{padding:6px 18px 20px}
-.ptonight{display:flex;align-items:center;gap:10px;margin-top:14px;padding:10px 12px;border-radius:var(--r-sm);
-  background:var(--tint);font-size:13.5px;line-height:1.35;color:var(--ink)}
-.ptonight svg{width:18px;height:18px;flex:none;color:var(--reef-dim)}
+/* A preview of the plan on frosted glass — as much as fits, fading out —
+   and the More info button that opens everything. */
+.ppeek{flex:0 1 auto;min-height:0;overflow:hidden;margin:0 10px;padding:2px 14px 6px;border-radius:20px 20px 0 0;
+  background:rgba(4,32,43,.5);border:1px solid rgba(255,255,255,.14);border-bottom:0;
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  -webkit-mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent);mask-image:linear-gradient(180deg,#000 calc(100% - 34px),transparent)}
+.pmore{flex:none;display:flex;align-items:center;justify-content:center;gap:8px;min-height:50px;
+  margin:0 10px 10px;border:1px solid rgba(255,255,255,.14);border-top:0;border-radius:0 0 20px 20px;
+  background:rgba(4,32,43,.62);color:#fff;
+  -webkit-backdrop-filter:blur(18px) saturate(140%);backdrop-filter:blur(18px) saturate(140%);
+  font-family:'Outfit';font-weight:600;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.pmore svg{width:16px;height:16px}
+.pmore:focus-visible,.pclose:focus-visible{outline:2px solid #A6EFEB;outline-offset:-3px}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .ppeek,.pmore,.psheet{background:rgba(4,32,43,.85)}
+}
+
+/* The sheet: slides up over the card and scrolls inside it. */
+.psheet{position:absolute;left:8px;right:8px;bottom:8px;top:64px;z-index:5;display:flex;flex-direction:column;
+  border-radius:22px;background:rgba(4,32,43,.84);border:1px solid rgba(255,255,255,.16);
+  -webkit-backdrop-filter:blur(22px) saturate(140%);backdrop-filter:blur(22px) saturate(140%);
+  transform:translateY(calc(100% + 16px));visibility:hidden;transition:transform .38s var(--ease),visibility 0s linear .38s}
+.pass.open .psheet{transform:none;visibility:visible;transition:transform .38s var(--ease)}
+.pass.open .pmore{visibility:hidden}
+.psh-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:16px 16px 10px;
+  border-bottom:1px solid rgba(255,255,255,.1)}
+.psh-ttl{font-family:'Outfit';font-weight:700;font-size:20px;line-height:1.15;letter-spacing:-.02em;margin-top:5px;color:#fff}
+.pclose{flex:none;width:44px;height:44px;border-radius:50%;border:1px solid rgba(255,255,255,.28);
+  background:rgba(255,255,255,.1);color:#fff;display:flex;align-items:center;justify-content:center}
+.pclose svg{width:18px;height:18px}
+.psh-body{flex:1;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:4px 16px 18px}
+
+/* Plan lines, dive sites and notes — white on glass. */
+.ptonight{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:14px;
+  background:rgba(255,255,255,.1);font-size:13.5px;line-height:1.35;color:#fff}
+.ptonight svg{width:18px;height:18px;flex:none;color:#A6EFEB}
 .ptonight .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--reef-dim)}
+  text-transform:uppercase;color:#A6EFEB}
 .ptonight b{font-weight:600}
+.sched{list-style:none;margin:10px 0 0;padding:0;position:relative}
+.sched::before{content:"";position:absolute;left:16px;top:14px;bottom:14px;width:2px;background:rgba(255,255,255,.16)}
+.sched li{position:relative;display:grid;grid-template-columns:34px 1fr;gap:12px;align-items:start;padding:5px 0}
+.ico{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);color:#fff}
+.ico svg{width:17px;height:17px}
+.ico.water{background:rgba(56,195,192,.3);border-color:rgba(56,195,192,.6);color:#D8FBF9}
+.ico.land{background:rgba(236,220,186,.22);border-color:rgba(236,220,186,.45);color:#FBF1DC}
+.sched .x{font-size:15px;line-height:1.42;padding-top:6px;color:rgba(255,255,255,.96)}
+.sched .t{display:block;font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.06em;color:#A6EFEB;margin-bottom:1px}
+.dive{position:relative;display:grid;grid-template-columns:38px 1fr;gap:12px;
+  background:rgba(56,195,192,.16);border:1px solid rgba(56,195,192,.4);border-radius:14px;padding:12px 14px;margin-top:12px}
+.dive .dico{width:38px;height:38px;border-radius:11px;background:var(--reef-dim);color:#fff;display:flex;align-items:center;justify-content:center}
+.dive .dico svg{width:21px;height:21px}
+.dive .n{font-family:'Outfit';font-weight:700;font-size:16.5px;letter-spacing:-.015em;line-height:1.2;color:#fff}
+.dive .m{display:inline-block;margin-top:5px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;
+  letter-spacing:.08em;color:#A6EFEB;text-transform:uppercase;border:1px solid rgba(166,239,235,.4);border-radius:99px;padding:3px 9px}
+.dive .dn{font-size:14px;line-height:1.5;margin-top:8px;color:rgba(255,255,255,.9)}
+.dnote{display:flex;gap:10px;margin-top:12px;padding:11px 13px;border-radius:14px;
+  background:rgba(255,255,255,.08);font-size:14px;line-height:1.5;color:rgba(255,255,255,.92)}
+.dnote svg{width:18px;height:18px;flex:none;color:#A6EFEB;margin-top:1px}
+.pass .row{margin-top:14px}
+.pass .btn.ghost{color:#fff;border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.06)}
+.pass .btn.ghost:hover{background:rgba(255,255,255,.14);border-color:#fff}
+.pass a:not(.btn){color:#A6EFEB}
+.pass a.btn:not(.ghost){color:#fff}
 
-/* Pager: where you are in the stack, plus arrows for anyone not swiping. */
-.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:14px 2px 0}
+/* Stay: dates and facts on the glass. */
+.sdates{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding:10px 12px;
+  border-radius:14px;background:rgba(255,255,255,.1)}
+.sdates b{display:block;font-family:'JetBrains Mono';font-size:14px;font-weight:600;color:#fff;margin-top:3px}
+.sdates .r{text-align:right}
+.sarr{color:#A6EFEB}.sarr svg{width:18px;height:18px}
+.bpk{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A6EFEB}
+.sfacts{margin:10px 0 0;display:grid;gap:9px}
+.sfacts dt{font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#A6EFEB}
+.sfacts dd{margin:2px 0 0;font-size:14.5px;line-height:1.4;color:#fff}
+
+/* Flights: a boarding pass. Dark ticket top, perforation, paper stub. */
+.pass.k-flight{color:var(--ink);background:var(--card)}
+.bptop{position:relative;flex:none;padding:16px 20px 18px;color:#fff;
+  background:radial-gradient(120% 90% at 100% 0%,rgba(56,195,192,.28),transparent 55%),linear-gradient(160deg,var(--deep),var(--abyss))}
+.bpair{font-family:'Outfit';font-weight:700;font-size:23px;letter-spacing:-.02em;margin-top:14px;line-height:1.1}
+.bpair .mono{font-weight:600;color:#A6EFEB;font-size:20px}
+.bplabel{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:6px}
+.bproute{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:8px;margin-top:16px}
+.bproute .iata{font-family:'Outfit';font-weight:800;font-size:clamp(40px,min(14vw,7.2svh),60px);line-height:.9;letter-spacing:-.03em;margin-top:6px}
+.bproute .city{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:6px;line-height:1.3}
+.bproute .r{text-align:right}
+.bpmid{display:flex;align-items:center;gap:6px;color:#A6EFEB;padding-bottom:26px}
+.bpmid svg{width:22px;height:22px;transform:rotate(45deg)}
+.bpline{width:18px;border-top:2px dotted rgba(166,239,235,.6)}
+.bptimes{display:flex;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12)}
+.bptimes b{display:block;font-size:24px;font-weight:600;margin-top:3px;color:#fff}
+.bptimes span.mono{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:3px}
+.bptimes .r{text-align:right}
+.bpperf{position:relative;height:0;border-top:2px dashed rgba(4,32,43,.18);margin:0 18px}
+.bpperf::before,.bpperf::after{content:"";position:absolute;top:-12px;width:22px;height:22px;border-radius:50%;background:var(--slate)}
+.bpperf::before{left:-30px}.bpperf::after{right:-30px}
+.bpbody{position:relative;flex:1;min-height:0;display:flex;flex-direction:column;padding:14px 20px 0}
+.bppeek{flex:1 1 auto;min-height:0;overflow:hidden}
+.bpfade{height:0;position:relative}
+.bpfade::before{content:"";position:absolute;left:0;right:0;bottom:0;height:28px;background:linear-gradient(transparent,var(--card));pointer-events:none}
+.bppeek .bpgrid .wide dd{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bppeek .bpnote{margin-top:12px}
+.bpgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin:0}
+.bpgrid .wide{grid-column:1/-1}
+.bpgrid dt,.bpnote .k{display:block;font-family:'JetBrains Mono';font-size:9.5px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.bpgrid dd{margin:3px 0 0;font-size:15px;font-weight:500;color:var(--ink);line-height:1.35}
+.bpgrid dd.mono{font-size:17px;font-weight:600;letter-spacing:.04em}
+.bpnote{font-size:14.5px;line-height:1.5;color:#2E424A}
+.psheet .bpnote{margin-top:12px}
+.bpnote .k{margin-bottom:3px}
+.bpact{margin:8px 0 0;flex:none}
+.pass.k-flight .bpact .btn.ghost{color:var(--reef-dim);border-color:rgba(14,124,134,.32);background:transparent}
+.pass.k-flight .pmore{position:static;margin:12px 0 0;border:0;border-top:1px solid var(--line);border-radius:0;
+  background:none;backdrop-filter:none;-webkit-backdrop-filter:none;color:var(--reef-dim)}
+.pass.k-flight .psheet{top:12px}
+.pass.k-flight .psheet .bpgrid dd,.pass.k-flight .psheet .bpnote{color:#fff}
+.pass.k-flight .psheet .bpgrid dt,.pass.k-flight .psheet .bpnote .k{color:#A6EFEB}
+.bpdisc{font-size:12.5px;line-height:1.5;color:rgba(255,255,255,.72);margin:14px 0 0}
+.pass.k-flight .pill{background:rgba(4,32,43,.06);color:#3D4F57}
+
+/* Pager: where you are in the trip, plus arrows for anyone not swiping. */
+.pager{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 2px 0}
+.pmid{display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0}
 .pager .pos{font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
 .pager .pos b{color:var(--ink);font-weight:700}
 .dots{display:flex;gap:6px;align-items:center;flex-wrap:wrap;justify-content:center;flex:1}
@@ -233,6 +362,7 @@ section{padding-top:6px}
   transition:width .3s var(--ease),background .3s var(--ease);position:relative}
 .dots button::after{content:"";position:absolute;inset:-10px -4px}   /* a thumb-sized target */
 .dots button[aria-current="true"]{width:22px;background:var(--reef-dim)}
+.dots button.k-dive:not([aria-current="true"]){background:rgba(14,124,134,.45)}
 .dots button.today:not([aria-current="true"]){background:var(--reef)}
 .parrow{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(14,124,134,.3);background:var(--card);
   color:var(--reef-dim);display:flex;align-items:center;justify-content:center;flex:none;
@@ -240,73 +370,39 @@ section{padding-top:6px}
 .parrow svg{width:18px;height:18px}
 .parrow:disabled{opacity:.35;cursor:default;box-shadow:none}
 .parrow:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
-.sched{list-style:none;margin:16px 0 0;padding:0;position:relative}
-.sched::before{content:"";position:absolute;left:17px;top:14px;bottom:14px;width:2px;
-  background:linear-gradient(180deg,var(--slate-2),rgba(227,218,203,.3))}
-.sched li{position:relative;display:grid;grid-template-columns:36px 1fr;gap:14px;align-items:start;padding:6px 0}
-.ico{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  position:relative;z-index:1;background:#fff;border:1.5px solid var(--slate-2);color:var(--muted)}
-.ico svg{width:18px;height:18px}
-.ico.water{background:linear-gradient(160deg,#E4F5F4,#CDEAE8);border-color:rgba(14,124,134,.3);color:var(--reef-dim)}
-.ico.travel{background:#fff;border-color:rgba(4,32,43,.14);color:var(--deep)}
-.ico.land{background:linear-gradient(160deg,#FAF5EC,#EFE6D5);border-color:rgba(120,96,52,.22);color:#6E5A36}
-.sched .x{font-size:15px;line-height:1.45;padding-top:7px;color:var(--ink)}
-.sched .t{display:block;font-family:'JetBrains Mono';font-size:11px;font-weight:600;letter-spacing:.06em;color:var(--ochre);margin-bottom:1px}
-
-/* Dive sites: the instrument card of the day. */
-.dive{position:relative;display:grid;grid-template-columns:40px 1fr;gap:14px;
-  background:linear-gradient(160deg,#F2FAF9,#E3F2F1);border:1px solid rgba(14,124,134,.18);
-  border-radius:var(--r-sm);padding:14px 16px;margin-top:12px}
-.dive .dico{width:40px;height:40px;border-radius:12px;background:var(--reef-dim);color:#fff;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 6px 14px -8px rgba(14,124,134,.8)}
-.dive .dico svg{width:22px;height:22px}
-.dive .n{font-family:'Outfit';font-weight:700;font-size:16.5px;letter-spacing:-.015em;line-height:1.2}
-.dive .m{display:inline-block;margin-top:5px;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;
-  letter-spacing:.08em;color:var(--reef-dim);text-transform:uppercase;background:rgba(255,255,255,.7);
-  border:1px solid rgba(14,124,134,.18);border-radius:99px;padding:3px 9px}
-.dive .dn{font-size:14px;line-height:1.5;margin-top:8px;color:#243840}
-.dnote{display:flex;gap:10px;margin-top:14px;padding:12px 14px;border-radius:var(--r-sm);
-  background:rgba(4,32,43,.035);font-size:14px;line-height:1.5;color:#33464E}
-.dnote svg{width:18px;height:18px;flex:none;color:var(--reef-dim);margin-top:1px}
-.pass .row{margin-top:16px}
-
-/* ---------- diving / non-diving switch ----------
-   Two equal halves, 52px tall for wet hands. The teal thumb slides between
-   them; the list fades out, and the new one rises in card by card. */
-.seg{position:relative;display:grid;grid-template-columns:1fr 1fr;background:rgba(4,32,43,.06);
-  border-radius:16px;padding:5px;margin:16px 0 8px;box-shadow:inset 0 1px 2px rgba(4,32,43,.06)}
-.seg::before{content:"";position:absolute;top:5px;bottom:5px;left:5px;width:calc(50% - 5px);border-radius:12px;
-  background:linear-gradient(160deg,var(--reef-dim),var(--teal-ink));
-  box-shadow:0 2px 4px rgba(4,32,43,.14),0 10px 20px -10px rgba(14,124,134,.9);
-  transition:transform .42s var(--ease)}
-.seg[data-mode="land"]::before{transform:translateX(100%)}
-.seg button{
-  position:relative;z-index:1;min-height:56px;border:none;border-radius:12px;background:transparent;color:var(--ink);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  padding:8px;text-align:center;line-height:1.15;
-  font-family:'Outfit';font-weight:600;font-size:13px;letter-spacing:.05em;text-transform:uppercase;
-  transition:color .3s var(--ease);
-}
-.seg button .l{display:block}
-.seg button .l svg{width:16px;height:16px;vertical-align:-3px;margin-right:6px}
-.seg button .c{font-family:'JetBrains Mono';font-size:10.5px;font-weight:500;letter-spacing:.08em;color:var(--muted);transition:color .3s var(--ease)}
-.seg button[aria-selected="true"]{color:#fff}
-.seg button[aria-selected="true"] .c{color:rgba(255,255,255,.78)}
-.seg button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
-.seg .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--reef);margin-left:2px;
-  box-shadow:0 0 0 3px rgba(56,195,192,.25)}
-.seglead{font-size:14px;color:var(--muted);margin:6px 2px 12px;line-height:1.5}
-.dswap{transition:opacity .18s var(--ease),transform .18s var(--ease)}
-.dswap.leaving{opacity:0;transform:translateX(-18px)}
-@keyframes dRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-@keyframes pIn{from{opacity:0;transform:translateX(44px) scale(.97)}to{opacity:1;transform:none}}
-.dswap.enter .seglead,.dswap.enter .pager{animation:dRise .4s var(--ease) both}
-.dswap.enter .passwrap{animation:pIn .5s var(--ease) both;animation-delay:calc(var(--i,0) * 70ms)}
 @media (prefers-reduced-motion:reduce){
-  .seg::before,.seg button,.seg button .c,.dswap,.dots button,.parrow{transition:none}
-  .dswap.enter .seglead,.dswap.enter .pager,.dswap.enter .passwrap{animation:none}
+  .dots button,.parrow{transition:none}
   .passtrack{scroll-behavior:auto}
 }
+/* NOW: one At-a-glance list instead of a stack of cards. */
+.glance{margin:18px 0 14px}
+.glance ul{list-style:none;margin:0;padding:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--shadow-1);overflow:hidden}
+.glance li + li{border-top:1px solid var(--line)}
+.grow{width:100%;display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:68px;text-align:left;
+  background:none;border:0;color:var(--ink);transition:background .15s var(--ease)}
+.grow:hover{background:rgba(4,32,43,.025)}
+.grow:focus-visible{outline:2px solid var(--reef-dim);outline-offset:-3px}
+.gico{flex:none;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+  background:var(--tint);color:var(--reef-dim)}
+.gico svg{width:20px;height:20px}
+.gico.ok{background:var(--reef-dim);color:#fff}
+.gtx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.gk{font-family:'JetBrains Mono';font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.gv{font-family:'Outfit';font-weight:600;font-size:16.5px;letter-spacing:-.01em;line-height:1.25;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gs{font-family:'JetBrains Mono';font-size:11px;color:var(--muted);letter-spacing:.02em}
+.gchip{flex:none;font-family:'JetBrains Mono';font-size:10.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:4px 9px;border-radius:99px;background:rgba(4,32,43,.06);color:#3D4F57}
+.gchip.ok{background:rgba(14,124,134,.12);color:var(--reef-dim)}
+.gchip.tight{background:rgba(184,144,28,.14);color:#8A6A12}
+.gchip.warn{background:rgba(196,85,58,.12);color:#A6402A}
+.gchev{flex:none;color:var(--muted);display:flex}
+.gchev svg{width:18px;height:18px;transition:transform .25s var(--ease)}
+.glance li.open .gchev.tog svg{transform:rotate(180deg)}
+.gmore{padding:0 16px 16px}
+.gmore .nofly{margin:0;box-shadow:none;border:0;padding:0;background:none}
+.gmore .offlist li:first-child{border-top:0}
 /* Ready for no signal — checklist on NOW */
 .offlist{list-style:none;margin:14px 0 0;padding:0}
 .offlist li{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--slate-2)}
@@ -843,7 +939,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v60 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v66 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1183,7 +1279,6 @@ let trip = null;
 let tab = "now";
 let wx = null, marine = null, wxKey = null;
 let openFactGroup = 0;   // which fact section is open
-let daysMode = null;     // DAYS tab: "dive" or "land"; null until first shown
 let gearTicked = {};     // gear item id -> true, saved on this device
 let openGearGroup = 0;
 let diveLog = [];        // {id, date, site, depth, time, buddy, saw, notes}
@@ -1720,7 +1815,7 @@ function viewNow(){
       <div class="hfact"><span class="fk">${U().bases}</span><span class="fv">${bases}</span></div>
       <div class="hfact"><span class="fk">${U().dives}</span><span class="fv">${trip.meta.dives ?? "\u2014"}</span></div>
     </div>
-  </div>` + noFlyCard() + dayCard;
+  </div>` + dayCard;
 
   const wp = weatherPlace();
   const wxBlock = wx ? (() => {
@@ -1748,56 +1843,47 @@ function viewNow(){
           ? `${U().wxPreview} ${esc(tr(wp.base)||"")}. ${U().seaNote}`
           : `${U().forecastFrom} ${esc(tr(wp.base)||"")}. ${U().seaNote}`}</p>
     </div>`;
-  })() : (navigator.onLine && !wxFailAt
-    ? `<div class="card"><span class="spin"></span>${U().loadingCond}</div>`
-    : `<div class="card">
-        <div class="hd"><div><div class="eyebrow">${U().liveConditions}</div>
-          <h3 style="margin-top:4px">${U().condNotSaved}</h3>
-          <p class="sub">${U().condHint}</p></div>
-          <span class="pill warn">Offline</span></div>
-      </div>`);
+  })() : "";
 
-  const flightBlock = f ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().nextFlight}</div>
-      <h3 style="margin-top:4px">${esc(tr(f.label))}</h3>
-      <p class="sub">${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(f.dep.time.split(" ")[0])}</p></div>
-      <button class="btn ghost" data-goto="flights">${U().open}</button></div></div>` : "";
-
-  const hotelBlock = h ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${p.phase==="during"?U().tonight:U().firstBase}</div>
-      <h3 style="margin-top:4px">${esc(h.name)}</h3>
-      <p class="sub">${esc(tr(h.place))}</p></div>
-      <button class="btn ghost" data-goto="stay">${U().open}</button></div></div>` : "";
-
+  /* ---- At a glance: one list instead of a stack of cards ----
+     Each row is one thing to know, with its state at the right. Rows that
+     belong to another tab open it; the two longer ones open in place. */
+  const G = lang === "pl"
+    ? {title:"W skrócie", nofly:"Nurkowanie → lot", clear:"z zapasem", tight:"na styk", under:"za krótko"}
+    : {title:"At a glance", nofly:"Last dive → flight", clear:"clear", tight:"tight", under:"too short"};
+  const chev = svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"');
+  const row = (o) => {
+    const inner = `<span class="gico ${o.tone || ""}">${svg(o.icon)}</span>
+      <span class="gtx"><span class="gk">${o.k}</span><span class="gv">${o.v}</span>${o.sub ? `<span class="gs">${o.sub}</span>` : ""}</span>
+      ${o.chip ? `<span class="gchip ${o.chipTone || ""}">${o.chip}</span>` : ""}
+      <span class="gchev ${o.open != null ? "tog" : ""}">${o.open != null ? svg("chev", 2.2) : chev}</span>`;
+    if(o.open != null) return `<li class="${o.open ? "open" : ""}"><button class="grow" data-nowopen="${o.id}" aria-expanded="${o.open}">${inner}</button>
+      ${o.open ? `<div class="gmore">${o.more}</div>` : ""}</li>`;
+    return `<li><button class="grow" data-goto="${o.goto}">${inner}</button></li>`;
+  };
+  const rows = [];
+  if(f) rows.push({icon:"travel", k:U().nextFlight, v:`${esc(f.number)} · ${esc(f.dep.iata)} → ${esc(f.arr.iata)}`,
+    sub:`${fmtDate(f.dep.time.split(" ")[0])} · ${fmtTime(f.dep.time)}`, goto:"flights"});
+  if(h) rows.push({icon:"bed", k:p.phase==="during"?U().tonight:U().firstBase, v:esc(h.name), sub:esc(tr(h.place)), goto:"stay"});
   const req = (trip.documents?.wallet || []).filter(s=>s.required);
   const ready = req.filter(s=>wallet[s.id]).length;
-  const docsBlock = req.length ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().yourDocs}</div>
-      <h3 style="margin-top:4px">${ready} / ${req.length} ${U().ready}</h3>
-      <p class="sub">${ready===req.length ? U().docsAllSaved : U().docsAdd}</p></div>
-      <button class="btn ${ready===req.length?"ghost":""}" data-goto="docs">${ready===req.length?U().open:U().add}</button></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(ready/req.length*100)}%"></i></div>
-  </div>` : "";
-
-  const iosLike = /iPad|iPhone|iPod/.test(navigator.userAgent);
-  const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
-  let installBlock = "";
-  if(!standalone && installEvent){
-    installBlock = `<div class="installbar">
-      <p><b>${U().installTitle}</b> — ${U().installBody}</p>
-      <button id="installbtn">${U().add}</button></div>`;
-  } else if(!standalone && iosLike){
-    installBlock = `<div class="installbar">
-      <p><b>${U().installTitle}.</b> ${U().installIos}</p></div>`;
-  }
-
+  if(req.length) rows.push({icon:"doc", k:U().yourDocs, v:`${ready} / ${req.length} ${U().ready}`, goto:"docs",
+    chip: ready===req.length ? "✓" : "", chipTone:"ok", tone: ready===req.length ? "ok" : ""});
   const gc = gearCount();
-  const gearBlock = (p.phase === "before" && gc.total) ? `<div class="card">
-    <div class="hd"><div><div class="eyebrow">${U().packList}</div>
-      <h3 style="margin-top:4px">${gc.done} / ${gc.total} ${U().packReady}</h3></div>
-      <button class="btn ${gc.done===gc.total?"ghost":""}" data-goto="gear">${U().open}</button></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${gc.total?Math.round(gc.done/gc.total*100):0}%"></i></div>
-  </div>` : "";
+  if(p.phase === "before" && gc.total) rows.push({icon:"bag", k:U().packList, v:`${gc.done} / ${gc.total} ${U().packReady}`, goto:"gear",
+    chip: gc.done===gc.total ? "✓" : "", chipTone:"ok", tone: gc.done===gc.total ? "ok" : ""});
+  if(p.phase !== "after"){
+    const oc = offlineChecklist();
+    rows.push({id:"offline", icon:"save", k:U().off.eyebrow, v:`${oc.n} / ${oc.total} ${U().ready}`, open: nowOpen === "offline", more: oc.html,
+      chip: oc.n===oc.total ? "✓" : "", chipTone:"ok", tone: oc.n===oc.total ? "ok" : ""});
+  }
+  const nf = noFlyState();
+  if(nf) rows.push({id:"nofly", icon:"mask", k:G.nofly, v: nf.long ? `${nf.days}${U().nfDays} ${nf.rem}${U().nfHours}` : `${nf.hours}${U().nfHours}`,
+    chip: nf.level === "under" ? G.under : nf.level === "tight" ? G.tight : G.clear, chipTone: nf.level === "under" ? "warn" : nf.level === "tight" ? "tight" : "ok",
+    open: nowOpen === "nofly", more: noFlyCard()});
+  const glance = rows.length ? `<div class="glance">
+    <div class="eyebrow" style="padding:0 4px 8px">${G.title}</div>
+    <ul>${rows.map(row).join("")}</ul></div>` : "";
 
   // Near the end of the trip and afterwards, show what is coming next.
   const nearEnd = p.phase === "after" ||
@@ -1819,7 +1905,7 @@ function viewNow(){
     </div>
   </div>` : "";
 
-  return head + nextBlock + installBlock + offlineBlock() + docsBlock + gearBlock + wxBlock + flightBlock + hotelBlock;
+  return head + nextBlock + glance + wxBlock;
 }
 
 /* A dive day either lists its dives, or is flagged diveDay in the trip
@@ -1842,7 +1928,10 @@ const ICON = {
   bed:    '<path d="M2.5 5v15"/><path d="M2.5 9h16a3 3 0 0 1 3 3v8"/><path d="M2.5 16.5h19"/><path d="M6.5 9v7.5"/>',
   pin:    '<path d="M20 10c0 5-5.5 10.2-7.4 11.8a1 1 0 0 1-1.2 0C9.5 20.2 4 15 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/>',
   info:   '<circle cx="12" cy="12" r="9.5"/><path d="M12 16v-4.5"/><path d="M12 8h.01"/>',
-  chev:   '<path d="m6 9 6 6 6-6"/>'
+  chev:   '<path d="m6 9 6 6 6-6"/>',
+  doc:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
+  bag:    '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  save:   '<path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M4.4 15.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.4 8.3"/>'
 };
 const svg = (k, w) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w||1.8}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[k]}</svg>`;
 
@@ -1870,8 +1959,8 @@ function fmtCoord(c){
   const [la, lo] = c;
   return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
 }
-let daysEnter = false;   // animate the list in once, right after a switch
-let daysPos = {};        // which pass each list was showing, so re-renders keep your place
+let deckPos = {};        // which card each deck (days, flights, stay) is showing
+let nowOpen = null;      // NOW: which At-a-glance row is open (offline, nofly)
 
 /* ---- Day photos -------------------------------------------------------------
    Our own photographs, matched to the day by keywords in its title, base and
@@ -1882,79 +1971,170 @@ let daysPos = {};        // which pass each list was showing, so re-renders keep
    and hero-coron.jpg a lagoon. A day can name its own with "photo" in the
    trip file, which always wins. */
 const PHOTO_RULES = [
-  {img:"img/hero-thresher.jpg",   water:true,  rx:/thresher|kosogon|monad|kimud/i},
-  /* Malapascua is thresher country, but only when the day is about it —
-     "back to Malapascua" at the end of a Kalanggaman day is not. */
-  {img:"img/hero-thresher.jpg",   water:true,  head:true, rx:/malapascua/i},
-  {img:"img/hero-elnido.jpg",     water:true,  rx:/wrecks?\b|wrak|\bmaru\b|akitsushima/i},
-  {img:"img/hero-jacks.jpg",      water:true,  rx:/sardine|sardyn|moalboal|panagsama|jacks|ławic|\bschool/i},
-  {img:"img/hero-coron.jpg",      water:false, rx:/lagoons?|lagun|kayangan|island hopping/i},
-  {img:"img/hero-bangkas.jpg",    water:false, rx:/\bboat|bangka|łodzi|łódź|island\b|wysp|kalanggaman|sandbar|beach|plaż/i},
-  {img:"img/hero-valley.jpg",     water:false, rx:/falls|waterfall|wodospad|hills|valencia|valley|trek|springs|źródł/i},
-  {img:"img/hero-fuji.jpg",       water:false, rx:/fuji|hakone|lake ashi|jezior\w* ashi|ōwakudani|owakudani/i},
-  {img:"img/hero-torii-path.jpg", water:false, rx:/bamboo|bambus|arashiyama|gion|pontoch/i},
-  {img:"img/hero-torii-gate.jpg", water:false, rx:/kyoto|kioto|torii|inari|shrine|chram|świątyn|temple/i}
+  /* ---- dive days: underwater (and the Kalanggaman snorkel shot) ---- */
+  {water:true,  rx:/thresher|kosogon|monad|kimud/i,                 img:["img/hero-thresher.jpg"]},
+  {water:true,  rx:/malapascua/i, head:true,                        img:["img/hero-thresher.jpg"]},
+  {water:true,  rx:/sardine|sardyn|panagsama|moalboal/i,            img:["img/day-moalboal-sardines.jpg","img/day-moalboal-turtle.jpg"]},
+  {water:true,  rx:/turtle|żółw/i,                                  img:["img/day-moalboal-turtle.jpg"]},
+  {water:true,  rx:/wrecks?\b|wrak|\bmaru\b|akitsushima/i,          img:["img/hero-elnido.jpg"]},
+  {water:true,  rx:/kalanggaman|sandbar|snorkel/i,                  img:["img/day-kalanggaman-snorkel.jpg"]},
+  {water:true,  rx:/reefs?\b|rafa|rafy|coral|koral|miniloc|el nido|walls?\b|ścian/i, img:["img/day-elnido-reef.jpg"]},
+
+  /* ---- land days: specific places first, then activities ---- */
+  {water:false, rx:/flying|departure|wylot|landing in warsaw|lądowanie w warszawie|journey home|powrót|heading home|leaving japan|end of the expedition|koniec wyprawy|podróż do domu/i, head:true, img:["img/day-flight.jpg"]},
+  {water:false, rx:/ferry|\bprom\b|promem/i,                        img:["img/day-ferry.jpg"]},
+  {water:false, rx:/kalanggaman|sandbar/i,                          img:["img/day-kalanggaman-sandbar.jpg"]},
+  {water:false, rx:/malapascua/i, head:true,                        img:["img/day-malapascua-beach.jpg","img/day-malapascua-sunset.jpg"]},
+  {water:false, rx:/moalboal/i, head:true,                          img:["img/day-moalboal-coast.jpg"]},
+  {water:false, rx:/kawasan/i,                                      img:["img/day-cebu-kawasan.jpg"]},
+  {water:false, rx:/southern cebu|across cebu|north across cebu|przez cebu|południ\w* cebu|osmeña/i, img:["img/day-cebu-hills.jpg","img/day-cebu-coast.jpg"]},
+  {water:false, rx:/coffee plantation|plantacj|break for coffee|przerwa na kawę/i, img:["img/day-negros-coffee.jpg"]},
+  {water:false, rx:/dauin|negros/i, head:true,                      img:["img/day-dauin-beach.jpg","img/day-dauin-coast.jpg"]},
+  {water:false, rx:/tapyas/i,                                       img:["img/day-coron-tapyas.jpg"]},
+  {water:false, rx:/lagoons?|lagun|kayangan|island hopping/i, where:/el nido/i, img:["img/day-elnido-lagoon.jpg","img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/lagoons?|lagun|kayangan|island hopping|twin lagoon/i, where:/coron/i, img:["img/day-coron-twinlagoon.jpg","img/day-coron-lagoons.jpg","img/hero-coron.jpg"]},
+  {water:false, rx:/nacpan|beach|plaż/i, where:/el nido/i,          img:["img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/falls|waterfall|wodospad|pulangbato|valencia|nagkalit/i, img:["img/day-negros-falls.jpg","img/hero-valley.jpg"]},
+  {water:false, rx:/el nido/i, head:true,                           img:["img/day-elnido-lagoon.jpg","img/day-elnido-nacpan.jpg"]},
+  {water:false, rx:/coron/i, head:true,                             img:["img/day-coron-lagoons.jpg","img/day-coron-twinlagoon.jpg","img/day-coron-tapyas.jpg"]},
+  {water:false, rx:/intramuros|jeepney|colonial|kolonial|old manila/i, img:["img/day-manila-intramuros.jpg"]},
+  {water:false, rx:/bonifacio|\bbgc\b|never sleeps|nigdy nie śpi/i, img:["img/day-manila-bgc.jpg"]},
+  {water:false, rx:/manila|makati/i, head:true,                     img:["img/day-manila-city.jpg","img/day-manila-bgc.jpg","img/day-manila-intramuros.jpg"]},
+  {water:false, rx:/shibuya/i,                                      img:["img/day-tokyo-shibuya.jpg"]},
+  {water:false, rx:/tsukiji|sushi|food tour/i,                      img:["img/day-tokyo-food.jpg"]},
+  {water:false, rx:/odaiba|tokyo bay|rainbow bridge/i,              img:["img/day-tokyo-bay.jpg"]},
+  {water:false, rx:/tokyo|tokio/i, head:true,                       img:["img/day-tokyo-bay.jpg","img/day-tokyo-shibuya.jpg","img/day-tokyo-food.jpg"]},
+  {water:false, rx:/lake ashi|jezior\w* ashi|fuji/i,                img:["img/day-hakone-lakeashi.jpg","img/hero-fuji.jpg"]},
+  {water:false, rx:/onsen/i,                                        img:["img/day-hakone-onsen.jpg"]},
+  {water:false, rx:/hakone|gōra|gora/i, head:true,                  img:["img/day-hakone-lakeashi.jpg","img/day-hakone-onsen.jpg","img/hero-fuji.jpg"]},
+  {water:false, rx:/kinkaku|golden pavilion|złoty pawilon/i,        img:["img/day-kyoto-kinkakuji.jpg"]},
+  {water:false, rx:/gion|hanamikoji|higashiyama|pontoch/i,          img:["img/day-kyoto-gion.jpg"]},
+  {water:false, rx:/kyoto|kioto/i, head:true,                       img:["img/hero-torii-gate.jpg","img/day-kyoto-gion.jpg","img/day-kyoto-kinkakuji.jpg","img/hero-torii-path.jpg"]},
+  {water:false, rx:/d[oō]tonbori|shinsekai|kuromon|namba/i,   img:["img/day-osaka-dotonbori.jpg"]},
+  {water:false, rx:/osaka/i, head:true,                             img:["img/day-osaka-castle.jpg","img/day-osaka-dotonbori.jpg"]},
+  {water:false, rx:/\bboats?\b|bangka|łodzi|łódź|island\b|wysp/i,   img:["img/hero-bangkas.jpg"]},
+  {water:false, rx:/hills|valley|trek|springs|źródł/i,              img:["img/hero-valley.jpg"]}
 ];
-const UNDERWATER_DEFAULT = "img/hero-jacks.jpg";
-function dayPhoto(d, prev){
-  if(d.photo) return d.photo;
+/* Underwater shots that are true anywhere these trips dive. */
+const UNDERWATER_DEFAULT = ["img/hero-jacks.jpg","img/day-elnido-reef.jpg","img/day-moalboal-turtle.jpg"];
+/* Every photo that truly fits a day, best first, with how strongly the
+   best one belongs to it: 3 = the title names it (the thresher day),
+   2 = the plan or the place names it, 1 = the hotel or a general photo.
+   Rules marked head are general place photos ("Coron", "Tokyo"); the rest
+   name something specific (a wreck, Nacpan Beach, an onsen). Dive days only
+   ever get underwater shots; land days never do. */
+/* The last day of a trip that lands in Warsaw shows Warsaw, not the
+   destination. Until day-warsaw.jpg exists the card falls back to the
+   day's next photo (see viewDays), so it is never blank. */
+const HOME_PHOTO = "img/day-warsaw.jpg";
+const isHomecoming = d => d === trip.days[trip.days.length - 1] && d.coords
+  && Math.abs(d.coords[0] - 52.17) < 0.3 && Math.abs(d.coords[1] - 20.97) < 0.3;
+function dayPhotoCands(d, home){
+  if(d.photo) return {list:[d.photo], strength:9};
+  if(home !== false && isHomecoming(d)) return {list:[HOME_PHOTO], strength:9};
   const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
   const head = [both(d.title), both(d.base)].join(" ");
   const body = (d.items || []).map(([, x]) => both(x)).concat((d.dives || []).map(v => both(v.site))).join(" ");
   const dive = isDiveDay(d);
-  const pool = PHOTO_RULES.filter(r => r.water === dive);
-  /* 1. What the title and base are about wins outright — the thresher day
-        shows the thresher even if yesterday did too.
-     2. Otherwise the plan, then that night's hotel; among these, avoid
-        repeating yesterday's photo when another true one exists.
-     3. Only when nothing about the day matches (a departure, say): the
-        trip's own photos. Never underwater on a land day, or the reverse. */
-  const headHit = pool.find(r => r.rx.test(head));
-  if(headHit) return headHit.img;
-  /* Where you sleep that night; on a leaving day, where you woke up. */
+  const all = head + " " + body;
+  const pool = PHOTO_RULES.filter(r => r.water === dive && (!r.where || r.where.test(all)));
+  const specific = pool.filter(r => !r.head);
   const stays = trip.hotels.filter(h => !h.optional && h.photo);
   const hotel = stays.find(h => daysBetween(h.checkIn, d.date) >= 0 && daysBetween(d.date, h.checkOut) > 0)
              || stays.find(h => h.checkOut === d.date);
-  const relevant = [
-    ...pool.filter(r => !r.head && r.rx.test(body)).map(r => r.img),
-    ...(dive ? [] : [hotel && hotel.photo])
-  ].filter(Boolean);
-  if(relevant.length) return relevant.find(x => x !== prev) || relevant[0];
-  if(dive) return UNDERWATER_DEFAULT;
-  const wet = new Set(PHOTO_RULES.filter(r => r.water).map(r => r.img));
-  const general = [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...trip.hotels.filter(h => h.photo).map(h => h.photo)];
-  return general.find(x => x !== prev) || general[0] || UNDERWATER_DEFAULT;
+  const t1 = specific.filter(r => r.rx.test(head)).flatMap(r => r.img);
+  const t2 = [...specific.filter(r => r.rx.test(body)).flatMap(r => r.img),
+              ...pool.filter(r => r.head && r.rx.test(head)).flatMap(r => r.img)];
+  const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
+  const t3 = dive ? UNDERWATER_DEFAULT
+                  : [hotel && hotel.photo, ...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays.map(h => h.photo)];
+  const list = [...new Set([...t1, ...t2, ...t3].filter(Boolean))];
+  return {list: list.length ? list : UNDERWATER_DEFAULT, strength: t1.length ? 3 : t2.length ? 2 : 1};
+}
+/* Photos for the whole trip at once: every day gets its own photo, none
+   repeats. Days that a photo belongs to most strongly choose first (the
+   thresher day takes the thresher), then days with the fewest options.
+   A day whose own options are all taken borrows an unused photo from this
+   trip's own destinations — preferring one that matches the day — never
+   one from somewhere the trip does not go. */
+function dayPhotos(days, home){
+  const both = v => typeof v === "object" && v ? [v.en, v.pl].join(" ") : String(v || "");
+  const text = d => [both(d.title), both(d.base), ...(d.items || []).map(([, x]) => both(x)), ...(d.dives || []).map(v => both(v.site))].join(" ");
+  const tripText = days.map(text).join(" ");
+  const cands = days.map(d => dayPhotoCands(d, home));
+  const wet = new Set(PHOTO_RULES.filter(r => r.water).flatMap(r => r.img).concat(UNDERWATER_DEFAULT));
+  const stays = trip.hotels.filter(h => h.photo).map(h => h.photo);
+  const poolFor = dive => [...new Set([
+    ...PHOTO_RULES.filter(r => r.water === dive && r.rx.test(tripText) && (!r.where || r.where.test(tripText))).flatMap(r => r.img),
+    ...(dive ? UNDERWATER_DEFAULT : [...(trip.meta.hero || []).filter(x => !wet.has(x)), ...stays])
+  ])];
+  const pools = {true: poolFor(true), false: poolFor(false)};
+  const fits = (x, i) => PHOTO_RULES.some(r => r.img.includes(x) && r.rx.test(text(days[i])) && (!r.where || r.where.test(text(days[i]))));
+  const order = days.map((d, i) => i).sort((a, b) =>
+    (cands[b].strength - cands[a].strength) || (cands[a].list.length - cands[b].list.length) || (a - b));
+  const used = new Set(), img = [];
+  for(const i of order){
+    const pool = pools[isDiveDay(days[i])];
+    const pick = cands[i].list.find(x => !used.has(x))
+              || pool.find(x => !used.has(x) && fits(x, i))
+              || pool.find(x => !used.has(x))
+              || cands[i].list[0];
+    used.add(pick); img[i] = pick;
+  }
+  return img;
+}
+
+/* ---- Full-screen card decks ---------------------------------------------
+   DAYS, FLIGHTS and STAY are decks: one card fills the screen under the tabs,
+   one swipe moves exactly one card (scroll-snap, snap-stop always) and the
+   next card never shows until you swipe. Every card is the same height;
+   whatever does not fit opens in a "More info" sheet inside the card, so
+   the page itself never scrolls on these tabs. */
+const DECK_TABS = ["days","flights","stay"];
+function deckWords(){
+  return lang === "pl"
+    ? {of:"z", prev:"Poprzednia karta", next:"Następna karta", swipe:"Przesuń w bok", more:"Więcej", less:"Zamknij"}
+    : {of:"of", prev:"Previous card", next:"Next card", swipe:"Swipe sideways", more:"More info", less:"Close"};
+}
+/* cards: [{html, label, dot}] — label names the card in the pager ("Day 3"). */
+function deckHTML(key, cards, start, ariaLabel){
+  const W = deckWords();
+  if(deckPos[key] == null) deckPos[key] = Math.max(0, start);
+  deckPos[key] = Math.min(deckPos[key], Math.max(0, cards.length - 1));
+  const cur = deckPos[key];
+  const arrow = (dir, lbl, off) => `<button class="parrow" data-pstep="${dir}" aria-label="${lbl}" ${off ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", `<svg style="transform:rotate(${dir < 0 ? 90 : -90}deg)"`)}</button>`;
+  return `<div class="deck" data-deck="${key}">
+    <div class="pager">
+      ${arrow(-1, W.prev, cur === 0)}
+      <div class="pmid">
+        <span class="pos" data-ppos>${cards[cur] ? cards[cur].label : ""} · ${cur + 1} ${W.of} ${cards.length}</span>
+        <div class="dots">${cards.map((c, i) => `<button data-pgo="${i}" class="${c.dot || ""}" aria-label="${esc(c.label)}" aria-current="${i === cur}"></button>`).join("")}</div>
+      </div>
+      ${arrow(1, W.next, cur === cards.length - 1)}
+    </div>
+    <div class="passtrack" tabindex="0" aria-label="${esc(ariaLabel)} — ${W.swipe}">${
+      cards.map((c, i) => `<div class="passwrap ${/\btoday\b/.test(c.dot || "") ? "today" : ""}" data-label="${esc(c.label)}">${c.html}</div>`).join("")}</div>
+  </div>`;
+}
+/* The "More info" sheet shared by every card. */
+function moreSheet(kicker, title, body){
+  const W = deckWords();
+  return `<div class="psheet" aria-hidden="true" inert>
+      <div class="psh-head"><div><div class="pdate">${kicker}</div><div class="psh-ttl">${title}</div></div>
+        <button class="pclose" data-more aria-label="${W.less}">${svg("chev", 2.2)}</button></div>
+      <div class="psh-body">${body}</div>
+    </div>
+    <button class="pmore" data-more aria-expanded="false">${W.more}${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(180deg)"')}</button>`;
 }
 
 function viewDays(){
   const t = todayISO();
   const L = lang === "pl" ? "pl-PL" : "en-GB";
   const KD = lang === "pl"
-    ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", of:"z", prev:"Poprzedni dzień", next:"Następny dzień", passes:"Dni wyprawy — przesuń w bok"}
-    : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", of:"of", prev:"Previous day", next:"Next day", passes:"Trip days — swipe sideways"};
-  const diveDays = trip.days.filter(isDiveDay);
-  const landDays = trip.days.filter(d => !isDiveDay(d));
-  /* A trip with no diving has nothing to switch between — show every day. */
-  const split = diveDays.length > 0 && landDays.length > 0;
-  if(split && !daysMode){
-    const today = trip.days.find(d => d.date === t);
-    daysMode = today && !isDiveDay(today) ? "land" : "dive";
-  }
-  const mode = split ? daysMode : "all";
-  const list = !split ? trip.days : daysMode === "land" ? landDays : diveDays;
-  const hasToday = ds => ds.some(d => d.date === t);
-  const segBtn = (m, label, ds, icon) =>
-    `<button role="tab" id="seg-${m}" aria-controls="passtrack" aria-selected="${daysMode===m}" data-dmode="${m}">
-      <span class="l">${svg(icon)}${label}${hasToday(ds) && daysMode!==m ? `<span class="dot" aria-label="${U().today}"></span>` : ""}</span>
-      <span class="c">${dayCount(ds.length)}</span></button>`;
-
-  /* Open on today when it is in this list, otherwise where the client left it. */
-  const todayIdx = list.findIndex(d => d.date === t);
-  if(daysPos[mode] == null) daysPos[mode] = todayIdx >= 0 ? todayIdx : 0;
-  daysPos[mode] = Math.min(daysPos[mode], list.length - 1);
-
-  let prevImg = "";
-  const passes = list.map((d, i) => {
+    ? {dive:"Dzień nurkowy", travel:"W podróży", land:"Na lądzie", dives:n=>n===1?"1 nurkowanie":`${n} nurkowania`, day:"Dzień", deck:"Dni wyprawy"}
+    : {dive:"Dive day", travel:"Travel day", land:"Day ashore", dives:n=>n===1?"1 dive":`${n} dives`, day:"Day", deck:"Trip days"};
+  const photos = dayPhotos(trip.days), photosAway = dayPhotos(trip.days, false);
+  const cards = trip.days.map((d, i) => {
     const isToday = d.date === t;
     const kinds = (d.items || []).map(([, x]) => lineKind(x));
     const dive = isDiveDay(d);
@@ -1962,196 +2142,210 @@ function viewDays(){
     const kind = dive ? "dive" : moving * 2 >= Math.max(1, kinds.length) ? "travel" : "land";
     const nDives = (d.dives || []).length;
     const dt = dateOnly(d.date);
-    const img = dayPhoto(d, prevImg); prevImg = img;
+    /* Two layers for the homecoming day: Warsaw on top, the day's next photo
+       underneath, shown if the Warsaw file has not been added yet. */
+    const img = photos[i] === HOME_PHOTO ? `${HOME_PHOTO}'),url('${photosAway[i]}` : photos[i];
     const h = trip.hotels.find(x => !x.optional && x.checkIn === d.date);
     const nights = h ? daysBetween(h.checkIn, h.checkOut) : 0;
-    const bg = `background-image:linear-gradient(180deg,rgba(4,32,43,.55) 0%,rgba(4,32,43,.12) 26%,rgba(4,32,43,.58) 50%,rgba(4,32,43,.94) 100%),url('${esc(img)}')`;
-    return `<div class="passwrap" style="--i:${Math.min(i, 6)}">
-    <article class="pass ${dive ? "k-dive" : "k-land"} ${isToday ? "today" : ""}" data-idx="${i}"
-      role="group" aria-roledescription="slide" aria-label="${KD.day} ${d.n} — ${esc(tr(d.title))}">
-      <header class="ptop" style="${bg}">
+    const date = esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}));
+    const tonight = h ? `<div class="ptonight">${svg("bed")}<span><span class="k">${U().tonight} · ${nights} ${nights===1?U().night:U().nights}</span><b>${esc(h.name)}</b></span></div>` : "";
+    const sched = `<ol class="sched">${(d.items||[]).map(([tm,x], k)=>`<li>
+          <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
+          <div class="x">${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}${esc(tr(x))}</div></li>`).join("")}</ol>`;
+    const full = tonight + sched
+      + (d.dives||[]).map(dv=>`<div class="dive"><span class="dico">${svg("mask")}</span><div>
+          <div class="n">${esc(tr(dv.site))}</div>
+          <span class="m">${U().maxDepth} ${esc(tr(dv.depth))}</span>
+          <div class="dn">${esc(tr(dv.note))}</div></div></div>`).join("")
+      + (d.note ? `<div class="dnote">${svg("info")}<span>${esc(tr(d.note))}</span></div>` : "")
+      + (d.coords ? `<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${svg("pin")}${U().showOnMap}</button></div>` : "");
+    return {label: `${KD.day} ${d.n}`, dot: `${isToday ? "today" : ""} ${dive ? "k-dive" : ""}`,
+      html: `<article class="pass k-day ${dive ? "k-dive" : "k-land"} ${isToday ? "today" : ""}" style="--img:url('${esc(img)}')"
+        role="group" aria-roledescription="slide" aria-label="${KD.day} ${d.n} — ${esc(tr(d.title))}">
         <div class="prow">
           <span class="pday">${KD.day} <b>${String(d.n).padStart(2,"0")}</b></span>
           <span class="pkind">${svg(dive ? "mask" : kind)}${dive ? KD.dive + (nDives ? " · " + KD.dives(nDives) : "") : KD[kind]}${isToday ? ` · ${U().today}<span class="live"></span>` : ""}</span>
         </div>
+        <div class="pspace"></div>
         <div class="pmain">
-          <div class="pdate">${esc(dt.toLocaleDateString(L,{weekday:"long", day:"numeric", month:"long"}))}</div>
+          <div class="pdate">${date}</div>
           <h3 class="pttl">${esc(tr(d.title))}</h3>
           <div class="pmeta"><span>${esc(tr(d.base))}</span>${d.coords ? `<span class="co">${fmtCoord(d.coords)}</span>` : ""}</div>
         </div>
-      </header>
-      <div class="pperf" aria-hidden="true"></div>
-      <div class="pbody">
-        ${h ? `<div class="ptonight">${svg("bed")}<span><span class="k">${U().tonight} · ${nights} ${nights===1?U().night:U().nights}</span><b>${esc(h.name)}</b></span></div>` : ""}
-        <ol class="sched">${(d.items||[]).map(([tm,x], k)=>`<li>
-          <span class="ico ${kinds[k] === "water" || kinds[k] === "land" ? kinds[k] : "travel"}">${svg(LINE_ICON[kinds[k]])}</span>
-          <div class="x">${tm && tm !== "—" ? `<span class="t">${esc(tm)}</span>` : ""}${esc(tr(x))}</div></li>`).join("")}</ol>
-        ${(d.dives||[]).map(dv=>`<div class="dive"><span class="dico">${svg("mask")}</span><div>
-          <div class="n">${esc(tr(dv.site))}</div>
-          <span class="m">${U().maxDepth} ${esc(tr(dv.depth))}</span>
-          <div class="dn">${esc(tr(dv.note))}</div></div></div>`).join("")}
-        ${d.note?`<div class="dnote">${svg("info")}<span>${esc(tr(d.note))}</span></div>`:""}
-        ${d.coords?`<div class="row"><button class="btn ghost" data-goto="map" data-focus="${d.coords[0]},${d.coords[1]}">${svg("pin")}${U().showOnMap}</button></div>`:""}
-      </div>
-    </article></div>`;
-  }).join("");
-
-  const cur = daysPos[mode];
-  const pager = `<div class="pager">
-      <button class="parrow" data-pstep="-1" aria-label="${KD.prev}" ${cur === 0 ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(90deg)"')}</button>
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex:1;min-width:0">
-        <span class="pos" id="ppos">${KD.day} <b>${list[cur] ? list[cur].n : ""}</b> · ${cur + 1} ${KD.of} ${list.length}</span>
-        <div class="dots">${list.map((d, i) => `<button data-pgo="${i}" class="${d.date === t ? "today" : ""}" aria-label="${KD.day} ${d.n}" aria-current="${i === cur}"></button>`).join("")}</div>
-      </div>
-      <button class="parrow" data-pstep="1" aria-label="${KD.next}" ${cur === list.length - 1 ? "disabled" : ""}>${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</button>
-    </div>`;
-
-  const enter = daysEnter; daysEnter = false;
-  return `<div class="sectitle"><h2>${U().dayByDay}</h2><div class="rule"></div>
-    <span class="pill">${dayCount(trip.days.length)}</span></div>` +
-  (split ? `<div class="seg" role="tablist" aria-label="${U().dayByDay}" data-mode="${daysMode}">
-      ${segBtn("dive", U().divingItinerary, diveDays, "mask")}
-      ${segBtn("land", U().nonDiving, landDays, "land")}</div>` : "") +
-  `<div class="dswap ${enter ? "enter" : ""}" id="dswap" data-mode="${mode}">
-    ${split ? `<p class="seglead">${daysMode==="land" ? U().nonDivingLead : U().divingLead}</p>` : ""}
-    ${pager}
-    <div class="passtrack" id="passtrack" tabindex="0" aria-label="${KD.passes}" ${split ? `role="tabpanel" aria-labelledby="seg-${daysMode}"` : ""}>${passes}</div>
-  </div>`;
+        <div class="ppeek">${tonight}${sched}</div>
+        ${moreSheet(date, esc(tr(d.title)), full)}
+      </article>`};
+  });
+  const todayIdx = trip.days.findIndex(d => d.date === t);
+  return deckHTML("days", cards, todayIdx, KD.deck);
 }
 
-/* After DAYS is drawn: put the track on the remembered pass without an
-   animation, then follow the swipe to keep the pager in step. */
-function initPassTrack(){
-  const track = document.getElementById("passtrack"), swap = document.getElementById("dswap");
-  if(!track || !swap) return;
-  const mode = swap.dataset.mode;
-  const cards = [...track.querySelectorAll(".passwrap")];
-  const goTo = (i, smooth) => {
-    const c = cards[Math.max(0, Math.min(cards.length - 1, i))];
-    if(!c) return;
-    const still = !smooth || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
-    track.scrollTo({left: c.offsetLeft - parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0), behavior: still ? "auto" : "smooth"});
-  };
-  track._goTo = goTo;
-  goTo(daysPos[mode] || 0, false);
-  let raf = 0;
-  const sync = () => {
-    raf = 0;
-    const pad = parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0);
-    let best = 0, bestD = Infinity;
-    cards.forEach((c, i) => { const dd = Math.abs(c.offsetLeft - pad - track.scrollLeft); if(dd < bestD){ bestD = dd; best = i; } });
-    if(best === daysPos[mode] && track._synced) return;
-    track._synced = true;
-    daysPos[mode] = best;
-    const dots = swap.querySelectorAll("[data-pgo]");
-    dots.forEach((b, i) => b.setAttribute("aria-current", String(i === best)));
-    const pos = document.getElementById("ppos");
-    const n = cards[best].querySelector(".pass").getAttribute("aria-label").match(/\d+/);
-    if(pos && n) pos.querySelector("b").textContent = n[0], pos.lastChild.textContent = ` · ${best + 1} ${lang==="pl"?"z":"of"} ${cards.length}`;
-    swap.querySelector('[data-pstep="-1"]').disabled = best === 0;
-    swap.querySelector('[data-pstep="1"]').disabled = best === cards.length - 1;
-  };
-  track.addEventListener("scroll", () => { if(!raf) raf = requestAnimationFrame(sync); }, {passive: true});
-  track.addEventListener("keydown", e => {
-    if(e.key === "ArrowRight"){ e.preventDefault(); goTo(daysPos[mode] + 1, true); }
-    if(e.key === "ArrowLeft"){ e.preventDefault(); goTo(daysPos[mode] - 1, true); }
+/* After a deck tab is drawn: size the cards to the screen, put the track on
+   the remembered card without animation, then follow swipes. */
+function sizeDecks(){
+  const track = document.querySelector(".deck .passtrack");
+  if(!track) return;
+  const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
+  document.documentElement.style.setProperty("--deckH", Math.max(440, Math.floor(vh - top - 14)) + "px");
+}
+function initDecks(){
+  sizeDecks();
+  document.querySelectorAll(".deck").forEach(deck => {
+    const key = deck.dataset.deck;
+    const track = deck.querySelector(".passtrack");
+    const cards = [...track.querySelectorAll(".passwrap")];
+    if(!cards.length) return;
+    const W = deckWords();
+    const goTo = (i, smooth) => {
+      const c = cards[Math.max(0, Math.min(cards.length - 1, i))];
+      const still = !smooth || (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+      track.scrollTo({left: c.offsetLeft - parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0), behavior: still ? "auto" : "smooth"});
+    };
+    track._goTo = goTo;
+    goTo(deckPos[key] || 0, false);
+    let raf = 0, synced = false;
+    const sync = () => {
+      raf = 0;
+      const pad = parseFloat(getComputedStyle(track).scrollPaddingInlineStart || 0);
+      let best = 0, bestD = Infinity;
+      cards.forEach((c, i) => { const dd = Math.abs(c.offsetLeft - pad - track.scrollLeft); if(dd < bestD){ bestD = dd; best = i; } });
+      if(best === deckPos[key] && synced) return;
+      synced = true;
+      /* Leaving a card closes its sheet, so the next visit starts clean. */
+      if(best !== deckPos[key]) cards.forEach((c, i) => { if(i !== best) closeSheet(c.querySelector(".pass")); });
+      deckPos[key] = best;
+      deck.querySelectorAll("[data-pgo]").forEach((b, i) => b.setAttribute("aria-current", String(i === best)));
+      const pos = deck.querySelector("[data-ppos]");
+      if(pos) pos.textContent = `${cards[best].dataset.label} · ${best + 1} ${W.of} ${cards.length}`;
+      deck.querySelector('[data-pstep="-1"]').disabled = best === 0;
+      deck.querySelector('[data-pstep="1"]').disabled = best === cards.length - 1;
+    };
+    track.addEventListener("scroll", () => { if(!raf) raf = requestAnimationFrame(sync); }, {passive: true});
+    track.addEventListener("keydown", e => {
+      if(e.key === "ArrowRight"){ e.preventDefault(); goTo(deckPos[key] + 1, true); }
+      if(e.key === "ArrowLeft"){ e.preventDefault(); goTo(deckPos[key] - 1, true); }
+    });
   });
 }
+function closeSheet(card){
+  if(!card || !card.classList.contains("open")) return;
+  card.classList.remove("open");
+  const sh = card.querySelector(".psheet");
+  if(sh){ sh.setAttribute("aria-hidden", "true"); sh.setAttribute("inert", ""); }
+  card.querySelectorAll(".pmore").forEach(b => b.setAttribute("aria-expanded", "false"));
+}
+let deckResize = 0;
+window.addEventListener("resize", () => {
+  if(!DECK_TABS.includes(tab)) return;
+  clearTimeout(deckResize);
+  deckResize = setTimeout(() => {
+    sizeDecks();
+    document.querySelectorAll(".deck").forEach(d => { const t = d.querySelector(".passtrack"); if(t && t._goTo) t._goTo(deckPos[d.dataset.deck] || 0, false); });
+  }, 120);
+});
 
 function viewFlights(){
-  return `<div class="sectitle"><h2>${U().flights}</h2><div class="rule"></div></div>
-  <p class="note" style="margin:8px 0 0">${U().flightNote}</p>` +
-  trip.flights.map(f=>{
+  const KF = lang === "pl"
+    ? {flight:"Lot", deck:"Loty", pass:"Karta pokładowa", from:"Wylot", to:"Przylot", ref:"Rezerwacja", bag:"Bagaż", note:"Uwagi", date:"Data", num:"Lot"}
+    : {flight:"Flight", deck:"Flights", pass:"Boarding pass", from:"Departs", to:"Arrives", ref:"Booking", bag:"Baggage", note:"Note", date:"Date", num:"Flight"};
+  const now = Date.now();
+  const cards = trip.flights.map((f, i) => {
     const hasNumber = f.number && f.number !== "—";
     const q = hasNumber ? f.number.replace(/\s/g,"") : "";
-    const statusRow = hasNumber
+    const d0 = (f.dep.time || "").slice(0,10);
+    const actions = hasNumber
       ? `<a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
-            href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${
-              (f.dep.time||"").slice(0,10) ? "#" + (f.dep.time||"").slice(0,10) : ""}">${U().checkStatus}</a>
+            href="https://www.flightradar24.com/data/flights/${encodeURIComponent(q.toLowerCase())}${d0 ? "#" + d0 : ""}">${U().checkStatus}</a>
          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
             href="https://www.google.com/search?q=${encodeURIComponent(q + " " + f.dep.iata + " " + f.arr.iata)}">Google</a>`
       : `<span class="pill">${U().numberPending}</span>`;
-
-    return `<div class="card">
-      <div class="hd"><div><div class="eyebrow">${esc(tr(f.label))}</div>
-        <h3 style="margin-top:4px">${esc(tr(f.airline))} ${esc(f.number)}</h3></div>
-        <span class="pill">${fmtDate(f.dep.time.split(" ")[0])}</span></div>
-      <div class="leg">
-        <div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div><div class="time">${fmtTime(f.dep.time)}</div></div>
-        <div class="mid"><div class="dashed"></div><div style="font-size:11px;color:var(--muted);margin-top:4px">✈</div></div>
-        <div class="r"><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div><div class="time">${fmtTime(f.arr.time)}</div></div>
-      </div>
-      <dl class="kv">
-        <dt>${U().bookingRef}</dt><dd class="mono">${esc(f.pnr)}</dd>
-        <dt>${lang==="pl"?"Bagaż":"Baggage"}</dt><dd>${esc(tr(f.baggage))}</dd>
-        ${f.seatNote?`<dt>${lang==="pl"?"Uwagi":"Note"}</dt><dd>${esc(tr(f.seatNote))}</dd>`:""}
-      </dl>
-      <div class="row">${statusRow}</div>
-    </div>`;
-  }).join("");
+    const details = `<dl class="bpgrid">
+        <div><dt>${KF.ref}</dt><dd class="mono">${esc(f.pnr)}</dd></div>
+        <div><dt>${KF.num}</dt><dd class="mono">${esc(f.number)}</dd></div>
+        <div class="wide"><dt>${KF.bag}</dt><dd>${esc(tr(f.baggage))}</dd></div>
+      </dl>`;
+    const note = f.seatNote ? `<div class="bpnote"><span class="k">${KF.note}</span>${esc(tr(f.seatNote))}</div>` : "";
+    return {label: `${KF.flight} ${i + 1}`, dot: "",
+      html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${KF.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
+        <div class="bptop">
+          <div class="prow" style="padding:0">
+            <span class="pday">${KF.pass}</span>
+            <span class="pkind">${svg("travel")}${fmtDate(d0)}</span>
+          </div>
+          <div class="bpair">${esc(tr(f.airline))}<span class="mono"> ${esc(f.number)}</span></div>
+          <div class="bplabel">${esc(tr(f.label))}</div>
+          <div class="bproute">
+            <div><div class="bpk">${KF.from}</div><div class="iata">${esc(f.dep.iata)}</div><div class="city">${esc(tr(f.dep.city))}</div></div>
+            <div class="bpmid"><span class="bpline"></span>${svg("travel", 1.6)}<span class="bpline"></span></div>
+            <div class="r"><div class="bpk">${KF.to}</div><div class="iata">${esc(f.arr.iata)}</div><div class="city">${esc(tr(f.arr.city))}</div></div>
+          </div>
+          <div class="bptimes">
+            <div><span class="bpk">${KF.from}</span><b class="mono">${fmtTime(f.dep.time)}</b><span class="mono">${fmtDate(d0)}</span></div>
+            <div class="r"><span class="bpk">${KF.to}</span><b class="mono">${fmtTime(f.arr.time)}</b><span class="mono">${fmtDate((f.arr.time||"").slice(0,10))}</span></div>
+          </div>
+        </div>
+        <div class="bpperf" aria-hidden="true"></div>
+        <div class="bpbody">
+          <div class="bppeek">${details}${note}</div>
+          <div class="bpfade"></div>
+          <div class="row bpact">${actions}</div>
+        </div>
+        ${moreSheet(`${esc(f.dep.iata)} → ${esc(f.arr.iata)} · ${fmtDate(d0)}`, `${esc(tr(f.airline))} ${esc(f.number)}`,
+          details + note + `<p class="bpdisc">${U().flightNote}</p><div class="row">${actions}</div>`)}
+      </article>`};
+  });
+  /* Open on the next flight that has not left yet. */
+  const next = trip.flights.findIndex(f => new Date((f.dep.time || "").replace(" ", "T")).getTime() > now);
+  return deckHTML("flights", cards, next >= 0 ? next : 0, KF.deck);
 }
 
 function viewStay(){
   const t = todayISO();
-  const core = trip.hotels.filter(h=>!h.optional);
-  const nightsTotal = core.reduce((n,h)=>n+daysBetween(h.checkIn,h.checkOut),0);
-
-  const summary = `<div class="staysum">
-    <div><span class="k">${U().bases}</span><span class="v">${core.length}</span></div>
-    <div><span class="k">${U().nights}</span><span class="v">${nightsTotal}</span></div>
-  </div>`;
-
-  const cards = trip.hotels.map(h=>{
+  const KS = lang === "pl"
+    ? {stay:"Nocleg", deck:"Noclegi", in:"Zameldowanie", out:"Wymeldowanie"}
+    : {stay:"Stay", deck:"Where you sleep", in:"Check-in", out:"Check-out"};
+  const cards = trip.hotels.map((h, i) => {
     const now = daysBetween(h.checkIn,t)>=0 && daysBetween(t,h.checkOut)>0;
     const nights = daysBetween(h.checkIn,h.checkOut);
-    const pill = h.optional ? `<span class="pill ochre">${U().optional}</span>`
-               : now ? `<span class="pill live">${U().today}</span>`
-               : `<span class="pill">${nights} ${nights===1?U().night:U().nights}</span>`;
-    const coords = `${h.coords[0].toFixed(4)}° N · ${h.coords[1].toFixed(4)}° E`;
-
-    // Photo band on top; every practical detail stays below it on the light card.
-    const band = h.photo ? `<div class="pband">
-        <img src="${esc(h.photo)}" alt="${esc(h.name)}" loading="lazy">
-        ${pill}
-        <div class="pt">
-          <div class="pk">${esc(tr(h.place))}</div>
-          <h3>${esc(h.name)}</h3>
-          <div class="pc">${coords}</div>
+    const pill = h.optional ? `<span class="pkind opt">${U().optional}</span>`
+               : now ? `<span class="pkind">${svg("bed")}${U().today}<span class="live"></span></span>`
+               : `<span class="pkind">${svg("bed")}${nights} ${nights===1?U().night:U().nights}</span>`;
+    const dates = `<div class="sdates">
+        <div><span class="bpk">${KS.in}</span><b>${fmtDate(h.checkIn)}</b></div>
+        <span class="sarr">${svg("chev", 2.2).replace("<svg", '<svg style="transform:rotate(-90deg)"')}</span>
+        <div class="r"><span class="bpk">${KS.out}</span><b>${fmtDate(h.checkOut)}</b></div>
+      </div>`;
+    const facts = `<dl class="sfacts">
+        ${h.room?`<div><dt>${U().room}</dt><dd>${esc(tr(h.room))}</dd></div>`:""}
+        ${h.phone?`<div><dt>${U().phone}</dt><dd><a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a></dd></div>`:""}
+        ${h.address?`<div><dt>${U().address}</dt><dd>${esc(h.address)}</dd></div>`:""}
+      </dl>`;
+    const actions = `<div class="row">
+        <a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
+           href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${svg("pin")}${U().directions}</a>
+        <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
+      </div>`;
+    const notes = h.notes ? `<div class="dnote">${svg("info")}<span>${esc(tr(h.notes))}</span></div>` : "";
+    return {label: `${KS.stay} ${i + 1}`, dot: now ? "today" : "",
+      html: `<article class="pass k-stay ${now ? "today" : ""}" ${h.photo ? `style="--img:url('${esc(h.photo)}')"` : ""}
+        role="group" aria-roledescription="slide" aria-label="${esc(h.name)}">
+        <div class="prow">
+          <span class="pday">${KS.stay} <b>${String(i + 1).padStart(2,"0")}</b></span>
+          ${pill}
         </div>
-      </div>` : "";
-
-    const plainHead = h.photo ? "" : `<div class="hd"><div>
-        <div class="eyebrow">${esc(tr(h.place))}</div>
-        <h3 style="margin-top:4px">${esc(h.name)}</h3>
-        <div class="mono" style="font-size:11px;color:var(--reef-dim);margin-top:5px">${coords}</div>
-      </div>${pill}</div>`;
-
-    return `<div class="card${h.photo?" photo":""}">
-      ${band}
-      <div class="${h.photo?"pbody":""}">
-        ${plainHead}
-        <div class="daterow">
-          <span class="dt">${fmtDate(h.checkIn)}</span><span class="ar">&rarr;</span>
-          <span class="dt">${fmtDate(h.checkOut)}</span>
-          <span class="nn">${nights} ${nights===1?U().night:U().nights}</span>
+        <div class="pspace"></div>
+        <div class="pmain">
+          <div class="pdate">${esc(tr(h.place))}</div>
+          <h3 class="pttl">${esc(h.name)}</h3>
+          <div class="pmeta"><span class="co">${fmtCoord(h.coords)}</span></div>
         </div>
-        <dl class="kv">
-          ${h.room?`<dt>${U().room}</dt><dd>${esc(tr(h.room))}</dd>`:""}
-          <dt>${U().phone}</dt><dd><a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a></dd>
-          <dt>${U().address}</dt><dd>${esc(h.address)}</dd>
-        </dl>
-        ${h.notes?`<p class="sub" style="margin-top:10px">${esc(tr(h.notes))}</p>`:""}
-        <div class="row">
-          <a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener"
-             href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${U().directions}</a>
-          <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
-        </div>
-      </div>
-    </div>`;
-  }).join("");
-
-  return `<div class="sectitle"><h2>${U().whereYouSleep}</h2><div class="rule"></div></div>`
-       + summary + cards;
+        <div class="ppeek">${dates}${facts}</div>
+        ${moreSheet(esc(tr(h.place)), esc(h.name), dates + facts + notes + actions)}
+      </article>`};
+  });
+  const cur = trip.hotels.findIndex(h => daysBetween(h.checkIn,t)>=0 && daysBetween(t,h.checkOut)>0);
+  return deckHTML("stay", cards, cur, KS.deck);
 }
 
 function viewDocs(){
@@ -2770,10 +2964,12 @@ function render(){
   if(!trip) return;
   renderTabs();
   if(tab === "setup" && !setupUnlocked) tab = "now";
+  /* Card tabs get the whole screen under the tabs: the status band steps aside. */
+  document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);
-  if(tab === "days") initPassTrack();
+  if(DECK_TABS.includes(tab)) initDecks();
   if(tab === "now" || tab === "days"){
     const w = weatherPlace();
     if(w?.coords) getWeather(w.coords[0], w.coords[1]);
@@ -3129,9 +3325,9 @@ async function checkOffline(){
   if(changed && tab === "now") render();
 }
 
-function offlineBlock(){
-  const p = tripPhase();
-  if(p.phase === "after") return "";
+/* The four steps, checked for real where the app can check them. Also
+   offers the install button where the browser allows one. */
+function offlineChecklist(){
   const O = U().off;
   const standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone;
   const m = mapSaveRow();
@@ -3141,7 +3337,8 @@ function offlineBlock(){
     : null;
   const rows = [
     { done: !!standalone, title: O.homeTitle,
-      sub: standalone ? O.homeDone : (/iPad|iPhone|iPod/.test(navigator.userAgent) ? O.homeIos : O.homeOther) },
+      sub: standalone ? O.homeDone : (/iPad|iPhone|iPod/.test(navigator.userAgent) ? O.homeIos : O.homeOther),
+      action: !standalone && installEvent ? `<button class="btn" id="installbtn">${U().add}</button>` : "" },
     { done: offlineStatus.trip, title: O.tripTitle,
       sub: offlineStatus.trip
         ? (offlineStatus.at ? `${O.tripUpdated} ${new Date(offlineStatus.at).toLocaleString(lang==="pl"?"pl-PL":"en-GB",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})}` : O.tripSaved)
@@ -3152,19 +3349,12 @@ function offlineBlock(){
         <button class="btn ${gmapsDone?"ghost":""}" data-gmaps="1" aria-pressed="${gmapsDone}">${gmapsDone ? O.undo : O.markDone}</button>` }
   ];
   const n = rows.filter(r => r.done).length;
-  const all = n === rows.length;
-  return `<div class="card offcard">
-    <div class="hd"><div><div class="eyebrow">${O.eyebrow}</div>
-      <h3 style="margin-top:4px">${all ? O.allReady : `${n} / ${rows.length} ${U().ready}`}</h3>
-      <p class="sub">${all ? O.allReadySub : O.intro}</p></div>
-      <span class="pill ${all?"ok":""}">${all ? "✓ Offline" : "Offline"}</span></div>
-    <div class="prog" style="margin-top:12px"><i style="width:${Math.round(n/rows.length*100)}%"></i></div>
+  return { n, total: rows.length, html: `<p class="sub" style="margin:0 0 4px">${n === rows.length ? O.allReadySub : O.intro}</p>
     <ol class="offlist">${rows.map(r => `<li class="${r.done?"done":""}">
       <span class="tick" aria-hidden="true">${r.done ? "✓" : ""}</span>
       <div class="ob"><div class="ot">${r.title}<span class="sr">${r.done ? " — " + O.doneWord : ""}</span></div>
         <div class="os">${r.sub}</div>${r.extra || ""}
-        ${r.action ? `<div class="row">${r.action}</div>` : ""}</div></li>`).join("")}</ol>
-  </div>`;
+        ${r.action ? `<div class="row">${r.action}</div>` : ""}</div></li>`).join("")}</ol>` };
 }
 
 /* Pin names for the offline map. Without tiles there are no place names at
@@ -3358,7 +3548,7 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-dmode],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
   if(t.dataset.rename){ openGate(); return; }
@@ -3391,27 +3581,24 @@ document.addEventListener("click", async (e) => {
     try{ await window.storage.set(K("gmapsOffline"), gmapsDone ? "1" : "0"); }catch(e){}
     render(); return;
   }
-  if(t.dataset.dmode){
-    const mode = t.dataset.dmode;
-    if(daysMode === mode) return;
-    /* Slide the thumb and fade the old list first, then draw the new one
-       rising in. Straight swap when the client prefers reduced motion. */
-    const still = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const seg = t.closest(".seg"), swap = document.getElementById("dswap");
-    daysMode = mode;
-    if(still || !seg || !swap){ render(); return; }
-    seg.dataset.mode = mode;
-    seg.querySelectorAll("[data-dmode]").forEach(b => b.setAttribute("aria-selected", String(b.dataset.dmode === mode)));
-    swap.classList.remove("enter");
-    swap.classList.add("leaving");
-    setTimeout(() => { if(tab === "days" && daysMode === mode){ daysEnter = true; render(); } }, 190);
+  if(t.dataset.pstep || t.dataset.pgo){
+    const deck = t.closest(".deck"), track = deck && deck.querySelector(".passtrack");
+    if(!track || !track._goTo) return;
+    track._goTo(t.dataset.pgo != null ? Number(t.dataset.pgo) : (deckPos[deck.dataset.deck] || 0) + Number(t.dataset.pstep), true);
     return;
   }
-  if(t.dataset.pstep || t.dataset.pgo){
-    const track = document.getElementById("passtrack"), swap = document.getElementById("dswap");
-    if(!track || !track._goTo) return;
-    const mode = swap.dataset.mode;
-    track._goTo(t.dataset.pgo != null ? Number(t.dataset.pgo) : (daysPos[mode] || 0) + Number(t.dataset.pstep), true);
+  if(t.dataset.nowopen){
+    nowOpen = nowOpen === t.dataset.nowopen ? null : t.dataset.nowopen;
+    render(); return;
+  }
+  if(t.hasAttribute("data-more")){
+    const card = t.closest(".pass");
+    if(!card) return;
+    if(card.classList.contains("open")){ closeSheet(card); return; }
+    card.classList.add("open");
+    const sh = card.querySelector(".psheet");
+    if(sh){ sh.removeAttribute("inert"); sh.setAttribute("aria-hidden", "false"); sh.querySelector(".psh-body").scrollTop = 0; }
+    card.querySelectorAll(".pmore").forEach(b => b.setAttribute("aria-expanded", "true"));
     return;
   }
   if(t.id === "dv-new"){ newDive(); return; }

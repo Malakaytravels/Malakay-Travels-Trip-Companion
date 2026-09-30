@@ -126,8 +126,7 @@ const TRIPS = [
   "./trips/cebu-nov26.json",
   "./trips/palawan-nov26.json",
   "./trips/japan-dec26.json",
-  "./trips/palawan-nye.json",
-  "./trips/japan-nov26.json"
+  "./trips/palawan-nye.json"
 ];
 
 self.addEventListener("install", e => {

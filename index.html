@@ -67,9 +67,22 @@ a{color:var(--reef-dim)}
 /* ---------- instrument band (the signature) ---------- */
 .instrument{
   background:var(--abyss);color:var(--slate);
-  border-bottom:2px solid var(--reef-dim);
-  padding:14px 0 0;
+  padding:12px 0 0;
+  /* Fixed and floating: it stays put on every tab and through every swipe. */
+  position:fixed;z-index:600;top:calc(8px + env(safe-area-inset-top,0px));left:10px;right:10px;
+  max-width:740px;margin:0 auto;border-radius:22px;border:1px solid #1B3A48;
+  box-shadow:0 10px 28px -12px rgba(4,32,43,.55);
 }
+.instrument .brandrow{padding-bottom:12px}
+.instrument .readout{margin-top:0;margin-bottom:0}
+body{padding-top:var(--topH,150px)}
+/* Nothing in the app should bounce or pan sideways under the two bars. */
+html{overscroll-behavior:none}
+body{overflow-x:clip}
+/* The gaps around the floating bars show sand, not the page sliding past. */
+body::before,body::after{content:"";position:fixed;left:0;right:0;z-index:499;pointer-events:none}
+body::before{top:0;height:calc(12px + env(safe-area-inset-top,0px));background:#F4EEE5}
+body::after{bottom:0;height:calc(12px + env(safe-area-inset-bottom,0px));background:#DCE6E3}
 .brandrow{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .brand{font-family:'Outfit';font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
 .brand .mark{height:22px;width:auto;display:block}
@@ -114,17 +127,18 @@ a{color:var(--reef-dim)}
 /* ---------- bottom tab bar ----------
    The four tabs used on the move sit under the thumb; everything else lives
    behind MORE. Fixed to the bottom, above the home indicator. */
-.tabsbar{position:fixed;top:auto;left:0;right:0;bottom:0;border-bottom:none;border-top:1px solid #1B3A48;
-  padding-bottom:env(safe-area-inset-bottom,0px)}
-.tabs{justify-content:space-around;gap:0;padding:0 4px;overflow:visible;max-width:520px;margin:0 auto}
+.tabsbar{position:fixed;top:auto;left:10px;right:10px;bottom:calc(8px + env(safe-area-inset-bottom,0px));
+  max-width:520px;margin:0 auto;border:1px solid #1B3A48;border-radius:22px;padding:5px;
+  box-shadow:0 14px 34px -10px rgba(4,32,43,.6)}
+.tabs{justify-content:space-around;gap:2px;padding:0;overflow:visible}
 .tab{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;
-  padding:9px 2px 8px;min-height:60px;font-size:10.5px;letter-spacing:.08em;
-  border-bottom:none;border-top:3px solid transparent}
+  padding:8px 2px 7px;min-height:56px;font-size:10.5px;letter-spacing:.08em;
+  border:none;border-radius:17px;transition:background .18s var(--ease),color .18s var(--ease)}
 .tab svg{width:22px;height:22px}
 .tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
-.tab[aria-selected="true"]{border-top-color:var(--reef);border-bottom-color:transparent}
+.tab[aria-selected="true"]{background:rgba(56,195,192,.14)}
 .tab[aria-selected="true"] svg{color:var(--reef)}
-body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 .morebg{position:fixed;inset:0;background:rgba(4,32,43,.55);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
 .morebg.on{opacity:1;pointer-events:auto}
 .moresheet{position:fixed;left:0;right:0;bottom:0;z-index:901;background:var(--card);border-radius:24px 24px 0 0;
@@ -216,13 +230,14 @@ section{padding-top:6px}
    than the track's side margin, so the next card never peeks in: you see
    it only when you swipe. Every card has the same height (--deckH, set
    from the screen), and the page itself does not scroll on these tabs. */
-body.deckmode .instrument{display:none}
+body.deckmode .instrument .readout{display:none}
 body.deckmode{padding-bottom:0}
 /* With the tab bar at the bottom, nothing sits above the deck in the page
    flow, so its top margin would escape the body and make the page scroll. */
 body.deckmode{display:flow-root}
 .deck{max-width:520px;margin:0 auto}
 .passtrack{
+  overscroll-behavior-x:contain;
   position:relative;   /* the cards measure their offsets from the track */
   display:flex;gap:28px;align-items:flex-start;
   overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;
@@ -992,7 +1007,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v72 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v73 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2302,14 +2317,23 @@ function viewDays(){
 
 /* After a deck tab is drawn: size the cards to the screen, put the track on
    the remembered card without animation, then follow swipes. */
+/* The floating top bar is fixed, so the page starts below it. Its height
+   changes with the tab (the readout steps aside on card tabs) and with the
+   language, so it is measured rather than assumed. */
+function sizeTop(){
+  const t = document.querySelector(".instrument");
+  if(!t) return;
+  document.documentElement.style.setProperty("--topH", Math.ceil(t.getBoundingClientRect().bottom + 10) + "px");
+}
 function sizeDecks(){
+  sizeTop();
   const track = document.querySelector(".deck .passtrack");
   if(!track) return;
   const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
   const bar = document.querySelector(".tabsbar");
-  const barH = bar ? bar.getBoundingClientRect().height : 0;
-  document.documentElement.style.setProperty("--deckH", Math.max(420, Math.floor(vh - top - 14 - barH)) + "px");
+  const barSpace = bar ? vh - bar.getBoundingClientRect().top : 0;   // the floating bar and its margin
+  document.documentElement.style.setProperty("--deckH", Math.max(380, Math.floor(vh - top - 10 - barSpace)) + "px");
 }
 function initDecks(){
   sizeDecks();
@@ -2359,6 +2383,7 @@ function closeSheet(card){
 }
 let deckResize = 0;
 window.addEventListener("resize", () => {
+  sizeTop();
   if(!DECK_TABS.includes(tab)) return;
   clearTimeout(deckResize);
   deckResize = setTimeout(() => {
@@ -3106,6 +3131,7 @@ function render(){
   if(tab === "setup" && !setupUnlocked) tab = "now";
   /* Card tabs get the whole screen under the tabs: the status band steps aside. */
   document.body.classList.toggle("deckmode", DECK_TABS.includes(tab));
+  sizeTop();
   const v = $("#view");
   v.innerHTML = ({now:viewNow,days:viewDays,flights:viewFlights,stay:viewStay,docs:viewDocs,gear:viewGear,log:viewLog,passport:viewPassport,map:viewMap,guide:viewGuide,setup:viewSetup})[tab]();
   if(tab === "map") setTimeout(drawMap, 30);

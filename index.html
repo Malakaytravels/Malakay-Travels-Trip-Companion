@@ -190,6 +190,50 @@ body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 .drv .dfoot .mono{font-size:13px;color:var(--muted)}
 .drv .dfoot a{color:var(--reef-dim);font-weight:700;font-size:18px}
 
+/* ---------- transfers: the car button in the top bar ----------
+   Who meets you, where and when, the car, and a name sign to hold up. */
+.tripcode{white-space:nowrap}
+.brandrow:has(.carbtn:not(.hidden)) .tripcode{display:none}
+.carbtn{width:40px;height:40px;border-radius:12px;border:1px solid #24485A;background:#0E2A35;color:var(--gold);
+  display:flex;align-items:center;justify-content:center;flex:none}
+.carbtn svg{width:21px;height:21px}
+.tbg{position:fixed;inset:0;z-index:940;background:rgba(2,14,20,.72);display:flex;align-items:center;justify-content:center;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 14px calc(14px + env(safe-area-inset-bottom,0px))}
+.tcard{width:100%;max-width:440px;max-height:100%;overflow-y:auto;overscroll-behavior:contain;
+  background:linear-gradient(180deg,#0B2C38,var(--abyss) 70%);color:var(--slate);
+  border:1px solid rgba(201,162,39,.45);border-radius:28px;padding:18px 18px 20px;box-shadow:0 30px 60px -20px rgba(0,0,0,.7)}
+.tcard .th{display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid #1B3A48}
+.tcard .th svg{width:22px;height:22px;color:var(--gold)}
+.tcard .th b{flex:1;font-family:'Outfit';font-weight:700;font-size:15px;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+.tcard .th .xbtn{background:#0E2A35;border-color:#1B3A48;color:#C9D6DB;width:40px;height:40px}
+.tcard .twhen{margin-top:16px;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--reef)}
+.tcard .ttime{font-family:'Outfit';font-weight:800;font-size:40px;line-height:1;letter-spacing:-.02em;color:#fff;margin-top:6px}
+.tcard .troute{font-size:16px;color:#DCE6E8;margin-top:8px;line-height:1.4}
+.tcard .tbox{margin-top:14px;padding:14px;border-radius:18px;background:#0E2A35;border:1px solid #1B3A48}
+.tcard .tbox .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8AA3AD}
+.tcard .tbox .v{font-size:16px;color:#fff;margin-top:4px;line-height:1.4}
+.tcard .tgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.tcard .tgrid .tbox{margin-top:0}
+.tcard .tbox .v.mono{font-family:'JetBrains Mono';color:var(--gold);font-weight:600}
+.tcard .tsign{margin-top:14px;padding:16px;border-radius:18px;border:2px dashed rgba(201,162,39,.55);text-align:center}
+.tcard .tsign .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9FB6BF}
+.tcard .tsign .nm{font-family:'Outfit';font-weight:800;font-size:clamp(24px,7vw,32px);letter-spacing:.04em;color:var(--gold);margin-top:6px;line-height:1.1;text-transform:uppercase}
+.tcard .tsign .sb{font-size:14px;color:#DCE6E8;margin-top:4px}
+.tcard .tact{display:flex;gap:10px;margin-top:16px}
+.tcard .tact a,.tcard .tact button{flex:1;min-height:50px;border-radius:16px;display:flex;align-items:center;justify-content:center;gap:8px;
+  font-family:'Outfit';font-weight:700;font-size:15.5px;text-decoration:none}
+.tcard .tact a{background:var(--gold);color:var(--abyss)}
+.tcard .tact a svg{width:19px;height:19px}
+.tcard .tact button{flex:0 0 auto;padding:0 18px;background:#0E2A35;border:1px solid #1B3A48;color:#DCE6E8}
+.tcard .tlist{margin-top:18px;border-top:1px solid #1B3A48;padding-top:12px}
+.tcard .tlist .k{font-family:'JetBrains Mono';font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#8AA3AD;margin-bottom:6px}
+.tcard .tlist button{display:flex;width:100%;gap:12px;align-items:baseline;text-align:left;padding:10px 4px;background:none;border:none;
+  border-bottom:1px solid rgba(27,58,72,.7);color:#DCE6E8;font-size:14.5px;line-height:1.35}
+.tcard .tlist button:last-child{border-bottom:none}
+.tcard .tlist button .d{flex:none;width:74px;font-family:'JetBrains Mono';font-size:12px;color:var(--reef)}
+.tcard .tlist button[aria-current="true"]{color:#fff}
+.tcard .tlist button[aria-current="true"] .d{color:var(--gold)}
+
 /* ---------- cards ---------- */
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -907,6 +951,7 @@ textarea{
       <a class="brand" href="https://www.malakaytravels.com" target="_blank" rel="noopener" aria-label="Malakay Travels"><img src="coral.png" alt="" class="mark">Malakay <span>Travels</span></a>
       <div style="display:flex;align-items:center;gap:10px">
         <div class="tripcode mono" id="tripcode">—</div>
+        <button class="carbtn hidden" id="carbtn" data-transfer="1"></button>
         <div class="langsw" id="langsw"></div>
       </div>
     </div>
@@ -1024,7 +1069,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v75 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v76 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1792,6 +1837,12 @@ function band(){
   const m = trip.meta, p = tripPhase();
   $("#tripcode").textContent = m.code;
 
+  const cb = $("#carbtn");
+  if(cb){
+    const has = (trip.transfers || []).length > 0;
+    cb.classList.toggle("hidden", !has);
+    if(has){ cb.innerHTML = svg("car", 1.9); cb.setAttribute("aria-label", lang === "pl" ? "Twoje transfery" : "Your transfers"); }
+  }
   $("#langsw").innerHTML = LANGS.map(l =>
     `<button data-lang="${l}" aria-pressed="${l===lang}">${l.toUpperCase()}</button>`).join("");
 
@@ -1882,6 +1933,51 @@ function renderTabs(){
       <button class="xbtn" data-moreclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
     <div class="moregrid">${extra.map(k => `<button data-tab="${k}" aria-current="${k===tab}"><span class="mi">${svg(TAB_ICON[k], 1.8)}</span>${tabName(k)}</button>`).join("")}</div>
     ${call}`;
+}
+/* Transfers: the next one opens first; the list below switches between
+   them. Driver, car and plate are filled in as the supplier confirms. */
+function transferCard(pick){
+  const T = trip.transfers || [];
+  if(!T.length) return;
+  const pl = lang === "pl";
+  const at = x => new Date(`${x.date}T${(x.time || "00:00").replace(/[^0-9:]/g, "") || "00:00"}:00`);
+  let i = pick;
+  if(i == null){
+    const now = Date.now() - 2 * 3600e3;   // a pickup stays "next" for two hours after its time
+    i = T.findIndex(x => at(x).getTime() >= now);
+    if(i < 0) i = T.length - 1;
+  }
+  const x = T[i];
+  const TBC = pl ? "Do potwierdzenia" : "To be confirmed";
+  const names = (traveller && traveller.names || []).join(" & ");
+  const sign = x.sign || trip.meta.sign || names;
+  const box = (k, v, mono) => `<div class="tbox"><div class="k">${k}</div><div class="v${mono ? " mono" : ""}">${v ? esc(v) : `<span style="color:#8AA3AD">${TBC}</span>`}</div></div>`;
+  document.getElementById("tbg")?.remove();
+  const el = document.createElement("div");
+  el.className = "tbg"; el.id = "tbg"; el.dataset.tclose = "1";
+  el.innerHTML = `<div class="tcard" role="dialog" aria-modal="true" aria-label="${pl ? "Transfer" : "Transfer"}">
+    <div class="th">${svg("car", 1.9)}<b>${pl ? "Twój transfer" : "Your transfer"}</b>
+      <button class="xbtn" data-tclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    <div class="twhen">${fmtDate(x.date)}${x.label ? " · " + esc(tr(x.label)) : ""}</div>
+    <div class="ttime">${esc(x.time || "")}</div>
+    <div class="troute">${esc(tr(x.from) || "")}${x.to ? " → " + esc(tr(x.to)) : ""}</div>
+    ${box(pl ? "Miejsce spotkania" : "Meeting point", tr(x.meet))}
+    ${box(pl ? "Kto na Was czeka" : "Who meets you", [x.driver, tr(x.who)].filter(Boolean).join(" · "))}
+    <div class="tgrid">${box(pl ? "Pojazd" : "Vehicle", tr(x.vehicle))}${box(pl ? "Tablica" : "Plate", x.plate, true)}</div>
+    ${x.note ? `<div class="tbox"><div class="v" style="margin-top:0;font-size:14.5px;color:#DCE6E8">${esc(tr(x.note))}</div></div>` : ""}
+    ${sign ? `<div class="tsign"><div class="k">${pl ? "Pokaż kierowcy przy spotkaniu" : "Show your driver on arrival"}</div>
+      <div class="nm">${esc(sign)}</div><div class="sb">Malakay Travels</div></div>` : ""}
+    <div class="tact">
+      ${x.phone ? `<a href="tel:${esc(x.phone).replace(/\s/g,"")}">${svg("phone", 2)}${pl ? "Zadzwoń do kierowcy" : "Call driver"}</a>`
+        : trip.meta.guide?.phone ? `<a href="tel:${esc(trip.meta.guide.phone).replace(/\s/g,"")}">${svg("phone", 2)}${pl ? "Zadzwoń do Michała" : "Call Michał"}</a>` : ""}
+      <button data-tclose="1">${pl ? "Zamknij" : "Close"}</button>
+    </div>
+    <div class="tlist"><div class="k">${pl ? "Wszystkie transfery" : "All transfers"}</div>
+      ${T.map((y, j) => `<button data-tpick="${j}" aria-current="${j === i}"><span class="d">${fmtDate(y.date).replace(/^[^,]*,\s*/, "")} ${esc(y.time || "")}</span><span>${esc(tr(y.from) || "")}${y.to ? " → " + esc(tr(y.to)) : ""}</span></button>`).join("")}
+    </div>
+  </div>`;
+  document.body.appendChild(el);
+  el.querySelector(".xbtn").focus();
 }
 function moreSheetOpen(on){
   const s = document.getElementById("moresheet"), b = document.getElementById("morebg");
@@ -3754,9 +3850,12 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-transfer],[data-tpick],[data-tclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
+  if(t.dataset.transfer){ transferCard(); return; }
+  if(t.dataset.tpick){ transferCard(+t.dataset.tpick); return; }
+  if(t.dataset.tclose){ if(t.dataset.tclose && (t.id !== "tbg" || e.target === t)) document.getElementById("tbg")?.remove(); return; }
   if(t.dataset.moreopen){ moreSheetOpen(true); return; }
   if(t.dataset.moreclose){ moreSheetOpen(false); return; }
   if(t.dataset.drv){ driverCard(+t.dataset.drv); return; }

@@ -605,6 +605,7 @@ body.slimtop .instrument .readout{display:none}
 .hchip{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 12px;border-radius:99px;
   background:rgba(4,32,43,.62);border:1px solid rgba(255,255,255,.18);color:#fff;
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:'JetBrains Mono';font-size:12.5px;font-weight:600}
+.hchip .fl,.tzt .fl{font-size:1.05em;margin-right:6px;font-family:system-ui,sans-serif}
 .hchip small{font-weight:400;color:#A6C4CC;font-size:10.5px;letter-spacing:.08em}
 button.hchip{cursor:pointer}
 button.hchip .wi{font-size:16px;line-height:1}
@@ -1270,7 +1271,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v91 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v92 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1930,7 +1931,7 @@ function gearCount(){
 const parseLocal = s => { const [d,t] = s.split(" "); const [Y,M,D]=d.split("-").map(Number); const [h,m]=(t||"00:00").split(":").map(Number); return new Date(Y,M-1,D,h,m); };
 const dateOnly = s => parseLocal(s + " 00:00");
 const todayISO = () => { const n=new Date(); return `${n.getFullYear()}-${String(n.getMonth()+1).padStart(2,"0")}-${String(n.getDate()).padStart(2,"0")}`; };
-const fmtDate = s => dateOnly(s).toLocaleDateString(undefined,{weekday:"short",day:"numeric",month:"short"});
+const fmtDate = s => dateOnly(s).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{weekday:"short",day:"numeric",month:"short"});
 const fmtTime = s => s.split(" ")[1] || "";
 function daysBetween(a,b){ return Math.round((dateOnly(b)-dateOnly(a))/86400000); }
 function tzNow(tz){
@@ -2064,6 +2065,12 @@ const TZ_LABEL = {
   "Africa/Cairo":"EG", "Europe/Warsaw":"PL", "Pacific/Guadalcanal":"SB",
   "Pacific/Chuuk":"FM", "Africa/Sao_Tome":"ST"
 };
+/* A flag next to a time: "PH" beside 05:19 reads as "PM". */
+function tzFlag(tz){
+  const cc = TZ_LABEL[tz];
+  if(!cc || cc.length !== 2) return "";
+  return String.fromCodePoint(...[...cc].map(c => 0x1F1E6 + c.charCodeAt(0) - 65));
+}
 function tzLabel(tz){
   return TZ_LABEL[tz] || String(tz || "").split("/").pop().replace(/_/g," ").slice(0,3).toUpperCase();
 }
@@ -2114,7 +2121,7 @@ function band(){
   $("#k2") && ($("#k2").textContent = U().localTime);
   $("#k3") && ($("#k3").textContent = U().water);
   $("#k3") && ($("#k3").textContent = U().water);
-  $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${esc(tzLabel(m.tz))}</small>`;
+  $("#v2").innerHTML = `${tzNow(m.tz)}<small> ${tzFlag(m.tz) || esc(tzLabel(m.tz))}</small>`;
   /* The no-fly tile turns from red to green on its own at the clear time. */
   if(tab === "now" && !document.getElementById("nsbg")){
     const nfs = noFlyState(), c = nfs ? nfs.clearNow : null;
@@ -2122,7 +2129,7 @@ function band(){
     band.clear = c;
   }
   const tc = document.querySelector(".hero [data-time]");
-  if(tc) tc.innerHTML = `${tzNow(m.tz)} <small>${esc(tzLabel(m.tz))}</small>`;
+  if(tc) tc.innerHTML = `<span class="fl">${tzFlag(m.tz)}</span>${tzNow(m.tz)}`;
   /* Sea temperature belongs to a diving trip. On a land trip show how
      far in we are instead — the slot is too prominent to leave blank. */
   if(isDiveTrip()){
@@ -2329,7 +2336,7 @@ function timeSheet(){
     return t.charAt(0).toUpperCase() + t.slice(1); };
   const place = tr(trip.meta.country) || tzLabel(tz);
   const row = (k, z, lbl) => `<div class="tzrow"><div><div class="eyebrow">${k}</div><div class="tzd">${day(z)}</div></div>
-    <div class="tzt">${tzNow(z)}<small>${esc(lbl)}</small></div></div>`;
+    <div class="tzt"><span class="fl">${tzFlag(z)}</span>${tzNow(z)}</div></div>`;
   const dtxt = diff === 0 ? (pl ? "Ten sam czas co w Polsce" : "Same time as Poland")
     : pl ? `${place}: ${diff > 0 ? "+" : "−"}${Math.abs(diff)} h względem Polski` : `${place} is ${Math.abs(diff)} h ${diff > 0 ? "ahead of" : "behind"} Poland`;
   nowSheet(pl ? "Czas" : "Time", dtxt,
@@ -2386,7 +2393,7 @@ function viewNow(){
         ? `<figure class="still"><img src="${esc(still.src)}" alt=""${still.fb ? ` onerror="this.onerror=null;this.src='${esc(still.fb)}'"` : ""}></figure>`
         : HERO.map((src,i)=>`<figure style="animation-delay:${i*8}s"><img src="${src}" alt="" ${i?'loading="lazy"':''}></figure>`).join("")}
       <div class="hchips">
-        <button class="hchip" data-time="1" aria-label="${lang === "pl" ? "Czas lokalny i w Polsce" : "Local and Polish time"}">${tzNow(trip.meta.tz)} <small>${esc(tzLabel(trip.meta.tz))}</small></button>
+        <button class="hchip" data-time="1" aria-label="${lang === "pl" ? "Czas lokalny i w Polsce" : "Local and Polish time"}"><span class="fl">${tzFlag(trip.meta.tz)}</span>${tzNow(trip.meta.tz)}</button>
         ${wx ? `<button class="hchip" data-wx="1" aria-label="${lang === "pl" ? "Pogoda na 5 dni" : "5-day weather"}"><span class="wi">${(WMO[wx.current.weather_code] || ["·"])[0]}</span>${Math.round(wx.current.temperature_2m)}°C</button>` : ""}
       </div>
       <div class="txt">
@@ -3024,7 +3031,7 @@ function viewDocs(){
     const thumb = rec
       ? (rec.mime==="application/pdf" ? `<div class="thumb done">PDF</div>` : `<div class="thumb done"><img src="${rec.data}" alt=""></div>`)
       : `<div class="thumb">+</div>`;
-    const added = rec ? new Date(rec.added).toLocaleDateString(undefined,{day:"numeric",month:"short"}) : "";
+    const added = rec ? new Date(rec.added).toLocaleDateString(lang === "pl" ? "pl-PL" : "en-GB",{day:"numeric",month:"short"}) : "";
     return `<div class="doc">
       ${thumb}
       <div>

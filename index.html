@@ -1270,7 +1270,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v90 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v91 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2548,6 +2548,18 @@ function fmtCoord(c){
   return `${Math.abs(la).toFixed(2)}°${la >= 0 ? "N" : "S"} ${Math.abs(lo).toFixed(2)}°${lo >= 0 ? "E" : "W"}`;
 }
 let deckPos = {};        // which card each deck (days, flights, stay) is showing
+/* Coming back to the app (from the home screen, another app, or the next
+   morning): every deck opens on today again — today's day, the next
+   flight, tonight's hotel — and NOW picks up today's photo and plan. */
+let hiddenAt = 0;
+document.addEventListener("visibilitychange", () => {
+  if(document.visibilityState === "hidden"){ hiddenAt = Date.now(); return; }
+  if(!hiddenAt || typeof trip === "undefined" || !trip) return;
+  hiddenAt = 0;
+  deckPos = {};
+  try{ render(); }catch(e){}
+});
+window.addEventListener("pageshow", e => { if(e.persisted){ deckPos = {}; try{ render(); }catch(err){} } });
 let nowOpen = null;      // NOW: which At-a-glance row is open (offline, nofly)
 
 /* ---- Day photos -------------------------------------------------------------
@@ -2784,7 +2796,9 @@ function viewDays(){
         ${moreSheet(date, esc(tr(d.title)), full)}
       </article>`};
   });
-  const todayIdx = trip.days.findIndex(d => d.date === t);
+  /* Opens on today; before the trip on day 1, after it on the last day. */
+  let todayIdx = trip.days.findIndex(d => d.date === t);
+  if(todayIdx < 0 && trip.days.length && daysBetween(trip.days[trip.days.length - 1].date, t) > 0) todayIdx = trip.days.length - 1;
   return deckHTML("days", cards, todayIdx, KD.deck);
 }
 

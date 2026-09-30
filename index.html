@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Malakay Travels — Trip Companion</title>
@@ -78,7 +79,10 @@ a{color:var(--reef-dim)}
 body{padding-top:var(--topH,150px)}
 /* Nothing in the app should bounce or pan sideways under the two bars. */
 html{overscroll-behavior:none}
-body{overflow-x:clip}
+/* The page scrolls up and down only. Cards swipe sideways inside their own
+   track; the page itself never pans left or right (iPhone included). */
+html{overflow-x:hidden}
+body{overflow-x:clip;position:relative}
 /* The gaps around the floating bars show sand, not the page sliding past. */
 body::before,body::after{content:"";position:fixed;left:0;right:0;z-index:499;pointer-events:none}
 body::before{top:0;height:calc(12px + env(safe-area-inset-top,0px));background:#F4EEE5}
@@ -1069,7 +1073,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v76 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v77 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });

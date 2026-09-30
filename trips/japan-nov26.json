@@ -91,7 +91,9 @@
     "transfers": {
       "pl": "Wszystkie przejazdy z planu są w cenie: prywatne auta z kierowcą, taksówki zamawiane przez przewodnika, pociągi w klasie Green Car (pierwsza klasa) i lot helikopterem. Na metro i lokalne pociągi dostajecie kartę IC z 10 000 jenów na osobę. Na miejscu płacicie za posiłki poza hotelem (chyba że zaznaczono inaczej) i zakupy.",
       "en": "Every journey in the plan is included: private cars with a driver, taxis ordered by your guide, Green Car (first class) trains and the helicopter flight. For the metro and local trains you get an IC card loaded with ¥10,000 per person. You pay locally for meals outside the hotel (unless marked otherwise) and shopping."
-    }
+    },
+    "driverPhrase": "このホテルまでお願いします。",
+    "driverLang": "ja"
   },
   "travellers": {
     "33092026": {
@@ -512,6 +514,7 @@
   "hotels": [
     {
       "name": "Marunouchi Hotel",
+      "nameLocal": "丸ノ内ホテル",
       "place": {
         "pl": "Tokio — Marunouchi",
         "en": "Tokyo — Marunouchi"
@@ -529,6 +532,7 @@
         "en": "Moderate Double room (160 cm bed), breakfast included"
       },
       "address": "1-6-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+      "addressLocal": "東京都千代田区丸の内1-6-3",
       "notes": {
         "pl": "Tuż przy stacji Tokio, a więc przy pociągach, które zabiorą Was w Alpy. Zameldowanie przed 15:00 do potwierdzenia — bagaż zostawicie w recepcji od rana.",
         "en": "Right by Tokyo station, and so by the trains to the Alps. Check-in before 15:00 to be confirmed — you can leave bags at reception from the morning."
@@ -536,6 +540,7 @@
     },
     {
       "name": "Matsumoto Hotel Kagetsu",
+      "nameLocal": "松本ホテル花月",
       "place": {
         "pl": "Matsumoto",
         "en": "Matsumoto"
@@ -553,6 +558,7 @@
         "en": "MiN suite in the Old Building, non-smoking, Shinshu breakfast included"
       },
       "address": "4-8-9 Ote, Matsumoto, Nagano 390-0874",
+      "addressLocal": "長野県松本市大手4-8-9",
       "notes": {
         "pl": "Tradycyjny hotel w starym centrum, kilka minut spacerem od zamku Matsumoto. Wymeldowanie do 11:00. Lokalny podatek od zakwaterowania płaci się na miejscu. Na tę noc bierzecie tylko mniejszą torbę.",
         "en": "A traditional hotel in the old centre, a few minutes' walk from Matsumoto Castle. Check-out by 11:00. The local accommodation tax is paid at the hotel. For this night you only need a small overnight bag."
@@ -560,6 +566,7 @@
     },
     {
       "name": "Kanbayashi Hotel Senjukaku",
+      "nameLocal": "上林ホテル仙壽閣",
       "place": {
         "pl": "Yudanaka — Kanbayashi Onsen",
         "en": "Yudanaka — Kanbayashi Onsen"
@@ -576,6 +583,7 @@
         "en": "Double room, breakfast and dinner included"
       },
       "address": "1410 Hirao, Yamanouchi, Shimotakai District, Nagano 381-0401",
+      "addressLocal": "長野県下高井郡山ノ内町平穏1410",
       "notes": {
         "pl": "Ryokan z gorącymi źródłami w lesie, najbliżej parku ze śnieżnymi małpami. Kolacja w hotelu jest w cenie — przewodnik pomoże ustalić godzinę.",
         "en": "A hot-spring ryokan in the forest, the closest stay to the snow monkey park. Dinner at the hotel is included — your guide will help set the time."
@@ -583,6 +591,7 @@
     },
     {
       "name": "Marunouchi Hotel",
+      "nameLocal": "丸ノ内ホテル",
       "place": {
         "pl": "Tokio — Marunouchi",
         "en": "Tokyo — Marunouchi"
@@ -600,6 +609,7 @@
         "en": "Moderate Double room (160 cm bed), breakfast included"
       },
       "address": "1-6-3 Marunouchi, Chiyoda-ku, Tokyo 100-0005",
+      "addressLocal": "東京都千代田区丸の内1-6-3",
       "notes": {
         "pl": "Ten sam hotel co pierwszej nocy. Trzy noce w Tokio, przed lotem helikopterem pod Fuji.",
         "en": "The same hotel as the first night. Three nights in Tokyo before the helicopter flight to Fuji."
@@ -607,6 +617,7 @@
     },
     {
       "name": "La Vista Fujikawaguchiko",
+      "nameLocal": "ラビスタ富士河口湖",
       "place": {
         "pl": "Jezioro Kawaguchi",
         "en": "Lake Kawaguchi"
@@ -624,6 +635,7 @@
         "en": "Twin room with a Mt Fuji view, breakfast and dinner included"
       },
       "address": "2395 Kawaguchi, Fujikawaguchiko, Yamanashi 401-0304",
+      "addressLocal": "山梨県南都留郡富士河口湖町河口2395",
       "notes": {
         "pl": "Na północnym brzegu jeziora, z widokiem na Fuji z pokoju. Zameldowanie 15:00–19:00, wymeldowanie do 11:00. Aleja klonów (Maple Corridor) jest 5–10 minut spacerem od hotelu.",
         "en": "On the north shore, with Fuji from your room. Check-in 15:00–19:00, check-out by 11:00. The Maple Corridor is a 5–10 minute walk away."
@@ -631,6 +643,7 @@
     },
     {
       "name": "Fujiya Hotel",
+      "nameLocal": "富士屋ホテル",
       "place": {
         "pl": "Hakone — Miyanoshita",
         "en": "Hakone — Miyanoshita"
@@ -648,6 +661,7 @@
         "en": "Double room, breakfast included"
       },
       "address": "359 Miyanoshita, Hakone, Ashigarashimo District, Kanagawa 250-0404",
+      "addressLocal": "神奈川県足柄下郡箱根町宮ノ下359",
       "notes": {
         "pl": "Najstarszy hotel w zachodnim stylu w Japonii, otwarty w 1878 roku. Gościli tu Charlie Chaplin i John Lennon. Własne źródła termalne.",
         "en": "Japan's oldest Western-style hotel, opened in 1878. Charlie Chaplin and John Lennon stayed here. It has its own hot-spring water."
@@ -655,6 +669,7 @@
     },
     {
       "name": "Machiyado Ichiryu",
+      "nameLocal": "まち宿 壱龍",
       "place": {
         "pl": "Takayama — stare miasto",
         "en": "Takayama — old town"
@@ -672,6 +687,7 @@
         "en": "Double room, breakfast included"
       },
       "address": "2-3 Hanakawa-machi, Takayama, Gifu 506-0015",
+      "addressLocal": "岐阜県高山市花川町2-3",
       "notes": {
         "pl": "Kameralny dom w stylu machiya, 7 minut pieszo od stacji Takayama i 5 minut od starego miasta.",
         "en": "An intimate machiya-style inn, 7 minutes' walk from Takayama station and 5 from the old town."
@@ -679,6 +695,7 @@
     },
     {
       "name": "Kyoto Tokyu Hotel",
+      "nameLocal": "京都東急ホテル",
       "place": {
         "pl": "Kioto — Shimogyo",
         "en": "Kyoto — Shimogyō"
@@ -696,6 +713,7 @@
         "en": "Double room, breakfast included"
       },
       "address": "580 Kakimotochō, Shimogyō Ward, Kyoto 600-8357",
+      "addressLocal": "京都府京都市下京区堀川通五条下ル柿本町580",
       "notes": {
         "pl": "Pięć nocy w Kioto. Naprzeciw świątyni Nishi Hongan-ji, kilka minut taksówką od dworca. Recepcja czynna całą dobę.",
         "en": "Five nights in Kyoto. Opposite Nishi Hongan-ji temple, a few minutes by taxi from the station. Reception open 24 hours."
@@ -703,6 +721,7 @@
     },
     {
       "name": "Osaka Marriott Miyako Hotel",
+      "nameLocal": "大阪マリオット都ホテル",
       "place": {
         "pl": "Osaka — Abeno",
         "en": "Osaka — Abeno"
@@ -720,6 +739,7 @@
         "en": "Deluxe King room on a high floor, breakfast included"
       },
       "address": "1-1-43 Abenosuji, Abeno-ku, Osaka 545-0052",
+      "addressLocal": "大阪府大阪市阿倍野区阿倍野筋1-1-43",
       "notes": {
         "pl": "Na najwyższych piętrach Abeno Harukas, jednego z najwyższych budynków w Japonii — widok na całą Osakę. Wymeldowanie do 12:00.",
         "en": "On the top floors of Abeno Harukas, one of Japan's tallest buildings — all of Osaka below you. Check-out by 12:00."
@@ -727,6 +747,7 @@
     },
     {
       "name": "The Royal Park Hotel Tokyo Haneda",
+      "nameLocal": "ザ ロイヤルパークホテル 東京羽田",
       "place": {
         "pl": "Tokio — lotnisko Haneda, terminal 3",
         "en": "Tokyo — Haneda Airport, Terminal 3"
@@ -744,6 +765,7 @@
         "en": "Hollywood Twin room, breakfast included"
       },
       "address": "2-6-5 Haneda Airport, Ota-ku, Tokyo 144-0041",
+      "addressLocal": "東京都大田区羽田空港2-6-5 羽田空港第3ターミナル",
       "notes": {
         "pl": "Połączony z terminalem 3, skąd rano odlatujecie do Kopenhagi. Hotel jest przed strefą kontroli bezpieczeństwa. Zameldowanie od 15:00.",
         "en": "Connected to Terminal 3, where your morning flight to Copenhagen leaves. The hotel is outside the security area. Check-in from 15:00."

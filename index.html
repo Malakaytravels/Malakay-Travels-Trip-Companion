@@ -111,6 +111,55 @@ a{color:var(--reef-dim)}
 .tab[aria-selected="true"]{color:#fff;border-bottom-color:var(--reef)}
 .tab:focus-visible{outline:2px solid var(--reef);outline-offset:-2px}
 
+/* ---------- bottom tab bar ----------
+   The four tabs used on the move sit under the thumb; everything else lives
+   behind MORE. Fixed to the bottom, above the home indicator. */
+.tabsbar{position:fixed;top:auto;left:0;right:0;bottom:0;border-bottom:none;border-top:1px solid #1B3A48;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+.tabs{justify-content:space-around;gap:0;padding:0 4px;overflow:visible;max-width:520px;margin:0 auto}
+.tab{flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:9px 2px 8px;min-height:60px;font-size:10.5px;letter-spacing:.08em;
+  border-bottom:none;border-top:3px solid transparent}
+.tab svg{width:22px;height:22px}
+.tab span{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.tab[aria-selected="true"]{border-top-color:var(--reef);border-bottom-color:transparent}
+.tab[aria-selected="true"] svg{color:var(--reef)}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.morebg{position:fixed;inset:0;background:rgba(4,32,43,.55);z-index:900;opacity:0;pointer-events:none;transition:opacity .2s var(--ease)}
+.morebg.on{opacity:1;pointer-events:auto}
+.moresheet{position:fixed;left:0;right:0;bottom:0;z-index:901;background:var(--card);border-radius:24px 24px 0 0;
+  padding:10px 16px calc(18px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;
+  transform:translateY(105%);transition:transform .26s var(--ease);box-shadow:0 -18px 40px -14px rgba(4,32,43,.35)}
+.moresheet.on{transform:none}
+.moresheet .grip{width:44px;height:4px;border-radius:4px;background:var(--slate-2);margin:0 auto 14px}
+.moresheet .mhd{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.moresheet .mhd b{font-family:'Outfit';font-weight:700;font-size:20px;color:var(--ink)}
+.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.moregrid button{display:flex;flex-direction:column;align-items:center;gap:8px;min-height:88px;justify-content:center;
+  background:var(--slate);border:1px solid var(--line);border-radius:16px;color:var(--ink);
+  font-family:'Outfit';font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.moregrid button svg{width:24px;height:24px;color:var(--reef-dim)}
+.moregrid button[aria-current="true"]{border-color:var(--reef-dim);background:var(--tint)}
+.xbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--slate);color:var(--ink);
+  display:flex;align-items:center;justify-content:center;font-size:20px;line-height:1}
+@media (prefers-reduced-motion: reduce){.moresheet,.morebg{transition:none}}
+
+/* ---------- show the driver ----------
+   Held up to a taxi window in bright sun: dark ink on cream, as large as
+   the screen allows, the local-language name and address first. */
+.drv{position:fixed;inset:0;z-index:950;background:var(--card);color:var(--ink);display:flex;flex-direction:column;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 20px calc(18px + env(safe-area-inset-bottom,0px));overflow-y:auto}
+.drv .dtop{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.drv .dk{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--reef-dim)}
+.drv .dbody{flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;padding:18px 0}
+.drv .dphrase{font-size:clamp(22px,6.4vw,30px);font-weight:700;line-height:1.3;color:var(--teal-ink)}
+.drv .dname{font-family:'Outfit';font-weight:800;font-size:clamp(30px,9vw,44px);line-height:1.08;letter-spacing:-.02em}
+.drv .daddr{font-size:clamp(20px,5.8vw,26px);line-height:1.35;font-weight:600}
+.drv .dsub{font-size:15px;color:var(--muted);line-height:1.4}
+.drv .dfoot{border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+.drv .dfoot .mono{font-size:13px;color:var(--muted)}
+.drv .dfoot a{color:var(--reef-dim);font-weight:700;font-size:18px}
+
 /* ---------- cards ---------- */
 .card{
   background:var(--card);border:1px solid var(--line);border-radius:var(--r);
@@ -169,6 +218,9 @@ section{padding-top:6px}
    from the screen), and the page itself does not scroll on these tabs. */
 body.deckmode .instrument{display:none}
 body.deckmode{padding-bottom:0}
+/* With the tab bar at the bottom, nothing sits above the deck in the page
+   flow, so its top margin would escape the body and make the page scroll. */
+body.deckmode{display:flow-root}
 .deck{max-width:520px;margin:0 auto}
 .passtrack{
   position:relative;   /* the cards measure their offsets from the track */
@@ -940,7 +992,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v71 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v72 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1770,9 +1822,57 @@ async function loadSetupFlag(){
 }
 const TABS = () => setupUnlocked ? [...CLIENT_TABS, "setup"] : CLIENT_TABS;
 
+/* The bar holds the tabs used on the move; the rest open from MORE. */
+const MAIN_TABS = ["now","days","flights","stay"];
+const TAB_ICON = {now:"land", days:"cal", flights:"travel", stay:"bed", docs:"doc", gear:"bag", log:"book", passport:"route", map:"map", guide:"info", setup:"gear"};
+const tabName = k => k === "flights" && hasGround() ? U().tabs.travel : U().tabs[k];
 function renderTabs(){
-  $("#tabs").innerHTML = TABS().map(k =>
-    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${k === "flights" && hasGround() ? U().tabs.travel : U().tabs[k]}</button>`).join("");
+  const extra = TABS().filter(k => !MAIN_TABS.includes(k));
+  const inMore = extra.includes(tab);
+  const moreLabel = lang === "pl" ? "Więcej" : "More";
+  $("#tabs").innerHTML = MAIN_TABS.map(k =>
+    `<button class="tab" role="tab" aria-selected="${k===tab}" data-tab="${k}">${svg(k === "flights" && trip.flights.length && trip.flights.every(f => f.mode === "train") ? "train" : TAB_ICON[k], 1.8)}<span>${tabName(k)}</span></button>`).join("")
+    + `<button class="tab" aria-selected="${inMore}" aria-haspopup="dialog" data-moreopen="1">${svg(inMore ? TAB_ICON[tab] : "grid", 1.8)}<span>${inMore ? tabName(tab) : moreLabel}</span></button>`;
+  let sheet = document.getElementById("moresheet");
+  if(!sheet){
+    document.body.insertAdjacentHTML("beforeend", `<div class="morebg" id="morebg" data-moreclose="1"></div><div class="moresheet" id="moresheet" role="dialog" aria-modal="true"></div>`);
+    sheet = document.getElementById("moresheet");
+  }
+  sheet.setAttribute("aria-label", moreLabel);
+  sheet.innerHTML = `<div class="grip"></div>
+    <div class="mhd"><b>${moreLabel}</b><button class="xbtn" data-moreclose="1" aria-label="${lang === "pl" ? "Zamknij" : "Close"}">×</button></div>
+    <div class="moregrid">${extra.map(k => `<button data-tab="${k}" aria-current="${k===tab}">${svg(TAB_ICON[k], 1.8)}${tabName(k)}</button>`).join("")}</div>`;
+}
+function moreSheetOpen(on){
+  const s = document.getElementById("moresheet"), b = document.getElementById("morebg");
+  if(!s) return;
+  s.classList.toggle("on", on); b.classList.toggle("on", on);
+}
+
+/* A card to hold up to a taxi window: the hotel in the local script first,
+   in large dark type on cream, readable in full sun. */
+function driverCard(i){
+  const h = trip.hotels[i];
+  if(!h) return;
+  const pl = lang === "pl";
+  const names = (traveller && traveller.names || []).join(" & ");
+  const el = document.createElement("div");
+  el.className = "drv"; el.id = "drv"; el.setAttribute("role", "dialog"); el.setAttribute("aria-modal", "true");
+  el.innerHTML = `<div class="dtop"><span class="dk">${pl ? "Pokaż kierowcy" : "Show the driver"}</span>
+      <button class="xbtn" data-drvclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
+    <div class="dbody">
+      ${trip.meta.driverPhrase ? `<div class="dphrase" lang="${esc(trip.meta.driverLang || "")}">${esc(trip.meta.driverPhrase)}</div>` : ""}
+      <div class="dname"${h.nameLocal ? ` lang="${esc(trip.meta.driverLang || "")}"` : ""}>${esc(h.nameLocal || h.name)}</div>
+      ${h.nameLocal ? `<div class="dsub">${esc(h.name)}</div>` : ""}
+      <div class="daddr"${h.addressLocal ? ` lang="${esc(trip.meta.driverLang || "")}"` : ""}>${esc(h.addressLocal || h.address || "")}</div>
+      ${h.addressLocal && h.address ? `<div class="dsub">${esc(h.address)}</div>` : ""}
+    </div>
+    <div class="dfoot">
+      ${h.phone ? `<a href="tel:${esc(h.phone).replace(/\s/g,"")}">${esc(h.phone)}</a>` : ""}
+      ${names ? `<span class="mono">${esc(names)} · Malakay Travels</span>` : ""}
+    </div>`;
+  document.body.appendChild(el);
+  el.querySelector(".xbtn").focus();
 }
 
 function viewNow(){
@@ -1940,6 +2040,12 @@ const ICON = {
   chev:   '<path d="m6 9 6 6 6-6"/>',
   doc:    '<path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>',
   bag:    '<path d="M4 10a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z"/><path d="M8 10h8"/><path d="M8 18h8"/><path d="M8 22v-6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v6"/><path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',
+  cal:    '<rect x="3" y="4.5" width="18" height="17" rx="2.5"/><path d="M16 2.5v4"/><path d="M8 2.5v4"/><path d="M3 10h18"/>',
+  grid:   '<rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>',
+  book:   '<path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/>',
+  map:    '<path d="M14.1 5.9 9.9 4.1a2 2 0 0 0-1.6 0L3.6 6.2A1 1 0 0 0 3 7.1v12.4a1 1 0 0 0 1.4.9l4-1.8a2 2 0 0 1 1.6 0l4.2 1.8a2 2 0 0 0 1.6 0l4.6-2a1 1 0 0 0 .6-.9V5.1a1 1 0 0 0-1.4-.9l-4 1.8a2 2 0 0 1-1.6 0Z"/><path d="M15 6v14"/><path d="M9 4v14"/>',
+  gear:   '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/>',
+  car:    '<path d="M19 17h2v-4.2a2 2 0 0 0-.6-1.4L17 8H7l-3.4 3.4a2 2 0 0 0-.6 1.4V17h2"/><path d="M7 8l1.5-3.2A1.5 1.5 0 0 1 9.9 4h4.2a1.5 1.5 0 0 1 1.4.8L17 8"/><circle cx="7.5" cy="17" r="2"/><circle cx="16.5" cy="17" r="2"/><path d="M9.5 17h5"/>',
   train:  '<path d="M8 3.1V7a4 4 0 0 0 8 0V3.1"/><path d="m9 15-1-1"/><path d="m15 15 1-1"/><path d="M9 19c-2.8 0-5-2.2-5-5v-4a8 8 0 0 1 16 0v4c0 2.8-2.2 5-5 5Z"/><path d="m8 19-2 3"/><path d="m16 19 2 3"/>',
   save:   '<path d="M12 13v8"/><path d="m8 17 4 4 4-4"/><path d="M4.4 15.3A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.4 8.3"/>'
 };
@@ -2201,7 +2307,9 @@ function sizeDecks(){
   if(!track) return;
   const vh = window.visualViewport ? window.visualViewport.height : window.innerHeight;
   const top = track.getBoundingClientRect().top + 8;   // + the track's top padding
-  document.documentElement.style.setProperty("--deckH", Math.max(440, Math.floor(vh - top - 14)) + "px");
+  const bar = document.querySelector(".tabsbar");
+  const barH = bar ? bar.getBoundingClientRect().height : 0;
+  document.documentElement.style.setProperty("--deckH", Math.max(420, Math.floor(vh - top - 14 - barH)) + "px");
 }
 function initDecks(){
   sizeDecks();
@@ -2356,6 +2464,7 @@ function viewStay(){
         <a class="btn" style="text-decoration:none" target="_blank" rel="noopener"
            href="${mapsUrl(h.name, h.address, h.coords, h.placeId)}">${svg("pin")}${U().directions}</a>
         <button class="btn ghost" data-goto="map" data-focus="${h.coords[0]},${h.coords[1]}">${U().showOnMap}</button>
+        <button class="btn ghost" data-drv="${i}">${svg("car")}${lang === "pl" ? "Pokaż kierowcy" : "Show the driver"}</button>
       </div>`;
     const notes = h.notes ? `<div class="dnote">${svg("info")}<span>${esc(tr(h.notes))}</span></div>` : "";
     return {label: `${KS.stay} ${i + 1}`, dot: now ? "today" : "",
@@ -3579,13 +3688,18 @@ document.addEventListener("click", async (e) => {
   if(e.target.closest("[data-ppback]")){ ppOpen = null; render(); return; }
   if(e.target.closest("#pp-export")){ await ppExport(); return; }
   if(e.target.closest("#pp-import")){ const f = document.getElementById("pp-file"); if(f) f.click(); return; }
-  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
+  const t = e.target.closest("[data-pp],[data-ppback],#pp-export,#pp-import,[data-rename],[data-lang],[data-tab],[data-goto],[data-moreopen],[data-moreclose],[data-drv],[data-drvclose],[data-pstep],[data-pgo],[data-more],[data-nowopen],[data-savemap],[data-gmaps],[data-add],[data-view],[data-del],[data-fgroup],[data-gear],[data-ggroup],[data-dvedit],[data-dvdel],#dv-new,#dv-save,#dv-cancel,#showall,#installbtn,#save,#reset,#copy,#lock");
   if(!t) return;
 
+  if(t.dataset.moreopen){ moreSheetOpen(true); return; }
+  if(t.dataset.moreclose){ moreSheetOpen(false); return; }
+  if(t.dataset.drv){ driverCard(+t.dataset.drv); return; }
+  if(t.dataset.drvclose){ document.getElementById("drv")?.remove(); return; }
   if(t.dataset.rename){ openGate(); return; }
   if(t.dataset.lang){ setLang(t.dataset.lang); return; }
 
   if(t.dataset.tab || t.dataset.goto){
+    moreSheetOpen(false);
     if(t.dataset.focus) focusPoint = t.dataset.focus.split(",").map(Number);
     tab = t.dataset.tab || t.dataset.goto; window.scrollTo(0,0); render(); return;
   }

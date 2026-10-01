@@ -94,7 +94,9 @@
     "transfers": {
       "pl": "Wszystkie transfery japońskimi środkami komunikacji, w tym przejazdy Shinkansenem, są wliczone w cenę.",
       "en": "All transfers by Japanese public transport, including the Shinkansen, are included in the price."
-    }
+    },
+    "driverPhrase": "このホテルまでお願いします。",
+    "driverLang": "ja"
   },
   "travellers": {
     "26082026": {
@@ -385,6 +387,7 @@
   "hotels": [
     {
       "name": "Hotel MyStays Premier Akasaka",
+      "nameLocal": "ホテルマイステイズプレミア赤坂",
       "place": {
         "pl": "Tokio — Akasaka",
         "en": "Tokyo — Akasaka"
@@ -403,6 +406,7 @@
         "en": "Superior Twin room, breakfast included"
       },
       "address": "2-17-54 Akasaka, Minato City, Tokyo 107-0052",
+      "addressLocal": "東京都港区赤坂2-17-54",
       "notes": {
         "pl": "W centrum Tokio, 5 minut pieszo od stacji Akasaka (linia Chiyoda, wyjście 2 lub 3a). Roppongi i Shibuya kilka stacji metrem. Recepcja czynna całą dobę.",
         "en": "Central Tokyo, a 5-minute walk from Akasaka station (Chiyoda line, exit 2 or 3a). Roppongi and Shibuya are a few metro stops away. Reception open 24 hours."
@@ -410,6 +414,7 @@
     },
     {
       "name": "Hakone Yutowa",
+      "nameLocal": "箱根ゆとわ",
       "place": {
         "pl": "Hakone — Gora",
         "en": "Hakone — Gōra"
@@ -428,6 +433,7 @@
         "en": "Twin room, breakfast included"
       },
       "address": "1300-27 Gōra, Hakone, Ashigarashimo District, Kanagawa 250-0408",
+      "addressLocal": "神奈川県足柄下郡箱根町強羅1300-27",
       "placeId": "ChIJH9058vihGWARYQCCcFUqmyM",
       "notes": {
         "pl": "Ryokan z onsenem. Lounge z przekąskami, napojami bezalkoholowymi i wybranymi alkoholami w cenie, dostępny o określonych porach. Tatami i futony. Kąpiel w onsenie bez stroju, w osobnych strefach.",
@@ -436,6 +442,7 @@
     },
     {
       "name": "Hilton Garden Inn Kyoto Shijo Karasuma",
+      "nameLocal": "ヒルトン・ガーデン・イン京都四条烏丸",
       "place": {
         "pl": "Kioto — Shijo Karasuma",
         "en": "Kyoto — Shijō Karasuma"
@@ -454,6 +461,7 @@
         "en": "Superior Twin room, breakfast included"
       },
       "address": "397 Gojōkarasumachō, Shimogyō Ward, Kyoto 600-8418",
+      "addressLocal": "京都府京都市下京区五条烏丸町397",
       "notes": {
         "pl": "Na ulicy Karasuma, 5 minut pieszo od stacji metra Shijo i Gojo — trzy minuty metrem do dworca Kyoto. Nishiki Market w zasięgu spaceru. Recepcja czynna całą dobę.",
         "en": "On Karasuma street, a 5-minute walk from Shijō and Gojō subway stations — three minutes by subway to Kyoto Station. Nishiki Market within walking distance. Reception open 24 hours."
@@ -461,6 +469,7 @@
     },
     {
       "name": "Canopy by Hilton Osaka Umeda",
+      "nameLocal": "キャノピーbyヒルトン大阪梅田",
       "place": {
         "pl": "Osaka — Umeda",
         "en": "Osaka — Umeda"
@@ -479,6 +488,7 @@
         "en": "Twin room, breakfast included"
       },
       "address": "6-38 Ōfukachō, Kita Ward, Osaka 530-0011",
+      "addressLocal": "大阪府大阪市北区大深町6-38",
       "placeId": "ChIJeXrkr7znAGARuBJTD1TEhdo",
       "notes": {
         "pl": "Kompleks Grand Green Osaka, tuż przy dworcu JR Osaka i parku Umekita. Bezpośredni dojazd na lotnisko Kansai w dniu wylotu. Bar !JaJa!Bar z tarasem i widokiem na nocną Osakę.",
@@ -820,6 +830,7 @@
     {
       "n": 4,
       "date": "2026-12-09",
+      "photo": "img/day-tokyo-night.jpg",
       "title": {
         "pl": "Tokio | Tsukiji, teamLab i nocna jazda JDM",
         "en": "Tokyo | Tsukiji, teamLab and the JDM night drive"

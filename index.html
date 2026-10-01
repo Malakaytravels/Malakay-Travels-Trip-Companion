@@ -1312,7 +1312,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v97 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v98 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -1353,7 +1353,7 @@ function tr(v){
 
 const UI = {
   pl:{
-    tabs:{now:"Teraz",days:"Dni",flights:"Loty",travel:"Przejazdy",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
+    tabs:{now:"Teraz",days:"Dni",flights:"Loty",travel:"Bilety",stay:"Noclegi",docs:"Dokumenty",gear:"Pakowanie",log:"Dziennik",passport:"Paszport",map:"Mapa",guide:"Info",setup:"Ustawienia"},
     passport:{
       title:"Paszport", sub:"Twoje wyprawy z Malakay",
       hero:"Paszport wypraw", since:"od",

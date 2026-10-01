@@ -1311,7 +1311,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v95 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v96 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -4183,7 +4183,9 @@ function mapSaveRow(){
   if(mapSave){
     const exp = mapExpiry();
     const lapses = exp < end;
-    return { done: !lapses,
+    /* Saved and still valid counts as done (green). If it would lapse
+       before the trip ends, the line says when to save again. */
+    return { done: exp > new Date(),
       sub: `${O.mapSaved} ${fmtShort(new Date(mapSave.at))} · ${fmtMB(mapSave.bytes)} · ${O.keptUntil} ${fmtShort(exp)}`
         + (lapses ? when || `<br>${O.saveAgainNow}` : ""),
       action: lapses && !early && navigator.onLine ? `<button class="btn" data-savemap="1">${O.saveAgain}</button>` : "" };

@@ -498,7 +498,7 @@ body.deckmode{display:flow-root}
 .pass.k-flight{color:var(--ink);background:var(--card)}
 .bptop{position:relative;flex:none;padding:16px 20px 18px;color:#fff;
   background:radial-gradient(120% 90% at 100% 0%,rgba(56,195,192,.28),transparent 55%),linear-gradient(160deg,var(--deep),var(--abyss))}
-/* Train tickets carry a photo of the train behind the dark ticket top. */
+/* Train and helicopter tickets carry a photo behind the dark ticket top. */
 .bptop.hasimg{background:linear-gradient(180deg,rgba(4,32,43,.55),rgba(4,32,43,.92) 75%),var(--tk) center/cover,var(--abyss)}
 .bpair{font-family:'Outfit';font-weight:700;font-size:23px;letter-spacing:-.02em;margin-top:14px;line-height:1.1}
 .bpair .mono{font-weight:600;color:#A6EFEB;font-size:20px}
@@ -1314,7 +1314,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v99 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v100 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2984,10 +2984,12 @@ function viewFlights(){
         <div><dt>${K.bag}</dt><dd>${esc(bagShort(tr(f.baggage)))}</dd></div>
       </dl>`;
     const note = f.seatNote ? `<div class="bpnote"><span class="k">${K.note}</span>${esc(tr(f.seatNote))}</div>` : "";
+    /* Trains and helicopters carry a photo of the vehicle behind the ticket top. */
+    const tkImg = f.photo || {train:"img/train-shinkansen.jpg", heli:"img/heli-as350.jpg"}[f.mode] || "";
     const stn = f.dep.iata.length > 4 || f.arr.iata.length > 4 ? " stn" : "";
     return {label: `${K.flight} ${i + 1}`, dot: "",
       html: `<article class="pass k-flight" role="group" aria-roledescription="slide" aria-label="${K.flight} ${i + 1} — ${esc(f.dep.iata)} ${esc(f.arr.iata)}">
-        <div class="bptop${f.photo || f.mode === "train" ? " hasimg" : ""}"${f.photo || f.mode === "train" ? ` style="--tk:url('${esc(f.photo || "img/train-shinkansen.jpg")}')"` : ""}>
+        <div class="bptop${tkImg ? " hasimg" : ""}"${tkImg ? ` style="--tk:url('${esc(tkImg)}')"` : ""}>
           <div class="prow" style="padding:0">
             <span class="pday">${K.pass}</span>
             <span class="pkind">${svg(icon)}${fmtDate(d0)}</span>

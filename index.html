@@ -1263,7 +1263,7 @@ textarea{
    ============================================================ */
 
 const DEFAULT_TRIP = "cebu-nov26";
-const KNOWN_TRIPS  = ["cebu-nov26", "palawan-nov26", "japan-dec26", "palawan-nye"];
+const KNOWN_TRIPS  = ["cebu-nov26", "palawan-nov26", "japan-nov26", "japan-dec26", "palawan-nye"];
 
 /* Reads a parameter from either the fragment or the query string.
    The fragment wins; the query string is the fallback for old links. */
@@ -1314,7 +1314,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v100 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v101 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });

@@ -793,6 +793,11 @@ button.hchip .wi{font-size:16px;line-height:1}
 .instband svg{flex:none;width:26px;height:26px}
 .instband b{display:block;font-family:'Outfit';font-weight:700;font-size:15.5px}
 .instband small{display:block;font-size:12.5px;opacity:.9;margin-top:2px}
+.iarrow{display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 12px;padding:10px;border-radius:14px;
+  background:var(--tint);color:var(--reef-dim);font-weight:600;font-size:14px}
+.iarrow svg{width:20px;height:20px}
+.iarrow b{font-size:22px;animation:inudge 1.2s ease-in-out infinite}
+@keyframes inudge{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
 .isteps{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
 .isteps li{display:flex;gap:12px;align-items:flex-start;font-size:16px;line-height:1.45;color:var(--ink)}
 .isn{flex:none;width:30px;height:30px;border-radius:50%;background:var(--reef-dim);color:#fff;display:flex;align-items:center;justify-content:center;
@@ -1306,7 +1311,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v94 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v95 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -4437,7 +4442,9 @@ document.addEventListener("click", async (e) => {
   if(t.dataset.fxbase){ fxBase = t.dataset.fxbase; if(fxLast === "local") fxForeign = ""; else fxLocal = ""; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync(fxLast); return; }
   if(t.dataset.fxtip){ fxLocal = t.dataset.fxtip; const b = document.getElementById("fxcard"); if(b) b.outerHTML = fxCardHTML(); fxSync("local"); return; }
   if(t.dataset.phlang){ phraseLang = t.dataset.phlang; const b = document.getElementById("phcard"); if(b) b.outerHTML = phraseCardHTML(); return; }
-  if(t.dataset.install){ moreSheetOpen(false); installSheet(); return; }
+  /* Android Chrome: the button installs straight away. Elsewhere the
+     phone does not allow that, so the shortest steps are shown. */
+  if(t.dataset.install){ moreSheetOpen(false); if(installEvent) doInstall(); else installSheet(); return; }
   if(t.dataset.wx){ wxSheet(); return; }
   if(t.dataset.mapsave){ nowSheet(U().off.mapTitle, "", mapCardHTML()); return; }
   if(t.dataset.nexttrips){ nowSheet(U().whatsNext, U().whatsNextNote, nextTripsHTML()); return; }
@@ -4658,7 +4665,8 @@ function installSheet(){
     body = `<p class="sub" style="margin:0 0 14px">${pl ? "Jedno dotknięcie — aplikacja pojawi się na ekranie telefonu i będzie działać bez internetu." : "One tap — the app appears on your phone's screen and works without internet."}</p>
       <button class="btn" id="installbtn" style="width:100%">${pl ? "Zainstaluj aplikację" : "Install the app"}</button>`;
   } else if(k === "ios"){
-    body = `<ol class="isteps">
+    body = `<div class="iarrow" aria-hidden="true">${share}<span>${pl ? "Udostępnij jest tutaj, na dolnym pasku" : "Share is down here, in the bottom bar"}</span><b>↓</b></div>
+    <ol class="isteps">
       ${step(1, pl ? `Dotknij <b>Udostępnij</b> ${share} na dolnym pasku Safari.` : `Tap <b>Share</b> ${share} in Safari's bottom bar.`)}
       ${step(2, pl ? `Przewiń w dół i wybierz <b>Do ekranu początkowego</b>.` : `Scroll down and choose <b>Add to Home Screen</b>.`)}
       ${step(3, pl ? `Dotknij <b>Dodaj</b> w prawym górnym rogu.` : `Tap <b>Add</b> in the top-right corner.`)}

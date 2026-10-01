@@ -6,7 +6,8 @@
 <meta name="theme-color" content="#071A24">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Malakay">
+<meta name="apple-mobile-web-app-title" content="Malakay Travels">
+<meta name="application-name" content="Malakay Travels">
 <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
 <meta name="googlebot" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
@@ -1311,7 +1312,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v96 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v97 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -4637,7 +4638,7 @@ function personalManifest(){
     let t = ""; try{ t = localStorage.getItem("malakay:" + TRIP_ID + ":t") || ""; }catch(e){}
     if(t) start.searchParams.set("t", t);
     const m = {
-      id: "/", name: "Malakay Travels — Trip Companion", short_name: "Malakay",
+      id: "/", name: "Malakay Travels — Trip Companion", short_name: "Malakay Travels",
       start_url: start.href, scope: base, display: "standalone", orientation: "portrait",
       background_color: "#071A24", theme_color: "#071A24", lang: "pl",
       icons: [

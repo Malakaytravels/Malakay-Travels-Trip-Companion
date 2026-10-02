@@ -1,13 +1,13 @@
 /* ============================================================
    MALAKAY TRAVELS — service worker
-   Cache key: malakay-v97
+   Cache key: malakay-v101
 
    Bump CACHE on every deploy. If you do not, phones that already
    have the app saved will keep serving the old version from disk
    and never see the change.
    ============================================================ */
 
-const CACHE = "malakay-v97";
+const CACHE = "malakay-v101";
 
 /* The shell: everything that is the same for every trip. */
 const SHELL = [
@@ -116,6 +116,9 @@ const PHOTOS = [
   "./img/day-tokyo-bay.jpg",
   "./img/day-tokyo-food.jpg",
   "./img/day-tokyo-night.jpg",
+  "./img/day-shinkansen.jpg",
+  "./img/train-shinkansen.jpg",
+  "./img/heli-as350.jpg",
   "./img/day-tokyo-shibuya.jpg"
 ];
 
@@ -125,6 +128,7 @@ const PHOTOS = [
 const TRIPS = [
   "./trips/cebu-nov26.json",
   "./trips/palawan-nov26.json",
+  "./trips/japan-nov26.json",
   "./trips/japan-dec26.json",
   "./trips/palawan-nye.json"
 ];

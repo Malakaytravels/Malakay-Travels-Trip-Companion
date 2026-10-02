@@ -202,7 +202,7 @@ body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 .moresheet .mhd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:18px}
 .moresheet .mhd b{display:block;font-family:'Outfit';font-weight:700;font-size:21px;color:#fff;letter-spacing:-.01em}
 .moresheet .mhd small{display:block;font-size:13.5px;color:#8AA3AD;margin-top:3px}
-.moregrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.moregrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .moregrid button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:104px;
   background:#0E2A35;border:1px solid #1B3A48;border-radius:20px;color:#E6EEF0;
   font-family:'Outfit';font-weight:600;font-size:12.5px;letter-spacing:.06em;text-transform:uppercase;
@@ -223,6 +223,16 @@ body{padding-bottom:calc(92px + env(safe-area-inset-bottom,0px))}
 .callband .ct small{display:block;font-size:12.5px;color:#9FB6BF;margin-top:2px}
 .callband a{flex:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 18px;border-radius:14px;
   background:var(--reef);color:var(--abyss);font-family:'Outfit';font-weight:700;font-size:15px;text-decoration:none}
+/* Narrow phones: tiles and the contact card tighten so nothing spills off the edge. */
+@media (max-width:370px){
+  .moregrid{gap:8px}
+  .moregrid button{font-size:11px;letter-spacing:.03em;padding:0 4px}
+  .callband{gap:10px;padding:12px}
+  .callband .ci{width:40px;height:40px}
+  .callband .ct b{font-size:14.5px}
+  .callband .ct small{font-size:11.5px}
+  .callband a{padding:0 14px;font-size:14px}
+}
 @media (prefers-reduced-motion: reduce){.moresheet,.morebg{transition:none}}
 
 /* ---------- show the driver ----------
@@ -1166,6 +1176,8 @@ textarea{
   color:var(--muted); cursor:pointer; text-decoration:underline;
 }
 .greetrow button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
+/* Version at the foot of the trip hub, so anyone can check a phone has the latest. */
+.mver{margin:12px 0 0;text-align:center;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
 .greetrow .gr-add{
   color:var(--ochre); font-weight:700; text-decoration:none;
   border:1px solid var(--ochre); border-radius:999px; padding:5px 12px;
@@ -1332,7 +1344,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v105 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v106 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2264,7 +2276,8 @@ function renderTabs(){
       <button class="xbtn" data-moreclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
     ${isStandalone() ? "" : `<button class="instband" data-install="1">${svg("save", 2)}<span><b>${pl ? "Dodaj aplikację do telefonu" : "Add the app to your phone"}</b><small>${pl ? "Ikona na ekranie, działa bez zasięgu" : "An icon on your screen, works with no signal"}</small></span></button>`}
     <div class="moregrid">${extra.map(k => `<button data-tab="${k}" aria-current="${k===tab}"><span class="mi">${svg(TAB_ICON[k], 1.8)}</span>${tabName(k)}</button>`).join("")}</div>
-    ${call}`;
+    ${call}
+    <p class="mver">${pl ? "Wersja" : "Version"} ${esc(APP_VERSION.split(" ")[0])}</p>`;
 }
 /* Transfers: the next one opens first; the list below switches between
    them. Driver, car and plate are filled in as the supplier confirms. */

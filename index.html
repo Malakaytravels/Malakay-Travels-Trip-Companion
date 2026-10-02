@@ -1176,8 +1176,6 @@ textarea{
   color:var(--muted); cursor:pointer; text-decoration:underline;
 }
 .greetrow button:focus-visible{outline:2px solid var(--reef-dim);outline-offset:2px}
-/* Version at the foot of the trip hub, so anyone can check a phone has the latest. */
-.mver{margin:12px 0 0;text-align:center;font-family:'JetBrains Mono',ui-monospace,monospace;font-size:10.5px;letter-spacing:.06em;color:rgba(255,255,255,.45)}
 .greetrow .gr-add{
   color:var(--ochre); font-weight:700; text-decoration:none;
   border:1px solid var(--ochre); border-radius:999px; padding:5px 12px;
@@ -2276,8 +2274,7 @@ function renderTabs(){
       <button class="xbtn" data-moreclose="1" aria-label="${pl ? "Zamknij" : "Close"}">×</button></div>
     ${isStandalone() ? "" : `<button class="instband" data-install="1">${svg("save", 2)}<span><b>${pl ? "Dodaj aplikację do telefonu" : "Add the app to your phone"}</b><small>${pl ? "Ikona na ekranie, działa bez zasięgu" : "An icon on your screen, works with no signal"}</small></span></button>`}
     <div class="moregrid">${extra.map(k => `<button data-tab="${k}" aria-current="${k===tab}"><span class="mi">${svg(TAB_ICON[k], 1.8)}</span>${tabName(k)}</button>`).join("")}</div>
-    ${call}
-    <p class="mver">${pl ? "Wersja" : "Version"} ${esc(APP_VERSION.split(" ")[0])}</p>`;
+    ${call}`;
 }
 /* Transfers: the next one opens first; the list below switches between
    them. Driver, car and plate are filled in as the supplier confirms. */

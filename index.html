@@ -93,10 +93,17 @@ body{padding-top:var(--topH,150px)}
 html{overscroll-behavior:none}
 html.locked,html.locked body{overflow:hidden;height:100%;overscroll-behavior:none}
 html.locked body{padding-bottom:0}
-/* Short phones: the greeting steps aside and the tiles tighten so NOW
-   still fits one screen. */
+/* Short phones: the greeting shrinks to one slim line (it still carries
+   the add-name button) and the tiles tighten so NOW still fits one screen. */
 @media (max-height:740px){
-  .now .greetrow{display:none}
+  body .now .greetrow{margin:0 0 6px;flex-wrap:nowrap;align-items:center;gap:8px}
+  body .now .greetrow .gr-txt{font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  body .now .greetrow button{white-space:nowrap;flex:none}
+  body .now .greetrow .gr-add{padding:4px 9px;letter-spacing:.02em}
+  /* The add-to-phone button keeps only its icon here; the offline
+     checklist on NOW carries the full button too. */
+  body .now .greetrow .gr-inst{min-height:32px;width:32px;padding:0;justify-content:center;margin-left:auto}
+  body .now .greetrow .gr-inst span{display:none}
   body .now .hero h1{font-size:clamp(19px,5.4vw,24px);margin-top:4px}
   body .now .hero .txt{bottom:10px}
   body .today .tt > span:last-child{display:none}
@@ -1325,7 +1332,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v104 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v105 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -2433,16 +2440,19 @@ function viewNow(){
     </button>`;
   }
   const bases = trip.hotels.filter(x=>!x.optional).length;
-  const installBtn = isStandalone() ? "" : `<button class="gr-inst" data-install="1">${svg("save", 2)}${lang === "pl" ? "Dodaj do telefonu" : "Add to phone"}</button>`;
+  const installBtn = isStandalone() ? "" : `<button class="gr-inst" data-install="1" aria-label="${lang === "pl" ? "Dodaj do telefonu" : "Add to phone"}">${svg("save", 2)}<span>${lang === "pl" ? "Dodaj do telefonu" : "Add to phone"}</span></button>`;
+  /* Not in Safari on iPhone: a name typed there would not reach the saved
+     app, which asks for it itself. */
+  const canName = isStandalone() || !phoneKind().startsWith("ios");
   const greet = travellerName
     ? `<div class="greetrow">
          <span class="gr-txt">${greetWord()}, <em>${esc(travellerName)}</em></span>
-         ${isStandalone() ? `<button data-rename="1">${U().nameChange}</button>` : ""}
+         ${canName ? `<button data-rename="1">${U().nameChange}</button>` : ""}
          ${installBtn}
        </div>`
     : `<div class="greetrow">
          <span class="gr-txt">${greetWord()}</span>
-         ${isStandalone() ? `<button class="gr-add" data-rename="1">${U().nameAdd}</button>` : ""}
+         ${canName ? `<button class="gr-add" data-rename="1">${U().nameAdd}</button>` : ""}
          ${installBtn}
        </div>`;
   const head = greet + `<div class="hero">

@@ -2,7 +2,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Malakay Travels — Trip Companion</title>
-<link rel="manifest" href="manifest.json">
+<script>
+/* No manifest on iPhone and iPad. Safari then saves the exact address the
+   guest opened, ?trip= and ?t= included, so the home-screen icon opens
+   their own trip and knows their contract. With a manifest it starts from
+   the manifest's start_url, which is the same for everyone. Name, icon and
+   full-screen come from the apple-* tags below. */
+(function(){
+  var ua = navigator.userAgent || "";
+  var ios = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  if(!ios) document.write('<link rel="manifest" href="manifest.json">');
+})();
+</script>
 <meta name="theme-color" content="#071A24">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -1314,7 +1325,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v103 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v104 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -3842,9 +3853,6 @@ function render(){
      on null, the view died mid-render, and the app fell back to the NOW tab.
      The loader calls render() again as soon as the trip is in hand. */
   if(!trip) return;
-  /* Android's installed app shares storage with Chrome, so the remembered
-     trip is enough there; iPhone needs the trip written into the manifest. */
-  if(!render.mf){ render.mf = 1; if(phoneKind().startsWith("ios")) personalManifest(); }
   renderTabs();
   if(tab === "setup" && !setupUnlocked) tab = "now";
   /* Card tabs get the whole screen under the tabs: the status band steps aside. */
@@ -4630,30 +4638,6 @@ window.addEventListener("online", () => {
 });
 window.addEventListener("offline", () => { offbar(); if(tab === "now") render(); });
 
-/* The saved icon must open this client's trip. A home-screen app starts
-   from the manifest's start_url, and on iPhone it does not share storage
-   with Safari — so the manifest is rewritten for this page, with the trip
-   and contract in its start_url. */
-function personalManifest(){
-  try{
-    const base = new URL("./", location.href).href;
-    const start = new URL("./", location.href);
-    start.searchParams.set("trip", TRIP_ID);
-    let t = ""; try{ t = localStorage.getItem("malakay:" + TRIP_ID + ":t") || ""; }catch(e){}
-    if(t) start.searchParams.set("t", t);
-    const m = {
-      id: "/", name: "Malakay Travels — Trip Companion", short_name: "Malakay Travels",
-      start_url: start.href, scope: base, display: "standalone", orientation: "portrait",
-      background_color: "#071A24", theme_color: "#071A24", lang: "pl",
-      icons: [
-        {src: base + "icon-192.png", sizes: "192x192", type: "image/png", purpose: "any"},
-        {src: base + "icon-512.png", sizes: "512x512", type: "image/png", purpose: "any"},
-        {src: base + "icon-512.png", sizes: "512x512", type: "image/png", purpose: "maskable"}]
-    };
-    const link = document.querySelector('link[rel="manifest"]');
-    if(link) link.href = "data:application/manifest+json;charset=utf-8," + encodeURIComponent(JSON.stringify(m));
-  }catch(e){}
-}
 const isStandalone = () => window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 function phoneKind(){
   const ua = navigator.userAgent || "";

@@ -1314,7 +1314,7 @@ const K = s => "malakay:" + TRIP_ID + ":" + s;
 
 let SEED = null;
 
-const APP_VERSION = "v102 · PL/EN · " + TRIP_ID;
+const APP_VERSION = "v103 · PL/EN · " + TRIP_ID;
 
 async function fetchTrip(){
   const res = await fetch("trips/" + TRIP_ID + ".json", { cache: "no-cache" });
@@ -4935,7 +4935,11 @@ $("#ng-input").addEventListener("keydown", e => {
   offbar();
   setInterval(band, 1000);
   /* Asked once. Skipping is allowed — nobody should be locked out of
-     their own documents because they will not type a name. */
+     their own documents because they will not type a name.
+     On iPhone a home-screen app does not share storage with Safari, so a
+     name typed in Safari would be asked for again in the saved app. There
+     we ask only once the app is opened from the home screen. */
+  if(phoneKind().startsWith("ios") && !isStandalone()) return;
   try{
     const seen = await window.storage.get("malakay:name");
     if(!seen || typeof seen.value !== "string") openGate();
